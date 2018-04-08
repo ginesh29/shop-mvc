@@ -1,0 +1,59 @@
+﻿@{
+    Layout = null;
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.Language;
+    List<SPA.Models.HolidayList> DataHoliday = ViewBag.DataHoliday;
+}
+<table class="table table-striped margin-top15">
+    <thead>
+        <tr>
+
+            <th class="text-center col-lg-4 col-md-4 col-sm-5 col-xs-4">@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()@*FROM*@</th>
+            <th class="text-center col-lg-4 col-md-4 col-sm-5 col-xs-4">@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()@*TO*@</th>
+            <th class="text-center col-lg-6 col-md-6 col-sm-5 col-xs-6">@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()@*HOLIDAY NAME*@</th>
+            <th class="text-center col-lg-6 col-md-6 col-sm-5 col-xs-6">@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()@*HOLIDAY TYPE*@</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (DataHoliday.Count > 0)
+        {
+            foreach (var item in DataHoliday)
+            {
+                string start = DateTime.Parse(item.StartDate.ToString()).ToString("dd/MM/yyyy");
+                string End = DateTime.Parse(item.EndDate.ToString()).ToString("dd/MM/yyyy");
+                <tr>
+                    <td class="spa-label1 text-center col-lg-4 col-md-4 col-sm-5 col-xs-4">@start</td>
+                    <td class="spa-label1 text-center col-lg-4 col-md-4 col-sm-5 col-xs-4">@End@*20.10.2015*@</td>
+                    <td class="spa-label1 text-center col-lg-6 col-md-6 col-sm-5 col-xs-6">@item.HolidayDesc@*Shop Close*@</td>
+                    <td class="spa-label1 text-center col-lg-6 col-md-6 col-sm-5 col-xs-6">@Language.Where(c => c.English_Label == item.CalendarName).Select(c => c.Value).FirstOrDefault()@*Maintenance*@</td>
+                    <td class="text-center col-lg-4 col-md-4 col-sm-4">
+                        @if(((item.UpdateAccess != "N" && (item.FlowStatus == "2" || item.FlowStatus == "3")) || (item.FlowStatus == "1")))
+                        {
+                            <a onclick="EditShopHoliday(@item.LeaveId);"><i class="fa fa-pencil-square-o spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()"></i></a>@*Edit*@
+                        }
+                        @if(((item.DeleteAccess != "N" && (item.FlowStatus == "2" || item.FlowStatus == "3")) || (item.FlowStatus == "1")))
+                        {
+                            <a onclick="DeleteShopLeave(@item.LeaveId);"> <i class="fa fa-trash spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()"></i></a>@*Delete*@
+                        }
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="spa-label1 text-center Nodata">
+                    <img src="~/images/vacation.png" />
+                    <div>@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()@*No Data Available*@</div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    });
+</script>

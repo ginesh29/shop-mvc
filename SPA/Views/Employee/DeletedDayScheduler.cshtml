@@ -1,0 +1,54 @@
+﻿@model IEnumerable<SPA.CCTSP_CategoryDetails>
+    @{
+        ViewBag.Title = "DeletedDayScheduler";
+        int count = 0;
+        Layout = null;
+
+    }
+
+    <h1 class="title14-border">Week Day Details</h1>
+    <div class="table-responsive choose-your-product margin-top20">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>S.NO</th>
+                    <th>Name </th>
+                    <th>Short Name</th>
+
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ViewBag.DataCount != 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        count = count + 1;
+                        <tr>
+                            <td class="spa-label1">
+                                @count
+                            </td>
+                            <td class="spa-label1">
+                                @item.CatgDesc
+                            </td>
+                            <td class="spa-label1">
+                                @item.CatgType
+                            </td>
+
+                            <td>
+                                <button name="Active" id="Active" class="btn btn-primary" onclick="ActivateDiv(@item.CatgTypeId);">Active</button>
+                                @*@Html.ActionLink("Active", "ActiveCat", "AdminPanel", new { CatTid = item.CatgTypeId, Edit = 5 }, new { @class = "radius button" })*@
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td class="spa-label1">No Data Available</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>

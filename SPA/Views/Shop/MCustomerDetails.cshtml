@@ -1,0 +1,30 @@
+﻿@{
+    Layout = null;
+    List<SPA.Models.CustomerTabInfo> CustomerList = new List<SPA.Models.CustomerTabInfo>();
+    CustomerList = ViewBag.CustomerList;
+    int index = 1;
+}
+
+@if (CustomerList.Count > 0)
+{
+    foreach (var item in CustomerList)
+    {
+        <tr>
+            <td class="doctor-checkbox checkbox">
+                <input type="checkbox" id="@item.UserId">
+                <label for="@item.UserId"></label>
+            </td>
+
+            <td>@index</td>
+            <td>@*Divya Patel*@ @item.Firstname @item.LastName</td>
+            <td>@*7698602736*@ @item.Phoneno</td>
+            <td>@*divya.patel11793@gmail.com*@ @item.Emailid</td>
+            <td> Wed 12 Oct 2016</td>
+        </tr>
+        index = index + 1;
+    }
+}
+<script>
+    $("#CustomerListcount").html(@CustomerList.Count);
+</script>
+

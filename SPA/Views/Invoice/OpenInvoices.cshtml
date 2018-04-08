@@ -1,0 +1,261 @@
+﻿
+@{
+    Layout = null;
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.LanguageInfo;
+    ViewBag.Title = Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault();
+    List<SPA.Models.Invoice> InvoiceList = new List<SPA.Models.Invoice>();
+    InvoiceList = Model;
+    var ClassName = "";
+    var LngLocal = ViewBag.LngLocal;
+    string StartDate = ViewBag.FromDate;
+    string EndDate = ViewBag.ToDate;
+    DateTime CreateDate = ViewBag.CreateDate;
+    var HideClass = "display-none";
+    if (InvoiceList.Count > 0)
+    {
+        var Item = InvoiceList.FirstOrDefault();
+        if (((Item.DeleteAccess != "N" && (Item.FlowStatus == "2" || Item.FlowStatus == "3")) || (Item.FlowStatus == "1")))
+        {
+            HideClass = "";
+        }
+    }
+}
+@if (Session["AddCustomerMsg"].ToString() == "MailSentSuccessFully")
+{
+    <script>
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault()</p>");
+        $('#welcome').modal("show");
+    </script>
+    Session["AddCustomerMsg"] = "";
+}
+
+<style>
+    button.create_invoice {
+        border: 0;
+        margin-top: -2px;
+    }
+
+    a.Print_1, button.Print_1 {
+        display: none;
+    }
+
+    a.Email_3, button.Email_3 {
+        display: none;
+    }
+
+    div.Email_3::before {
+        position: absolute;
+        display: inline-block;
+        content: "\f00d";
+        font-family: FontAwesome;
+        font-size: 16px;
+        left: 0px;
+        right: 0;
+    }
+
+    div.Print_1::before {
+        position: absolute;
+        display: inline-block;
+        content: "\f00d";
+        font-family: FontAwesome;
+        font-size: 16px;
+        left: 0px;
+        right: 0;
+    }
+</style>
+<div class="Invoice">
+    <div class="row forinvoice_header position_rel">
+        <div class="Res_menubtn hidden-lg text-right">
+            <button type="button" class="Info_open"><i class="fa fa-filter" aria-hidden="true"></i></button>
+        </div>
+        <div class="Res_menu Info_box">
+            <a class="cross_menu Info_close"><i class="fa fa-times" aria-hidden="true"></i></a>
+            <div class="col-lg-12 margin-top5 padding5-0">
+                <input type="hidden" id="OISuccessMsg" value="@Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault()" />
+                <input type="hidden" id="OIErrorMsg" value="@Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault()" />
+                <p class="select_text Ellips">
+                    @*Total amount*@ @Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault():
+                    <span class="margin-left10 color_green">@InvoiceList.Select(c => c.Currency).FirstOrDefault() @String.Format("{0:0.00}", InvoiceList.Select(c => c.Amount).Sum()) </span>
+                </p>
+            </div>
+            <div class="col-lg-5 padding5-0">
+                <input class="form-control spa-text-box text-box single-line" type="text" placeholder="@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()" id="Search">@*Search...*@
+            </div>
+            <div class="col-lg-7 padding5-0">
+                <div class="date_search">
+                    <ul class="float_right">
+                        <li class="display_inline Ellips date_search_text">
+                            <span class="select_text margin-right5 line_height15">@*Search From*@ @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</span>
+                        </li>
+                        <li class="display_inline">
+                            <input type="text" placeholder="@Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()" class="form-control spa-text-box" id="search_from_OI" value="@StartDate" />
+                        </li>
+                        <li class="display_inline Ellips date_search_text1">
+                            <span class="select_text margin-left5 margin-right5 line_height15">@*to*@ @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()</span>
+                        </li>
+                        <li class="display_inline">
+                            <input type="text" placeholder="@Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()" class="form-control spa-text-box" id="search_to_OI" value="@EndDate" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="choose-your-product table-responsive pending-approval-table padding0 mulReser_table">
+        <div id="fixColumnHead">
+            <table class="table table-striped" id="Invoice_table">
+                <thead>
+                    <tr>
+                        <th class="RemovePosition">@*No*@ @Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()</th>
+                        <th>@*Invoice No*@ @Language.Where(c => c.Order_id == 25).Select(c => c.Value).FirstOrDefault()</th>
+                        <th>@*Name*@ @Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()</th>
+                        <th>@*Total Amount*@ @Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()</th>
+                        <th>@*Print/Email*@ @Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()</th>
+                        <th>@*Creation date*@ @Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()</th>
+                        <th>@*Invoicing date*@ @Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()</th>
+                        <th>@*Due date*@ @Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()</th>
+                        <th>@*Over Due*@ @Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()</th>
+                        @*Remaining Amount*@
+                        <th>@Language.Where(c => c.Order_id == 32).Select(c => c.Value).FirstOrDefault()</th>
+                        <th>@*Money received*@ @Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()</th>
+                        <th>@*Print*@ @Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()</th>
+                        <th>@*Send*@ @Language.Where(c => c.Order_id == 17).Select(c => c.Value).FirstOrDefault()</th>
+                        <th>@*Reminder Print*@ @Language.Where(c => c.Order_id == 29).Select(c => c.Value).FirstOrDefault()</th>
+                        <th>@*Reminder Send*@ @Language.Where(c => c.Order_id == 30).Select(c => c.Value).FirstOrDefault()</th>
+                        <th>@*Reminder 1 Due date*@ @Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault()</th>
+                        <th>@*Reminder 2 Due date*@ @Language.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault()</th>
+                        <th>@*Reminder 3 Due date*@ @Language.Where(c => c.Order_id == 28).Select(c => c.Value).FirstOrDefault()</th>
+                        @*Delete*@
+                        <th class="@HideClass">@Language.Where(c => c.Order_id == 31).Select(c => c.Value).FirstOrDefault()</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in InvoiceList)
+                    {
+                        var DateFormat = "";
+                        ClassName = "display-none";
+                        <tr id="@item.Invoice_Id" class="cursorPoint">
+                            <td class="spa-label1 RemovePosition">@item.Index</td>
+                            <td class="spa-label1">@item.Invoice_Id</td>
+                            <td class="spa-label1">@*Patel Divya*@ @item.CustomerLName @item.CustomerFName</td>
+                            <td class="spa-label1">@item.Currency @String.Format("{0:0.00}", item.Amount)</td>
+                            <td>
+                                <span>
+                                    <i class="fa fa-print font16 colorGrey fa-print_@item.Invoice_Service" aria-hidden="true"></i>
+                                    <i class="fa fa-envelope font16 colorGrey fa-envelope-o_@item.Invoice_Service" aria-hidden="true"></i>
+                                </span>
+                            </td>
+                            @{DateFormat = item.CreatedDate.HasValue ? item.CreatedDate.Value.ToString("dd.MM.yyyy") : "";}
+                            <td class="spa-label1">@*10 Jan, 2017*@ @DateFormat</td>
+                            @{DateFormat = item.INVOICINGDATE.HasValue ? item.INVOICINGDATE.Value.ToString("dd.MM.yyyy") : "";}
+                            <td class="spa-label1">@*10 Jan, 2017*@ @DateFormat</td>
+                            @{DateFormat = item.DueDate.HasValue ? item.DueDate.Value.ToString("dd.MM.yyyy") : "";}
+                            <td class="spa-label1">@*10 Jan, 2017*@ @DateFormat</td>
+                            @{DateFormat = item.overdue.HasValue ? item.overdue.Value.ToString("dd.MM.yyyy") : "";}
+                            <td class="spa-label1">@*10 Jan, 2017*@ @DateFormat</td>
+                            <td class="spa-label1">@String.Format("{0:0.00}", item.Remaining_Amount != null ? item.Remaining_Amount : item.Amount)</td>
+                            <td>
+                                <span class="spa-checkbox checkbox ap-closed acceptchk">
+                                    <input value="true" name="aaa" id="Pay_@item.Invoice_Id" type="checkbox" InvoiceService="@item.Invoice_Service">
+                                    <label for="Pay_@item.Invoice_Id" class="form-label spa-label1 apclosedicon"></label>
+                                </span>
+                            </td>
+                            <td>
+                                <div class="Print_@item.Invoice_Service position_rel">
+                                    <a href="/Invoice/PrintInvoice?InvoiceId=@item.Invoice_Id&status=REMP&url=OpenInvoices" class="create_invoice Print_@item.Invoice_Service"><span class="margin-right5"><i class="fa fa-print" aria-hidden="true"></i></span>@*Reprint*@ @Language.Where(c => c.Order_id == 23).Select(c => c.Value).FirstOrDefault()</a>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="Email_@item.Invoice_Service position_rel">
+                                    <a href="/Invoice/MailInvoice?InvoiceId=@item.Invoice_Id&status=REME&url=OpenInvoices" class="create_invoice Email_@item.Invoice_Service"><span class="margin-right5"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>@*Resend*@ @Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault()</a>
+                                </div>
+                                @*<a class="create_invoice Ellips">Resend Invoice</a>*@
+                            </td>
+                            @*Reminder print*@
+                            <td>
+                                <div class="Print_@item.Invoice_Service position_rel">
+                                    @*<a href="/Invoice/RemPrintInvoice?InvoiceId=@item.Invoice_Id&status=REMP&url=OpenInvoices" class="create_invoice Print_@item.Invoice_Service"><span class="margin-right5"><i class="fa fa-print" aria-hidden="true"></i></span>Reminder print </a>*@
+                                    <button onclick="location.href='/Invoice/RemPrintInvoice?InvoiceId=@item.Invoice_Id&status=REMP&url=OpenInvoices&RStatus=YES'" @(item.DisplayStatus == true ? "disabled" : "") class="create_invoice @(item.DisplayStatus==true? "Not-allowed" : "") Print_@item.Invoice_Service"><span class="margin-right5"><i class="fa fa-print" aria-hidden="true"></i></span>@Language.Where(c => c.Order_id == 29).Select(c => c.Value).FirstOrDefault()</button>
+                                </div>
+                            </td>
+                            @*Reminder send*@
+                            <td>
+                                <div class="Email_@item.Invoice_Service position_rel">
+                                    @*<a href="/Invoice/RemEmailInvoice?InvoiceId=@item.Invoice_Id&status=REME&url=OpenInvoices" class="create_invoice Email_@item.Invoice_Service"><span class="margin-right5"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>Reminder send </a>*@
+                                    <button onclick="location.href='/Invoice/RemEmailInvoice?InvoiceId=@item.Invoice_Id&status=REME&url=OpenInvoices&RStatus=YES'" @(item.DisplayStatus == true ? "disabled" : "") class="create_invoice @(item.DisplayStatus == true ? "Not-allowed" : "")  Email_@item.Invoice_Service"><span class="margin-right5"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>@Language.Where(c => c.Order_id == 30).Select(c => c.Value).FirstOrDefault()</button>
+                                </div>
+                                @*<a class="create_invoice Ellips">Resend Invoice</a>*@
+                            </td>
+                            @{DateFormat = item.Reminderdate1.HasValue ? item.Reminderdate1.Value.ToString("dd.MM.yyyy") : "";}
+                            <td class="spa-label1">@DateFormat</td>
+                            @{DateFormat = item.Reminderdate2.HasValue ? item.Reminderdate2.Value.ToString("dd.MM.yyyy") : "";}
+                            <td class="spa-label1">@DateFormat</td>
+                            @{DateFormat = item.Reminderdate3.HasValue ? item.Reminderdate3.Value.ToString("dd.MM.yyyy") : "";}
+                            <td class="spa-label1">@DateFormat</td>
+                            <td class="spa-label1 @HideClass">
+                                <a><i class="fa fa-trash spa-icon1"></i></a>
+                            </td>
+                        </tr>
+                                }
+                    <tr class="@ClassName">
+                        <td class="font16 Nodata text-center" colspan="12">
+                            <img src="~/images/Invoice_notfound.png" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/Invoice.js"></script>
+<script>
+    $(".Info_open,.Info_close").click(function () { $(".Info_box").slideToggle(); });
+    $("#Invoice_table").tableHeadFixer({ "left": 1 });
+    @*$('#search_from_OI,#search_to_OI').datetimepicker({
+        format: 'DD/MM/YYYY',
+        locale: '@LngLocal',
+    });*@
+    CommonDatePicker('#search_from_OI,#search_to_OI', '@LngLocal', false, false, false);
+    var date = new Date();
+    date.setDate(date.getDate());
+
+    var dateRange = {
+        dateStartDateControlId: "search_from_OI", // Start date control id
+        dateEndDateControlId: "search_to_OI" // End date control id
+    };
+    // InitDateTimePicker(dateRange);
+    searchInPage("Search", "Invoice_table", 0, 10);
+    $("input[type='checkbox']").change(function () {
+        if ($(this).is(":checked")) {
+            //$("#CloseandPay #Invoice_Id").val($(this).parents("tr:first").prop("id"));
+            OpenPartialpopup($(this).parents("tr:first").prop("id"), @Language.Select(c => c.Lang_id).FirstOrDefault(), '@LngLocal', '@string.Format("{0:yyyy-MM-dd HH:mm:ss}", CreateDate)', "OpenInvoices",$(this).attr("InvoiceService"));
+        }
+    });
+    $("#Invoice_table tr td .fa-trash").click(function () {
+        $(".loader").show();
+        var InvoiceId = $(this).parents("tr:first").prop("id");
+        DeleteInvoice(InvoiceId, "/Invoice/OpenInvoices", '#OpenInvoices')
+    });
+    $('#CloseandPay').on('hidden.bs.modal', function () {
+        $("#CloseandPay #Invoice_Id,#Pay_Date").val("");
+        $("input[type='checkbox']").prop("checked", false);
+    });
+    $("#Invoice_table tbody tr td:not(:last-child)").click(function () {
+        if ($(this).find("input").length == 0 && $(this).find("button").length == 0) {
+            var InvoiceId = $(this).parent("tr").attr("id")
+            window.location.href = "/PDF/InvoicePrint?InvoiceId=" + InvoiceId + "&IsPrint=" + false + "&Url=OpenInvoices&Status=D";
+        }
+    });
+    $("#search_from_OI,#search_to_OI").on("dp.change", function (e) {
+        var FromDate = $("#search_from_OI").val();
+        var ToDate = $("#search_to_OI").val();
+        if (FromDate != "" && ToDate != "" && (ToDate >= FromDate)) {
+            var URLPATH = "/Invoice/OpenInvoices?FromDate=" + FromDate + "&ToDate=" + ToDate;
+            CommonTabDetails(URLPATH, '#OpenInvoices');
+        }
+    });
+</script>

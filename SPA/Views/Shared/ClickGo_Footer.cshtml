@@ -1,0 +1,41 @@
+﻿@{
+    List<SPA.Models.LanguageNewShop> Language = ViewBag.Language;
+    Language = Language.Where(c => c.Page_Name == "Layout_Footer").ToList();
+    int LanguageId = ViewBag.LangId;
+}
+    <div class="clickGo_footer">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8">
+                <h4>@*Reach Us Anytime*@ @Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()</h4>
+                <ul>
+                    @*<li><a href="" style="color:#fff">Contact Us</a></li>*@
+                    <li>info@click-and-go.ch</li>
+                    @*<li><a><img src="~/images/click/googleplay.png" /></a></li>*@
+                </ul>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8">
+                <h4>@*Discover*@ @Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()</h4>
+                <ul>
+                    <li>@*How does CLICK-AND-GO work?*@ <a href="/clickandgo?Lang=@LanguageId#Wie"> @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</a></li>
+                    <li>@*Why CLICK-AND-GO?*@ <a href="/clickandgo?Lang=@LanguageId#Warum"> @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()</a></li>
+                    <li>@*FAQ‘S*@ <a href="/clickandgo?Lang=@LanguageId#FAQ"> @Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8">
+                <h4>@*ABOUT US*@ @Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()</h4>
+                <ul>
+                    <li>@*Conditions of Use*@<a href="/Aboutus?Lang=@LanguageId#AGB"> @Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()</a></li>
+                    <li>@*Data protection*@ <a href="/Aboutus?Lang=@LanguageId#Datenschutz">@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()</a></li>
+                    <li><a href="/ClickGo/Impressum?lang=@LanguageId" >@*Impressum*@ @Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()</a></li>
+                </ul>
+            </div>
+            @*<div class="col-lg-9 col-md-9 col-sm-9">
+                <h4>Subscribe to the newsletter</h4>
+                <div class="input-group" style="margin-top: 1vw;">
+                    <input type="text" class="form-control footer_text" placeholder="click and type your email here and press enter" style="height: 5vh;">
+                    <span class="input-group-addon footer_arrow"><i class="fa fa-arrow-right" aria-hidden="true"></i></span>
+                </div>
+            </div>*@
+        </div>
+    </div>
+

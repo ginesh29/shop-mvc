@@ -1,0 +1,77 @@
+﻿@{
+    Layout = null;
+    List<SPA.Models.BillingHistory>
+    BillingHistory = new List<SPA.Models.BillingHistory>
+        ();
+    BillingHistory = ViewBag.BillingHistory;
+    var Currency = ViewBag.Currency;
+}
+<thead>
+    <tr>
+        <th>No</th>
+        <th>Reservation Id</th>
+        <th>Date</th>
+        <th>Payment Plan</th>
+        <th>Amount</th>
+        <th>Credit</th>
+        <th>Product</th>
+        <th>Customer</th>
+    </tr>
+</thead>
+<tbody>
+    @if (BillingHistory.Count > 0)
+    {
+        foreach (var item in BillingHistory.Where(c => ((c.status == 1 && c.Credit != null) || (c.status != 1))).ToList())
+        {
+            int index = BillingHistory.IndexOf(item) + 1;
+            <tr>
+                <td>@index</td>
+                <td>@item.ReservationId</td>
+                <td>@item.created_on</td>
+                <td>@item.PaymentCatgName</td>
+                <td>@item.Amount</td>
+                <td>@item.Credit</td>
+                <td>@item.ProductName</td>
+                <td>@item.FirstName @item.LastName</td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="8" class="text-center Nodata">
+                <img src="~/images/No Data_2.png" />
+                <div>No Data Found</div>
+            </td>
+        </tr>
+    }
+    @if (ViewBag.status)
+    {
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Total</td>
+            <td>@BillingHistory.Select(c => c.Amount).Sum()</td>
+            <td>@BillingHistory.Select(c => c.Credit).Sum()</td>
+            <td></td>
+            <td></td>
+        </tr>
+    }
+</tbody>
+@if (!ViewBag.status)
+{
+    <tfoot>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Total</td>
+            <td>@BillingHistory.Select(c => c.Amount).Sum()</td>
+            <td>@BillingHistory.Select(c => c.Credit).Sum()</td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tfoot>
+}
+

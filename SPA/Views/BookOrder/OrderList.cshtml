@@ -1,0 +1,127 @@
+﻿@model IEnumerable<SPA.Models.EmployeeList>
+@{
+    Layout = "~/Views/Shared/_Employee_layout.cshtml";
+    List<SPA.Models.GroupProductList> ProductList = new List<SPA.Models.GroupProductList>();
+    List<Language_Label_Detail> LanguageList = new List<Language_Label_Detail>();
+    LanguageList = ViewBag.Language;
+    var Language = LanguageList.Where(c => c.Page_Name == "Choose_Product").ToList();
+    ViewBag.Title = LanguageList.Where(c => c.Page_Name == "Title" && c.Order_id == 2).Select(c => c.Value).FirstOrDefault();
+    ProductList = ViewBag.Product;
+    string currency = ViewBag.currency;
+    string DurationPre = "Min";
+    var Status = ViewBag.Status;
+    var LanguageBack = ViewBag.LanguageBack;
+}
+<div class="form-content margin-top5 order-margin">
+    <div class="col-lg-22 col-md-22 col-sm-23 margin-top10">
+        <a href="@(Status=="DO"?"/Reservation/Reservation#"+@ViewBag.Url: "/Customer/Customer")" class="title-green16 pull-right"><i class="fa fa-reply-all margin-right5"></i>@LanguageBack</a>
+    </div>
+    <div class="clearfix"></div>
+
+       <div class="col-lg-20 col-lg-offset-2 col-md-20 col-md-offset-2 col-sm-22 col-sm-offset-1 col-xs-24">
+        <div class="choose-your-product table-responsive">
+            <form id="ClientProductData" method="post" action="/BookOrder/OrderListBooked">
+                <input type="hidden" id="UserId" name="UserId" value="@ViewBag.id" />
+                <div class="product-catalog-box add-vacation-table product-catalog-table padding0 hover-remove">
+                    <div class="table-responsive">
+                        @foreach (var GroupId in ProductList.Select(c => c.GroupIdByShop).Distinct())
+                        {
+                            <div class="grouping-product">
+                                
+                                <div>
+                                    <table class="table table-striped margin-top15 grouping-detail-table">
+                                        <thead>
+                                            <tr><th class="textLeft">
+                                                    <a class="title-green16  margin-left0 cursor-default">
+                                                       @ProductList.Where(c => c.GroupIdByShop == GroupId).Select(c => c.GroupName).FirstOrDefault()
+                                                    </a>
+                                                </th>
+                                                <th></th>
+                                                <th class="textLeft">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()@*OFFERS*@</th>
+                                                <th class="text-center">@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()@*Gender*@</th>
+                                                <th class="text-center">  @Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()@*DURATION*@ </th>
+                                                <th class="text-center"> @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()@*PRICE*@</th>
+                                                <th class="text-center">@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()@*PRODUCTINFORMATION*@</th>
+                                            </tr>
+                                        </thead>
+                                        @foreach (var item in ProductList.Where(c => c.GroupIdByShop == GroupId).ToList())
+                                        {
+                                            <tbody id="TbodyProduct">
+                                                <tr>
+                                                    <td class="width27per"></td>
+                                                    <td class="spa-label1 width5per">
+                                                        <div class="spa-checkbox checkbox ProductDiv">
+                                                            <input id="@item.ProductId" name=@item.ProductId type="checkbox">
+                                                            <label for="@item.ProductId" class="form-label spa-label1"></label>
+                                                        </div>
+                                                    </td>
+                                                    <td class="spa-label1 textLeft width30per">@item.ProductName</td>
+                                                    @if (item.Gender == "Both")
+                                                    {
+                                                        <td class="spa-label1 text-center width10per">
+                                                            <i class="fa fa-female gendericonSize" aria-hidden="true"></i>
+                                                            <i class="fa fa-male gendericonSize" aria-hidden="true"></i>
+                                                        </td>
+                                                    }
+                                                    @if (item.Gender == "male")
+                                                    {
+                                                        <td class="spa-label1 text-center width10per">
+                                                            <i class="fa fa-female gendericonSize opacity0" aria-hidden="true"></i>
+                                                            <i class="fa fa-male gendericonSize" aria-hidden="true"></i>
+                                                        </td>
+                                                    }
+                                                    @if (item.Gender == "Female")
+                                                    {
+                                                        <td class="spa-label1 text-center width10per">
+                                                            <i class="fa fa-female gendericonSize" aria-hidden="true"></i>
+                                                            <i class="fa fa-male gendericonSize opacity0" aria-hidden="true"></i>
+                                                        </td>
+                                                    }
+                                                    @if (item.Gender == null)
+                                                    {
+                                                        <td class="width10per spa-label1 text-center"></td>
+                                                    }
+                                                    <td class="spa-label1 width9per">
+                                                        @item.Duration @DurationPre
+                                                    </td>
+                                                    <td class="spa-label1 width9per">
+                                                        @float.Parse(item.Amount.ToString()) @currency
+                                                    </td>
+                                                    <td class="text-center width10per">
+                                                        @if(!string.IsNullOrEmpty(item.SectionDesc))
+                                                        {
+                                                            <span>
+                                                                <i class="fa fa-info-circle spa-icon" data-toggle="popover" data-content="@item.SectionDesc"></i>
+                                                            </span>
+                                                        }
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        }
+                                    </table>
+                                </div>
+                            </div>
+
+                        }
+                    </div>
+                </div>
+                <div class="margin-top20">
+                    <input type="button" onclick="ChooseEmployeeOrder('@Status','@ViewBag.Url');" class="btn btn-green pull-right" id="ClientEmployeeBtn" value="@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()" /> @*Submit*@
+                </div>               
+            </form>
+
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+    <script>
+        $('.spa-checkbox input[type="checkbox"]').click(function () {
+            var a = $(this).attr("name");
+            $.each($('.spa-checkbox input[type="checkbox"]'), function () {
+                if ($(this).prop("checked") && $(this).attr("name") != a) {
+                    $(this).attr("checked", false);
+                }
+            });
+        });
+    </script>

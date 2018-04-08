@@ -1,0 +1,960 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DATAS>
+
+  <DATA NAME="LOGIN_EMAIL">
+    <PASSWORD>
+      <SUBJECT>@LOGIN_EMAIL</SUBJECT>
+      <BODY>
+        <![CDATA[
+        <html xmlns="http://www.w3.org/1999/xhtml"><head>
+        <title>Apply For Job</title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
+</head>
+<body>
+   <table style="width: 700px; padding: 50px; background-color: #71add2; ">
+        <tbody><tr>
+            <td>
+                <table style="width: 100%; text-align: center; letter-spacing: 0.5px; background-color: #fff;
+                    padding: 20px 50px; border-top: 4px solid #323232; border-bottom: 2px solid #323232; ">
+                    <tbody><tr style="height: 20px;">
+                    <td>
+                      <img src="http://spanew.azurewebsites.net/images/Click-and-Go-Logo_03.png" alt="CLICK-AND-GO"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>&nbsp;</td>
+                    </tr>
+                     <tr>
+                      <td>&nbsp;</td>
+                    </tr>
+                <tr align="center">
+                        <td>
+                            <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 13px;">
+                               @DATA</p>
+                        </td>
+                    </tr>
+		 <tr align="center">
+                      
+                      
+                    </tr>
+<tr align="center">
+                        
+                    </tr>
+
+			<tr align="center">
+				<td>
+ <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 13px;">
+                             Thank you
+                            </p>
+
+				</td>
+			</tr>
+<tr align="center">
+				<td>
+ <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 13px;">
+                            Regards
+      
+
+                            </p>
+
+				</td>
+			</tr>
+<tr align="center">
+				<td>
+ <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 13px;">
+                           CLICK-AND-GO Team 
+                            </p>
+
+				</td>
+			</tr>
+                    <tr align="center">
+                        <td>
+                             <!--<a href="https://www.facebook.com/appointgeek">
+                                <img src="@FB" alt="Facebook" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://twitter.com/AppointGeek">
+                                <img src="@Tw" alt="Twitter" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://www.linkedin.com/company/quickscrum-com">
+                                <img src="@LN" alt="LinkedIn" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://plus.google.com/+Quickscrum">
+                                <img src="@GP" alt="Google+" style="vertical-align: middle; margin-right: 25px;">
+                            </a>-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border-top: 1px solid #CCC;">
+                        </td>
+                    </tr>
+                    <tr align="center">
+                        <td>
+                            <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; font-size: 10px;">
+				
+                                This email was sent by CLICK-AND-GO. 
+                                <br>
+                               
+                        </td>
+                    </tr>
+                </tbody></table>
+      
+          </td>
+        </tr>
+    </tbody></table>
+
+</body></html>
+        
+        ]]>
+      </BODY>
+    </PASSWORD>
+  </DATA>
+
+  <DATA NAME="NEW_REGISTRATION">
+    <PASSWORD>
+      <SUBJECT>@NEW_REGISTRATION</SUBJECT>
+      <BODY>
+        <![CDATA[
+        <html xmlns="http://www.w3.org/1999/xhtml"><head>
+        <title>Apply For Job</title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
+</head>
+<body>
+   <table style="width: 700px; padding: 50px; background-color: #71add2; ">
+        <tbody><tr>
+            <td>
+                <table style="width: 100%; text-align: center; letter-spacing: 0.5px; background-color: #fff;
+                    padding: 20px 50px; border-top: 4px solid #323232; border-bottom: 2px solid #323232; ">
+                    <tbody><tr style="height: 20px;">
+                    <td>
+                      <img src="http://spanew.azurewebsites.net/images/Click-and-Go-Logo_03.png" alt="CLICK-AND-GO"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>&nbsp;</td>
+                    </tr>
+                     <tr>
+                      <td>&nbsp;</td>
+                    </tr>
+                <tr align="center">
+                        <td>
+                            <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 13px;">
+                               @DATA</p>
+                        </td>
+                    </tr>
+		 <tr align="center">
+                      
+                      
+                    </tr>
+<tr align="center">
+                        
+                    </tr>
+
+			<tr align="center">
+				<td>
+ <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 13px;">
+                             Thank you
+                            </p>
+
+				</td>
+			</tr>
+<tr align="center">
+				<td>
+ <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 13px;">
+                            Regards
+      
+
+                            </p>
+
+				</td>
+			</tr>
+<tr align="center">
+				<td>
+ <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 13px;">
+                           CLICK-AND-GO Team 
+                            </p>
+
+				</td>
+			</tr>
+                    <tr align="center">
+                        <td>
+                             <!--<a href="https://www.facebook.com/appointgeek">
+                                <img src="@FB" alt="Facebook" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://twitter.com/AppointGeek">
+                                <img src="@Tw" alt="Twitter" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://www.linkedin.com/company/quickscrum-com">
+                                <img src="@LN" alt="LinkedIn" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://plus.google.com/+Quickscrum">
+                                <img src="@GP" alt="Google+" style="vertical-align: middle; margin-right: 25px;">
+                            </a>-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border-top: 1px solid #CCC;">
+                        </td>
+                    </tr>
+                    <tr align="center">
+                        <td>
+                            <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; font-size: 10px;">
+				
+                                This email was sent by CLICK-AND-GO. 
+                                <br>
+                               
+                        </td>
+                    </tr>
+                </tbody></table>
+      
+          </td>
+        </tr>
+    </tbody></table>
+
+</body></html>
+        ]]>
+      </BODY>
+    </PASSWORD>
+  </DATA>
+
+  <DATA NAME="APPROVE_ORDER">
+    <PASSWORD>
+      <SUBJECT>@APPROVE_ORDER</SUBJECT>
+      <BODY>
+        <![CDATA[
+          <html xmlns="http://www.w3.org/1999/xhtml"><head>
+        <title>Apply For Job</title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
+</head>
+<body>
+   <table style="width: 700px; padding: 50px; background-color: #71add2; ">
+        <tbody><tr>
+            <td>
+                <table style="width: 100%; text-align: center; letter-spacing: 0.5px; background-color: #fff;
+                    padding: 20px 50px; border-top: 4px solid #323232; border-bottom: 2px solid #323232; ">
+                    <tbody><tr style="height: 20px;">
+                    <td>
+                      <img src="http://spanew.azurewebsites.net/images/Click-and-Go-Logo_03.png" alt="CLICK-AND-GO"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>&nbsp;</td>
+                    </tr>
+                     <tr>
+                      <td>&nbsp;</td>
+                    </tr>
+                <tr align="center">
+                        <td>
+                            <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 13px;">
+                               @DATA</p>
+                        </td>
+                    </tr>
+		 <tr align="center">
+                      
+                      
+                    </tr>
+<tr align="center">
+                        
+                    </tr>
+
+			<tr align="center">
+				<td>
+ <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 13px;">
+                             Thank you
+                            </p>
+
+				</td>
+			</tr>
+<tr align="center">
+				<td>
+ <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 13px;">
+                            Regards
+      
+
+                            </p>
+
+				</td>
+			</tr>
+<tr align="center">
+				<td>
+ <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 13px;">
+                           CLICK-AND-GO Team 
+                            </p>
+
+				</td>
+			</tr>
+                    <tr align="center">
+                        <td>
+                             <!--<a href="https://www.facebook.com/appointgeek">
+                                <img src="@FB" alt="Facebook" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://twitter.com/AppointGeek">
+                                <img src="@Tw" alt="Twitter" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://www.linkedin.com/company/quickscrum-com">
+                                <img src="@LN" alt="LinkedIn" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://plus.google.com/+Quickscrum">
+                                <img src="@GP" alt="Google+" style="vertical-align: middle; margin-right: 25px;">
+                            </a>-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border-top: 1px solid #CCC;">
+                        </td>
+                    </tr>
+                    <tr align="center">
+                        <td>
+                            <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; font-size: 10px;">
+				
+                                This email was sent by CLICK-AND-GO. 
+                                <br>
+                               
+                        </td>
+                    </tr>
+                </tbody></table>
+      
+          </td>
+        </tr>
+    </tbody></table>
+
+</body></html>
+          ]]>
+      </BODY>
+    </PASSWORD>
+  </DATA>
+
+  <DATA NAME="CANCEL_ORDER">
+    <PASSWORD>
+      <SUBJECT>@CANCEL_ORDER</SUBJECT>
+      <BODY>
+        <![CDATA[
+          <html xmlns="http://www.w3.org/1999/xhtml"><head>
+        <title>Apply For Job</title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
+</head>
+<body>
+   <table style="width: 700px; padding: 50px; background-color: #71add2; ">
+        <tbody><tr>
+            <td>
+                <table style="width: 100%; text-align: center; letter-spacing: 0.5px; background-color: #fff;
+                    padding: 20px 50px; border-top: 4px solid #323232; border-bottom: 2px solid #323232; ">
+                    <tbody><tr style="height: 20px;">
+                    <td>
+                      <img src="http://spanew.azurewebsites.net/images/Click-and-Go-Logo_03.png" alt="CLICK-AND-GO"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>&nbsp;</td>
+                    </tr>
+                     <tr>
+                      <td>&nbsp;</td>
+                    </tr>
+                <tr align="center">
+                        <td>
+                            <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 13px;">
+                               @DATA</p>
+                        </td>
+                    </tr>
+		 <tr align="center">
+                      
+                      
+                    </tr>
+<tr align="center">
+                        
+                    </tr>
+
+			<tr align="center">
+				<td>
+ <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 13px;">
+                             Thank you
+                            </p>
+
+				</td>
+			</tr>
+<tr align="center">
+				<td>
+ <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 13px;">
+                            Regards
+      
+
+                            </p>
+
+				</td>
+			</tr>
+<tr align="center">
+				<td>
+ <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 13px;">
+                           CLICK-AND-GO Team 
+                            </p>
+
+				</td>
+			</tr>
+                    <tr align="center">
+                        <td>
+                             <!--<a href="https://www.facebook.com/appointgeek">
+                                <img src="@FB" alt="Facebook" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://twitter.com/AppointGeek">
+                                <img src="@Tw" alt="Twitter" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://www.linkedin.com/company/quickscrum-com">
+                                <img src="@LN" alt="LinkedIn" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://plus.google.com/+Quickscrum">
+                                <img src="@GP" alt="Google+" style="vertical-align: middle; margin-right: 25px;">
+                            </a>-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border-top: 1px solid #CCC;">
+                        </td>
+                    </tr>
+                    <tr align="center">
+                        <td>
+                            <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; font-size: 10px;">
+				
+                                This email was sent by CLICK-AND-GO. 
+                                <br>
+                               
+                        </td>
+                    </tr>
+                </tbody></table>
+      
+          </td>
+        </tr>
+    </tbody></table>
+
+</body></html>
+          ]]>
+      </BODY>
+    </PASSWORD>
+  </DATA>
+
+  <DATA NAME="TEMPORARY_ORDER">
+    <PASSWORD>
+      <SUBJECT>@TEMPORARY_ORDER</SUBJECT>
+      <BODY>
+        <![CDATA[
+          <html xmlns="http://www.w3.org/1999/xhtml"><head>
+        <title>Apply For Job</title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
+</head>
+<body>
+   <table style="width: 700px; padding: 50px; background-color: #71add2; ">
+        <tbody><tr>
+            <td>
+                <table style="width: 100%; text-align: center; letter-spacing: 0.5px; background-color: #fff;
+                    padding: 20px 50px; border-top: 4px solid #323232; border-bottom: 2px solid #323232; ">
+                    <tbody><tr style="height: 20px;">
+                    <td>
+                      <img src="http://spanew.azurewebsites.net/images/Click-and-Go-Logo_03.png" alt="CLICK-AND-GO"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>&nbsp;</td>
+                    </tr>
+                     <tr>
+                      <td>&nbsp;</td>
+                    </tr>
+                <tr align="center">
+                        <td>
+                            <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 13px;">
+                               @DATA</p>
+                        </td>
+                    </tr>
+		 <tr align="center">
+                      
+                      
+                    </tr>
+<tr align="center">
+                        
+                    </tr>
+
+			<tr align="center">
+				<td>
+ <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 13px;">
+                             Thank you
+                            </p>
+
+				</td>
+			</tr>
+<tr align="center">
+				<td>
+ <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 13px;">
+                            Regards
+      
+
+                            </p>
+
+				</td>
+			</tr>
+<tr align="center">
+				<td>
+ <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 13px;">
+                           CLICK-AND-GO Team 
+                            </p>
+
+				</td>
+			</tr>
+                    <tr align="center">
+                        <td>
+                             <!--<a href="https://www.facebook.com/appointgeek">
+                                <img src="@FB" alt="Facebook" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://twitter.com/AppointGeek">
+                                <img src="@Tw" alt="Twitter" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://www.linkedin.com/company/quickscrum-com">
+                                <img src="@LN" alt="LinkedIn" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://plus.google.com/+Quickscrum">
+                                <img src="@GP" alt="Google+" style="vertical-align: middle; margin-right: 25px;">
+                            </a>-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border-top: 1px solid #CCC;">
+                        </td>
+                    </tr>
+                    <tr align="center">
+                        <td>
+                            <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; font-size: 10px;">
+				
+                                This email was sent by CLICK-AND-GO. 
+                                <br>
+                               
+                        </td>
+                    </tr>
+                </tbody></table>
+      
+          </td>
+        </tr>
+    </tbody></table>
+
+</body></html>
+          ]]>
+      </BODY>
+    </PASSWORD>
+  </DATA>
+  <DATA NAME="REGISTRATION_PDF_EMAIL">
+    <PASSWORD>
+      <SUBJECT>@REGISTRATION_PDF_EMAIL</SUBJECT>
+      <BODY>
+        <![CDATA[
+        <html xmlns="http://www.w3.org/1999/xhtml"><head>
+        <title>Apply For Job</title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
+</head>
+<body>
+   <table style="width: 700px; padding: 50px; background-color: #71add2; ">
+        <tbody><tr>
+            <td>
+                <table style="width: 100%; text-align: center; letter-spacing: 0.5px; background-color: #fff;
+                    padding: 20px 50px; border-top: 4px solid #323232; border-bottom: 2px solid #323232; ">
+                    <tbody><tr style="height: 20px;">
+                    <td>
+                      <img src="@Image" alt="CLICK-AND-GO"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>&nbsp;</td>
+                    </tr>
+                     <tr>
+                      <td>&nbsp;</td>
+                    </tr>
+                <tr align="center">
+                        <td>
+                            <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 13px;">
+                               @DATA</p>
+                        </td>
+                    </tr>
+		 <tr align="center">
+                      
+                      
+                    </tr>
+<tr align="center">
+                        
+                    </tr>
+
+			
+                    <tr align="center">
+                        <td>
+                             <!--<a href="https://www.facebook.com/appointgeek">
+                                <img src="@FB" alt="Facebook" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://twitter.com/AppointGeek">
+                                <img src="@Tw" alt="Twitter" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://www.linkedin.com/company/quickscrum-com">
+                                <img src="@LN" alt="LinkedIn" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://plus.google.com/+Quickscrum">
+                                <img src="@GP" alt="Google+" style="vertical-align: middle; margin-right: 25px;">
+                            </a>-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border-top: 1px solid #CCC;">
+                        </td>
+                    </tr>
+                    <tr align="center">
+                        <td>
+                            <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; font-size: 10px;">
+				
+                                This email was sent by CLICK-AND-GO. 
+                                <br>
+                               
+                        </td>
+                    </tr>
+                </tbody></table>
+      
+          </td>
+        </tr>
+    </tbody></table>
+
+</body></html>
+        
+        ]]>
+      </BODY>
+    </PASSWORD>
+  </DATA>
+
+  <DATA NAME="CONTACTSHOP">
+    <PASSWORD>
+      <SUBJECT>@CONTACTMAIL</SUBJECT>
+      <BODY>
+        <![CDATA[
+          <html xmlns="http://www.w3.org/1999/xhtml"><head>
+        <title>Apply For Job</title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
+</head>
+<body>
+<table style="width: 700px; padding: 50px; background-color: #71add2; ">
+        <tbody><tr>
+            <td>
+                <table style="width: 100%; text-align: center; letter-spacing: 0.5px; background-color: #fff;
+                    padding: 20px 50px; border-top: 4px solid #323232; border-bottom: 2px solid #323232; ">
+                    <tbody><tr style="height: 20px;">
+                    <td>
+                      <img src="@Image" alt="CLICK-AND-GO"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>&nbsp;</td>
+                    </tr>
+                     <tr>
+                      <td>&nbsp;</td>
+                    </tr>
+                    <tr align="center">
+                        <td>
+                            <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 13px; font-weight:bold;">
+                              
+                               </br>
+                               </br>                                                                                                                   
+                              </p>
+                        </td>
+                    </tr>
+                 <tr>
+                <td>
+                   <table>
+                               <tbody>
+                          <tr>
+                        <td style="align:left;font-weight:bold;">
+                        <p>Hello, @ShopOwnerName</p>                       
+                        </td>
+                        <td style="align:center"></td>
+                        <td style="align:center"></td>
+                        
+                        </tr>    
+                        <tr>
+                        <td style="align:left;font-weight:bold;" colspan="3">
+                        <p>@Content </p>
+                        </td>
+                                               
+                      </tr>
+                       <tr>
+                        <td style="align:left;font-weight:bold;">
+                          Name
+                        </td>
+                        <td style="align:center">:</td>
+                        <td style="align:right">@Name</td>
+                      </tr>
+                     <tr>
+                       <td style="font-weight:bold;">
+                         Email
+                        </td>
+                        <td>:</td>
+                        <td>@Email</td>
+                        
+                   </tr>
+                     <tr>
+                       <td style="font-weight:bold;">
+                        Message
+                        </td>
+                        <td>:</td>
+                        <td>@Message</td>
+                        
+                   </tr>
+                                      
+                      </tbody></table>
+               </td>
+                </tr>
+                  <tr>
+                   <td>
+                   <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 13px; font-weight:bold;">
+                           Regards,</br></br>
+                              @ShopName
+                              </p>
+                       </td>
+                 </tr>
+		 <tr >
+            <td>
+            
+            </td>
+                      
+                    </tr>
+<tr align="center">
+                        
+                    </tr>
+
+			
+                    <tr align="center">
+                        <td>
+                             <!--<a href="https://www.facebook.com/appointgeek">
+                                <img src="@FB" alt="Facebook" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://twitter.com/AppointGeek">
+                                <img src="@Tw" alt="Twitter" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://www.linkedin.com/company/quickscrum-com">
+                                <img src="@LN" alt="LinkedIn" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://plus.google.com/+Quickscrum">
+                                <img src="@GP" alt="Google+" style="vertical-align: middle; margin-right: 25px;">
+                            </a>-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border-top: 1px solid #CCC;">
+                        </td>
+                    </tr>
+                    <tr align="center">
+                        <td>
+                            <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; font-size: 10px;">
+				
+                                This email was sent by CLICK-AND-GO. 
+                                <br>                              
+                        </td>
+                    </tr>
+                </tbody></table>
+      
+          </td>
+        </tr>
+    </tbody></table>
+</body></html>
+          ]]>
+      </BODY>
+    </PASSWORD>
+  </DATA>
+
+<DATA NAME="REGISTRATIONDETAILS">
+    <PASSWORD>
+      <SUBJECT>@REGISTRATIONDETAILS</SUBJECT>
+      <BODY>
+        <![CDATA[
+          <html xmlns="http://www.w3.org/1999/xhtml"><head>
+        <title>Apply For Job</title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css">
+</head>
+<body>
+<table style="width: 700px; padding: 50px; background-color: #71add2; ">
+        <tbody><tr>
+            <td>
+                <table style="width: 100%;letter-spacing: 0.5px; background-color: #fff;
+                    padding: 20px 50px; border-top: 4px solid #323232; border-bottom: 2px solid #323232; ">
+                    <tbody>
+                       <tr>
+                      <td>&nbsp;</td>
+                    </tr>
+                    <tr style="height: 20px;">
+                    <td style="text-align:center">
+                      <img src="@Image" alt="CLICK-AND-GO"/>
+                      </td>
+                    </tr>
+                 
+                    <tr align="center">
+                        <td>
+                            <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; text-align: left; font-size: 15px; font-weight:bold;line-height: 8px;">
+                              
+                               </br>
+                               </br>                                                                                                                   
+                              </p>
+                        </td>
+                    </tr>
+                 <tr>
+                <td>
+                   <table>
+                               <tbody>
+                          <tr>
+                        <td style="align:left;font-weight:bold;">
+                        <p>@Hello @ShopOwnerName</p>                       
+                        </td>
+                        <td style="align:center"></td>
+                        <td style="align:center"></td>
+                        
+                        </tr>    
+                        <tr>
+                        <td style="align:left;" colspan="3">
+                        <p>@Content </p>
+                        </td>
+                                               
+                      </tr>
+                       <tr>
+                        <td style="align:left;">
+                         @EName_Title
+                        </td>
+                        <td style="align:center">:</td>
+                        <td style="align:right">@EmployeeName</td>
+                      </tr>
+                     <tr>
+                       <td>
+                         @CustName_Title
+                        </td>
+                        <td>:</td>
+                        <td>@CustomerName</td>                        
+                   </tr>
+                     <tr>
+                       <td>
+                        @MNumber_Title
+                        </td>
+                        <td>:</td>
+                        <td>@MobileNumber</td>                       
+                   </tr>
+                     <tr>
+                       <td>
+                      @EId_Title
+                        </td>
+                        <td>:</td>
+                        <td>@EmailId</td>                       
+                   </tr>   
+                    <tr>
+                       <td>
+                        @BDate_Title
+                        </td>
+                        <td>:</td>
+                        <td>@BookingDate</td>                       
+                   </tr>
+                    <tr>
+                       <td>
+                       @BProduct_Title
+                        </td>
+                        <td>:</td>
+                        <td>@BookedProduct</td>                       
+                   </tr>  
+                     <tr>
+                       <td>
+                       @Price_Title
+                        </td>
+                        <td>:</td>
+                        <td>@ProductPrice</td>                       
+                   </tr> 
+                     <tr>
+                       <td>
+                       @BStart_TimeTitle
+                        </td>
+                        <td>:</td>
+                        <td>@BookingStartTime</td>                       
+                   </tr> 
+                     <tr>
+                       <td>
+                      @BEndTime_Title
+                        </td>
+                        <td>:</td>
+                        <td>@BookingEndTime</td>                       
+                   </tr> 
+                    
+                      </tbody></table>
+               </td>
+                </tr>
+                  <tr>
+                   <td>
+                  
+                   <p style="font-weight: bold;line-height: 8px;">
+                    @Regards
+                   <br /><br />
+                              @ShopName
+                              </p>
+                       </td>
+                 </tr>
+                 <tr>
+                   <td>
+                        @LinkDetails
+                       </td>
+                 </tr>
+		 <tr >
+            <td>
+            
+            </td>
+                      
+                    </tr>
+<tr align="center">
+                        
+                    </tr>
+
+			
+                    <tr align="center">
+                        <td>
+                             <!--<a href="https://www.facebook.com/appointgeek">
+                                <img src="@FB" alt="Facebook" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://twitter.com/AppointGeek">
+                                <img src="@Tw" alt="Twitter" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://www.linkedin.com/company/quickscrum-com">
+                                <img src="@LN" alt="LinkedIn" style="vertical-align: middle; margin-right: 25px;"></a>
+                            <a href="https://plus.google.com/+Quickscrum">
+                                <img src="@GP" alt="Google+" style="vertical-align: middle; margin-right: 25px;">
+                            </a>-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border-top: 1px solid #CCC;">
+                        </td>
+                    </tr>
+                    <tr align="center">
+                        <td>
+                            <p style="font-family: Helvetica Neue,Helvetica,Arial,Sans-Serif; color:#525252; font-size: 11px;">
+				
+                                This email was sent by CLICK-AND-GO. 
+                                <br>                              
+                        </td>
+                    </tr>
+                </tbody></table>
+      
+          </td>
+        </tr>
+    </tbody></table>
+</body></html>
+          ]]>
+      </BODY>
+    </PASSWORD>
+  </DATA>
+</DATAS>
+

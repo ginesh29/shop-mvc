@@ -1,0 +1,150 @@
+﻿@using System.Configuration
+@{
+    Layout = null;
+    int index = 0;
+    int statusCompleted = 0;
+    int StatusDeclined = 1;
+    int indexNumber = 1;
+    string currency = ViewBag.currency;
+    int DoctorPagStatus = 0;
+    if (ViewBag.DoctorPage != null && ViewBag.DoctorPage != 0)
+    {
+        DoctorPagStatus = ViewBag.DoctorPage;
+    }
+    string DurationPre = "Min";
+    List<SPA.Models.PendingApproval> OpenListView = new List<SPA.Models.PendingApproval>();
+    OpenListView = ViewBag.AllData;
+    List<Language_Label_Detail> FullLang = ViewBag.OpenLang;
+    var Language = FullLang.Where(c => c.Page_Name.ToLower() == "reservation_open_list").ToList();
+    var Monthlist = FullLang.Where(c => c.Page_Name.ToLower() == "small_calander").ToList();
+    string Dyn = FullLang.Where(c => c.Page_Name.ToLower() == "common" && c.Order_id == 1).Select(c => c.Value).FirstOrDefault();
+    string Static = FullLang.Where(c => c.Page_Name.ToLower() == "common" && c.Order_id == 2).Select(c => c.Value).FirstOrDefault();
+    var Status = ViewBag.status;
+}
+@if (OpenListView.Count > 0)
+{
+    foreach (var item in OpenListView)
+    {
+        string LastVisitedReservation = "";
+        <tr class="@(item.ActiveStatus.Trim()=="Z" && item.BookedStatus.Trim()=="Z" ? "DeclinedTrColor" : "")">
+
+            <td class="spa-label1">@indexNumber</td>
+            <td class="spa-label1">@item.CustomerLastName.ToString()</td>
+            <td class="spa-label1">@item.CustomerFirstName.ToString()</td>
+            <td class="spa-label1">@item.CatgDesc.ToString()</td>
+            <td class="spa-label1">@item.EmpfirstName.ToString()</td>
+            @{
+                if (item.BookingDate != null)
+                {
+                    var monthname = DateTime.Parse(item.BookingDate).ToString("MMMM");
+                    var MonthLanguagechange = Monthlist.Where(c => c.English_Label.ToLower() == monthname.ToLower()).Select(c => c.Value).FirstOrDefault();
+                    LastVisitedReservation = item.BookingDate.Replace(monthname, MonthLanguagechange);
+                }
+            }
+            <td class="spa-label1">@LastVisitedReservation</td>
+            <td class="spa-label1">@item.FromSlotMasterId.ToString().Remove(item.FromSlotMasterId.ToString().Length - 3, 3)</td>
+            <td class="spa-label1">@item.ToSlotMasterId.ToString().Remove(item.ToSlotMasterId.ToString().Length - 3, 3)</td>
+            <td class="spa-label1">@item.diff @DurationPre</td>
+            <td class="spa-label1">@float.Parse(item.Amount.ToString()) @currency</td>
+
+
+            @*<td class="spa-label1">@item.CCTSP_SchedulerMaster.WeekDay</td>*@
+            @if (ViewBag.status == "Pending")
+            {
+                <td class="edit-icon"><a href="/Reservation/UpdateReservedData?ReservationId=@item.EmpSchDetailsId"><i class="fa fa-pencil-square-o spa-icon1"></i></a></td>
+                if (DoctorPagStatus == 3)
+                {
+                    <td class="">
+                        @if (item.StMerge > 0)
+                        {
+                        <a href="/Doctor/DocPre?Reservationid=@item.EmpSchDetailsId&diff=3" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="Edit"><img src="~/images/file_hover edit.png"></a>
+                        }
+                        else
+                        {
+                        <a href="/Doctor/DocPre?Reservationid=@item.EmpSchDetailsId&diff=3" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="Add"><img src="~/images/file_hover add.png"></a>
+                        }
+                    </td>
+                }
+                if (DoctorPagStatus == 1)
+                {
+                    <td class="">
+                        @if (item.StDoctNotes > 0)
+                        {
+                        <a href="/Doctor/DocPre?Reservationid=@item.EmpSchDetailsId&diff=1" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="Edit"><img src="~/images/file_hover edit.png"></a>
+                        }
+                        else
+                        {
+                        <a href="/Doctor/DocPre?Reservationid=@item.EmpSchDetailsId&diff=1" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="Add"><img src="~/images/file_hover add.png"></a>
+                        }
+                    </td>
+                    <td class="">
+                        @if (item.StPrescription > 0)
+                        {
+                        <a href="/Doctor/DocPre?Reservationid=@item.EmpSchDetailsId&diff=2" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="Edit"><img src="~/images/file_hover edit.png"></a>
+                        }
+                        else
+                        {
+                        <a href="/Doctor/DocPre?Reservationid=@item.EmpSchDetailsId&diff=2" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="Add"><img src="~/images/file_hover add.png"></a>
+                        }
+                    </td>
+                }
+                <td>
+                    @if (item.ActiveStatus.Trim() == "Z" && item.BookedStatus.Trim() == "Z")
+                    {
+                    <a onclick="GoToPendingOpenListView(@item.EmpSchDetailsId);"><i class="fa fa-reply-all spa-label_White"></i></a>
+                    }
+                    else
+                    {
+                    <span class="spa-checkbox checkbox ap-closed">
+                        <input name="CompletedOrder" id="CompletedOrder_@item.EmpSchDetailsId" type="checkbox" onclick="AppointmentStatus(@item.EmpSchDetailsId,@statusCompleted)">
+                        <label for="CompletedOrder_@item.EmpSchDetailsId" class="form-label spa-label1 apclosedicon"></label>
+                    </span>
+                    }
+                </td>
+                <td>
+                    <span class="spa-checkbox checkbox decline">
+                        <input name="DeclineAppointmentId" id="DeclineAppointmentId_@item.EmpSchDetailsId" type="checkbox" onchange="AppointmentStatus(@item.EmpSchDetailsId,@StatusDeclined);">
+                        <label for="DeclineAppointmentId_@item.EmpSchDetailsId" class="form-label spa-label1"></label>
+                    </span>
+                </td>
+            }
+            <td>
+
+                @if (item.reg_status == "D")
+                    {
+                    <span class="spa-label1">@Dyn</span>
+                }
+                else
+                {
+                    <span class="spa-label1">@Static</span>
+                }
+            </td>
+            <td class="spa-label1">
+                @if (item.comment != null && item.comment != "")
+                {
+
+                    <span>
+                        <i class="fa fa-info-circle spa-icon" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="@item.comment"></i>
+                    </span>
+
+
+                }
+            </td>
+            <td><span class="spa-label1">@item.CreatedOn.ToString("dd/MM/yyyy hh:mm")</span></td>
+        </tr>
+                        index = index + 1;
+                        indexNumber = indexNumber + 1;
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="16" class="spa-label1">@Language.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault()@*No Reservations*@</td></tr>
+                }
+
+<script>
+    $.post("/Product/GetCommonLangauge?PageName=Customer_New_Customer&orderid=15", function (data) {
+        $("#TotalRev").html(data + " : " +@OpenListView.Select(c=>c.Amount).Sum()).html($("#TotalRev").html()+" @currency");
+    });
+    $("#openListViewtable").tableHeadFixer({ "left": 1 });
+    $('[data-toggle="popover"]').popover();
+</script>

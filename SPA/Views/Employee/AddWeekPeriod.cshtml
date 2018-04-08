@@ -1,0 +1,100 @@
+﻿@model SPA.CCTSP_SchedulerMaster
+@{
+    ViewBag.Title = "AddWeekPeriod";
+}
+
+<div class="form-content">
+
+    @using (Html.BeginForm("AddWeekPeriod", "Employee", FormMethod.Post, new { @class = "form-inline",@id="AddWeekPeriod" }))
+    {
+        <div class="col-lg-16 col-lg-offset-4">
+            <h1 class="title14-border">AddWeekPeriod</h1>
+            <div class="form-group">
+                @Html.Label("WeekDay:", htmlAttributes: new { @class = "form-label spa-label" })
+                @Html.DropDownList("WeekDayAdd", (SelectList)ViewBag.WeekDay, new { @class = "dropdown-toggle spa-dropdown-box form-control dropdown-toggle required", required = "required" })
+                @Html.ValidationMessageFor(c => c.WeekDay)
+            </div>
+            <div class="form-group">
+                @Html.Label("Start Time:", htmlAttributes: new { @class = "form-label spa-label" })
+                <div class="input-group date" id="datetimepicker1">
+                    <input type="text" name="StartTime" class="form-control spa-text-box text-box spa-text-box2 spa-date-textbox required">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("End Time:", htmlAttributes: new { @class = "form-label spa-label" })
+                <div class="input-group date" id="datetimepicker2">
+                    <input type="text" name="EndTime" class="form-control spa-text-box text-box spa-text-box2 spa-date-textbox required">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("order:", htmlAttributes: new { @class = "form-label spa-label" })
+                <div class="input-group date" id="datetimepicker2">
+                    <input type="text" name="orderPeriod" class="form-control spa-text-box text-box required number" >
+                    @*<span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>*@
+                </div>
+            </div>
+            <div class="large-1 columns" style="padding-top:15px">
+                <input type="submit" class="btn btn-primary" value="Add">
+            </div>
+        </div>
+    }
+
+    <div class="col-lg-16 col-lg-offset-4">
+        @Html.Action("DetailWeekPeriod", "Employee")
+    </div>
+    <div id="EditDiv" style="display:none;">
+        <form id="PeriodUpdateForm" action="/Employee/EditPeriod" method="post">
+            <div class="col-lg-16 col-lg-offset-4">
+                <h1 class="title14-border">EditWeekPeriod</h1>
+                <div class="form-group">
+                    @Html.Label("WeekDay:", htmlAttributes: new { @class = "form-label spa-label" })
+                    @Html.DropDownList("WeekDayEdit", (SelectList)ViewBag.WeekDay, new { @class = "dropdown-toggle spa-dropdown-box form-control dropdown-toggle", required = "required" })
+
+                </div>
+                <div class="form-group">
+                    @Html.Label("Start Time:", htmlAttributes: new { @class = "form-label spa-label" })
+                    <div class="input-group date" id="datetimepickerEdit1">
+                        <input type="text" name="StartTime" class="form-control spa-text-box text-box spa-text-box2 spa-date-textbox required" id="EditStartTime">
+                        <span class="input-group-addon dateimg"></span>
+                    </div>
+                </div>
+                @Html.Hidden("SchedulerId")
+                <div class="form-group">
+                    @Html.Label("End Time:", htmlAttributes: new { @class = "form-label spa-label" })
+                    <div class="input-group date" id="datetimepickerEdit2">
+                        <input type="text" name="EndTime" class="form-control spa-text-box text-box spa-text-box2 spa-date-textbox required" id="EditEndTime">
+                        <span class="input-group-addon dateimg"></span>
+                    </div>
+
+                </div>
+                <div class="large-1 columns" style="padding-top:15px">
+                    <input type="button" class="btn btn-primary" value="Update" onclick="EditPeriod();">
+                    <input type="button" class="btn btn-primary" value="Cancel" onclick="EditPeriodCancel()" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+<script type="text/javascript">
+    $('#datetimepicker1').datetimepicker({
+        stepping: 5,
+        format: 'HH:mm'
+    });
+    $('#datetimepicker2').datetimepicker({
+        stepping: 5,
+        format: 'HH:mm'
+    });
+    $('#datetimepickerEdit1').datetimepicker({
+        stepping: 5,
+        format: 'HH:mm'
+    });
+    $('#datetimepickerEdit2').datetimepicker({
+        stepping: 5,
+        format: 'HH:mm'
+    });
+    $("#AddWeekPeriod,#PeriodUpdateForm").validate();
+</script>

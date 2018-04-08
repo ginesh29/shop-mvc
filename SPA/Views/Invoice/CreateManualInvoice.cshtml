@@ -1,0 +1,81 @@
+﻿
+@{
+    Layout = null;
+    List<SPA.Models.UserDetails> UserList = new List<SPA.Models.UserDetails>();
+    UserList = Model;
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.Language;
+}
+<form id="frmCreateMI" name="frmCreateMI" action="/Invoice/AddCreateManualInvoice?UrlStatus=@ViewBag.UrlStatus" method="post">
+    <div class="row form-group">
+        <div class="col-lg-8 col-md-8">
+            <label class="form-label spa-label1">@*Employee*@ @Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()</label>
+        </div>
+        <div class="col-lg-16 col-md-16">
+            <div class="dropdown spa-dropdown">
+                <input class="dropdown-toggle spa-text-box form-control required spa-dropdown-box spa-text-box2 dropmenuEllips" data-toggle="dropdown" type="text" value="" aria-expanded="false" placeholder="@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()" name="SearchMIEmployee" id="SearchMIEmployee" autocomplete="off">@*Search Employee*@
+                <ul class="dropdown-menu" id="ULMIEmployee">
+                    @foreach (var Item in UserList.Where(c => c.RoleId != 4).ToList())
+                    {
+                        <li>
+                            <a class="dropmenuEllips" id="@Item.UserId">@Item.FirstName @Item.LastName</a>
+                        </li>
+                    }                 
+                        <input type="hidden" value="" name="SelectedSearchMIEmployee" id="SelectedSearchMIEmployee" />
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-lg-8 col-md-8">
+            <label class="form-label spa-label1">@*Customer*@ @Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()</label>
+        </div>
+        <div class="col-lg-16 col-md-16">
+            <div class="dropdown spa-dropdown">
+                <input class="dropdown-toggle spa-text-box form-control required spa-dropdown-box spa-text-box2 dropmenuEllips" data-toggle="dropdown" type="text" value="" aria-expanded="false" placeholder="@Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()" name="SearchMICustomer" id="SearchMICustomer" autocomplete="off">@*Search Customer*@
+                <ul class="dropdown-menu" id="ULMICustomer">
+                    @foreach (var Item in UserList.Where(c => c.RoleId == 4).ToList())
+                    {
+                        <li>
+                            <a class="dropmenuEllips" id="@Item.UserId">@Item.FirstName @Item.LastName</a>
+                        </li>
+                    }                  
+                        <input type="hidden" value="" name="SelectedSearchMICustomer" id="SelectedSearchMICustomer" />
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row form-group text-right">
+        <div class="col-lg-24 col-md-24 col-sm-24">
+            @*<a class="create_invoice Ellips" data-dismiss="modal">Submit</a>*@
+            <input type="submit" class="create_invoice Ellips" value="@Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()" />@*Submit*@
+        </div>
+    </div>
+</form>
+<script>
+
+    $("#frmCreateMI").submit(function () {
+        if ($("#SelectedSearchMIEmployee").val() == "" || $("#SelectedSearchMICustomer").val() == "") {
+            if ($("#SelectedSearchMIEmployee").val() == "")
+                $("#SearchMIEmployee").val("");
+            if ($("#SelectedSearchMICustomer").val() == "")
+                $("#SearchMICustomer").val("");
+            return false;
+        }
+    });
+    $("#frmCreateMI").validate();
+    $('#ULMIEmployee li a,#ULMICustomer li a').click(function () {
+        var selText = $.trim($(this).text());
+        var id = $(this).prop("id");
+        if ($(this).parents("#ULMIEmployee").length > 0) {
+            $("#SelectedSearchMIEmployee").val(id);
+            $("#SearchMIEmployee").val($.trim(selText));
+        }
+        else {
+            $("#SelectedSearchMICustomer").val(id);
+            $("#SearchMICustomer").val($.trim(selText));
+        }
+
+    });
+    SearchInSelectedList("#SearchMIEmployee,#SearchMICustomer");
+</script>

@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0311668b3f574fc2b10aa93ebe17bfa7" Name="Diagram1">
+        <EntityTypeShape EntityType="ShopDBModel.Add_On_Product_Detail" Width="1.5" PointX="21" PointY="77.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Add_on_Product_Master" Width="1.5" PointX="24" PointY="77" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.APP_AnwserDetails" Width="1.5" PointX="5.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.APP_QuestionMaster" Width="1.5" PointX="7.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.App_UserAnserDetails" Width="1.5" PointX="9.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.aspnet_PersonalizationAllUsers" Width="1.5" PointX="5.75" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.aspnet_Profile" Width="1.5" PointX="7.75" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.aspnet_SchemaVersions" Width="1.5" PointX="9.75" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.aspnet_UsersInRoles" Width="1.5" PointX="2.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.aspnet_WebEvent_Events" Width="1.5" PointX="10.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Assigned_Health_Insurance" Width="1.5" PointX="18" PointY="73.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Cart" Width="1.5" PointX="0.75" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_AcademicYear" Width="1.5" PointX="6" PointY="72.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_AnswerDetails" Width="1.5" PointX="2.75" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_AssgnmentHomeworkMarksDetails" Width="1.5" PointX="11.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_AttendenceDetails" Width="1.5" PointX="11.75" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_AttendenceMaster" Width="1.5" PointX="12.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_BookIssueRegister" Width="1.5" PointX="4.75" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_CalendarDetails" Width="1.5" PointX="6.75" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_CategoryDetails" Width="1.5" PointX="3" PointY="75.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_CategoryMaster" Width="1.5" PointX="0.75" PointY="75.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_ClassSection" Width="1.5" PointX="8.75" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_ClassSubjectDetails" Width="1.5" PointX="13.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_ColorMaster" Width="1.5" PointX="13.5" PointY="67.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_Database" Width="1.5" PointX="13.75" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_EmployeeActivityDetails" Width="1.5" PointX="13.75" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_EmployeeCurrentDetails" Width="1.5" PointX="10.75" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_EvalutionDetails" Width="1.5" PointX="14.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_ExamAnswerMaster" Width="1.5" PointX="0.75" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_Examdetails" Width="1.5" PointX="15.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_ExamMaster" Width="1.5" PointX="15.75" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_ExamQuestionMaster" Width="1.5" PointX="12.75" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_FeeCollectionDetails" Width="1.5" PointX="15.75" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_FeeCollectionMaster" Width="1.5" PointX="17.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_FeeCollectionReciept" Width="1.5" PointX="2.75" PointY="19.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_FeeNotApplicableMaster" Width="1.5" PointX="4.75" PointY="19.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_FeeRuleClassSection" Width="1.5" PointX="17.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_FeeSecurityDeposit" Width="1.5" PointX="6.75" PointY="19.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_FinancialYearDetails" Width="1.5" PointX="17.75" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_GradeRule" Width="1.5" PointX="17.75" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_GroupProductDetails" Width="1.5" PointX="5.25" PointY="77" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_HealthDetails" Width="1.5" PointX="14.75" PointY="20.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_ImageTable" Width="1.5" PointX="16.75" PointY="20.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_InstallmetDetails" Width="1.5" PointX="18.75" PointY="20.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_ItemIssueReturnDetails" Width="1.5" PointX="19.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_ItemIssueSaleMaster" Width="1.5" PointX="19.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_ItemIssueSalesDetails" Width="1.5" PointX="8.75" PointY="21.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_ItemMaster" Width="1.5" PointX="19.75" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_ItemQtyIssueDetails" Width="1.5" PointX="10.75" PointY="22.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_ItemSalesBalance_PaymentDetails" Width="1.5" PointX="20.75" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_ItemStockVerification" Width="1.5" PointX="20.75" PointY="22.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_ItemStoreDetails" Width="1.5" PointX="21.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_ItemStoreInvoiceMaster" Width="1.5" PointX="21.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_LendingPageMaster" Width="1.5" PointX="18" PointY="77.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_LessonProgress" Width="1.5" PointX="0.75" PointY="24.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_MedicalDetails" Width="1.5" PointX="21.75" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_Messaging" Width="1.5" PointX="2.75" PointY="24.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_ProductDetails" Width="1.5" PointX="4.75" PointY="24.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_ProductMaster" Width="1.5" PointX="12.75" PointY="24.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_Role" Width="1.5" PointX="11.25" PointY="71.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.cctsp_RoleDetails" Width="1.5" PointX="21" PointY="70.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_SchedulerDetails" Width="1.5" PointX="14.75" PointY="24.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_SchedulerMaster" Width="1.5" PointX="21" PointY="82.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_SchoolCalender" Width="1.5" PointX="22.75" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_SchoolMaster" Width="1.5" PointX="15.75" PointY="67.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.cctsp_SecureIdentity" Width="1.5" PointX="16.75" PointY="24.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_StockRegisterOfLibrary" Width="1.5" PointX="22.75" PointY="21.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_StudentAnswerMaster" Width="1.5" PointX="23.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_StudentBatchAssociation" Width="1.5" PointX="23.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_StudentCurrentDetails" Width="1.5" PointX="6.75" PointY="25.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_StudentOptionalSubjectDetails" Width="1.5" PointX="23.75" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_SubjectSyllabusDetails" Width="1.5" PointX="8.75" PointY="26.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_TaxDetails" Width="1.5" PointX="24.75" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_TeacherScheduler" Width="1.5" PointX="24.75" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.cctsp_Timezone" Width="1.5" PointX="24.75" PointY="23.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_TransportRouteDetails" Width="1.5" PointX="24.75" PointY="26.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_User" Width="1.5" PointX="13.5" PointY="70.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_UserB" Width="1.5" PointX="25.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_UserDetail" Width="1.5" PointX="24" PointY="72.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_UserDetails" Width="1.5" PointX="18.75" PointY="27.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_VaccineDetails" Width="1.5" PointX="25.75" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_Validation" Width="1.5" PointX="10.75" PointY="28.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_ValueAddedServiceDetails" Width="1.5" PointX="26.75" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_ValueAddedServiceMaster" Width="1.5" PointX="12.75" PointY="28.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CTSP_SolutionMaster" Width="1.5" PointX="8.25" PointY="76.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.DCM_AvailDetails" Width="1.5" PointX="14.75" PointY="28.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.DCm_AvailMaster" Width="1.5" PointX="26.75" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.DCM_Deals" Width="1.5" PointX="20.75" PointY="28.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.DCM_PackageDetails" Width="1.5" PointX="26.75" PointY="23.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.DCM_ProductMaster" Width="1.5" PointX="27.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Email_Record" Width="1.5" PointX="2.75" PointY="29.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.GYM_DefinationMaster" Width="1.5" PointX="6" PointY="82.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.GYM_Member_Dept" Width="1.5" PointX="11.25" PointY="68.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.GYM_MembershipDetails" Width="1.5" PointX="26.75" PointY="29.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.GYM_MemeberActivityGrouping" Width="1.5" PointX="27.75" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.GYM_TaxDetails" Width="1.5" PointX="28.75" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.GYMActivityDetail" Width="1.5" PointX="28.75" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Health_Insurance" Width="1.5" PointX="0.75" PointY="84.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Hotel_BillDetails" Width="1.5" PointX="28.75" PointY="20.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Hotel_BillMaster" Width="1.5" PointX="28.75" PointY="24.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Hotel_BookingDetails" Width="1.5" PointX="28.75" PointY="30.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Hotel_BookingMaster" Width="1.5" PointX="29.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Hotel_ServiceMaster" Width="1.5" PointX="4.75" PointY="31.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Hotel_ServicesDetails" Width="1.5" PointX="29.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Hotel_TaxDetails" Width="1.5" PointX="6.75" PointY="31.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Invoice_CategoryDetails" Width="1.5" PointX="29.25" PointY="72.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Invoice_Master" Width="1.5" PointX="18" PointY="101" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Language_Label_Detail" Width="1.5" PointX="3" PointY="83.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Language_Master" Width="1.5" PointX="0.75" PointY="79.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Language_NewShop" Width="1.5" PointX="3" PointY="88.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.lodhiAirVisaApp" Width="1.5" PointX="8.75" PointY="31.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Maarkss_ActivityDetails" Width="1.5" PointX="22.75" PointY="31.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Maarkss_ClientPaymentdetails" Width="1.5" PointX="30.75" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Maarkss_MarketingWorkSheet" Width="1.5" PointX="10.75" PointY="32.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Maarkss_ProjectDetails" Width="1.5" PointX="12.75" PointY="32.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Maarkss_ProjectMaster" Width="1.5" PointX="14.75" PointY="32.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Maarkss_ProjectPaymentDetails" Width="1.5" PointX="30.75" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Maarkss_TechDetails" Width="1.5" PointX="30.75" PointY="24.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Marketing_Customer" Width="1.5" PointX="30.75" PointY="28.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Marketing_Group_Customer" Width="1.5" PointX="31.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Marketing_Info" Width="1.5" PointX="5.75" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Marketing_Master" Width="1.5" PointX="18" PointY="104.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Marketing_SendHistory" Width="1.5" PointX="20.25" PointY="87.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Medicine_Master" Width="1.5" PointX="25.5" PointY="100.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.OnlineShopping_FinancialYearDetails" Width="1.5" PointX="31.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.OnlineShopping_ProductMaster" Width="1.5" PointX="16.75" PointY="33.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Order" Width="1.5" PointX="18.75" PointY="33.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.OrderDetail" Width="1.5" PointX="30.75" PointY="33.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.OrderTracking" Width="1.5" PointX="0.75" PointY="34.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.PaymentTxnDetail" Width="1.5" PointX="32.75" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Platform_Marketing_ImageList" Width="1.5" PointX="32.75" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Platform_Marketing_SendHistory" Width="1.5" PointX="8" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Prescription_Detail" Width="1.5" PointX="28.5" PointY="97.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Prescription_Master" Width="1.5" PointX="28.5" PointY="104" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.ses_emp_per_porting" Width="1.5" PointX="32.75" PointY="21.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Session" Width="1.5" PointX="32.75" PointY="25.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Shop_Address_Details" Width="1.5" PointX="32.75" PointY="29.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.SPA_ActivityLog" Width="1.5" PointX="33.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Spa_Assign_FieldDetails" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.spa_balanceCatg" Width="1.5" PointX="2.75" PointY="35.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.spa_BillingDetails" Width="1.5" PointX="29.25" PointY="87.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.spa_BillingMaster" Width="1.5" PointX="24" PointY="82.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Spa_BookingDetails" Width="1.5" PointX="25.5" PointY="89.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.spa_contact" Width="1.5" PointX="18" PointY="113.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.spa_currency" Width="1.5" PointX="33.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.spa_CustomerFeedback" Width="1.5" PointX="25.5" PointY="106.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.spa_DemoShop" Width="1.5" PointX="4.75" PointY="35.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.spa_Em_SmsLog" Width="1.5" PointX="25.5" PointY="130.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.SPA_EmployeeScheduler" Width="1.5" PointX="23.25" PointY="98.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.SPA_EmployeeSchedulers" Width="1.5" PointX="26.25" PointY="83.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.SPA_Error" Width="1.5" PointX="20.75" PointY="35.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Spa_Flow" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Spa_FlowDetails" Width="1.5" PointX="3" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.SPA_INVOICE_MASTER" Width="1.5" PointX="27" PointY="75.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.SPA_INVOICE_PAYMENTDETAILS" Width="1.5" PointX="29.25" PointY="77.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.SPA_INVOICE_STATUS" Width="1.5" PointX="29.25" PointY="82.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.SPA_LeaveMaster" Width="1.5" PointX="22.75" PointY="35.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.spa_Location" Width="1.5" PointX="32.75" PointY="35.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.spa_Master_Reservation" Width="1.5" PointX="18" PointY="132.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.spa_Payment_Gateway" Width="1.5" PointX="34.75" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.spa_Payment_plan" Width="1.5" PointX="29.25" PointY="63.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.spa_paymentCategory" Width="1.5" PointX="27" PointY="65.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.spa_PaymentDeduction" Width="1.5" PointX="32.25" PointY="64.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.SPA_SchedulerSlotMaster" Width="1.5" PointX="26.25" PointY="70.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.spa_sms" Width="1.5" PointX="34.75" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Spa_Table_FieldName" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.SPA_UserDetail" Width="1.5" PointX="18" PointY="68.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.spa_website" Width="1.5" PointX="34.75" PointY="19.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.spatime_zone" Width="1.5" PointX="13.5" PointY="62.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.StockReview" Width="1.5" PointX="34.75" PointY="24.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.Travel_BookingMast" Width="1.5" PointX="24.75" PointY="36.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.UNI_GAS_REFUEL_DETLS" Width="1.5" PointX="34.75" PointY="28.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.UNI_ITEM_MASTER" Width="1.5" PointX="26.75" PointY="36.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.UNI_ITEM_PURCHASE_DETLS" Width="1.5" PointX="34.75" PointY="34.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.UNI_ITEM_PURCHASE_MAST" Width="1.5" PointX="35.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.UNI_ITEM_SALES_DETLS" Width="1.5" PointX="6.75" PointY="37.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.UNI_ITEM_STORE" Width="1.5" PointX="8.75" PointY="37.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.UNI_PUR_TaxDetails" Width="1.5" PointX="10.75" PointY="37.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.UNI_SUPPLER_DETAILS" Width="1.5" PointX="12.75" PointY="37.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.V_BOOKING_MASTER" Width="1.5" PointX="28.75" PointY="37.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.V_Recpit_BillMaster" Width="1.5" PointX="36.75" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.aspnet_Applications" Width="1.5" PointX="36.75" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.aspnet_Membership" Width="1.5" PointX="36.75" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.aspnet_Paths" Width="1.5" PointX="36.75" PointY="23.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.aspnet_PersonalizationPerUser" Width="1.5" PointX="36.75" PointY="26.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.aspnet_Roles" Width="1.5" PointX="36.75" PointY="29.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.aspnet_Users" Width="1.5" PointX="36.75" PointY="32.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_ABC" Width="1.5" PointX="30.75" PointY="38.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_values" Width="1.5" PointX="36.75" PointY="36.5" IsExpanded="true" />
+        <AssociationConnector Association="ShopDBModel.FK__Add_On_Pr__Add_O__26EFBBC6" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK__Add_On_Pr__SchlI__27E3DFFF" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK__Add_on_Pr__Insur__32616E72" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK__Add_on_Pr__schlI__1D66518C" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK__Assigned___SchlI__7152C524" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_AcYearId_SchMaster1" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_AcYearIdSchMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.Fk_SM_AcdYearId" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK__CCTSP_Cat__Insur__316D4A39" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_catgId" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.Fk_Catgtype_id" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.Fk_Catgtype_id_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.Fk_Catgtype_id_shop" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_CatgTypeId_SolutionMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_CCTSP_CategoryDetails_Language_Master" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_CCTSP_SchoolMaster_CCTSP_CategoryDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_FeedbackCatgtypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_Prescription_Det3" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_ProdId" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_SPA_EmployeeScheduler_CCTSP_CategoryDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_Prescription_Det4" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_CCTSP_ColorMaster_Color_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.Fk_Group_SchlId" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_Lending" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_Schid_Lending" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_Schid_Lending1" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_RoleId" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_SPA_User_RoleId" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_Role1" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK__SPA_Emplo__Sched__5E3FF0B0" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_SchId_SchedulerMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_SPA_EmployeeScheduler_CCTSP_SchedulerMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_SPA_SchedulerSlotMaster_CCTSP_SchedulerMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK__CCTSP_Sch__Lang___5A4F643B" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK__CCTSP_Sch__Lang___5C37ACAD" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK__CCTSP_Sch__timez__51851410" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK__Invoice_M__schlI__2AC04CAA" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK__SPA_INVOI__DueDa__11007AA7" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_BillingDetails1" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_BillingMaster1" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_CCTSP_school_schId" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_CCTSP_SchoolMaster_CCTSP_SchoolMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_CCTSP_SchoolMaster_CCTSP_SchoolMaster1" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_CCTSP_SchoolMaster_CCTSP_SchoolMaster2" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_Marketing_CCTSP_SchoolMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_Marketingdet_histCCTSP_SchoolMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_MasterReservation_Schlid" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_SchId_Contact" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_SchId_User" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_SchIdSchedulerMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_SchlId" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_SchlMedicine" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_SchlPre" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_SchlPredetail" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.Fk_SM_SchId" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_SPA_EmployeeScheduler_CCTSP_SchoolMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_SPA_SchedulerSlotMaster_CCTSP_SchoolMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_SPA_school_schId" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_UserId_SchoolMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK__SPA_INVOI__Custo__11F49EE0" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK__SPA_INVOI__Emplo__12E8C319" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_CCTSP_User_GYM_Member_Dept" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_CCTSP_User_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_GYM_Member_Dept" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_Medicine_Master1" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_Prescription_Det2" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_Prescription_Mas" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_SolutionTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_SPA_SchedulerSlotMaster_CCTSP_User" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_SPA_User_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_UserId_Sm" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_Defination_ActivityID" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_Defination_MemberShipCatgID" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK__Invoice_C__Invoi__30792600" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK__SPA_Emplo__Invoi__2BB470E3" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_Language_Label_Detail_Language_Label_Detail" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK__Language___Lang___703EA55A" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_Marketing_Info_histMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_Marketingdet_histMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_Medicine_Master2" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_Medicine_Master3" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_Medicine_MasterReservation" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_Prescription_Det1" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_Prescription_Det5" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_PrescriptionMasterReservation" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_Prescription_Mast" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_Prescription_MasterReservation" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_Assign_FieldDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_Flow_Spa_Assign_FieldDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_Billi515" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_BillingDetails2" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_BillingReservation" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_BillingMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_ResId" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_FeedbackMasterReservation_id" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_FeedbackReservation_id" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_ReservationId" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK_SPA_EmployeeScheduler_MasterReservation" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_Flow" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK__SPA_INVOI__Invoi__15C52FC4" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.FK__SPA_INVOI__Invoi__5D4BCC77" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_Payment_plan" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_spa_Payment_plan1" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_PaymentCatgid" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDBModel.fk_PaymentCountry_id" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ShopDBModel.SPA_INVOICE_Detail" Width="1.5" PointX="32.25" PointY="81.5" />
+        <AssociationConnector Association="ShopDBModel.FK__SPA_INVOI__Add_O__222B06A9" />
+        <AssociationConnector Association="ShopDBModel.FK__SPA_INVOI__Produ__24134F1B" />
+        <AssociationConnector Association="ShopDBModel.FK__SPA_INVOI__SchlI__231F2AE2" />
+        <AssociationConnector Association="ShopDBModel.FK__SPA_INVOI__Reser__2136E270" />
+        <AssociationConnector Association="ShopDBModel.FK__SPA_INVOI__Invoi__2042BE37" />
+        <EntityTypeShape EntityType="ShopDBModel.CCTSP_Anamnese" Width="1.5" PointX="15.75" PointY="92.5" />
+        <AssociationConnector Association="ShopDBModel.fk_Anamnese_CustomerUserId" />
+        <AssociationConnector Association="ShopDBModel.fk_Anamnese_UserId" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

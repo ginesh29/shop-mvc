@@ -1,0 +1,50 @@
+﻿@{
+    Layout = null;    
+    List<Language_Label_Detail> Language = new List<Language_Label_Detail>();
+    Language = ViewBag.Language;
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()@*Cancel Booking*@</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</head>
+<body id="BodyTab">
+    <img id="ImgCancel" style="display:none;" src="/images/expired.jpg" />  
+    <!-- Cancel Booking Confirmation-->
+    <div class="welcome-modal">
+        <div id="welcome" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body margin-bottom30" id="WelcomeAlert">
+                        <h1 class="text-center margin-bottom30"><span>CLICK-AND-GO!</span></h1>
+                        <p class="title15 text-center margin-bottom30">@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End-->
+    @if (ViewBag.StatusCheck == "Yes")
+    {
+        <script>
+            $('#welcome').modal("show");
+        </script>
+    }
+    @if (ViewBag.StatusCheck == "No")
+    {
+        <script>
+            $('#welcome').modal("show");
+        </script>
+    }
+</body>
+</html>
+
+

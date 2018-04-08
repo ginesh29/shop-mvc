@@ -1,0 +1,60 @@
+﻿@model IEnumerable<SPA.Language_NewShop>
+@{ 
+    List<Language_NewShop> Language = Model.ToList();
+    Language = Language.Where(c => c.Page_Name == "Layout_Footer").ToList();
+}
+@Scripts.Render("~/bundles/bootstrap")
+<!--Footer Start-->
+<footer>
+    <div>
+        <ul>
+            <li class="col-lg-12 col-md-12 col-sm-12 no-padding">
+                <div class="bg1">
+                    <h3 class="swp-ttl2">@Html.Raw(Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault())@*SMARTWARE PLUSE*@</h3>
+                </div>
+                <ul class="footer-list" id="Menu-page">
+                    <li><a class="jump" name="/SMARTWAREPLUS#Wie" style="cursor:pointer" @*href="/Home/SMARTWAREPLUS#Wie"*@>@Html.Raw(Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault())@*Wie funktioniert SmartWarePlus?*@</a></li>
+                    <li><a class="jump" name="/SMARTWAREPLUS#Warum" style="cursor:pointer" @*href="/Home/SMARTWAREPLUS#Warum"*@>@Html.Raw(Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault())@*Warum SmartWarePlus?*@</a></li>
+                    <li><a name="/SMARTWAREPLUS#FAQ" style="cursor:pointer" @*href="/Home/SMARTWAREPLUS#FAQ"*@>@Html.Raw(Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault())@*FAQ'S*@</a></li>
+                </ul>
+            </li>
+
+            <li class="col-lg-12 col-md-12 col-sm-12 no-padding">
+                <div class="bg1">
+                    <h3 class="swp-ttl2">@Html.Raw(Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault())@*ABOUT US*@</h3>
+                </div>
+                <ul class="footer-list" id="Menu-page">
+                    <li><a name="/About#AGB" style="cursor:pointer" @*href="/Home/About#AGB"*@>@Html.Raw(Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault())@*AGB's*@</a></li>
+                    <li><a name="/About#Datenschutz" style="cursor:pointer" @*href="/Home/About#Datenschutz"*@>@Html.Raw(Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault())@*Datenschutz*@</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <img src="~/images/click/swiss.png" alt="" class="pull-right mb5 mr30" />
+    <div class="clearfix"></div>
+
+    <div class="swp-res bg1">
+        <span>@Html.Raw(Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()) &nbsp;&nbsp;all rights reserved </span>
+    </div>
+</footer>
+
+        <!--End Footer-->
+        @if (ViewBag.LangId == 1)
+        {
+            <script>
+                $("#LangChange #English a").addClass("activeShop");
+            </script>
+        }
+        @if (ViewBag.LangId == 2)
+        {
+            <script>
+                $("#LangChange #German a").addClass("activeShop");
+            </script>
+        }
+        @if (ViewBag.LangId == 3)
+        {
+            <script>
+                $("#LangChange #French a").addClass("activeShop");
+            </script>
+        }

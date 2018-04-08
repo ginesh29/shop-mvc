@@ -1,0 +1,306 @@
+﻿@{
+    ViewBag.Title = "OpenListView";
+    int statusCompleted = 0;
+    int StatusDeclined = 1;
+    Layout = null;
+    string DurationPre = "Min";
+    string currency = ViewBag.currency;
+    int DoctorPagStatus = 0;
+    if (ViewBag.DoctorPage != null && ViewBag.DoctorPage != 0) { DoctorPagStatus = ViewBag.DoctorPage; }
+    List<Language_Label_Detail> FullLang = ViewBag.OpenLang;
+    var Language = FullLang.Where(c => c.Page_Name == "Reservation_Open_List").ToList();
+    var Monthlist = FullLang.Where(c => c.Page_Name == "Small_calander").ToList();
+    string Dyn = FullLang.Where(c => c.Page_Name == "Common" && c.Order_id == 1).Select(c => c.Value).FirstOrDefault();
+    string Static = FullLang.Where(c => c.Page_Name == "Common" && c.Order_id == 2).Select(c => c.Value).FirstOrDefault();
+    string Status = ViewBag.status;
+    List<SPA.Models.PendingApproval> OpenListView = ViewBag.AllData;
+    int indexNumber = 1;
+    int? ActiveSorting = ViewBag.Sorting;
+    var ActiveOrderby = ViewBag.OrderBy;
+    var Basicinfo = OpenListView.Count > 0 ? OpenListView.FirstOrDefault() : new SPA.Models.PendingApproval();
+}
+@if (Session["Message"].ToString() == "openlistview_CI" || Session["Message"].ToString() == "Appclosed_CI")
+{
+    <script>
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 26).Select(c => c.Value).FirstOrDefault()</p>");
+        $('#welcome').modal("show");
+    </script>
+    Session["Message"] = "";
+    Session["AddCustomerMsg"] = "";
+}
+@if (Session["Message"].ToString() == "openlistview_CIP" || Session["Message"].ToString() == "Appclosed_CIP")
+{
+    <script>
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 30).Select(c => c.Value).FirstOrDefault()</p>");
+        $('#welcome').modal("show");
+    </script>
+    Session["Message"] = "";
+    Session["AddCustomerMsg"] = "";
+}
+@if (Session["Message"].ToString() == "openlistview_PCMP" || Session["Message"].ToString() == "Appclosed_PCMP")
+{
+    <script>
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 33).Select(c => c.Value).FirstOrDefault()</p>");
+        $('#welcome').modal("show");
+    </script>
+    Session["Message"] = "";
+    Session["AddCustomerMsg"] = "";
+}
+@if (Session["Message"].ToString() == "openlistview_DCMP" || Session["Message"].ToString() == "Appclosed_DCMP")
+{
+    <script>
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 31).Select(c => c.Value).FirstOrDefault()</p>");
+        $('#welcome').modal("show");
+    </script>
+    Session["Message"] = "";
+    Session["AddCustomerMsg"] = "";
+}
+<div class="assign-product">
+    <div class="margin-top15 user-details res-margin-btm">
+        <label class="title-green16 cursor-default" id="TotalRev">
+            @Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault() @*TOTAL REVENUE:*@
+            <span>@OpenListView.Select(c => c.Amount).Sum() @currency</span>
+        </label>
+        @*Drop Down*@
+    </div>
+    <div class="clearfix"></div>
+    <div class="choose-your-product table-responsive pending-approval-table padding0" id="fixColumnHead">
+        <table class="table table-striped openListViewtable">
+            <thead>
+                <tr>
+                    @*NO*@
+                    <th class="RemovePosition">@Language.Where(c => c.Order_id == 17).Select(c => c.Value).FirstOrDefault()</th>
+                    <th>
+                        Reservation Id
+                        <span class="sorting_arrow">
+                            <i class="fa fa-long-arrow-up" aria-hidden="true" id="AsceOpen_EmpSchDetailsId" onclick="SortingBy('EmpSchDetailsId','@Status',0)"></i>
+                            <i class="fa fa-long-arrow-down" aria-hidden="true" id="DescOpen_EmpSchDetailsId" onclick="SortingBy('EmpSchDetailsId','@Status',1)"></i>
+                        </span>
+                    </th>
+                    @*FAMILY NAME*@
+                    <th>
+                        @Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()
+                        <span class="sorting_arrow">
+                            <i class="fa fa-long-arrow-up" aria-hidden="true" id="AsceOpen_CustomerLastName" onclick="SortingBy('CustomerLastName','@Status',0)"></i>
+                            <i class="fa fa-long-arrow-down" aria-hidden="true" id="DescOpen_CustomerLastName" onclick="SortingBy('CustomerLastName','@Status',1)"></i>
+                        </span>
+                    </th>
+                    @*FIRST NAME*@
+                    <th>
+                        @Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()
+                        <span class="sorting_arrow">
+                            <i class="fa fa-long-arrow-up" aria-hidden="true" id="AsceOpen_CustomerFirstName" onclick="SortingBy('CustomerFirstName','@Status',0)"></i>
+                            <i class="fa fa-long-arrow-down" aria-hidden="true" id="DescOpen_CustomerFirstName" onclick="SortingBy('CustomerFirstName','@Status',1)"></i>
+                        </span>
+                    </th>
+                    @*SERVICEBOOKED*@
+                    <th>
+                        @Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault()
+                        <span class="sorting_arrow">
+                            <i class="fa fa-long-arrow-up" aria-hidden="true" id="AsceOpen_CatgDesc" onclick="SortingBy('CatgDesc','@Status',0)"></i>
+                            <i class="fa fa-long-arrow-down" aria-hidden="true" id="DescOpen_CatgDesc" onclick="SortingBy('CatgDesc','@Status',1)"></i>
+                        </span>
+                    </th>
+                    @*EMPLOYEE*@
+                    <th>
+                        @Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()
+                        <span class="sorting_arrow">
+                            <i class="fa fa-long-arrow-up" aria-hidden="true" id="AsceOpen_EmpfirstName" onclick="SortingBy('EmpfirstName','@Status',0)"></i>
+                            <i class="fa fa-long-arrow-down" aria-hidden="true" id="DescOpen_EmpfirstName" onclick="SortingBy('EmpfirstName','@Status',1)"></i>
+                        </span>
+                    </th>
+                    @*DATE*@
+                    <th>
+                        @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()
+                        <span class="sorting_arrow">
+                            <i class="fa fa-long-arrow-up" aria-hidden="true" id="AsceOpen_Date" onclick="SortingBy('Date','@Status',0)"></i>
+                            <i class="fa fa-long-arrow-down" aria-hidden="true" id="DescOpen_Date" onclick="SortingBy('Date','@Status',1)"></i>
+                        </span>
+                    </th>
+                    @*START*@
+                    <th>@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()</th>
+                    @*END*@
+                    <th>@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()</th>
+                    @*DURATION*@
+                    <th>@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()</th>
+                    @*currency*@
+                    <th>@currency</th>
+                    @if (Status == "Pending")
+                    {
+                        @*Edit*@
+                    if (((Basicinfo.UpdateAccess != "N" && (Basicinfo.FlowStatus == "2" || Basicinfo.FlowStatus == "3")) || (Basicinfo.FlowStatus == "1")))
+                    {
+                        <th id="EditAppointment">@Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault()</th>
+                        }
+                    }
+                    @*Merge Flow Doctor*@
+                    @if (DoctorPagStatus >= 3)
+                    {
+                        <th id="DoctorPrescription">@*Prescription*@ @Language.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault()</th>
+                    }
+                    @if (Status == "Pending")
+                    {
+                        @*AP CLOSED?*@
+                        <th id="AppointmentClosed">@Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()</th>
+                        @*DECLINE?*@
+                    if (((Basicinfo.DeleteAccess != "N" && (Basicinfo.FlowStatus == "2" || Basicinfo.FlowStatus == "3")) || (Basicinfo.FlowStatus == "1")))
+                    {
+                        <th id="AppointmentDecline">@Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()</th>
+                        }
+                    }
+                    @*source*@
+                    <th>@Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault()</th>
+                    @*COMMENT*@
+                    <th id="OpenListComment">@Language.Where(c => c.Order_id == 25).Select(c => c.Value).FirstOrDefault()</th>
+                    @*CREATED DATE*@
+                    <th>
+                        @Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault()
+                        <span class="sorting_arrow">
+                            <i class="fa fa-long-arrow-up" aria-hidden="true" id="AsceOpen_CreatedOn" onclick="SortingBy('CreatedOn','@Status',0)"></i>
+                            <i class="fa fa-long-arrow-down" aria-hidden="true" id="DescOpen_CreatedOn" onclick="SortingBy('CreatedOn','@Status',1)"></i>
+                        </span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="ListOpenViewBody">
+                @if (OpenListView.Count > 0)
+                {
+                    foreach (var item in OpenListView)
+                    {
+                        string LastVisitedReservation = "";
+                        <tr class="@(item.ActiveStatus.Trim()=="Z" && item.BookedStatus.Trim()=="Z" ? "DeclinedTrColor" : "")">
+                            <td class="spa-label1 RemovePosition">@indexNumber</td>
+                            <td class="spa-label1">@item.EmpSchDetailsId</td>
+                            <td class="spa-label1">@Convert.ToString(item.CustomerLastName)</td>
+                            <td class="spa-label1">@Convert.ToString(item.CustomerFirstName) </td>
+                            <td class="spa-label1">@Convert.ToString(item.CatgDesc)</td>
+                            <td class="spa-label1">@Convert.ToString(item.EmpfirstName)</td>
+                            @{
+                                if (item.BookingDate != null)
+                                {
+                                    var monthname = DateTime.Parse(item.BookingDate).ToString("MMMM");
+                                    var MonthLanguagechange = Monthlist.Where(c => c.English_Label.ToLower() == monthname.ToLower()).Select(c => c.Value).FirstOrDefault();
+                                    LastVisitedReservation = item.BookingDate.Replace(monthname, MonthLanguagechange);
+                                }
+                            }
+                            <td class="spa-label1">@LastVisitedReservation</td>
+                            <td class="spa-label1">@item.FromSlotMasterId.ToString().Remove(item.FromSlotMasterId.ToString().Length - 3, 3)</td>
+                            <td class="spa-label1">@item.ToSlotMasterId.ToString().Remove(item.ToSlotMasterId.ToString().Length - 3, 3)</td>
+                            <td class="spa-label1">@item.diff @DurationPre</td>
+                            <td class="spa-label1">@float.Parse(item.Amount.ToString()) @currency</td>
+                            @*<td class="spa-label1">@item.CCTSP_SchedulerMaster.WeekDay</td>*@
+                            @if (ViewBag.status == "Pending")
+                            {
+                                if (((item.UpdateAccess != "N" && (item.FlowStatus == "2" || item.FlowStatus == "3")) || (item.FlowStatus == "1")))
+                                {
+                                    <td class="edit-icon">
+                                        @if (item.reg_status != "PlatForm")
+                                        {
+                                            <a href="/Reservation/UpdateReservedData?ReservationId=@item.EmpSchDetailsId"><i class="fa fa-pencil-square-o spa-icon1"></i></a>
+                                        }
+                                    </td>
+                                }
+                            }
+                            @if (DoctorPagStatus >= 3)
+                            {
+                                if (item.ActiveStatus.Trim() == "Z" && item.BookedStatus.Trim() == "Z")
+                                {
+                                    <td class=""></td>
+                                }
+                                else
+                                {
+                                    <td class="">
+                                        <a href="/Doctor/DocPre?Reservationid=@item.EmpSchDetailsId&diff=@DoctorPagStatus&Url=@ViewBag.Url" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="@(item.StMerge > 0?Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault():Language.Where(c => c.Order_id == 28).Select(c => c.Value).FirstOrDefault())"><img src="@(item.StMerge > 0?"/images/file_hover edit.png":"/images/file_hover add.png")"></a>
+                                    </td>
+                                }
+                            }
+                            @if (ViewBag.status == "Pending")
+                            {
+                                <td>
+                                    @if (item.ActiveStatus.Trim() == "Z" && item.BookedStatus.Trim() == "Z")
+                                    {
+                                        <a onclick="GoToPendingOpenListView(@item.EmpSchDetailsId);"><i class="fa fa-reply-all spa-label_White"></i></a>
+                                    }
+                                    else
+                                    {
+                                        <span class="spa-checkbox checkbox ap-closed">
+                                            <input name="CompletedOrder" id="CompletedOrder_@item.EmpSchDetailsId" type="checkbox" onclick="AppointmentStatus(@item.EmpSchDetailsId,@statusCompleted)">
+                                            <label for="CompletedOrder_@item.EmpSchDetailsId" class="form-label spa-label1 apclosedicon"></label>
+                                        </span>
+                                    }
+                                </td>
+                                if (((item.DeleteAccess != "N" && (item.FlowStatus == "2" || item.FlowStatus == "3")) || (item.FlowStatus == "1")))
+                                {
+                                    <td>
+                                        <span class="spa-checkbox checkbox decline">
+                                            <input name="DeclineAppointmentId" id="DeclineAppointmentId_@item.EmpSchDetailsId" type="checkbox" onclick="AppointmentStatus(@item.EmpSchDetailsId,@StatusDeclined);">
+                                            <label for="DeclineAppointmentId_@item.EmpSchDetailsId" class="form-label spa-label1"></label>
+                                        </span>
+                                    </td>
+                                }
+
+                            }
+                            <td>
+                                @if (item.reg_status == "D")
+                                {<span class="spa-label1">@Dyn</span>}
+                                @if (item.reg_status == "M")
+                                {<span class="spa-label1">@Static</span>}
+                                @if (item.reg_status == "PlatForm")
+                                {<span class="spa-label1">PlatForm</span>}
+                            </td>
+                            <td class="spa-label1">
+                                @if (item.comment != null && item.comment != "")
+                                {
+                                    <span>
+                                        <i class="fa fa-info-circle spa-icon" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="@item.comment"></i>
+                                    </span>
+                                }
+                            </td>
+                            <td><span class="spa-label1">@item.CreatedOn.ToString("HH.mm.ss ; dd.MM.yyyy ")</span></td>
+                        </tr>
+                                        indexNumber = indexNumber + 1;
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="14" class="spa-label1 Nodata">
+                                            <img src="~/images/No Data_2.png" />
+                                            <div>@Language.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault()@*No Reservations*@</div>
+                                        </td>
+                                    </tr>
+                                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@if (!string.IsNullOrEmpty(ActiveOrderby) && ActiveSorting != null)
+{
+    <script>
+        $("#fixColumnHead th i").removeClass("display-none");
+        if (@ActiveSorting.Value == 1)
+            $("[id=DescOpen_@ActiveOrderby]").addClass("display-none");
+        else
+            $("[id=AsceOpen_@ActiveOrderby]").addClass("display-none");
+    </script>
+}
+<script>
+    $(".openListViewtable").tableHeadFixer({ "left": 1 });
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    });
+    function SortingBy(OrderBy, ActionName, Sorting)
+    {
+        $(".loader").show();
+        var Id = "";
+        if(ActionName=="Pending")
+            Id="openlistview";
+        if(ActionName=="Appointment Closed")
+            Id="Appclosed";
+        if(ActionName=="Declined")
+            Id="OpenListDeclined";
+        var url = "/Reservation/OpenListView?Status=" + ActionName + "&OrderBy=" + OrderBy + "&Sorting=" + Sorting;
+        CommonSorting(url, Id)
+    }
+
+</script>

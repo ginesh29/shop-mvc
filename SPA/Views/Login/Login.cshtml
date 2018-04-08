@@ -1,0 +1,121 @@
+﻿@model  SPA.Models.LoginModels
+@{
+    List<Language_Label_Detail> LanguageList = new List<Language_Label_Detail>();
+    int LanguageId = ViewBag.LanguageId;
+    LanguageList = ViewBag.Language;
+    var Language = LanguageList.Where(c => c.Page_Name == "Login_Reservation").ToList();
+    ViewBag.Title= LanguageList.Where(c => c.Page_Name == "Title" && c.Order_id == 3).Select(c => c.Value).FirstOrDefault();
+    var LanguageBack = LanguageList.Where(c => c.Page_Name == "back_button" && c.Order_id == 1).Select(c => c.Value).FirstOrDefault();
+}
+@if (LanguageId != 1)
+{
+    <script>
+        $(".header-top").hide();
+    </script>
+}
+@if (Session["Message"].ToString() == "Error")
+{
+    <script>
+        $.post("/Product/GetDataOfLanguage?Text=Sorry From&id=29", function (data) {
+
+            $.post("/Product/GetDataOfLanguage?Text=Please&id=31", function (data1) {
+
+                $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\">" + data + " <span>CLICK-AND-GO!</span></h1><p class=\"title15 text-center margin-bottom30\">" + data1 + "</p>");
+                $('#welcome').modal("show");
+            })
+        });
+
+    </script>
+    Session["Message"] = "";
+}
+@if (Session["Message"].ToString() == "Repeat")
+{
+    <script>
+        $.post("/Product/GetDataOfLanguage?Text=You are&id=32", function (data1) {
+            $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO!</span></h1><p class=\"title15 text-center margin-bottom30\">" + data1 + "</p>");
+            $('#welcome').modal("show");
+        });
+    </script>
+    Session["Message"] = "";
+}
+@if (Session["Message"].ToString() == "Expire Account")
+{
+    <script>
+        $.post("/Product/GetDataOfLanguage?Text=Sorry From&id=29", function (data) {
+            $.post("/Product/GetDataOfLanguage?Text=You are&id=57", function (ExpMsg) {
+                $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\">" + data + " <span>CLICK-AND-GO!</span></h1><p class=\"title15 text-center margin-bottom30\">" + ExpMsg + "</p>");
+                $('#welcome').modal("show");
+            })
+        });
+    </script>
+    Session["Message"] = "";
+}
+<ol class="spa-breadcrumbs breadcrumb">
+    @*<li><a href="#" class="active">Home</a></li>
+        <li><a href="#">Library</a></li>*@
+</ol>
+<div class="form-content">
+    @Html.Partial("_ProcessHead")
+    <div class="col-lg-22 col-md-22 col-sm-23">
+        <a href="/Home/ChooseYourProduct?Back='a'" class="title-green16 pull-right"><i class="fa fa-reply-all margin-right5"></i>@LanguageBack</a>
+    </div>
+    <div class="col-lg-11 col-md-12 col-sm-12 login-form">
+        <h1 class="italic-title">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()@*Sign in*@</h1>
+        @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @id = "ClientForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="alert alert-danger" style="display: none"></div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.Label(@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault() + " *", htmlAttributes: new { @class = "form-label spa-label" })
+                @Html.EditorFor(c => c.PhoneNumber, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control spa-text-box required number",
+                   //@minlength = 10,
+                   @maxlength = 12,
+                   @placeholder = @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault() @*"Enter your mobile number"*@ }
+           })
+                @Html.ValidationMessageFor(c => c.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.Label(@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault() + " *", htmlAttributes: new { @class = "form-label spa-label" })
+                @Html.EditorFor(c => c.password, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control spa-text-box required",
+                   Type = "password",
+                   @id = "password",
+                   @placeholder = @Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()@*"Enter your password"*@ ,
+                   @minlength = "6"
+               }
+           })
+                @Html.ValidationMessageFor(c => c.password, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <div class="spa-checkbox checkbox">
+                    <input name="RememberMe" value="true" id="02" type="checkbox" hidden>
+                    <label for="02" class="form-label spa-label" hidden>Remember me</label>
+                </div>
+
+            </div>
+                <div class="form-group text-right">
+                    <a href="/Login/ForgotPassword" class="title-green16">@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()</a>  @*Forgot password?*@
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-green full-width" id="btnLogin" value="@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()" /> @*sign in*@
+                </div>
+
+        }
+    </div>
+    @Html.Action("Registration", "Login")
+    <div class="clearfix"></div>
+</div>
+
+<script>
+    $('#a1').addClass('present active');
+    $('#a2').addClass('present');
+    $("#ClientForm").validate();
+</script>

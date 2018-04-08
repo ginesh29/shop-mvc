@@ -1,0 +1,133 @@
+﻿
+@{
+    ViewBag.Title = "VORTEILE";
+    List<Language_NewShop> Language = ViewBag.Language;
+    Language = Language.Where(c => c.Page_Name == "ADVANTAGES_PAGE").ToList();
+}
+
+<!--FUNKTIONEN Start-->
+<div class="container">
+    <ul class="mt60 swp-vor row">
+        <li>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <span class="sprite1 icon-v1"></span>
+            </div>
+            <div class="col-lg-21 col-md-21 col-sm-21 swp-quotes-main">
+                <strong class="font-s20 txt-d-none swp-ttl1">@Html.Raw(Language.Where(c => c.Page_Name == "ADVANTAGES_PAGE" && c.Order_id == 1).Select(c => c.Value).FirstOrDefault())@*Online Termine buchen 24/7*@</strong>
+                <p class="mt20 padl80">
+                    @Html.Raw(Language.Where(c => c.Page_Name == "ADVANTAGES_PAGE" && c.Order_id == 2).Select(c => c.Value).FirstOrDefault())
+                    @*Spontanes buchen jederzeit und von überall via Internet für Ihre Kunden. Sie behalten den Überblick durch
+                        manuelle Freigabe der Termine wenn gewünscht. Ca. 30% der gemachten Reservationen werden ausserhalb der Öffnungszeiten gemacht. Diese Möglichkeit verhilft Ihnen zu mehr Kunden durch mögliche spontane
+                        Buchungen.*@
+                </p>
+            </div>
+        </li>
+
+        <li>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <span class="sprite1 icon-v2"></span>
+            </div>
+            <div class="col-lg-21 col-md-21 col-sm-21 swp-quotes-main">
+                <strong class="font-s20 txt-d-none swp-ttl1">@Html.Raw(Language.Where(c => c.Page_Name == "ADVANTAGES_PAGE" && c.Order_id == 3).Select(c => c.Value).FirstOrDefault())@*Schluss mit vergessenen Terminen*@</strong>
+                <p class="mt20 padl80">
+                    @Html.Raw(Language.Where(c => c.Page_Name == "ADVANTAGES_PAGE" && c.Order_id == 4).Select(c => c.Value).FirstOrDefault())
+                    @*Automatische Erinnerung per email und/oder SMS vor dem Termin. Sie bestimmen wie viele Stunden vor dem Termin der Kunde freundlich erinnert wird. Auch ob Sie per email und/oder SMS erinnern wollen ist Ihnen
+                        überlassen.*@
+                </p>
+            </div>
+        </li>
+
+        <li>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <span class="sprite1 icon-v3"></span>
+            </div>
+            <div class="col-lg-21 col-md-21 col-sm-21 swp-quotes-main">
+                <strong class="font-s20 txt-d-none swp-ttl1">@Html.Raw(Language.Where(c => c.Page_Name == "ADVANTAGES_PAGE" && c.Order_id == 5).Select(c => c.Value).FirstOrDefault())@*Zugänglich wo immer Sie auch sind*@</strong>
+                <p class="mt20 padl80">
+                    @Html.Raw(Language.Where(c => c.Page_Name == "ADVANTAGES_PAGE" && c.Order_id == 6).Select(c => c.Value).FirstOrDefault())
+                    @*Sie haben die Möglichkeit jederzeit auf Ihr System zuzugreifen, Reservationen akzeptieren oder ablehnen, 24/7, egal woher, Sie benötigen nur eine Internetverbindung.*@
+                </p>
+            </div>
+        </li>
+
+        <li>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <span class="sprite1 icon-v4"></span>
+            </div>
+            <div class="col-lg-21 col-md-21 col-sm-21 swp-quotes-main">
+                <strong class="font-s20 txt-d-none swp-ttl1">@Html.Raw(Language.Where(c => c.Page_Name == "ADVANTAGES_PAGE" && c.Order_id == 7).Select(c => c.Value).FirstOrDefault())@*Einfachheit und Flexibilität*@</strong>
+                <p class="mt20 padl80">
+                    @Html.Raw(Language.Where(c => c.Page_Name == "ADVANTAGES_PAGE" && c.Order_id == 8).Select(c => c.Value).FirstOrDefault())
+                    @*Selbsterklärende, einfachste Benutzeroberfläche in modernem und ansprechendem Design, einfach, flexibel, schnell installiert. Sicher und ohne Zusatzkosten!*@
+                </p>
+            </div>
+        </li>
+        <div class="clearfix"></div>
+
+        <li>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <span class="sprite1 icon-v5"></span>
+            </div>
+            <div class="col-lg-21 col-md-21 col-sm-21 swp-quotes-main">
+                <strong class="font-s20 txt-d-none swp-ttl1">@Html.Raw(Language.Where(c => c.Page_Name == "ADVANTAGES_PAGE" && c.Order_id == 9).Select(c => c.Value).FirstOrDefault())@*Kostengünstig*@</strong>
+                <p class="mt20 padl80">
+                    @Html.Raw(Language.Where(c => c.Page_Name == "ADVANTAGES_PAGE" && c.Order_id == 10).Select(c => c.Value).FirstOrDefault())
+                    @*Selbsterklärende, einfachste Benutzeroberfläche in modernem und ansprechendem Design, einfach, flexibel, schnell installiert. Sicher und ohne Zusatzkosten!*@
+                </p>
+            </div>
+        </li>
+
+        <li>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <span class="sprite1 icon-v6"></span>
+            </div>
+            <div class="col-lg-21 col-md-21 col-sm-21 swp-quotes-main">
+                <strong class="font-s20 txt-d-none swp-ttl1">@Html.Raw(Language.Where(c => c.Page_Name == "ADVANTAGES_PAGE" && c.Order_id == 11).Select(c => c.Value).FirstOrDefault())@*Mehr Kunden und Umsatz dank erhöhter online Präsenz*@</strong>
+                <p class="mt20 padl80">
+                    @Html.Raw(Language.Where(c => c.Page_Name == "ADVANTAGES_PAGE" && c.Order_id == 12).Select(c => c.Value).FirstOrDefault())
+                    @*Ihr Geschäft wird gratis auf unserer Web-Plattform publiziert damit möglichst viele Kunden von Ihrem
+                        Angebot und Ihren Dienstleistungen profitieren können. Sie erleichtern damit dem Kunden Sie zu finden und bei Ihnen schnell und einfach einen Termin zu buchen.*@
+                </p>
+            </div>
+        </li>
+
+        <li>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <span class="sprite1 icon-v7"></span>
+            </div>
+            <div class="col-lg-21 col-md-21 col-sm-21 swp-quotes-main">
+                <strong class="font-s20 txt-d-none swp-ttl1">@Html.Raw(Language.Where(c => c.Page_Name == "ADVANTAGES_PAGE" && c.Order_id == 13).Select(c => c.Value).FirstOrDefault())@*Gratis Updates der Software*@</strong>
+                <p class="mt20 padl80">
+                    @Html.Raw(Language.Where(c => c.Page_Name == "ADVANTAGES_PAGE" && c.Order_id == 14).Select(c => c.Value).FirstOrDefault())
+                    @*Die Software wird konstant verbessert und erweitert. Sie profitieren von allen Verbesserungen ohne
+                        Zusatzkosten, alles inklusive. Dies verhilft Ihnen zur einfachen Kostenübersicht ohne böse Überraschungen oder Einschränkungen.*@
+
+                </p>
+            </div>
+        </li>
+    </ul>
+</div>
+<!--End FUNKTIONEN-->
+@if (ViewBag.LangId == 1)
+{
+    <script>
+        $("#LangChange #English a").addClass("activeShop");
+    </script>
+}
+@if (ViewBag.LangId == 2)
+{
+    <script>
+        $("#LangChange #German a").addClass("activeShop");
+    </script>
+}
+@if (ViewBag.LangId == 3)
+{
+    <script>
+        $("#LangChange #French a").addClass("activeShop");
+    </script>
+}
+@Html.Partial("_ClickFooter", ((List<Language_NewShop>)ViewBag.Language).Where(c => c.Page_Name == "Layout_Footer").ToList())
+<script>
+    $("#Menu-page li").removeClass("active");
+    $("#VORT").addClass("active");
+</script>

@@ -1,0 +1,401 @@
+﻿
+@{
+    Layout = null;
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.LanguageInfo;
+    ViewBag.Title = Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault();
+    List<SPA.Models.Invoice> InvoiceList = new List<SPA.Models.Invoice>();
+    InvoiceList = Model;
+    var Currency = InvoiceList.Select(c => c.Currency).FirstOrDefault();
+    var InvoiceFormat = new SPA.Models.Invoice();
+    var classname = "";
+    var LngLocal = ViewBag.LngLocal;
+    string StartDate = ViewBag.FromDate;
+    string EndDate = ViewBag.ToDate;
+    DateTime CreateDate = ViewBag.CreateDate;
+    int Access = 0;
+    if (InvoiceList.Count > 0)
+    {
+        var Item = InvoiceList.FirstOrDefault();
+        if (((Item.UpdateAccess != "N" && (Item.FlowStatus == "2" || Item.FlowStatus == "3")) || (Item.FlowStatus == "1")))
+        {
+            Access = 1;
+        }
+    }
+}
+@if (Convert.ToString(Session["Message"]) == "InvoiceGenerated_CI")
+{
+    <script>
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault()</p>");
+        $('#welcome').modal("show");
+    </script>
+    Session["Message"] = "";
+    Session["AddCustomerMsg"] = "";
+}
+@if (Convert.ToString(Session["Message"]) == "InvoiceGenerated_CIP")
+{
+    <script>
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()</p>");
+        $('#welcome').modal("show");
+    </script>
+    Session["Message"] = "";
+    Session["AddCustomerMsg"] = "";
+}
+@if (Convert.ToString(Session["Message"]) == "InvoiceGenerated_PCMP")
+{
+    <script>
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault()</p>");
+        $('#welcome').modal("show");
+    </script>
+    Session["Message"] = "";
+    Session["AddCustomerMsg"] = "";
+}
+@if (Convert.ToString(Session["Message"]) == "InvoiceGenerated_DCMP")
+{
+    <script>
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault()</p>");
+        $('#welcome').modal("show");
+    </script>
+    Session["Message"] = "";
+    Session["AddCustomerMsg"] = "";
+}
+@if (Convert.ToString(Session["AddCustomerMsg"]) == "MailSentSuccessFully")
+{
+    <script>
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault()</p>");
+        $('#welcome').modal("show");
+    </script>
+    Session["AddCustomerMsg"] = "";
+}
+@if (ViewBag.ReservationTabAccess == false)
+{
+    <style>
+        .HideReservationField {
+            display: none;
+        }
+    </style>
+}
+<style>
+    .print_send_3 {
+        display: none;
+    }
+
+    .print_2 {
+        display: none;
+    }
+
+    .print_ {
+        display: none;
+    }
+
+    #IG_Print_Table tbody tr td {
+        cursor: pointer;
+    }
+
+        #IG_Print_Table tbody tr td:first-child {
+            cursor: default;
+        }
+
+    #IG_Email_Table tbody tr td {
+        cursor: pointer;
+    }
+
+        #IG_Email_Table tbody tr td:first-child {
+            cursor: default;
+        }
+</style>
+<div class="Invoice parent" id="InvoiceGeneratedPage">
+    <div class="divaddInvoice">
+        <a class="create_invoice Ellips margin-left10" id="CreateInvoice_IG"><span class="margin-right5"><i class="fa fa-plus-square" aria-hidden="true"></i></span>@*Create Invoice*@ @Language.Where(c => c.Order_id == 30).Select(c => c.Value).FirstOrDefault()</a>
+    </div>
+    <div class="row forinvoice_header InvoiceGen_Res_header position_rel">
+        <div class="Res_menubtn hidden-lg text-right">
+            <button type="button" class="Info_open"><i class="fa fa-filter" aria-hidden="true"></i></button>
+        </div>
+        <div class="Res_menu Info_box">
+            <a class="cross_menu Info_close" ><i class="fa fa-times" aria-hidden="true"></i></a>
+            <input type="hidden" id="IGErrorMsg" value="@Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()" />
+            <div class="col-lg-6 margin-top5 padding5-0">
+                <div>
+                    <span class="spa-checkbox checkbox margin0 float_left">
+                        <input value="true" name="AllIGPrintSend" id="AllIGPrintSend" type="checkbox">
+                        <label for="AllIGPrintSend" class="form-label spa-label1"></label>
+                    </span>
+                    <p class="select_text Ellips float_left">@*Select all*@ @Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()</p>
+                    <a InvoiceStatus="CIPS" class="create_invoice Ellips AllIGPrintSend margin-left10">@*Print/Send*@ @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</a>
+                </div>
+            </div>
+            <div class="col-lg-4 margin-top5 padding5-0">
+                @*Total *@
+                <p class="select_text Ellips text-right_Res"> @Currency @String.Format("{0:0.00}", InvoiceList.Select(c => c.Amount).Sum())</p>
+
+            </div>
+            <div class="col-lg-6 padding5-0">
+                <input class="form-control spa-text-box text-box single-line" id="IG_Search" type="text" placeholder="@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()">@*Search...*@
+            </div>
+            <div class="col-lg-8 padding5-0">
+                <div class="date_search">
+                    <ul class="float_right">
+                        <li class="display_inline Ellips date_search_text"><span class="select_text margin-right5 line_height15">@*Search From*@ @Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()</span></li>
+                        <li class="display_inline"><input type="text" placeholder="@Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()" class="form-control spa-text-box" id="IG_search_from" value="@StartDate" /></li>
+                        <li class="display_inline Ellips date_search_text1"><span class="select_text margin-right5 line_height15">@*to*@ @Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()</span></li>
+                        <li class="display_inline"><input type="text" placeholder="@Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()" class="form-control spa-text-box" id="IG_search_to" value="@EndDate" /></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @if (InvoiceList.Where(c => (c.Invoice_Service == null || c.Invoice_Service == "2" || c.Invoice_Service == "3")).Select(c => c.Invoice_Id).Count() > 0)
+    {
+        classname = "display-none";
+        <div class="invoicegenerat_box parent" id="InvoicePrint">
+            <div class="row forinvocie_data">
+                <div class="col-lg-24 col-md-24 col-sm-24">
+                    <div>
+                        <span class="spa-checkbox checkbox margin0 float_left">
+                            <input value="true" name="Print" id="Print" type="checkbox">
+                            <label for="Print" class="form-label spa-label1"></label>
+                        </span>
+                        <p class="select_text Ellips float_left">@*Paper invoice*@ @Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()</p>
+                        <a InvoiceStatus="CIPS" class="create_invoice AllIGPrintSend margin-left10"><span class="margin-right5"><i class="fa fa-print" aria-hidden="true"></i></span>@*Print*@ @Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()</a>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive forinvocie_SUBtable Invoice_generated">
+                <table class="table" id="IG_Print_Table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            @*INVOICE NO*@
+                            <th class="pad-left-res">@Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault()</th>
+                            @*Name*@
+                            <th class="text-center">@Language.Where(c => c.Order_id == 23).Select(c => c.Value).FirstOrDefault()</th>
+                            @*Reservation*@
+                            <th class="text-center HideReservationField">@Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault()</th>
+                            @*Price*@
+                            <th class="text-center">@Language.Where(c => c.Order_id == 25).Select(c => c.Value).FirstOrDefault()</th>
+                            @*Created Date*@
+                            <th class="text-center">@Language.Where(c => c.Order_id == 26).Select(c => c.Value).FirstOrDefault()</th>
+                            @*Print/Send*@
+                            <th class="text-center">@Language.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault()</th>
+                            @*Closed Invoice*@
+                            <th class="text-center">@Language.Where(c => c.Order_id == 28).Select(c => c.Value).FirstOrDefault()</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @*Customer those who are configured as PRINT and for Both are in the list*@
+                        @foreach (var item in InvoiceList.Where(c => (c.Invoice_Service == null || c.Invoice_Service == "2" || c.Invoice_Service == "3")).Select(c => c.Invoice_Id).Distinct().ToList())
+                        {
+                            InvoiceFormat = InvoiceList.Where(c => c.Invoice_Id == item).FirstOrDefault();
+                            <tr id="@InvoiceFormat.Invoice_Id" InvoiceStatus="CIPS" class="parent">
+                                <td class="width5per paddingRES_right30 exclude">
+                                    <span class="spa-checkbox checkbox ap-closed">
+                                        <input name="@InvoiceFormat.Invoice_Id" id="check_@InvoiceFormat.Invoice_Id" Invoice_Id="@InvoiceFormat.Invoice_Id" type="checkbox">
+                                        <label for="check_@InvoiceFormat.Invoice_Id" class="form-label spa-label1 apclosedicon padding-left0"></label>
+                                    </span>
+                                </td>
+                                <td class="pad-left-res ">@InvoiceFormat.Invoice_Id</td>
+                                @*First name and Last name*@
+                                <td class="text-center">@InvoiceFormat.CustomerLName @InvoiceFormat.CustomerFName</td>
+                                @*Reservation Count*@
+                                <td class="text-center HideReservationField">@InvoiceFormat.CountReservation</td>
+                                @*Currency and Price*@
+                                <td class="text-center">@InvoiceFormat.Currency @String.Format("{0:0.00}", InvoiceFormat.Amount)</td>
+                                @*Invoice Created*@
+                                <td class="text-center">@InvoiceFormat.CreatedDate.Value.ToString("dd.MM.yyyy")</td>
+                                <td class="text-center">
+                                    <a class="create_invoice Ellips Print print_send_@InvoiceFormat.Invoice_Service" href="/Invoice/MailPrintInvoice?InvoiceId=@InvoiceFormat.Invoice_Id&status=CIPS&url=InvoiceGenerated">
+                                        <span class="margin-right5"></span>
+                                        @*Print/Send*@ @Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()
+                                    </a>
+                                    <a class="create_invoice Ellips Print print_@InvoiceFormat.Invoice_Service" href="/Invoice/PrintInvoice?InvoiceId=@InvoiceFormat.Invoice_Id&status=CIP&url=InvoiceGenerated">
+                                        <span class="margin-right5"><i class="fa fa-print" aria-hidden="true"></i></span>
+                                        @*Print*@ @Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()
+                                    </a>
+                                </td>
+                                <td class="exclude text-center">
+                                    @*Close Invoice*@
+                                    <a onclick="ClosedInvoice(@InvoiceFormat.Invoice_Id,'@InvoiceFormat.Invoice_Service')" class="create_invoice Ellips"> @Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault()</a>
+                                </td>
+                                <td class="edit-icon exclude">
+                                    <a class="EInvoice @(Access==1?"":"display-none")"><i class="fa fa-pencil-square-o spa-icon1 margin-right5"></i></a>
+                                    @if (((InvoiceFormat.DeleteAccess != "N" && (InvoiceFormat.FlowStatus == "2" || InvoiceFormat.FlowStatus == "3")) || (InvoiceFormat.FlowStatus == "1")))
+                                    {
+                                        <a><i class="fa fa-trash spa-icon1"></i></a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    @if (InvoiceList.Where(c => c.Invoice_Service == "1").Select(c => c.Invoice_Id).Count() > 0)
+    {
+        classname = "display-none";
+        <div class="invoicegenerat_box parent">
+            <div class="row forinvocie_data">
+                <div class="col-lg-24 col-md-24 col-sm-24">
+                    <div>
+                        <span class="spa-checkbox checkbox margin0 float_left">
+                            <input value="true" name="Email" id="Email" type="checkbox">
+                            <label for="Email" class="form-label spa-label1"></label>
+                        </span>
+                        <p class="select_text Ellips float_left">@*Email invoice*@ @Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()</p>
+                        <a InvoiceStatus="CIS" class="create_invoice margin-left10 AllIGPrintSend"><span class="margin-right5"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>@*Email*@ @Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()</a>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive forinvocie_SUBtable Invoice_generated">
+                <table class="table" id="IG_Email_Table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="pad-left-res">Invoice No</th>
+                            <th class="text-center">Name</th>
+                            <th class="text-center">Resrvation</th>
+                            <th class="text-center">Price</th>
+                            <th class="text-center">Created Date</th>
+                            <th class="text-center">Print/Send</th>
+                            <th class="text-center">Closed Invoice</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in InvoiceList.Where(c => c.Invoice_Service == "1").Select(c => c.Invoice_Id).Distinct().ToList())
+                        {
+                            InvoiceFormat = InvoiceList.Where(c => c.Invoice_Id == item).FirstOrDefault();
+                            <tr id="@InvoiceFormat.Invoice_Id" class="cursorPoint parent">
+                                <td class="width5per paddingRES_right30 exclude">
+                                    <span class="spa-checkbox checkbox ap-closed">
+                                        <input name="@InvoiceFormat.Invoice_Id" id="check_@InvoiceFormat.Invoice_Id" type="checkbox" Invoice_Id="@InvoiceFormat.Invoice_Id">
+                                        <label for="check_@InvoiceFormat.Invoice_Id" class="form-label spa-label1 apclosedicon padding-left0"></label>
+                                    </span>
+                                </td>
+                                <td class="pad-left-res">@InvoiceFormat.Invoice_Id</td>
+                                @*First name and Last name*@
+                                <td class="text-center">@InvoiceFormat.CustomerLName @InvoiceFormat.CustomerFName</td>
+                                @*Reservation Count*@
+                                <td class="text-center">@InvoiceFormat.CountReservation</td>
+                                @*Currency and Price*@
+                                <td class="text-center">@InvoiceFormat.Currency @String.Format("{0:0.00}", InvoiceFormat.Amount)</td>
+                                @*Invoice Created*@
+                                <td class="text-center">@InvoiceFormat.CreatedDate.Value.ToString("dd-MM-yyyy")</td>
+                                <td class="text-center">
+                                    <a href="/Invoice/MailInvoice?InvoiceId=@InvoiceFormat.Invoice_Id&status=CIS&url=InvoiceGenerated" class="create_invoice Ellips">
+                                        <span class="margin-right5"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>@*Email*@ @Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()
+                                    </a>
+                                </td>
+                                <td class="exclude text-center">
+                                    @*Close Invoice*@
+                                    <a onclick="ClosedInvoice(@InvoiceFormat.Invoice_Id,'@InvoiceFormat.Invoice_Service')" class="create_invoice Ellips"> @Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault()</a>
+                                </td>
+                                <td class="edit-icon exclude">
+                                    <a class="EInvoice @(Access==1?"":"display-none")"><i class="fa fa-pencil-square-o spa-icon1 margin-right5"></i></a>
+                                    @if (((InvoiceFormat.DeleteAccess != "N" && (InvoiceFormat.FlowStatus == "2" || InvoiceFormat.FlowStatus == "3")) || (InvoiceFormat.FlowStatus == "1")))
+                                    {
+                                        <a><i class="fa fa-trash spa-icon1"></i></a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    <div class="modal fade PaymentRec_payment" id="OpenCreateManualInvoicePopup">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        @*Select*@ @Language.Where(c => c.Order_id == 29).Select(c => c.Value).FirstOrDefault()
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h5>
+                </div>
+                <div class="modal-body" id="ManualInvoicePopup">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="font16 Nodata text-center @classname">
+        <img src="~/images/Invoice_notfound.png" />
+    </div>
+</div>
+<script src="~/Scripts/Invoice.js"></script>
+<script>
+    $(".Info_open,.Info_close").click(function () { $(".Info_box").slideToggle(); });
+    $("input[type='checkbox']").change(function () { $(this).parents(".parent:first").find("input[type='checkbox']").prop("checked", $(this).is(":checked")); });
+    $("#InvoiceGeneratedPage tr .edit-icon .fa-trash").click(function () {
+        $(".loader").show();
+        var InvoiceId = $(this).parents("tr:first").prop("id");
+        DeleteInvoice(InvoiceId, "/Invoice/InvoiceGenerated", '#InvoiceGenerated')
+    });
+    $("#InvoiceGeneratedPage tr td,#InvoiceGeneratedPage tr td .EInvoice").not(".exclude").click(function () {
+        var Id = $(this).parents("tr:first").prop("id");
+        if(@Access==0)
+            window.location.href = "/PDF/InvoicePrint?InvoiceId=" + Id + "&IsPrint=" + false + "&Url=InvoiceGenerated&Status=D";
+        else
+            window.location.href = "/Invoice/Invoice1?InvoiceId=" + Id + "&Url=InvoiceGenerated";
+    });
+    searchInPage("IG_Search", "IG_Email_Table", 0, 4);
+    searchInPage("IG_Search", "IG_Print_Table", 0, 4);
+    //var date = new Date();
+    @*$('#IG_search_from,#IG_search_to').datetimepicker({
+        format: 'DD/MM/YYYY',
+        locale: '@LngLocal',
+        //minDate: date
+    });*@
+    CommonDatePicker('#IG_search_from,#IG_search_to', '@LngLocal', false, false, false);
+    var dateRange = {
+        dateStartDateControlId: "IG_search_from", // Start date control id
+        dateEndDateControlId: "IG_search_to" // End date control id
+    };
+    function ClosedInvoice(InvoiceId,InvoiceService) {
+        OpenPartialpopup(InvoiceId, @Language.Select(c => c.Lang_id).FirstOrDefault(), '@LngLocal', '@string.Format("{0:yyyy-MM-dd HH:mm:ss}", CreateDate)','InvoiceGenerated',InvoiceService);
+    }
+    $('#CloseandPay').on('hidden.bs.modal', function () {
+        $("#CloseandPay #Invoice_Id,#Pay_Date").val("");
+        $("input[type='checkbox']").prop("checked", false);
+    });
+    $("#IG_search_from,#IG_search_to").on("dp.change", function (e) {
+        var FromDate = $("#IG_search_from").val();
+        var ToDate = $("#IG_search_to").val();
+        if (FromDate != "" && ToDate != "" && (ToDate >= FromDate)) {
+            var URLPATH = "/Invoice/InvoiceGenerated?FromDate=" + FromDate + "&ToDate=" + ToDate;
+            CommonTabDetails(URLPATH, '#InvoiceGenerated');
+        }
+    });
+
+    $("#CreateInvoice_IG").click(function (){
+        OpenCreateManualIPopup("InvoiceGenerated");
+    });
+    //InitDateTimePicker(dateRange);
+    //function InvoiceInitDateTimePicker(dateRange) {
+    //    // var date = new Date();
+    //    // var minDate = new Date();
+    //    // minDate.setDate(date.getDate() - 1);
+    //    $('#' + dateRange.dateStartDateControlId).on("dp.change", function (e) {
+    //        //  $('#' + dateRange.dateStartDateControlId).data("DateTimePicker").minDate(minDate);
+    //        $('#' + dateRange.dateStartDateControlId).data("DateTimePicker").format('DD/MM/YYYY');
+    //    });
+    //    $('#' + dateRange.dateStartDateControlId).datetimepicker({
+
+    //    });
+    //    $('#' + dateRange.dateStartDateControlId).on("dp.change", function (e) {
+    //        $('#' + dateRange.dateEndDateControlId).data("DateTimePicker").minDate(e.date);
+    //        $('#' + dateRange.dateEndDateControlId).data("DateTimePicker").format('DD/MM/YYYY');
+    //    });
+    //    $('#' + dateRange.dateEndDateControlId).datetimepicker({
+    //    });
+    //}
+
+
+</script>

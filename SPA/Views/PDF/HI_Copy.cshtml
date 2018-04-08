@@ -1,0 +1,394 @@
+﻿@{
+    Layout = null;
+    System.Globalization.CultureInfo enGB = new System.Globalization.CultureInfo("en-GB");
+    List<SPA.Models.LanguageLabelDetails> Language = ((List<SPA.Models.LanguageLabelDetails>)ViewBag.LanguageInfo).Where(c => c.Page_Name.Trim() == "Invoice_Page").ToList();
+    List<SPA.Models.CatgDropDownList> CatgDropDown = ViewBag.VatDropDown;
+    var InvoiceList = ((List<SPA.Models.ManualInvoice>)Model);
+    bool Status = ViewBag.Status;
+    var Url = ViewBag.Url;
+    decimal Amount = ViewBag.Amount != null ? ViewBag.Amount : 0.00;
+    var Link = ViewBag.link;
+    var ViewStatus = ViewBag.viewStatus;
+    var Rstatus = ViewBag.RStatus;
+    var k = 0;
+}
+
+@if (InvoiceList.Count > 0)
+{
+    var Invoice = InvoiceList.FirstOrDefault();
+    var TreatDate = CatgDropDown != null ? CatgDropDown.Where(c => c.Invoice_Id == Invoice.InvoiceNo).Select(c => c.TreatFromDate).FirstOrDefault() : "";
+    var TreatToDate = CatgDropDown != null ? CatgDropDown.Where(c => c.Invoice_Id == Invoice.InvoiceNo).Select(c => c.TreatToDate).FirstOrDefault() : "";
+        <div class="Invoice_print new_invoice Invoice_box FirFox_Health">
+                <div class="Print_heading margin_firfox">
+                    <div style="width:75%;float:left">
+                        @*Receipt for reimbursement, copy for the health insurance*@
+                        <p style="font-family: verdana !important;" class="P_font10">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()</p>
+                    </div>
+                    <div style="width:25%;float:left">
+                        <p style="text-align:right;font-family: verdana !important;" class="P_font9">@*Release 4.3G/de*@ @Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()</p>
+                    </div>
+                </div>
+                <div id="@Invoice.InvoiceNo" class="HealthInsuranceCopy">
+                    <div class="black_border">
+                        <table style="width:100%" class="details_table">
+                            <tbody>
+                                <tr>
+                                    <td style="width:1.6cm;padding-bottom:2px;padding-top:3px;padding-right:4px" class="IE_1-8 PDF_paddingRight">@*Document*@ @Language.Where(c => c.Order_id == 83).Select(c => c.Value).FirstOrDefault()</td>
+                                    @*<td style="width:0.1cm;padding-bottom:2px;padding-top:3px"></td>*@
+                                    <td style="width:1.8cm;padding-bottom:2px;padding-top:3px" class="IE_2-0">@*Identification*@ @Language.Where(c => c.Order_id == 84).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="text-align:right;width:2.0cm;padding-right:5px;padding-bottom:2px;padding-top:3px">@Invoice.InvoiceNo</td>
+                                    <td style="width:5.0cm;padding-bottom:2px;padding-top:3px"> @(Invoice.InvoiceDate != null ? Invoice.InvoiceDate.Value.ToString("dd.MM.yyyy") : "")  @(Invoice.InvoiceDate != null ? Invoice.InvoiceDate.Value.ToString("HH:mm:ss") : "")</td>
+                                    <td style="text-align:right;vertical-align:top;padding-bottom:2px;padding-top:3px" colspan="4">@*Page*@ @Language.Where(c => c.Order_id == 86).Select(c => c.Value).FirstOrDefault()1</td>
+                                </tr>
+                                <tr>
+                                    <td class="padding-top10 IE_1-8 PDF_paddingRight" rowspan="2" style="width:1.6cm;padding-right:4px">@*Invoicing party*@ @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()</td>
+                                    @*<td style="width:0.1cm"></td>*@
+                                    <td class="padding-top10 IE_2-0" style="width:1.8cm">@*GLN-No. (B)*@ @Language.Where(c => c.Order_id == 118).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td class="padding-top10" style="text-align:left;width:2.0cm;padding-right:5px">@Invoice.Own_GLN_No</td>
+                                    <td class="padding-top10 IE_7-0" style="width:7.9cm;padding-left:5px">@Invoice.Own_Fname @Invoice.Own_Lname</td>
+                                    <td style="width:1.1cm" class="padding-top10">@*Email*@ @Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault():</td>
+                                    <td class="padding-top10 IE_5-4" style="width:4.5cm">@Invoice.OwnEmail</td>
+                                </tr>
+                                <tr>
+                                    @*<td class="padding-bottom10"></td>*@
+                                    @*<td style="width:0.1cm"></td>*@
+                                    <td class="padding-bottom10 IE_2-0" style="width:1.8cm">@*ZSR-No*@ @Language.Where(c => c.Order_id == 119).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td class="padding-bottom10" style="text-align:left;width:2.0cm;padding-right:5px">@Invoice.Own_ZSR_No</td>
+                                    <td class="padding-bottom10 IE_7-0" style="width:7.9cm;padding-left:5px">@Invoice.Shopstreet @Invoice.ShopStreetNumber @Invoice.ShopZipcode @Invoice.ShopCity</td>
+                                    <td class="padding-bottom10" style="width:1.1cm">@*Tel:*@ @Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault():</td>
+                                    <td class="padding-bottom10 IE_5-4" style="width:4.5cm">@Invoice.OwnPhoneno</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2" style="width:1.6cm;padding-top:5px;padding-right:4px" class="IE_1-8 PDF_paddingRight">@*Render of service*@ @Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()</td>
+                                    @*<td style="width:0.1cm;padding-top:5px"></td>*@
+                                    <td style="width:1.8cm;padding-top:5px" class="IE_2-0">@*GLN-No. (B)*@ @Language.Where(c => c.Order_id == 116).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="text-align:left;width:2.0cm;padding-right:5px;padding-top:5px">@Invoice.Emp_GLN_No</td>
+                                    <td style="width:7.9cm;padding-top:5px;padding-left:5px" class="IE_7-0;">@Invoice.EmpFName @Invoice.EmpLName</td>
+                                    <td style="width:1.1cm;padding-top:5px">@*Email*@ @Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault():</td>
+                                    <td style="width:4.5cm;padding-top:5px" class="IE_5-4">@Invoice.EmpEmail</td>
+                                </tr>
+                                <tr>
+                                    @*<td class="padding-bottom10"></td>*@
+                                    @*<td style="width:0.1cm"></td>*@
+                                    <td class="padding-bottom10 IE_2-0" style="width:1.8cm">@*ZSR-No*@ @Language.Where(c => c.Order_id == 117).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td class="padding-bottom10" style="text-align:left;width:2.0cm;padding-right:5px">@Invoice.Emp_ZSR_No</td>
+                                    <td class="padding-bottom10 IE_7-0" style="width:7.9cm;padding-left:5px">@Invoice.Emp_Street @Invoice.Emp_StreetNumber @Invoice.Emp_Pincode @Invoice.Emp_City</td>
+                                    <td class="padding-bottom10" style="width:1.1cm">@*Tel:*@ @Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault():</td>
+                                    <td class="padding-bottom10 IE_5-4" style="width:4.5cm">@Invoice.EmpPhoneNo</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="black_border Border_none">
+                        <table style="width:100%" class="details_table">
+                            <tbody>
+                                <tr>
+                                    <td style="width:2.3cm;padding-top:2px" class="padding_safari SF_2-4 PDF_Ptop-4px">@*Patient*@ @Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="width:2.6cm;padding-top:2px" class="IE_2-7 padding_safari PDF_Ptop-4px">@*Family Name*@ @Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="width:5.0cm;padding-top:2px" class="padding_safari PDF_Ptop-4px">@Invoice.Cust_LastName</td>
+                                    <td style="width:1.0cm;padding-top:2px" class="padding_safari PDF_Ptop-4px"></td>
+                                    <td style="width:2.5cm;padding-top:2px" class="padding_safari PDF_Ptop-4px"></td>
+                                    <td style="width:6.5cm;padding-top:2px" class="padding_safari PDF_Ptop-4px"></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top:2px" class="padding_safari"></td>
+                                    <td style="padding-top:2px" class="padding_safari">@*First name*@ @Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="padding-top:2px" class="padding_safari">@Invoice.Cust_FirstName</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top:2px" class="padding_safari"></td>
+                                    <td style="padding-top:2px" class="padding_safari">@*Street*@ @Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="padding-top:2px" class="padding_safari">@Invoice.Cust_Street</td>
+                                    <td></td>
+                                    <td colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top:2px" class="padding_safari"></td>
+                                    <td style="padding-top:2px" class="padding_safari">@*Zip code*@ @Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="padding-top:2px" class="padding_safari">@Invoice.Cust_Pincode</td>
+                                    <td></td>
+                                    <td colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top:2px" class="padding_safari"></td>
+                                    <td style="padding-top:2px" class="padding_safari">@*City*@ @Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="padding-top:2px" class="padding_safari">@Invoice.Cust_City</td>
+                                    <td></td>
+                                    <td colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top:2px" class="padding_safari"></td>
+                                    <td style="padding-top:2px" class="padding_safari">@*Birth date*@ @Language.Where(c => c.Order_id == 70).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="padding-top:2px" class="padding_safari">@(Invoice.DOB != null ? (Invoice.DOB != new DateTime(0001, 01, 01) ? string.Format("{0:dd.MM.yyyy}", Invoice.DOB) : "") : "")</td>
+                                    <td></td>
+                                    <td colspan="2" class="HelthTD_14px">@*Mrs.*@ @Invoice.Cust_Gender</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="padding-top:2px" class="padding_safari"></td>
+                                    <td style="padding-top:2px" class="padding_safari">@*Gender*@ @Language.Where(c => c.Order_id == 17).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="padding-top:2px" class="padding_safari">@(Invoice.Short_Cust_Title != null ? Invoice.Short_Cust_Title : Invoice.Cust_Title)</td>
+                                    <td></td>
+                                    <td colspan="2" class="HelthTD_14px">
+                                        @*Patel Divya*@ @Invoice.Cust_FirstName @Invoice.Cust_LastName
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top:2px" class="padding_safari"></td>
+                                    <td style="padding-top:2px" class="padding_safari">@*Case date*@ @Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="padding-top:2px" class="padding_safari">@(Invoice.InvoiceDate != null ? Invoice.InvoiceDate.Value.ToString("dd.MM.yyyy") : "")</td>
+                                    <td></td>
+                                    <td colspan="2" class="HelthTD_14px">@Invoice.Cust_Street</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top:2px" class="padding_safari"></td>
+                                    <td style="padding-top:2px" class="padding_safari">@*Patient Nr.*@ @Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="padding-top:2px" class="padding_safari">@Invoice.PatientId</td>
+                                    <td></td>
+                                    <td colspan="2" class="HelthTD_14px">@*Tarsali*@ @Invoice.Cust_Pincode @Invoice.Cust_City</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top:2px" class="padding_safari"></td>
+                                    <td style="padding-top:2px" class="padding_safari">@*AHV no.*@ @Language.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="padding-top:2px" class="padding_safari">@Invoice.Cust_AHV_Number</td>
+                                    <td></td>
+                                    <td colspan="2" class="HelthTD_14px">@Invoice.Cust_Country</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top:2px" class="padding_safari"></td>
+                                    <td style="padding-top:2px" class="padding_safari">@*VEKA- Nr.*@ @Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="padding-top:2px" class="padding_safari">@Invoice.Cust_VEKA_Number</td>
+                                    <td></td>
+                                    <td colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top:2px" class="padding_safari"></td>
+                                    <td style="padding-top:2px" class="padding_safari">@*Patient insurance no.*@ @Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="padding-top:2px" class="padding_safari">@Invoice.Cust_InsuranceNumber</td>
+                                    <td></td>
+                                    <td colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top:2px" class="padding_safari"></td>
+                                    <td style="padding-top:2px" class="padding_safari">@*State*@ @Language.Where(c => c.Order_id == 71).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="padding-top:2px" class="padding_safari">@Invoice.Cust_State</td>
+                                    <td></td>
+                                    <td colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top:2px" class="padding_safari PDF_Ptop-4px"></td>
+                                    <td style="padding-top:2px" class="padding_safari PDF_Ptop-4px">@*Copy*@ @Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="padding-top:2px" class="padding_safari PDF_Ptop-4px">@*YES*@ @Language.Where(c => c.Order_id == 85).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td></td>
+                                    <td colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top:2px" class="padding_safari"></td>
+                                    <td style="padding-top:2px" class="padding_safari">@*Kind of reimbursement*@ @Language.Where(c => c.Order_id == 25).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="padding-top:2px" class="padding_safari">@InvoiceList.Where(c => c.CategoryName == "reimbursement").Select(c => c.Value).FirstOrDefault()</td>
+                                    <td colspan="3" style="padding-top:2px" class="padding_safari">@*KoGu-Date / No.*@ @Language.Where(c => c.Order_id == 31).Select(c => c.Value).FirstOrDefault()</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top:2px" class="padding_safari"></td>
+                                    <td style="padding-top:2px" class="padding_safari">@*Law*@ @Language.Where(c => c.Order_id == 26).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="padding-top:2px" class="padding_safari">@InvoiceList.Where(c => c.CategoryName == "Invoice_Law").Select(c => c.Value).FirstOrDefault()</td>
+                                    <td colspan="3" style="padding-top:2px" class="padding_safari">@*Invoice date / number*@ @Language.Where(c => c.Order_id == 32).Select(c => c.Value).FirstOrDefault() &nbsp; &nbsp;&nbsp; @Html.Raw(Rstatus != "YES" ? (Invoice.InvoiceDate != null ? Invoice.InvoiceDate.Value.ToString("dd.MM.yyyy") : "") + "&nbsp;&nbsp;&nbsp;&nbsp;" + Invoice.InvoiceNo + "&nbsp;&nbsp;" + (Invoice.CurrentDate != null ? Invoice.CurrentDate.Value.ToString("dd.MM.yyyy HH:mm:ss") : "") : "")</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top:2px" class="padding_safari"></td>
+                                    <td style="padding-top:2px" class="padding_safari">@*Contract-no*@ @Language.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="padding-top:2px" class="padding_safari">@InvoiceList.Where(c => c.CategoryName == "Invoice_ContractNo").Select(c => c.Value).FirstOrDefault()</td>
+                                    <td colspan="3" style="padding-top:2px" class="padding_safari">@*Reminder date / No.*@ @Language.Where(c => c.Order_id == 33).Select(c => c.Value).FirstOrDefault() &nbsp; &nbsp;&nbsp; @Html.Raw(Rstatus == "YES" ? (Invoice.ReminderDate != null ? Invoice.ReminderDate.Value.ToString("dd.MM.yyyy") : "") + "&nbsp;&nbsp;&nbsp;&nbsp;" + Invoice.InvoiceNo + "&nbsp;&nbsp;" + (Invoice.CurrentDate != null ? Invoice.CurrentDate.Value.ToString("dd.MM.yyyy HH:mm:ss") : "") : "") @*17.08.2017 2124545632*@</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top:2px" class="padding_safari"></td>
+                                    <td style="padding-top:2px" class="padding_safari">@*Treatment*@ @Language.Where(c => c.Order_id == 28).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="padding-top:2px" class="padding_safari">@TreatDate - @TreatToDate</td>
+                                    <td colspan="3" style="padding-top:2px" class="padding_safari">@*Reason for treatment*@ @Language.Where(c => c.Order_id == 36).Select(c => c.Value).FirstOrDefault() &nbsp; &nbsp; @InvoiceList.Where(c => c.CategoryName == "Reason for treatment").Select(c => c.Value).FirstOrDefault()</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top:2px" class="padding_safari"></td>
+                                    <td style="padding-top:2px" class="padding_safari">@*Role/place*@ @Language.Where(c => c.Order_id == 30).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="padding-top:2px" class="padding_safari">@Language.Where(c => c.Order_id == 102).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td colspan="3" style="padding-top:2px"></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top:2px" class="padding_safari"></td>
+                                    <td style="padding-top:2px" class="padding_safari">@*Company number-/Name*@ @Language.Where(c => c.Order_id == 29).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="padding-top:2px" class="padding_safari">@Invoice.SchlName</td>
+                                    <td colspan="3"></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="black_border Border_none">
+                        <table class="details_table" style="width:100%;">
+                            <tbody>
+                                <tr>
+                                    <td style="width:2.3cm;padding-top:2px;padding-bottom:2px;" class="IE_2-4 padding_safari PDF_Pad_3">@*Referer*@ @Language.Where(c => c.Order_id == 37).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="width:2.6cm;padding-top:2px;padding-bottom:2px;" class="padding_safari PDF_Pad_3">@Language.Where(c => c.Order_id == 110).Select(c => c.Value).FirstOrDefault()/@Language.Where(c => c.Order_id == 109).Select(c => c.Value).FirstOrDefault()/@Language.Where(c => c.Order_id == 39).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="width:15cm;padding-top:2px;padding-bottom:2px;" class="padding_safari PDF_Pad_3">@InvoiceList.Where(c => c.CategoryName == "Invoice_Gln").Select(c => c.Value).FirstOrDefault() @(InvoiceList.Where(c => c.CategoryName == "Invoice_Zsr").Select(c => c.Value).FirstOrDefault()!= null?"/"+ InvoiceList.Where(c => c.CategoryName == "Invoice_Zsr").Select(c => c.Value).FirstOrDefault(): InvoiceList.Where(c => c.CategoryName == "Invoice_Zsr").Select(c => c.Value).FirstOrDefault()) @(InvoiceList.Where(c => c.CategoryName == "Invoice_Referer").Select(c => c.Value).FirstOrDefault()!= null?"/"+ InvoiceList.Where(c => c.CategoryName == "Invoice_Referer").Select(c => c.Value).FirstOrDefault(): InvoiceList.Where(c => c.CategoryName == "Invoice_Referer").Select(c => c.Value).FirstOrDefault())</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="black_border Border_none">
+                        <table class="details_table" style="width:100%;">
+                            <tbody>
+                                <tr>
+                                    <td style="width:2.3cm;padding-top:2px;padding-bottom:2px;" class="IE_2-4 padding_safari PDF_Pad_3">@*Diagnosis*@ @Language.Where(c => c.Order_id == 40).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="padding-top:2px;width:17.6cm;padding-bottom:2px;" class="padding_safari PDF_Pad_3">@InvoiceList.Where(c => c.CategoryName == "Invoice_Diagnose").Select(c => c.Value).FirstOrDefault()</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="black_border Border_none">
+                        <table class="details_table" style="width:100%;">
+                            <tbody>
+                                <tr>
+                                    <td style="width:2.3cm;padding-top:2px;padding-bottom:2px;" class="IE_2-4 padding_safari PDF_Pad_3">@*Therapie*@ @Language.Where(c => c.Order_id == 42).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="width:17.6cm;padding-top:2px;padding-bottom:2px;" class="padding_safari PDF_Pad_3">@InvoiceList.Where(c => c.CategoryName == "Invoice_Therapie").Select(c => c.Value).FirstOrDefault()</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="black_border Border_none">
+                        <table class="details_table" style="width:100%;">
+                            <tbody>
+                                <tr>
+                                    <td style="height:0.8cm;padding-top:2px;width:2.3cm" class="IE_2-4 padding_safari PDF_1-0">@*Remarks*@ @Language.Where(c => c.Order_id == 43).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="height:0.8cm;padding-top:2px;width:17.6cm" class="padding_safari PDF_1-0">@InvoiceList.Where(c => c.CategoryName == "Invoice_Remarks").Select(c => c.Value).FirstOrDefault()</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="product_print" style="margin-top:5px;">
+                        <table style="width:100%;">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center;width:2.0cm;padding-left:8px">@*Date*@ @Language.Where(c => c.Order_id == 45).Select(c => c.Value).FirstOrDefault()</th>
+                                    <th style="text-align:center;width:1.0cm;">@*Rate*@ @Language.Where(c => c.Order_id == 47).Select(c => c.Value).FirstOrDefault()</th>
+                                    <th style="text-align:left;width:5.5cm;padding-left:10px;">@*Rate Number*@ @Language.Where(c => c.Order_id == 48).Select(c => c.Value).FirstOrDefault()</th>
+                                    <th style="text-align:center;width:1.5cm">@*Qty*@ @Language.Where(c => c.Order_id == 49).Select(c => c.Value).FirstOrDefault()</th>
+                                    <th style="text-align:left;width:2.3cm">@*Rate*@ @Language.Where(c => c.Order_id == 87).Select(c => c.Value).FirstOrDefault()</th>
+                                    <th style="text-align:left;width:4.5cm">@*TPW*@ @Language.Where(c => c.Order_id == 50).Select(c => c.Value).FirstOrDefault()</th>
+                                    <th style="text-align:left;width:1.3cm;">@*MWST*@ @Language.Where(c => c.Order_id == 76).Select(c => c.Value).FirstOrDefault()</th>
+                                    <th style="text-align:right;width:1.3cm;">@*Amount*@ @Language.Where(c => c.Order_id == 51).Select(c => c.Value).FirstOrDefault()</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var InvDetail in InvoiceList.Select(c => c.Invoice_Detail_Id).Distinct().ToList())
+                                {
+                                    var ReservationInfo = InvoiceList.Where(c => c.Invoice_Detail_Id == InvDetail).FirstOrDefault();
+                                    var text = ReservationInfo.Settlement_text != null ? ReservationInfo.Settlement_text : ReservationInfo.ProductName + " " + ReservationInfo.Manufacturer + " " + ReservationInfo.Dozes;
+                                    var TotalAmount = ReservationInfo.RealAmount + ((double.Parse(ReservationInfo.Print_Vat.ToString()) * ReservationInfo.RealAmount) / 100);
+                                    var SetDetail = ReservationInfo.Settlement_Number != null && ReservationInfo.Settlement_Number != 0 ? Convert.ToString(ReservationInfo.Settlement_Number) : ReservationInfo.Settlement_text;
+                                    if (ReservationInfo.ReservationId > 0)
+                                    {
+                                        text = ReservationInfo.Settlement_text != null ? ReservationInfo.Settlement_text : ReservationInfo.ProductName;
+                                    }
+                                    else if (ReservationInfo.Assign_HealthInsurance_Id > 0)
+                                    {
+                                        text = ReservationInfo.Invoice_Settlement_text;
+                                    }
+                                    else
+                                    {
+                                        text = ReservationInfo.ProductName + ", " + ReservationInfo.Manufacturer + ", " + ReservationInfo.Dozes;
+                                        //TarifDetail = ReservationInfo.Settlement_text;
+                                    }
+                            <tr>
+                                <td style="text-align:center;padding-left:8px">@DateTime.Parse(ReservationInfo.BookingDate, enGB).ToString("dd.MM.yyyy")</td>
+                                <td style="text-align:center;">@(ReservationInfo.Assign_HealthInsurance_Id > 0 ? ReservationInfo.Invoice_Tarif_Number : ReservationInfo.Tarif_Number)</td>
+                                <td style="word-break: break-word;text-align:left;"><p>@(ReservationInfo.Assign_HealthInsurance_Id > 0 ? Convert.ToString(ReservationInfo.Invoice_Settlement_Number) : SetDetail)</p></td>
+                                <td style="text-align:center;">@String.Format("{0:0.00}", ReservationInfo.Quantity)</td>
+                                <td style="text-align:left;">@String.Format("{0:0.00}", ReservationInfo.Rate)</td>
+                                <td style="text-align:left;">1.00</td>
+                                <td style="text-align:left;">@ReservationInfo.Print_Vat%</td>
+                                <td style="text-align:right;">@String.Format("{0:0.00}", TotalAmount) </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"></td>
+                                <td colspan="5"><div class="HelthTD_11px" style="font-weight:bold;">@text</div></td>
+                                <td></td>
+                            </tr>
+                        }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="invoice_footer_box">
+                    <div class="Invoice_footer">
+                        <table class="footer_table">
+                            <tbody>
+                                <tr>
+                                    <td style="text-align:center;width:1.2cm;" class="width40">@*Code*@ @Language.Where(c => c.Order_id == 58).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="text-align:center;width:1.4cm" class="width50">@*Satz*@ @Language.Where(c => c.Order_id == 59).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="text-align:center;width:1.4cm" class="width50">@*Betrag*@ @Language.Where(c => c.Order_id == 51).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="text-align:center;width:1.5cm" class="width1-5 width60">@*MWST*@ @Language.Where(c => c.Order_id == 60).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="width:1.6cm">@*MWST-Nr.*@ @Language.Where(c => c.Order_id == 61).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="width:3.7cm"></td>
+                                    <td style="width:2.2cm"></td>
+                                    <td style="width:1.5cm"></td>
+                                    <td style="width:3.0cm">@*Gesamtbetrag*@ @Language.Where(c => c.Order_id == 66).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td style="text-align:right;width:1.4cm" class="width40">@String.Format("{0:0.00}", CatgDropDown.Where(c => c.Invoice_Id == Invoice.InvoiceNo && c.TotalAmount != null).Select(c => Decimal.Parse(c.TotalAmount)).Sum())</td>
+                                </tr>
+                                @foreach (var Drop in CatgDropDown.Where(c => c.Invoice_Id == Invoice.InvoiceNo).ToList())
+                        {
+                            k = k + 1;
+                                    <tr>
+
+                                        <td style="text-align:center;width:1.0cm" class="width40">@Drop.CatgType</td>
+                                        <td style="text-align:center;width:1.4cm" class="width50">@Drop.CatgDesc</td>
+                                        <td style="text-align:center;width:1.4cm" class="width50">@Drop.TotalAmount</td>
+                                        <td style="text-align:center;width:1.5cm" class="width60">@Drop.Vat</td>
+                                        @if (k == 1)
+                                {
+                                            <td style="width:1.6cm">@*Währung*@ @Language.Where(c => c.Order_id == 62).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td style="width:3.7cm">@Drop.Currency</td>
+                                }
+                                        @if (k == 2)
+                                {
+                                            <td style="width:1.6cm">@*IBAN*@ @Language.Where(c => c.Order_id == 63).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td style="width:3.7cm">@Drop.Ibanno</td>
+                                }
+                                        @if (k == 3)
+                                {
+                                            <td colspan="2" style="font-weight:bold;width:5.3cm">@*Währung*@ @Language.Where(c => c.Order_id == 64).Select(c => c.Value).FirstOrDefault().Replace("\"X\"", Convert.ToString(Drop.OverDue))</td>
+                                            <td style="width:2.2cm;">@Language.Where(c => c.Order_id == 65).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td style="text-align:right;width:1.5cm">0.00</td>
+                                            <td style="width:3.0cm">@Language.Where(c => c.Order_id == 88).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td style="text-align:right;width:1.4cm" class="width40">@String.Format("{0:0.00}", CatgDropDown.Where(c => c.Invoice_Id == Invoice.InvoiceNo && c.TotalAmount != null).Select(c => Decimal.Parse(c.TotalAmount)).Sum())</td>
+                                }
+                                else
+                                {
+                                            <td style="width:2.2cm"></td>
+                                            <td style="width:1.5cm"></td>
+                                            <td style="width:3.0cm"></td>
+                                            <td class="width40" style="width:1.4cm"></td>
+                                }
+                                    </tr>
+                        }
+                            </tbody>
+                        </table>
+                        <div class="last_Footerline">
+                            <div class="barcode">
+                                <div class="Barcode_box">
+                                    @if (!string.IsNullOrEmpty(Invoice.Image_barcode))
+                            {
+                                        <img src="@Link@Invoice.Image_barcode" />
+                            }
+                                </div>
+                            </div>
+                            <div class="barcode_text">
+                                <p style="text-align:right;font-family: 'ocr-b1_demoregular' !important;font-size:14px;" class="PDF_16">@Invoice.LongNumber</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+}
+

@@ -1,0 +1,67 @@
+﻿@using System.Configuration;
+@{
+    Layout = null;
+    List<Language_NewShop> Language = ViewBag.Language;
+    int LanguageId = ViewBag.LangId;
+}
+@Styles.Render("~/Contents/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/clickscript")
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@Html.Raw(Language.Where(c => c.Page_Name == "WelCome_Page" && c.Order_id == 1).Select(c => c.Value).FirstOrDefault())@*Welcome*@</title>
+</head>
+<body style="background:#fff">
+    <div class="container">
+        <div class="bg-grey mt60 border-radius5">
+            <div class="welcome-main col-lg-18 col-lg-offset-3 col-md-20 col-md-offset-2 col-sm-24">
+                <div class="form-group overflowhiddn">
+                    <a href="@(LanguageId>0?"/ClickGo?lang="+LanguageId:"/ClickGo")" class="back-btn"><i class="fa fa-reply-all"></i>@Html.Raw(Language.Where(c => c.Page_Name == "WelCome_Page" && c.Order_id == 9).Select(c => c.Value).FirstOrDefault())@*Back*@</a>
+                </div>
+                <div class="clearfix"></div>
+                <ul>
+                    <li class="border-bottom-white">
+                        <h4>@Html.Raw(Language.Where(c => c.Page_Name == "WelCome_Page" && c.Order_id == 2).Select(c => c.Value).FirstOrDefault())@*Welcome to the online quick-registration for new suppliers*@</h4>
+                        <p class="colorGrey welcome-desc">@Html.Raw(Language.Where(c => c.Page_Name == "WelCome_Page" && c.Order_id == 3).Select(c => c.Value).FirstOrDefault())@*Before we start  you get some basic information and clarifications on the registration process.*@</p>
+                    </li>
+                    <li class="border-bottom-white">
+                        <p class="colorGrey welcome-desc">
+                            @Html.Raw(Language.Where(c => c.Page_Name == "WelCome_Page" && c.Order_id == 4).Select(c => c.Value).FirstOrDefault())
+                            @*For registration you need to fill out the online registration form. It will provide us the required information for the basic set up
+                                of your reservation tool.*@
+                        </p>
+                    </li>
+                    <li class="border-bottom-white">
+                        <p class="colorGrey welcome-desc">
+                            @Html.Raw(Language.Where(c => c.Page_Name == "WelCome_Page" && c.Order_id == 5).Select(c => c.Value).FirstOrDefault())
+                            @*It requires 3 easy steps for your online quick-registration. Once registred, within 2 working days you can start using
+                                our product..*@
+                        </p>
+                        <p class="colorGrey welcome-desc">
+                            @Html.Raw(Language.Where(c => c.Page_Name == "WelCome_Page" && c.Order_id == 6).Select(c => c.Value).FirstOrDefault())
+                            @*Step 1  create your personal login
+                                Step 2  Fill out the registration form, it will take you only 5-10 minutes
+                                Step 3 Accept the terms and conditions
+                                Step 4  Submit*@
+                        </p>
+                    </li>
+                    <li>
+                        <p class="colorGrey welcome-desc">
+                            @Html.Raw(Language.Where(c => c.Page_Name == "WelCome_Page" && c.Order_id == 7).Select(c => c.Value).FirstOrDefault())
+                            @*For open questions please check our FAQ’s and if you need further support please contact our helpdesk.*@
+                        </p>
+                    </li>
+                </ul>
+
+                <div class="text-center mt30">
+                    <a href="@(LanguageId>0?"/Registration/Login?lang="+LanguageId:"/Registration/Login")" class="continue-btn">@Html.Raw(Language.Where(c => c.Page_Name == "WelCome_Page" && c.Order_id == 8).Select(c => c.Value).FirstOrDefault())@*Continue*@</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

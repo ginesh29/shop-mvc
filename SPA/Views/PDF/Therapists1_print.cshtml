@@ -1,0 +1,231 @@
+﻿
+@{
+    Layout = null;
+    List<SPA.Models.DoctorPagesDisplay> NoteSectionList = new List<SPA.Models.DoctorPagesDisplay>();
+    NoteSectionList = Model;
+    string Today = NoteSectionList.Select(c => c.BookingDate).FirstOrDefault();
+    bool IsPrintStatus = ViewBag.Status;
+    long ReservationId = 0;
+    var LangList = (List<SPA.Models.LanguageLabelDetails>)(ViewBag.Language);
+    var SectionList = LangList.Where(c => c.Page_Name == "Therapist_Notes").ToList();
+    var Language = LangList.Where(c => c.Page_Name == "Therapist_Notes_Default").ToList();
+    ViewBag.Title = Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault();
+    string DStatus = ViewBag.Display;
+    var LogoImg = ViewBag.Logo;
+    var ShopInfo = (SPA.Models.ShopMasterDetail)(ViewBag.ShopInfo);
+    SPA.Models.getAccess Acceess = ViewBag.CheckAccessRight;
+    var RedirectStatus = "2";
+    List<SPA.Models.GetNoteHistoryDetails> HistoryList = new List<SPA.Models.GetNoteHistoryDetails>();
+    HistoryList = ViewBag.HistoryList;
+    var Url = ViewBag.Url;
+    var AlertMsg = Language.Where(c => c.Order_id == 32).Select(c => c.Value).FirstOrDefault();
+    if (ViewBag.CheckPopupStatus == false)
+    {
+        AlertMsg = Language.Where(c => c.Order_id == 33).Select(c => c.Value).FirstOrDefault();
+    }
+
+}
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/bootstrap")
+
+<html>
+<head>
+    <style>
+        .Note_display {
+            padding: 10px 50px;
+            background: #fff;
+            margin-top: 20px;
+        }
+
+        .Note_displayBox {
+            background-color: #f2f2f2;
+            border-radius: 2px;
+            padding: 30px;
+            margin-top: 0;
+        }
+
+        .print-icon {
+            font-size: 30px;
+            padding-right: 35px;
+            color: #84b002;
+            cursor: pointer;
+        }
+
+        .card-heading {
+            color: #494949;
+            font-size: 26px;
+            font-family: 'robotomedium';
+        }
+
+        .Note_table {
+            margin-top: 30px;
+            background-color: #fff;
+        }
+
+            .Note_table tbody tr td {
+                border: 1px solid #555;
+                padding: 5px;
+                font-size: 14px;
+                word-break: break-all;
+                height: 30px;
+                vertical-align: top;
+            }
+    </style>
+    @if (!IsPrintStatus && DStatus != "D")
+    {    /*CSS for PDF*/
+        <style>
+            .pageBreak {
+                page-break-inside: avoid;
+            }
+
+            .Note_display {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            .disaplyNone_pdf {
+                display: none;
+            }
+
+            .width10Per {
+                width: 10% !important;
+                float: left;
+            }
+
+            .padding_left20 {
+                margin-left: 10px !important;
+            }
+
+            .patient-desc-block {
+                margin-top: 50px !important;
+                display: block !important;
+            }
+
+            body {
+                -webkit-font-smoothing: antialiased;
+                font-size: 100%;
+                font-family: 'Roboto',sans-serif;
+                font-weight: 400;
+                color: #4c4c4c;
+                background-color: #f2f2f2;
+                max-width: 100%;
+                overflow-x: hidden;
+            }
+
+            .doctor-presc-detail {
+                padding: 0 !important;
+            }
+            /*.Notes_datebox .Note_date{display:none !important;}*/
+        </style>
+    }
+</head>
+<body class="margin-0">
+    <div class="Note_display">
+        <div class="row form-group disaplyNone_pdf printDisply-non">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <i class="fa fa-print print-icon" aria-hidden="true" onclick="window.print()"></i>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 text-right"><a class="title-green16" href="/Customer/Customer"><i class="fa fa-reply-all margin-right5"></i>@*Back To List*@ @Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()</a></div>
+        </div>
+        <div class="Note_displayBox">
+            <div style="text-align:center">
+                <h4 class="card-heading" style="padding-bottom:20px;">@*Therapists Note*@ @(SectionList.Where(c => c.Label_Name == Convert.ToString(ShopInfo.SchlStudentStrength)).Select(c => c.Value).FirstOrDefault() != null ? SectionList.Where(c => c.Label_Name == Convert.ToString(ShopInfo.SchlStudentStrength)).Select(c => c.Value).FirstOrDefault() : Language.Where(c => c.Order_id == 29).Select(c => c.Value).FirstOrDefault())</h4>
+            </div>
+            <div class="clearfix"></div>
+            @if (NoteSectionList.Count > 0)
+            {
+                var UserInfo = NoteSectionList.FirstOrDefault();
+                ReservationId = UserInfo.EmpSchDetailsId.Value;
+                if (((Acceess.Insert != "N" && (Acceess.FlowStatus == "2" || Acceess.FlowStatus == "3")) || (Acceess.FlowStatus == "1")))
+                {
+                    RedirectStatus = "1";
+                }
+                <div class="Note_table">
+                    <table style="width:100%;border-spacing:0;">
+                        <tbody>
+                            <tr>
+                                <td style="width:17%">@*Name*@ @Language.Where(c => c.Order_id == 31).Select(c => c.Value).FirstOrDefault()</td>
+                                <td colspan="5">@UserInfo.LastName @UserInfo.FirstName </td>
+                            </tr>
+                            <tr>
+                                <td style="width:17%">@*BirthDay*@ @Language.Where(c => c.Order_id == 34).Select(c => c.Value).FirstOrDefault()</td>
+                                <td colspan="5">@(UserInfo.DOB.ToString("dd.MM.yyyy") != "01.01.0001" ? UserInfo.DOB.ToString("dd.MM.yyyy") : "")</td>
+                            </tr>
+                            <tr>
+                                <td style="width:17%">@*Age*@ @Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()</td>
+                                <td colspan="5">@(UserInfo.Age > 0 ? Convert.ToString(UserInfo.Age) : Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()) @(UserInfo.Age > 0 ? @Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault() : "")</td>
+                            </tr>
+                            <tr>
+                                <td style="width:17%">@*Phone No*@ @Language.Where(c => c.Order_id == 30).Select(c => c.Value).FirstOrDefault()</td>
+                                <td colspan="5">@UserInfo.PhoneNo</td>
+                            </tr>
+                            <tr>
+                                <td style="width:17%">@*Datum*@ @Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()</td>
+                                @foreach (var Item in NoteSectionList.Where(c => c.flg != 1).Select(c => c.SectionCatgId).Distinct().ToList())
+                                {
+                                    <td style="width:20%;">@SectionList.Where(c => c.English_Label == "Catg_Label" && c.Label_Name == Convert.ToString(Item)).Select(c => c.Value).FirstOrDefault()</td>
+                                }
+                                @*<td style="width:30%">Bescherden</td>
+                                    <td style="width:12%">Diagnose</td>
+                                    <td style="width:12%">Methode</td>
+                                    <td style="width:12%">Preis</td>
+                                    <td style="width:17%">Unterschrift</td>*@
+                            </tr>
+                            @foreach (var Item in HistoryList.OrderByDescending(c => c.Bookings).Select(c => c.ReservationId).Distinct().ToList())
+                            {
+                                var Info = HistoryList.Where(c => c.ReservationId == Item).ToList();
+                                <tr>
+                                    <td>@Info.Select(c => c.BookingDate).FirstOrDefault()</td>
+                                    @foreach (var item in NoteSectionList.Where(c => c.flg != 1).Select(c => c.SectionCatgId).Distinct().ToList())
+                                    {
+                                        <td> @Info.Where(c => c.CatgId == item).Select(c => c.CatgDesc).FirstOrDefault()</td>
+                                    }
+
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+            <!--Prescription block-->
+        </div>
+    </div>
+    <div class="modal fade disaplyNone_pdf" id="Print_PopUp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog confirmPopup" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" id="PrintPopupClose">&times;</button>
+                    <h4 class="">@*Confirmation Box*@ @Language.Where(c => c.Order_id == 23).Select(c => c.Value).FirstOrDefault()</h4>
+                </div>
+                <div class="modal-body title15" id="PrintBody">
+                </div>
+                <div class="modal-footer" id="PrintFooter">
+                    <div class="text-right margin-bottom10">
+                        <input type="button" class="btn btn-green" value="Yes">
+                        <input type="button" class="btn btn-grey" value="No">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+@if (IsPrintStatus && DStatus != "D")
+{
+    <script>
+        $(document).ready(function () {
+            window.print();
+            var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
+            if (isChrome) {
+                @*AppClose(@ReservationId,"@RedirectStatus"," @Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault()"," @Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault()",'@ViewBag.Url',"@AlertMsg","@ViewBag.CheckPopupStatus");*@
+            }
+            window.onafterprint = function () {
+                AppClose(@ReservationId,"@RedirectStatus"," @Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault()"," @Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault()",'@ViewBag.Url',"@AlertMsg","@ViewBag.CheckPopupStatus");
+            }
+        });
+
+    </script>
+}

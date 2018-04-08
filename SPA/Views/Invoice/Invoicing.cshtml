@@ -1,0 +1,90 @@
+﻿@{
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.LanguageInfo;
+    ViewBag.Title = Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault();
+    Layout = "~/Views/Shared/_Employee_layout.cshtml";
+    List<SPA.Models.AccessSubMenu> SubMenu = new List<SPA.Models.AccessSubMenu>();
+    SubMenu = ViewBag.SubMenu;
+    var Active = "active";
+    var DivActive = "in active";
+}
+@*<link href="~/Content/sweetalert2.css" rel="stylesheet" />
+<script src="~/Scripts/sweetalert2.min.js"></script>*@
+<ol class="spa-breadcrumbs breadcrumb">
+    @*<li><a href="#" class="active">Home</a></li>
+        <li><a href="#">Customer</a></li>*@
+</ol>
+<div class="form-content">
+    <div class="employee-blank">
+        <h1 class="italic-title">
+            @*Invoicing*@ @Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()
+            <span class="pull-right">
+                @*<a href="@Url.Action("","")" class="title-green16"><i class="fa fa-reply-all margin-right5"></i>Back</a>*@
+            </span>
+        </h1>
+        <div class="spa-home-tab">
+            <ul id="myTab" class="nav nav-tabs">
+                @foreach (var Item in SubMenu.OrderBy(c => c.SubId).ToList())
+                {
+                    <li class="@Active" id="@Item.SubTabId"><a href="#@Item.Link" onclick="CommonTabDetails('@Item.TabLink','#@Item.Link');" data-toggle="tab">@Item.SubTabName</a></li>
+                    Active = "";
+                }
+                @*<li class="active"><a href="#Forinvoicing" onclick="GetInvoicingTabDetails($(this).attr('href').toString());" data-toggle="tab">For invoicing</a></li>
+                    <li><a href="#InvoiceGenerated" onclick="GetInvoicingTabDetails($(this).attr('href').toString());" data-toggle="tab">Invoice Generated</a></li>
+                    <li><a href="#OpenInvoices" onclick="GetInvoicingTabDetails($(this).attr('href').toString());" data-toggle="tab">Open Invoices</a></li>
+                    <li><a href="#ClosedInvoices" onclick="GetInvoicingTabDetails($(this).attr('href').toString());" data-toggle="tab">Closed Invoices</a></li>
+                    <li><a href="#Reports" onclick="GetInvoicingTabDetails($(this).attr('href').toString());" data-toggle="tab">Reports</a></li>*@
+            </ul>
+            <div id="myTabContent" class="tab-content responsive">
+                @foreach (var Item in SubMenu.OrderBy(c => c.SubId).ToList())
+                {
+                    <div class="tab-pane fade @DivActive" id="@Item.Link">
+                        @if (DivActive != "")
+                        {
+                            @Html.Action(Item.Link)
+                        }
+                    </div>
+                    DivActive = "";
+                }
+                @*<div class="tab-pane fade in active" id="Forinvoicing">*@
+                @*@Html.Action("Forinvoicing", "Invoice")*@
+                @*</div>*@
+                @*<div class="tab-pane fade" id="InvoiceGenerated">*@
+                @*@Html.Action("InvoiceGenerated", "Invoice")*@
+                @*</div>*@
+                @*<div class="tab-pane fade" id="OpenInvoices">*@
+                @*@Html.Action("OpenInvoices", "Invoice")*@
+                @*</div>*@
+                @*<div class="tab-pane fade" id="ClosedInvoices">*@
+                @*@Html.Action("ClosedInvoices", "Invoice")*@
+                @*</div>*@
+                @*<div class="tab-pane fade" id="Reports">*@
+                @*@Html.Action("Reports", "Invoice")*@
+                @*</div>*@
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade PaymentRec_payment" id="CloseandPay">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    @*Payment Received*@ @Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </h5>
+            </div>
+            <div class="modal-body" id="ShowPartialPaymentPopup">
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#InvoicingMainMenu").addClass("active");
+    if (window.location.toString().indexOf('#') != -1) {
+        hashFunForTab("2");
+    }
+</script>

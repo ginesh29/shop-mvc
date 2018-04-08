@@ -1,0 +1,134 @@
+﻿
+@{
+    ViewBag.Title = "Image";
+}
+<link rel="stylesheet" href="~/Content/jquery.Jcrop.css" type="text/css" />
+<style>
+    #preview-pane {
+        position: absolute;
+        right: -100px;
+        z-index: 1;
+        display: block;
+        border: 1px #000 solid;
+    }
+
+        #preview-pane .preview-container {
+            overflow: hidden;
+            width: 100px; /* ToDo - size of the crop window*/
+            height: 100px; /* ToDo - size of the crop window*/
+        }
+
+</style>
+<script src="~/Scripts/jquery.Jcrop.js"></script>
+<div class="modal fade" id="CloseandPay">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Hello world
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </h5>
+            </div>
+            <div class="modal-body">
+                <section id="avatar-crop-box" class="hidden">
+                    <img src="#" id="crop-avatar-target" alt="Uploaded image" />
+                    <div id="preview-pane">
+                        <div class="preview-container">
+                            <img src="#" class="jcrop-preview" alt="Preview" />
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button onclick="CropImage()" type="button" class="btn btn-blue smallbtn">Crop Image</button>
+                <button type="button" class="btn btn-grey smallbtn" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="file" onchange="setCropImage(this,'')" />
+
+<script>
+    function CropImage() {
+        var img = $('#preview-pane .preview-container img');
+        $.post("/Profile/ImageCrop", {
+            w: img.css('width'),
+            h: img.css('height'),
+            l: img.css('marginLeft'),
+            t: img.css('marginTop')
+        }, function (result) {
+            if (result.success) {
+                $('#ImgPreviewModel').modal('hide');
+                $("#ImgPreview").attr('src', result.filename);
+            }
+            else
+                displayBarNotification("Error while crop image!", "warning", 2500);
+        })
+    }
+    function setCropImage(input, id) {
+        debugger;
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                /*Set Image for Croping*/
+                $('#crop-avatar-target').attr('src', e.target.result);
+                $('#preview-pane .preview-container img').attr('src', e.target.result);
+                $('.jcrop-holder img').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+            $('#avatar-crop-box').removeClass('hidden');
+            $("#CloseandPay").modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+        }
+    }
+    function updatePreviewPane(c) {
+        if (parseInt(c.w) > 0) {
+            var rx = xsize / c.w;
+            var ry = ysize / c.h;
+            $('#preview-pane .preview-container img').css({
+                width: Math.round(rx * boundx) + 'px',
+                height: Math.round(ry * boundy) + 'px',
+                marginLeft: '-' + Math.round(rx * c.x) + 'px',
+                marginTop: '-' + Math.round(ry * c.y) + 'px'
+            });
+        }
+    }
+    function initAvatarCrop(img) {
+        img.Jcrop({
+            onChange: updatePreviewPane,
+            onSelect: updatePreviewPane,
+            aspectRatio: 2,
+            minSize: [316, 153]
+        }, function () {
+            var bounds = this.getBounds();
+            boundx = bounds[0];
+            boundy = bounds[1];
+            jcrop_api = this;
+            // Maximise initial selection around the centre of the image,
+            // but leave enough space so that the boundaries are easily identified.
+            var padding = 10;
+            var shortEdge = (boundx < boundy ? boundx : boundy) - padding;
+            var longEdge = boundx < boundy ? boundy : boundx;
+            var xCoord = longEdge / 2 - shortEdge / 2;
+            jcrop_api.animateTo([xCoord, padding, shortEdge, shortEdge]);
+            var pcnt = $('#preview-pane .preview-container');
+            xsize = pcnt.width();
+            ysize = pcnt.height();
+            $('#preview-pane').appendTo(jcrop_api.ui.holder);
+            jcrop_api.focus();
+        });
+    }
+    
+    $('#CloseandPay').on('shown.bs.modal', function () {
+        alert();
+        //$("#avatar-crop-box").removeClass("hidden");
+        //$("#crop-avatar-target").attr("src", "/images/404-error-pages-16.png");
+        var img = $('#crop-avatar-target');
+        initAvatarCrop(img);
+    });
+</script>
+

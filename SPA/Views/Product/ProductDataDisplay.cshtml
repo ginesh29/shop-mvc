@@ -1,0 +1,198 @@
+﻿@model IEnumerable<SPA.Models.ProListModel>
+@{
+    ViewBag.Title = "ProductDataDisplay";
+    Layout = null;
+    int index = 1;
+    int GroupIndex = 1;
+    int ListGroupIndex = 0;
+    int ListIndex = 0;
+    string currency = ViewBag.currency;
+    string DurationPre = "Min";
+    List<Language_Label_Detail> Language = ViewBag.Language;
+    List<SPA.Models.GroupProductList> ProductData = new List<SPA.Models.GroupProductList>();
+    ProductData = ViewBag.ProductDetail;
+    var GroupData = ProductData.OrderBy(c => c.Group_orderdata).Select(c => c.GroupIdByShop).Distinct().ToList();
+    long InsuranceCount = ViewBag.InsuranceList != null ? ViewBag.InsuranceList : 0;
+}
+@if (ViewBag.CheckInvoice == true)
+{
+    <style>
+        .HideInvoice {
+            display: none;
+        }
+    </style>
+}
+@if (ProductData.Count > 0)
+{
+    foreach (var GroupId in ProductData.OrderBy(c => c.Group_orderdata).Select(c => c.GroupIdByShop).Distinct())
+    {
+        var GroupInfo = ProductData.Where(c => c.GroupIdByShop == GroupId).FirstOrDefault();
+        <div class="grouping-product remove-catalog-hover Responsive_productscroll product_box">
+            <div class="productGroup">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-3">
+                    <a class="title-green16 cursor-default break_word margin0">
+                        @GroupInfo.GroupName
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 margin-top5">
+                    @if (GroupInfo.Work_Flow_Id != 1)
+                {
+                        <a onclick="EditGroupName(@GroupId);"><i class="fa fa-pencil-square-o spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="@Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault()" data-original-title="" title=""></i></a>@*Edit*@
+                        <a onclick="DeleteGroupName(@GroupId);"><i class="fa fa-trash spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="@Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault()" data-original-title="" title=""></i></a>@*Delete*@
+                }
+                </div>
+                <ul class="up-down-block pull-right">
+                    @if (GroupIndex == 1)
+                {
+                        <li><a @*onclick="GoUpOrder(@index,@item.CatgTypeId);"*@ class="sprite_u_d up-img RemoveActivate"></a></li>
+                }
+                else
+                {
+                        <li><a onclick="GoUpOrder(@ProductData.Where(c => c.GroupIdByShop == GroupId).Select(c => c.Group_orderdata).FirstOrDefault(),@GroupId,@GroupData[ListGroupIndex - 1],'GroupIndexing');" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 23).Select(c => c.Value).FirstOrDefault()" data-original-title="" title="" class="sprite_u_d up-img"></a></li>
+                }
+                    <li><a href="#">@GroupIndex</a></li>
+                    @if (ViewBag.GroupListCount == GroupIndex)
+                {
+                        <li><a class="sprite_u_d down-img RemoveActivate"></a></li>
+                }
+                else
+                {
+                        <li><a onclick="GoDownOrder(@ProductData.Where(c => c.GroupIdByShop == GroupId).Select(c => c.Group_orderdata).FirstOrDefault(),@GroupId,@GroupData[ListGroupIndex + 1],'GroupIndexing');" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault()" data-original-title="" title="" class="sprite_u_d down-img"></a></li>
+                }
+                </ul>
+            </div>
+            <div>
+                <table class="table table-striped margin-top15 grouping-detail-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="text-center display-none">@Language.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault()@*SearchFor*@</th>
+                            <th class="text-center">@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()@*OFFER*@</th>
+                            <th class="text-center">@Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault()@*Gender*@</th>
+                            <th class="text-center">@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()@*DURATION*@</th>
+                            <th class="text-center">@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()@*PRICE*@</th>
+                            @if (InsuranceCount > 0)
+                            {
+                                <th class="text-center HideInvoice">@*Insurance Text*@ @Language.Where(c => c.Order_id == 29).Select(c => c.Value).FirstOrDefault()</th>
+                            }
+                            <th class="text-center">@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()@*PRODUCT INFORMATION*@</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    @{
+                        int TempIndex = 0;
+                        var GrpwiseProd = ProductData.Where(c => c.GroupIdByShop == GroupId).OrderBy(c => c.OrderData).ToList();
+                    }
+                    @foreach (var item in GrpwiseProd)
+                    {
+                        <tbody id="TbodyProduct">
+                            <tr>
+                                <td class="width10per">
+                                    <ul class="up-down-block pull-left">
+                                        @if (TempIndex == 0)
+                                        {
+                                            <li><a @*onclick="GoUpOrder(@index,@item.CatgTypeId);"*@ class="sprite_u_d up-img RemoveActivate"></a></li>
+                                        }
+                                        else
+                                        {
+                                            <li><a onclick="GoUpOrder(@item.OrderData,@item.SolutionId,@GrpwiseProd[TempIndex - 1].SolutionId,'ProductIndexing');" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 23).Select(c => c.Value).FirstOrDefault()" data-original-title="" title="" class="sprite_u_d up-img"></a></li>
+                                        }
+                                        <li><a href="#">@index</a></li>
+                                        @if (GrpwiseProd.Count - 1 == TempIndex)
+                                        {
+                                            <li><a @*onclick="GoDownOrder(@index,@item.CatgTypeId);"*@ class="sprite_u_d down-img RemoveActivate"></a></li>
+                                        }
+                                        else
+                                        {
+                                            <li><a onclick="GoDownOrder(@item.OrderData,@item.SolutionId,@GrpwiseProd[TempIndex + 1].SolutionId,'ProductIndexing');" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault()" data-original-title="" title="" class="sprite_u_d down-img"></a></li>
+                                        }
+                                    </ul>
+                                </td>
+                                <td class="spa-label1 display-none">
+                                    @item.DefaultGroupName
+                                </td>
+                                <td class="spa-label1 width20per">
+                                    @item.ProductName
+                                </td>
+                                @if (item.Gender == "Both")
+                                {
+                                    <td class="spa-label1 text-center width10per">
+                                        <i class="fa fa-female gendericonSize" aria-hidden="true"></i>
+                                        <i class="fa fa-male gendericonSize" aria-hidden="true"></i>
+                                    </td>
+                                }
+                                @if (item.Gender == "male")
+                                {
+                                    <td class="spa-label1 text-center width10per">
+                                        <i class="fa fa-female gendericonSize" style="opacity:0" aria-hidden="true"></i>
+                                        <i class="fa fa-male gendericonSize" aria-hidden="true"></i>
+                                    </td>
+                                }
+                                @if (item.Gender == "Female")
+                                {
+                                    <td class="spa-label1 text-center width10per">
+                                        <i class="fa fa-female gendericonSize" aria-hidden="true"></i>
+                                        <i class="fa fa-male gendericonSize" style="opacity:0" aria-hidden="true"></i>
+                                    </td>
+                                }
+                                @if (item.Gender == null)
+                                {
+                                    <td class="width10per"></td>
+                                }
+                                <td class="spa-label1 width10per">
+                                    @item.Duration @DurationPre
+                                </td>
+                                <td class="spa-label1 width15per">
+                                    @float.Parse(item.Amount.ToString()) @currency
+                                </td>
+                                @if (InsuranceCount > 0)
+                                {
+                                    <td class="spa-label1 width15per HideInvoice">
+                                        @item.Insurance
+                                    </td>
+                                }
+                                @if (!string.IsNullOrEmpty(item.SectionDesc))
+                                {
+                                    <td class="spa-label1 width10per">
+                                        <a href="#" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@item.SectionDesc" data-original-title="" title="">
+                                            <i class="fa fa-info-circle spa-icon1"></i>
+                                        </a>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="spa-label1 width10per">
+                                        @*<a href="#" data-toggle="popover" data-content="No Detail Available">
+                                                <i class="fa fa-info-circle spa-icon1"></i>
+                                            </a>*@
+                                    </td>
+                                }
+                                <td class="text-center width10per">
+                                    <a onclick="EditProduct(@item.ProductId);"><i class="fa fa-pencil-square-o spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault()" data-original-title="" title=""></i></a><a onclick="DeleteProduct(@item.ProductId);"><i class="fa fa-trash spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault()" data-original-title="" title=""></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        index = index + 1;
+                        ListIndex = ListIndex + 1;
+                        TempIndex = TempIndex + 1;
+                    }
+                </table>
+            </div>
+        </div>
+                                GroupIndex = GroupIndex + 1;
+                                ListGroupIndex = ListGroupIndex + 1;
+                            }
+                        }
+                        else
+                        {
+                            <div class="spa-label1 Nodata text-center margin-top10">
+                                <img src="~/images/basket.png" />
+                                <div>@*No Data Found*@ @Language.Where(c => c.Order_id == 28).Select(c => c.Value).FirstOrDefault()</div>
+                            </div>
+                        }
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    });
+</script>
+

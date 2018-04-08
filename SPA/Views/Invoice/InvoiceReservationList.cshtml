@@ -1,0 +1,118 @@
+﻿
+@{
+    Layout = null;
+    List<SPA.Models.InvoiceReservationList> ReservationList = new List<SPA.Models.InvoiceReservationList>();
+    ReservationList = Model;
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.Language;
+    var Istatus = ViewBag.IStatus;
+}
+<form id="frmIAddIReservation" action="/Invoice/InvoiceAddOnProductAdd" method="post">
+    <div class="product-catalog-table table-responsive" aria-expanded="true" style="">
+        <table class="table margin-top15 grouping-detail-table">
+            <thead>
+                <tr>
+                    <th>@*No*@ @Language.Where(c => c.Order_id == 53).Select(c => c.Value).FirstOrDefault()</th>
+                    <th></th>
+                    <th>@*Product*@ @Language.Where(c => c.Order_id == 54).Select(c => c.Value).FirstOrDefault()</th>
+                    <th>@*Rate*@ @Language.Where(c => c.Order_id == 47).Select(c => c.Value).FirstOrDefault()</th>
+                    <th>@*Amount*@ @Language.Where(c => c.Order_id == 51).Select(c => c.Value).FirstOrDefault()</th>
+                    <th>@*Date*@ @Language.Where(c => c.Order_id == 45).Select(c => c.Value).FirstOrDefault()</th>
+                    <th>@*Time*@ @Language.Where(c => c.Order_id == 55).Select(c => c.Value).FirstOrDefault()</th>
+                </tr>
+            </thead>
+            <tbody id="CalAddReservation">
+                @if (ReservationList.Count > 0)
+                {
+                    foreach (var Item in ReservationList)
+                    {
+                        var index = ReservationList.IndexOf(Item) + 1;
+                        <tr>
+                            <td class="spa-label1">@index</td>
+                            <td class="width5per">
+                                <span class="spa-checkbox checkbox margin0 float_left">
+                                    <input id="@Item.ReservtionId" name="IAddOnProductId" type="checkbox" value="@Item.ReservtionId">
+                                    <label for="@Item.ReservtionId" class="form-label spa-label1"></label>
+                                </span>
+                            </td>
+                            <td class="spa-label1">@Item.ProductName</td>
+                            <input type="hidden" id="ProductName" value="@Item.ProductName" />
+                            <input type="hidden" id="Rate" value="@Item.Rate" />
+                            <input type="hidden" id="Add_OnDate" value="@Item.BookingDate" />
+                            <input type="hidden" id="Add_OnQuantity" value="@Item.Quantity" />
+                            <input type="hidden" id="Duration" value="@Item.Duration" />
+                            <input type="hidden" id="Tarif_Number" value="@Item.Tarif_Number" />
+                            <input type="hidden" id="Settlement_Number" value="@Item.Settlement_Number" />
+                            <input type="hidden" id="Settlement_text" value="@(Item.Settlement_text!= null?Item.Settlement_text:Item.ProductName)" />
+                            <input type="hidden" id="vat" value="@Item.Vat" />
+                            <input type="hidden" id="InvoiceDate" value="@ViewBag.InvoiceDate" />
+                            <td class="spa-label1">@Item.Currency @Item.Rate</td>
+                            <td class="spa-label1">@Item.Currency @Item.Amount</td>
+                            <td class="spa-label1">@Item.BookingDate</td>
+                            <td class="spa-label1">@Item.Duration Min</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="spa-label1 Nodata">
+                            <img src="~/images/No Data_2.png" />
+                            <div>@*No Reservation Available*@ @Language.Where(c => c.Order_id == 78).Select(c => c.Value).FirstOrDefault()</div>
+                        </td>
+                        </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="text-right">
+        <input type="button" class="btn btn-green btn-small width100 margin-right5  @(ReservationList.Count>0?"":"display-none")" id="SaveAddReservation" value="@Language.Where(c => c.Order_id == 56).Select(c => c.Value).FirstOrDefault()" />@*Save*@
+    </div>
+</form>
+<script>
+    $("body").delegate("#CalAddReservation tr input[type='checkbox']", "change", function () {
+        if ($(this).is(":checked")) {
+            $(this).parents("tr:first").find("input:not([type='checkbox'])").map(function () { $(this).attr("name", $(this).attr("id")) });
+        }
+        else {
+            $(this).parents("tr:first").find("input:not([type='checkbox'])").removeAttr("name");
+        }
+    });
+    //$("body").delegate("#SaveAddReservation", "click", function () {
+    $("#SaveAddReservation").click(function () {
+        var addprodvalidation = $("#frmIAddIReservation").validate().form();
+        if (addprodvalidation != false) {
+            if ($("#CalAddReservation tr input[type='checkbox']:checked").length > 0) {
+                $('.loader').show();
+                var form = $("#frmIAddIReservation");
+                var url = "/Invoice/InvoiceAddOnProductAdd?Status=Reservation&Istatus=@Istatus";
+                var formData = form.serialize();
+                $.post(url, formData, function (data) {
+                    if (data != null) {                     
+                        $('#Reservation_popup').modal('hide');
+                        $("#CalAddReservation tr input[type='checkbox']").attr("checked", false).change();
+                        if ("@Istatus" == "GI")
+                            $("#CalProductDuration #TrTotal").before(data);
+                        else
+                            $("#CalProductDuration tr:last").after(data);
+                        if ($("#CalProductDuration tr").not("#NoDataIProduct,#TrTotal").length == 0) {
+                            $("#NoDataIProduct").removeClass("display-none");
+                            $("#TrTotal").addClass("display-none");
+                        }
+                        else {
+                            $("#NoDataIProduct").addClass("display-none");
+                            $("#TrTotal").removeClass("display-none");
+                        }
+                        TotalSum();
+                    }
+                    $(".loader").hide();
+                });
+            }
+            else {
+               // var Message = "Please Select Add Reservation";
+                $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO!</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 79).Select(c => c.Value).FirstOrDefault()</p>");
+                $('#welcome').modal("show");
+            }
+        }
+    });
+</script>

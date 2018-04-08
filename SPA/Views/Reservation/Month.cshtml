@@ -1,0 +1,215 @@
+﻿@{
+    Layout = null;
+    long UserIds = 0;
+    List<SPA.Models.WeekDayBlockDetail> UserData = new List<SPA.Models.WeekDayBlockDetail>();
+    UserData = ViewBag.UserData;
+    if (UserData != null && UserData.Count > 0)
+    {
+        UserIds = UserData.OrderBy(c => c.UserId).Select(c => c.UserId).FirstOrDefault();
+    }
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.Language;
+    List<SPA.Models.LanguageLabelDetails> LanguageCalender = new List<SPA.Models.LanguageLabelDetails>();
+    LanguageCalender = ViewBag.CalenderLanguage;
+}
+<div class="emp-slider-padding padding-left50" id="Employeesbtn">
+    <!--Employee slider-->
+
+    @if (UserData.Count > 0)
+    {
+        <div class="employee-detail-slider">
+            <div class="item">
+                <a class="employee-slider-box all-text-box" onclick="ShowAllButton('All');" id="All">
+                    <span>@*ALL*@ @Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()</span>
+                </a>
+            </div>
+            @foreach (var item in UserData.OrderBy(c => c.UserId))
+            {
+            <div class="item">
+                <a class="employee-slider-box" id="@item.UserId" onclick="ShowDataCala(@item.UserId)">
+                    <div class="img-box emp-height-box">
+                        @if (!string.IsNullOrEmpty(item.Image))
+                        {
+                            <img src="@item.Image" onerror="this.onerror=null;this.src='/images/defaultuser.png';">
+                        }
+                        else
+                        {
+                            <img src="~/images/defaultuser.png" />
+                        }
+
+                    </div>
+                    <span>@item.firstName @item.lastName</span>
+                </a>
+            </div>
+            }
+        </div>
+    }
+
+
+    <!--Employee slider-->
+    <div class="clearfix"></div>
+
+    @*@if (UserData.Count > 0)
+        {
+            <input type="button" onclick="ShowAllButton('All');" class="btn btn-browse btn-small margin-top15 margin-right5 " value="ALL">
+            foreach (var item in UserData.OrderBy(c=>c.UserId))
+            {
+                <input type="button" class="btn btn-browse btn-small margin-top15 margin-right5" id="@item.UserId" onclick="ShowDataCala(@item.UserId)" value="@item.firstName @item.lastName">
+            }
+        }*@
+</div>
+
+<div class="calendar-month">
+    @*<div class="text-right">
+        <input type="button" class="btn btn-green margin-bottom5 display-none" id="btnMonthQuickBlocker" value="Quickblocker" BlockUserId="" />
+    </div>*@
+    @if (UserData.Count > 0)
+    {
+        <div class="table-responsive">
+            <table class="table cal-table">
+                <thead>
+                    <tr class="month-name">
+                        <th id="UserNamesForMonth">User name</th>
+                        <th id="UnoccMonth">@Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()@*Unutilised*@<span class="badge user-count margin-left5">58%</span></th>
+                        <th>
+                            <span>
+                                <a onclick="changedata(-1, 1);">
+                                    <i class="fa fa-angle-double-left cal-icon"></i>
+                                </a>
+                                <a onclick="changedata(-1, 0);">
+                                    <i class="fa fa-angle-left cal-icon"></i>
+                                </a>
+                                <span class="Header-FullCalander width-20">October - 2015</span>
+                                <a onclick="changedata(1, 0);">
+                                    <i class="fa fa-angle-right cal-icon"></i>
+                                </a>
+                                <a onclick="changedata(1, 1);">
+                                    <i class="fa fa-angle-double-right cal-icon"></i>
+                                </a>
+                            </span>
+                        </th>
+                        @*<th>Rating<span class="badge user-count margin-left5">100%</span></th>*@
+                        <th id="MonthlyRevenue">@*Revenue*@@Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault() : <span>0$</span></th>
+                        <th class="Quick_blocker" BlockUserId="" id="btnMonthQuickBlocker"><span class="margin-right5"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i></span>@*Quick Blocker*@ @Language.Where(c => c.Order_id == 29).Select(c => c.Value).FirstOrDefault()</th>
+                    </tr>
+
+                    <tr>
+                        <th class="remove-padding" colspan="6">
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+
+            <div class="choose-your-product" id="fixColumnHeadCalendar">
+                <table class="table table-striped cal-table" id="MonthTable">
+                    <thead class="week">
+                        <tr class="bg_green">
+                            <th colspan="2"></th>
+                            <th colspan="7">@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()@*Week*@ 1</th>
+                            <th colspan="7">@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()@*Week*@ 2</th>
+                            <th colspan="7">@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()@*Week*@ 3</th>
+                            <th colspan="7">@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()@*Week*@ 4</th>
+                            <th colspan="7">@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()@*Week*@ 5</th>
+                            <th colspan="7">@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()@*Week*@ 6</th>
+                        </tr>
+                    </thead>
+                    <thead class="day day_calc" id="dayCalc">
+                        <tr>
+                            <th colspan="2" class="cal-border DayTitle">@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()@*Day*@</th>
+                            @for (int DatesCnt = 0; DatesCnt < 42; DatesCnt++)
+                            {
+                                string TextDate = "dates_" + DatesCnt;
+                                var Calculate = (DatesCnt + 1) % 7;
+                                if (Calculate == 0 && DatesCnt != 0)
+                                {
+                                    <th class="cal-border" id="@TextDate"></th>
+                                }
+                                else
+                                {
+                                    <th id="@TextDate"></th>
+                                }
+                            }
+                        </tr>
+                    </thead>
+                    <thead class="day day-name">
+                        <tr>
+                            <th colspan="2" class="cal-border">@Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault()@*DayName*@</th>
+                            @for (int Dayscnt = 0; Dayscnt < 6; Dayscnt++)
+                            {
+                                <th>@LanguageCalender.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()@*Su*@</th>
+                                <th>@LanguageCalender.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()@*Mo*@</th>
+                                <th>@LanguageCalender.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()@*Tu*@</th>
+                                <th>@LanguageCalender.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()@*We*@</th>
+                                <th>@LanguageCalender.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()@*Th*@</th>
+                                <th>@LanguageCalender.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()@*Fr*@</th>
+                                <th class="cal-border">@LanguageCalender.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()@*sa*@</th>
+                            }
+
+                        </tr>
+                    </thead>
+                    <tbody id="BodyTag">
+                        @for (int BarPlays = 0; BarPlays < 15; BarPlays++)
+                        {
+                            <tr>
+                                <td colspan="2">08:00</td>
+                                @for (int BarCount = 0; BarCount < 42; BarCount++)
+                                {
+                                    <td></td>
+                                }
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <div class="Nodata text-center">
+            <img src="~/images/defaultuser.png" />
+            <div>@*No Employee Available*@@Language.Where(c => c.Order_id == 28).Select(c => c.Value).FirstOrDefault()</div>
+        </div>
+    }
+</div>
+@if (UserData.Count > 0)
+{
+    if (!string.IsNullOrEmpty(Session["ViewUserId"] as string) && !string.IsNullOrEmpty(Session["ViewDate"] as string))
+    {
+        if (Session["ViewUserId"].ToString() != "" && Session["ViewDate"].ToString() != "")
+        {
+            <script>
+                $(".loader").show();
+                GetAllDefaultForMonth("@Session["ViewDate"].ToString()");
+                $("#Employeesbtn a").removeClass("activebutton");
+                $("#Employeesbtn #@Session["ViewUserId"].ToString()").addClass("activebutton");
+                $("#UserNamesForMonth").html($("#Employeesbtn .activebutton span").html());
+                GoAdd();
+            </script>
+        }
+        else
+        {
+            <script>
+                $(".loader").show();
+                GetAllDefaultForMonth();
+                $("#Employeesbtn #@UserIds").addClass("activebutton");
+                $("#UserNamesForMonth").html($("#Employeesbtn .activebutton span").html());
+                GoAdd();
+            </script>
+        }
+
+    }
+    else
+    {
+        <script>
+            $(".loader").show();
+            GetAllDefaultForMonth();
+            $("#Employeesbtn #@UserIds").addClass("activebutton");
+            $("#UserNamesForMonth").html($("#Employeesbtn .activebutton span").html());
+            GoAdd();
+        </script>
+    }
+}
+
+

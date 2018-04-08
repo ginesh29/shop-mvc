@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = "SettlementText";
+    List<SPA.Models.settlementTxt> settleTxt = Model;
+    Layout = null;
+    string ChkAssigned = null;
+    List<SPA.Models.LanguageLabelDetails> Language = ViewBag.Language;
+}
+<script src="~/Scripts/Product.js"></script>
+<div class="settlementText_page product-catalog border0">
+    <div class="row">
+        <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24 text-right">
+            @*Assign Service*@
+            <a class="title-green16 ProductTextTouch margin0" id="ahrefAddSettlment"><i class="fa fa-plus-square margin-right5"></i>@Language.Where(c=>c.Order_id==1).Select(c=>c.Value).FirstOrDefault()</a>
+        </div>
+    </div>
+    <div class="p-relative border-top-grey margin-top15 choose-your-product">
+        <div class="add-vacation-block ProductGroupText res-margin-top" style="display: none;" id="divAddSettlment">
+            <div>
+                <form action="/Product/AssignSettlementText" method="post" enctype="application/x-www-form-urlencoded">
+                    <ul>
+                        <li class="row">
+                            @*Settlement Text*@
+                            <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24">
+                                <label class="form-label spa-label1">@Language.Where(c=>c.Order_id==5).Select(c=>c.Value).FirstOrDefault()</label>
+                            </div>
+                        </li>
+                        <li class="row">
+                            <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24 form-group">
+                                <div class="listSettlText">
+                                    <input type="text" class="form-control required spa-text-box spa-text-box2" placeholder="@Language.Where(c=>c.Order_id==14).Select(c=>c.Value).FirstOrDefault()" id="SearchInSettlement" autocomplete="off" />
+                                    <ul id="AllSettlement" class="dropdown-menus">
+                                        @foreach (var Settlement in settleTxt)
+                                        {
+                                            <li id="display_@Settlement.Insurance_Id">
+                                                <a>
+                                                    <div class="spa-checkbox checkbox AssignEmpProduct">
+                                                        <input value="@Settlement.Insurance_Id" name="Settlement" id="Settlement_@Settlement.Insurance_Id" type="checkbox" checked="@Settlement.checkbox">
+                                                        <label for="Settlement_@Settlement.Insurance_Id" class="form-label spa-label1"></label>
+                                                        <div class="dropmenuEllips Product_insuranceDrop">
+                                                            <p>@Settlement.Tarif_Number</p>  <span>@Settlement.Settlement_Number</span>  @Settlement.Settlement_text
+                                                        </div>
+                                                    </div>
+
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="row">
+                            <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24 form-group text-right">
+                                <input type="submit" class="btn btn-green btn-small width100" value="@(Language.Where(c=>c.Order_id==11).Select(c=>c.Value).FirstOrDefault())">
+                                <input type="button" class="btn btn-black btn-small width100" value="@(Language.Where(c=>c.Order_id==12).Select(c=>c.Value).FirstOrDefault())" id="btnCloseSettlement">
+                            </div>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+        </div>
+        <div class="product-catalog-box add-vacation-table product-catalog-table min-width-table padding0 table-responsive">
+            <div class="Responsive_productscroll">
+                <table class="table table-striped margin-top15 tblSettlement border-gray" id="AssignedSettlementTB">
+                    <thead>
+                        <tr>
+                            @*No*@
+                            <th>@Language.Where(c=>c.Order_id==2).Select(c=>c.Value).FirstOrDefault()</th>
+                            @*Tarif Number*@
+                            <th>@Language.Where(c=>c.Order_id==3).Select(c=>c.Value).FirstOrDefault()</th>
+                            @*Settlement Number*@
+                            <th>@Language.Where(c=>c.Order_id==4).Select(c=>c.Value).FirstOrDefault()</th>
+                            @*Settlement Text*@
+                            <th>@Language.Where(c=>c.Order_id==5).Select(c=>c.Value).FirstOrDefault()</th>
+                            @*Duration*@
+                            <th>@Language.Where(c=>c.Order_id==6).Select(c=>c.Value).FirstOrDefault()</th>
+                            @*Amount*@
+                            <th>@Language.Where(c=>c.Order_id==7).Select(c=>c.Value).FirstOrDefault()</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @Html.Partial("getAssignedSettlementText", settleTxt.Where(c => c.checkbox == true).ToList())
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="text-right" id="UpdateallStmt" @(settleTxt.Where(c => c.checkbox == true).Count() > 0 ? "" : "Hidden")>
+            <input type="button" class="btn btn-green" value="Update All" onclick="UpdateSettlement();">
+        </div>
+    </div>
+</div>
+<script>
+    $("#ahrefAddSettlment,#btnCloseSettlement").click(function () {
+        $("#divAddSettlment").slideToggle();
+    });
+    SearchInSelectedList("#SearchInSettlement");
+</script>

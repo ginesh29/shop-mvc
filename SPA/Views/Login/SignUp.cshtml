@@ -1,0 +1,118 @@
+﻿@model SPA.CCTSP_User
+@using SPA.Common
+@{
+    Layout = null;
+    CCTSP_SchoolMaster SchoolInformation = new CCTSP_SchoolMaster();
+    SchoolInformation = ViewBag.SchoolInformation;
+    int LanguageId = SchoolInformation.Lang_id.Value;
+    string Colorclass = ViewBag.Colorclass;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @if (LanguageId == 2)
+    {
+        <script type="text/javascript" src="~/Scripts/messages_de.js"></script>
+    }
+    @if (LanguageId == 3)
+    {
+        <script type="text/javascript" src="~/Scripts/messages_fr.js"></script>
+    }
+    @if (Session["Message"].ToString() == "Repeat")
+    {
+        <script>
+            $.post("/Product/GetDataOfLanguage?Text=Sorry From&id=29", function (data) {
+                $.post("/Product/GetDataOfLanguage?Text=You are Already Registered!&id=32", function (data1) {
+                    $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\">" + data + " <span>CLICK-AND-GO!</span></h1><p class=\"title15 text-center margin-bottom30\">" + data1 + "</p>");
+                    $('#welcome').modal("show");
+                })
+            });
+        </script>
+        Session["Message"] = "";
+    }
+</head>
+<body class="@Colorclass">
+    <div class="sign-in sign-up">
+
+        <h1 class="title-white14">PLEASE SIGNUP 
+            <a href="/Home/Home" class="pull-right icon-home">
+                <i class="fa fa-home"></i>
+             </a>   
+        </h1>
+        <div class="sign-in-form">
+            @using (Html.BeginForm("SignUp", "Login", FormMethod.Post,new { @id="SignUpForm", @autocomplete = "off" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="alert alert-danger" style="display: none"></div>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row">
+                    <div class="col-lg-6 col-md-5 col-sm-6">
+                        <div class="form-group">
+                            @Html.Label("Title", htmlAttributes: new { @class = "form-label spa-label" })
+                            <div class="dropdown spa-dropdown">
+                                @Html.DropDownListFor(c => c.Gender, (SelectList)(ViewBag.GenderList), new { @class = "dropdown-toggle spa-dropdown-box form-control dropdown-toggle" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-18 col-md-19 col-sm-18">
+                        <div class="form-group">
+                            @Html.Label("First Name *", htmlAttributes: new { @class = "form-label spa-label" })
+                            @*<input type="text" class="form-control spa-text-box" name="FirstName" required />*@
+                            @Html.EditorFor(c => c.FirstName, new { htmlAttributes = new { @class = "form-control required   spa-text-box ", @placeholder = "Enter your first name"} })
+                            @Html.ValidationMessageFor(c => c.FirstName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                    <div class="form-group">
+                        @Html.Label("Family Name", htmlAttributes: new { @class = "form-label spa-label" })
+                        @Html.EditorFor(c => c.LastName, new { htmlAttributes = new { @class = "form-control  spa-text-box ", @placeholder = "Enter your family name"} })
+                        @Html.ValidationMessageFor(c => c.LastName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Mobile Number *", htmlAttributes: new { @class = "form-label spa-label" })
+                        @Html.EditorFor(c => c.PhoneNo, new { htmlAttributes = new { @class = "form-control required number spa-text-box", @placeholder = "Enter your mobile number", @minlength = "6"  } })
+                        @Html.ValidationMessageFor(c => c.PhoneNo, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Email *", htmlAttributes: new { @class = "form-label spa-label" })
+                        <input type="email" id="EmailId" name="EmailId" class="form-control required spa-text-box" placeholder="Enter your Email-ID" autocomplete="off"  />
+                        @*@Html.EditorFor(c => c.EmailId, new { htmlAttributes = new { @class = "form-control required spa-text-box", autocomplete = "off" } })*@
+                        @Html.ValidationMessageFor(c => c.EmailId, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Password *", htmlAttributes: new { @class = "form-label spa-label" })
+                        @Html.EditorFor(c => c.Password, new { htmlAttributes = new { @class = "form-control required spa-text-box ", @pattern = "(?=.*[a-z])(?=.*[A-Z]).{8,}", @placeholder = "Enter your password", Type = "password",@id= "Password", autocomplete = "off", @minlength = "6"} })
+                        @Html.ValidationMessageFor(c => c.Password, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Confirm Password *", htmlAttributes: new { @class = "form-label spa-label" })
+                        @Html.Editor("ConfirmPassword", new { htmlAttributes = new { @class = "form-control spa-text-box ", @placeholder = "Re-enter your password", Type = "password", autocomplete = "off", equalto = "#Password" } })
+                        @Html.ValidationMessage("ConfirmPassword", "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-green full-width" id="btnLogin" value="Sign Up" />
+                    </div>
+            }
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#SignUpForm").validate();
+        });
+    </script>
+</body>
+
+</html>
+   
+    
+

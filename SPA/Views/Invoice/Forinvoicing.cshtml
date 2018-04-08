@@ -1,0 +1,192 @@
+﻿
+@{
+    Layout = null;
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.LanguageInfo;
+    ViewBag.Title = Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault();
+    List<SPA.Models.Invoice> InvoiceList = new List<SPA.Models.Invoice>();
+    InvoiceList = Model;
+    var classname = "";
+    var HideClass = "display-none";
+    int insertAccess = 0;
+    if (InvoiceList.Count > 0)
+    {
+        var Item = InvoiceList.FirstOrDefault();
+        if (((Item.insertAccess != "N" && (Item.FlowStatus == "2" || Item.FlowStatus == "3")) || (Item.FlowStatus == "1")))
+        {
+            insertAccess = 1;
+        }
+    }
+    else
+    {
+        insertAccess = ViewBag.AddAccess > 0 ? 1 : 0;
+    }
+    //int insertAccess = InvoiceList.Count > 0 && InvoiceList.Select(c => c.insertAccess).FirstOrDefault().Trim() == "Y" ? 1 : ViewBag.AddAccess > 0 ? 1 : 0;
+}
+@if (Convert.ToString(Session["Message"]) == "Forinvoicing_CI")
+{
+    <script>
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()</p>");
+        $('#welcome').modal("show");
+    </script>
+    Session["Message"] = "";
+    Session["AddCustomerMsg"] = "";
+}
+@if (Convert.ToString(Session["Message"]) == "Forinvoicing_CIP")
+{
+    <script>
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()</p>");
+        $('#welcome').modal("show");
+    </script>
+    Session["Message"] = "";
+    Session["AddCustomerMsg"] = "";
+}
+@if (Convert.ToString(Session["Message"]) == "Forinvoicing_PCMP")
+{
+    <script>
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault()</p>");
+        $('#welcome').modal("show");
+    </script>
+    Session["Message"] = "";
+    Session["AddCustomerMsg"] = "";
+}
+@if (Convert.ToString(Session["Message"]) == "Forinvoicing_DCMP")
+{
+    <script>
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault()</p>");
+        $('#welcome').modal("show");
+    </script>
+    Session["Message"] = "";
+    Session["AddCustomerMsg"] = "";
+}
+<form name="ForInvoicing" id="ForInvoicingFrm" action="/Invoice/Invoice1" method="post" enctype="multipart/form-data">
+    <div class="Invoice parent">
+        <div class="row forinvoice_header">
+            <input type="hidden" id="FISuccessMsg" value="@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()" />
+            <input type="hidden" id="FIErrorMsg" value="@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()" />
+            <div class="col-lg-18 col-md-18 col-sm-18 margin-top5">
+                <div class="@(insertAccess > 0?"":"display-none")">
+                    <span class="spa-checkbox checkbox margin0 float_left">
+                        <input value="true" name="aaa" id="aaa" type="checkbox">
+                        <label for="aaa" class="form-label spa-label1"></label>
+                    </span>
+                    <p class="select_text Ellips float_left">@*Select all*@ @Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()</p>
+                    <a class="create_invoice InvoiceCreate Ellips margin-left10">@*Create Invoice*@ @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 Res_margin-top10">
+                <input class="form-control spa-text-box text-box single-line" type="text" id="FI_Search" placeholder="@Language.Where(c=>c.Order_id==4).Select(c=>c.Value).FirstOrDefault()">@*Search...*@
+            </div>
+        </div>
+        <div class="forinvoice_responsive" id="Forinvoicing_Table">
+            <div class="forinvoice_responsiveScroll">
+                @foreach (var CustomerId in InvoiceList.Select(c => c.CustomerId).ToList().Distinct())
+                {
+                    classname = "display-none";
+                    var CustomerInfo = InvoiceList.Where(c => c.CustomerId == CustomerId).ToList();
+                    var CustomerDetails = CustomerInfo.FirstOrDefault();
+                    if (((CustomerDetails.insertAccess != "N" && (CustomerDetails.FlowStatus == "2" || CustomerDetails.FlowStatus == "3")) || (CustomerDetails.FlowStatus == "1")))
+                    {
+                        HideClass = "";
+                    }
+                    <div class="forinvocie_box parent">
+                        <div class="row forinvocie_data">
+                            <div class="col-lg-10 col-md-8 col-sm-8 col-xs-10">
+                                <div>
+                                    <span class="spa-checkbox checkbox margin0 float_left  @HideClass">
+                                        <input value="true" name="aaa" id="@CustomerDetails.CustomerId" type="checkbox">
+                                        <label for="@CustomerDetails.CustomerId" class="form-label spa-label1"></label>
+                                    </span>
+                                    <p class="select_text Ellips FIName">@CustomerDetails.CustomerLName @CustomerDetails.CustomerFName</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                <span class="badge user-count margin-left5">@CustomerInfo.Count()</span>
+                            </div>
+                            <div class="col-lg-3 col-md-5 col-sm-5 col-xs-3 text-center">
+                                <p class="select_text Ellips FIName">@CustomerDetails.Currency @CustomerInfo.Select(c => c.ProductPrice).Sum()</p>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-2">
+                                <i class="fa fa-envelope fa-envelope-o_@CustomerDetails.Invoice_Service font18 colorGrey margin-right5" style="cursor:default;"></i>
+                                <i class="fa fa-print fa-print_@CustomerDetails.Invoice_Service font18 colorGrey" style="cursor:default;"></i>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-5 col-xs-6 text-center Ellips">
+                                <a class="create_invoice ManualInvoice @HideClass">@*Create Invoice*@ @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</a>
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-right">
+                                <a><span><i class="fa fa-chevron-down up_down" aria-hidden="true" id="arrow"></i></span></a>
+                            </div>
+                        </div>
+                        <div class="forinvocie_SUBtable collapse">
+                            <table class="table">
+                                <tbody>
+                                    @foreach (var Item in CustomerInfo)
+                                    {
+                                        <tr class="parent">
+                                            <td class="width5per">
+                                                <span class="spa-checkbox checkbox ap-closed @HideClass">
+                                                    <input name="ReservationList" id="@Item.ReservationId" type="checkbox" value="@Item.ReservationId" Identification="@Item.CustomerId@Item.EmployeeId">
+                                                    <label for="@Item.ReservationId" class="form-label spa-label1 padding-left0"></label>
+                                                </span>
+                                            </td>
+                                            <td style="width:10%;">@Item.ReservationId</td>
+                                            <td style="width:20%;">@Item.ProductName</td>
+                                            <td style="width:15%;">@Item.BookingDate</td>
+                                            <td style="width:15%;">@Item.StartTime</td>
+                                            <td style="width:15%;">@Item.EndTime</td>
+                                            <td style="width:10%;">@Item.Duration Min</td>
+                                            <td style="width:10%;">@Item.Currency @Item.ProductPrice</td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="font16 Nodata text-center @classname">
+            <img src="~/images/Invoice_notfound.png" />
+        </div>
+    </div>
+</form>
+<!--Employee Popup-->
+<div class="modal fade PaymentRec_payment" id="OpenCreateManualInvoicePopup">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    @*Select*@ @Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </h5>
+            </div>
+            <div class="modal-body" id="ManualInvoicePopup">
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/Invoice.js"></script>
+<script>
+    $(".forinvocie_box a").click(function () { $(this).find("i").toggleClass("fa-chevron-up fa-chevron-down").parents(".forinvocie_data").next().fadeToggle(500); });
+    $("input[type='checkbox']").change(function () { $(this).parents(".parent:first").find("input[type='checkbox']").prop("checked", $(this).is(":checked")); });
+    searchForinvoicingPage("FI_Search", "Forinvoicing_Table", 0, 4);
+    function searchForinvoicingPage(SearchField, Table, gt, lt) {
+        $("#" + SearchField).keyup(function () {
+            var SearchText = $(this).val().toLowerCase();
+            var Array = $("#" + Table + " .forinvocie_box").not(".display-none");
+            Array.each(function () {
+                var MainParent = $(this);
+                var Row = $(this).find(".FIName").map(function () { if ($(this).html().toLowerCase().indexOf(SearchText) > -1) { return $(this).html(); } }).get().length;
+                if (Row > 0)
+                    MainParent.show();
+                else
+                    MainParent.hide();
+            })
+        });
+    }
+</script>

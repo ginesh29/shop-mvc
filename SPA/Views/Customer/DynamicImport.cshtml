@@ -1,0 +1,109 @@
+﻿@{
+    Layout = null;
+    var getCatg = (List<SPA.Models.ImportCustomer>)Model;
+    List<string> getColumn = ViewBag.getExcelColumn;
+    List<string> ArrangedString = new List<string>();
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.Language;
+}
+@*Start: Script and Style*@
+@*<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">*@
+<script src="~/Scripts/ImportExcel.js"></script>
+<style>
+    .default_field .Dynamic-Field li ul {
+        border: 0;
+        background-color: #fff;
+    }
+
+    .import_active {
+        border: 1px solid #fcefa1 !important;
+        background-color: #fbf9ee !important;
+    }
+
+    .drag_div {
+        font-size: 12px;
+        color: #c3c3c3;
+        text-align: center;
+        border: 1px dashed #cecece !important;
+    }
+</style>
+@*End: Script and Style**@
+@using (Ajax.BeginForm("AddDynamicColumn", "Customer", new AjaxOptions { HttpMethod = "POST", LoadingElementId = "loader", OnSuccess = "UploadExcel", OnBegin = "RemoveAllHeights" }, new { @id = "Dynamic" }))
+{
+    <div class="col-lg-18 col-md-16 col-sm-18 col-xs-18 padding-right0">
+        <div class="customer_infoBox">
+            @*Default Fields*@
+            <h6>@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()</h6>
+            <div class="import_mainBox">
+                <div class="default_field">
+                    <ul class="Dynamic-Field">
+                        @foreach (var item in getCatg)
+                        {
+                            var firstData = getColumn.Where(c => (c == item.ColumnName || c == item.AliasName || (c == item.CustColName && item.CustColName != null && item.CustColName != ""))).FirstOrDefault();
+                            <li class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <p>@item.AliasName</p>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                    @if (!string.IsNullOrEmpty(firstData))
+                                    {
+                                        ArrangedString.Add(firstData);
+                                        <ul class="droppable ui-state-default ui-widget-content" style="min-height:29px">
+                                            <input type="hidden" id="@item.Identity" name="@item.Identity" value="@firstData" />
+                                            <li class="drag-filed Dropped"><h5>@firstData<a class="Removeli"><i class="fa fa-times-circle" aria-hidden="true"></i></a></h5></li>
+                                            @*Drag here*@
+                                            <li class="drag_div hide">@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()</li>
+                                        </ul>
+                                    }
+                                    else
+                                    {
+                                        <ul class="droppable ui-state-default ui-widget-content" style="min-height:29px">
+                                            <input type="hidden" id="@item.Identity" name="@item.Identity" value="" />
+                                            @*Drag here*@
+                                            <li class="drag_div">@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()</li>
+                                        </ul>
+                                    }
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-8 col-sm-6 col-xs-6">
+        <div class="Excel_field">
+            <h6>@*Import to Excel Fields*@ @Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()</h6>
+            <div class="import_mainBox">
+                <div class="Excel_fieldBox">
+                    <ul class="draggable">
+                        @foreach (var getCls in getColumn.Where(c => !ArrangedString.Contains(c)).ToList())
+                        {
+                            <li class="ui-state-default">
+                                <span class="Field_img"></span>
+                                <span class="Field_text">@getCls</span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24 form-group margin-top20 text-right">
+        @*<input type="submit" value="save" class="btn btn-green" />*@
+        @*Save*@
+        <input type="submit" class="btn btn-green margin-right5 margin-bottom10" disabled="disabled" value="@Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()" id="btnAddDynamicFields">
+        @*Cancel*@
+        <input type="reset" class="btn btn-black margin-bottom10 margin-right10" id="CancelBtn" value="@Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()">
+    </div>
+}
+<script>
+    $(".Import_height").removeClass("Import_height");
+    function RemoveAllHeights() {
+        $("#ShowReport").slideToggle('slow').html("").slideToggle();
+        $("#ImportHeight").addClass("Import_height");
+    }
+    btnDynamicFields();
+</script>
+

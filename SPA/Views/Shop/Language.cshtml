@@ -1,0 +1,122 @@
+﻿@{
+    ViewBag.Title = "Language";
+    Layout = null;
+    string url = "";
+    List<Language_Label_Detail> Language = ViewBag.PageList;
+}
+<script src="~/Scripts/jquery.slimscroll.min.js"></script>
+<div class="create-employee-form shop-owner-setup " id="MainContentLanguage">
+    <div class="choose-your-product margin-top15 p-relative">
+        <div class="add-vacation-block" id="DivLanguageEdit" style="display:none;">
+            <form id="LanguageForm" action="/Shop/LanguageEdit" method="post" novalidate="novalidate">
+                <div class="row">
+                    <ul class="row">
+                        <li class="col-lg-24 col-md-24 col-sm-24 col-xs-24 form-group">
+                            <label class="form-label spa-label1">Language Text</label>
+                            <input type="text" name="LanguageText" id="LanguageText" class="form-control spa-text-box required spa-text-box2" placeholder="Add Language Text">
+                            <span class="field-validation-valid text-danger" data-valmsg-for="HolidayName" data-valmsg-replace="true"></span>
+                        </li>
+                        <input id="LanguageId" name="LanguageId" type="hidden" value="">
+                        <li class="col-lg-24 col-md-24 col-sm-24 col-xs-24 text-right">
+                            <input type="button" class="btn btn-green btn-small margin-right5" value="Save" onclick="EditLanguageAdd()">
+                            <input type="button" id="CancelLanguage" class="btn btn-black btn-small" value="Cancel">
+
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="col-lg-6 inner-block1">
+        <div id="MainUlLanguageDiv" class="inner-block1-scroll">
+            <ul class="col-lg-24" id="MainUlLanguage">
+                @foreach (var item in Language.Select(c => c.Page_Name).Distinct())
+                {
+                    var ClassData = "";
+                    if (Language.Where(c => c.Page_Name == item && c.newdata == "1").FirstOrDefault() != null)
+                    {
+                        ClassData = "DeclinedTrColor";
+                    }
+                    <li class="row @ClassData" id="li_@item">
+                        <div class="col-lg-6 col-md-6">
+                            <div class="user-circle-img">
+                                @{
+                                    url = "/LanguageUpload/" + item + ".png";
+                                }
+                                <span><img id="UserImageshop" src="@url" alt=""></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-18 col-md-18">
+                            <a id="@item"><label class="spa-label2">@item.Replace("_", " ")</label></a>
+                        </div>
+                    </li>
+                                    }
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-18">
+        <div class="inner-block2 bg1 spa-border-radius" id="DetailPageLanguage">
+            <div class="shop-owner-setup ">
+                <ul>
+                    <li class="row margin-bottom10">
+                        <div class="col-lg-12 col-md-12" id="ImageDisplay">
+
+                        </div>
+                        <div class="col-lg-12 col-md-12 choose-your-product" id="DisplayContent">
+                            <label class="spa-label2">Peter Jackson</label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#MainUlLanguage li").click(function () {
+        $(".loader").show();
+        $("#MainUlLanguage .active").removeClass("active");
+        var PageName = $(this).attr("id");
+        var Page = PageName.replace("li_", "");
+        $("#" + PageName).addClass("active");
+        $.post("/Shop/CheckWhether", function (data) {
+            if (data == "Yes") {
+                $.post("/Shop/Language_LabelDetail?PageName=" + PageName, function (data) {
+                    $("#DisplayContent").html(data);
+                    var Page = PageName.replace("li_", "");
+                    $.post("/Shop/ShopImageLanguage?PageName=" + Page, function (DataImage) {
+                        $("#ImageDisplay").html(DataImage);
+                        $(".loader").hide();
+                    })
+                })
+            }
+            if (data == "No") {
+                window.location.href = "/Login/SignIn";
+            }
+        });
+
+    });
+    $('#MainUlLanguageDiv').slimScroll({
+        height: '500px',
+
+    });
+    $("#DetailPageLanguage").slimScroll({
+        height: '500px'
+    });
+    $("#CancelLanguage").click(function () {
+        $("#LanguageForm")[0].reset();
+        $("#LanguageId").val("");
+        $("#DivLanguageEdit").slideToggle();
+    });
+
+
+
+
+
+
+
+
+
+
+
+</script>

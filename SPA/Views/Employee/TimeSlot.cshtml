@@ -1,0 +1,60 @@
+﻿@model IEnumerable<SPA.CCTSP_CategoryDetails>
+@{
+    ViewBag.Title = "TimeSlot";
+    Layout = null;
+    string name = "";
+    List<Language_Label_Detail> Language = new List<Language_Label_Detail>();
+    Language = ViewBag.Language;
+}
+<div class="time-slot">
+    <form id="FormTimeSlot" action="/Employee/EmployeeTimeSlotingAccordingToShopTime" method="post">
+        <input type="hidden" id="TimeSlotUserId" name="TimeSlotUserId" value="@ViewBag.UserId" />
+        <ul class="row TimeCheckSlotUser">
+            @foreach (var item in Model)
+            {
+                name = item.CatgTypeId.ToString();
+
+                <li class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    @if (item.CatgDesc.Contains("Minute") || item.CatgDesc.Contains("Day"))
+                    {
+                        <span class="spa-checkbox checkbox time-slot-box">
+                            <input name=@name id=@name type="checkbox" @(item.CatgDesc==ViewBag.UserTimeSlot?"checked":"")>
+                            <label for=@name class="form-label">
+                                @item.CatgDesc.Replace("Minutes", Language.Where(c => c.English_Label == "Minutes" && c.ActiveStatus == "A").Select(c => c.Value).FirstOrDefault()).Replace("Minute", Language.Where(c => c.English_Label == "Minute" && c.ActiveStatus == "A").Select(c => c.Value).FirstOrDefault()).Replace("Day", Language.Where(c => c.English_Label == "Day" && c.ActiveStatus == "A").Select(c => c.Value).FirstOrDefault())
+                            </label>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="spa-checkbox checkbox time-slot-box">
+                            <input name=@name id=@name type="checkbox" @(item.CatgDesc==ViewBag.UserTimeSlot?"checked":"")>
+                            <label for=@name class="form-label">
+                                @Language.Where(c => c.English_Label == item.CatgDesc && c.ActiveStatus == "A").Select(c => c.Value).FirstOrDefault()
+                            </label>
+                        </span>
+                    }           
+                </li>
+            }
+        </ul>
+        <div class="text-center margin-top20">
+            <input type="button" class="btn btn-green btn-small margin-right5" id="btnTimeSlot" onclick="AddTimeSlotForEmployee();" value="@Language.Where(c => c.Order_id == 52).Select(c => c.Value).FirstOrDefault()" />
+            @*<input type="reset" class="btn btn-black btn-small" id="btnLogin" value="Cancel" />*@
+            @*<input type="button" class="btn btn-black btn-small" onclick="GoToEmployeeMaster();" value="Cancel" />*@
+        </div>
+    </form>
+</div>
+<script async>
+    if ($(".time-slot-box input:checked").length > 0) $("#btnTimeSlot").removeAttr("disabled");
+    else $("#btnTimeSlot").attr("disabled", "disabled");
+    $(".time-slot-box input").click(function () {
+        if ($(".time-slot-box input:checked").length > 0) $("#btnTimeSlot").removeAttr("disabled");
+        else $("#btnTimeSlot").attr("disabled", "disabled");
+        var a = $(this).attr("name");
+        $.each($(".time-slot-box input"), function () {
+            if ($(this).prop("checked") && $(this).attr("name") != a)
+            {
+                $(this).attr("checked", false);
+            }
+        });
+    });
+</script>

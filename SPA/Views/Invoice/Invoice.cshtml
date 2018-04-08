@@ -1,0 +1,193 @@
+﻿
+@{
+    Layout = null;
+    ViewBag.Title = "Invoice";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    <style>
+        .full_width{width:100%;} .maring0{margin:0;}
+        .Invcoie_page{margin: 5% 15%;background-color:#fff;padding:20px;border:1px solid #ddd;overflow:hidden}
+        .heading{font-size: 28px;margin: 0;text-transform: uppercase;color: #555;border-bottom: 1px solid #84b002;}
+        .address_box{padding:10px;border:1px solid #ddd;margin:20px 0;    overflow: hidden;}
+        .address ul{padding:0;list-style:none;margin: 5px 0;}
+        .address ul li{color: #555;font-size: 16px;}
+        .logo{position:relative;width:150px;height:120px;margin: 0 auto;text-align: center;overflow:hidden;}
+        .logo img{margin: auto;top: 0;left: 0;bottom: 0;right: 0;max-height: 100%;max-width: 100%;position: absolute;min-width: 60%;height: auto;}
+        .Details_table{overflow:hidden;}
+        .Details_table table tbody tr td{padding: 8px;border: 1px solid #555;font-size:14px;color:#555;}
+        .product_table{margin:5% 0;}
+        .product_table table thead tr th{padding: 8px;font-size: 16px;border-bottom: 1px solid #84b002;text-align:center;}
+        .product_table table tbody tr td{font-size: 14px;text-align: center;padding: 8px;}
+        .product_table table tfoot tr td{padding: 8px;border-top: 2px solid #ddd;text-align:center;font-size:14px;}
+        .product_addtable{background-color: #fff;border: 1px solid #ddd;}
+    </style>
+</head>
+<body>
+    <div class="Invcoie_page">
+            <div class="full_width">
+                <h4 class="heading">Invoice</h4>
+            </div>
+        <div class="address_box">
+            <div style="width:80%;float:left;">
+                <div class="address">
+                    <h4 class="maring0" style="font-size:22px;color:#84b002;">Navjeevan Hospital</h4>
+                    <ul>
+                        <li>221, Vijay Nagar</li>
+                        <li>Tarsali</li>
+                        <li>Vadodara - 390009</li>
+                        <li><a style="color: #84b002;text-decoration: underline;">navjeevanhospital.click-and-go.in</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="width:20%;float:left;">
+                <div class="logo">
+                    <img src="~/images/bg_spa.png" />
+                </div>
+            </div>
+        </div>
+        <div class="Details_table">
+            <div style="width:50%;float:left;">
+                <table cellspacing="0" class="full_width">
+                    <tbody>
+                        <tr>
+                            <td>Person</td>
+                            <td>Hans Muster</td>
+                        </tr>
+                        <tr>
+                            <td>Birth date</td>
+                            <td>10.05.1990</td>
+                        </tr>
+                        <tr>
+                            <td>Therapeut</td>
+                            <td>Dhruv Jaiswal</td>
+                        </tr>
+                        <tr>
+                            <td>Reason for visit</td>
+                            <td>Consulting Individual consulting</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+            <div style="width:50%;float:left;">
+                <table cellspacing="0" class="full_width">
+                    <tbody>
+                        <tr>
+                            <td>Invoice number</td>
+                            <td>000102</td>
+                        </tr>
+                        <tr>
+                            <td>Name</td>
+                            <td>Mr.Jay Patel</td>
+                        </tr>
+                        <tr>
+                            <td>Address</td>
+                            <td>221, Vijay Nagar,Tarsali</td>
+                        </tr>
+                        <tr>
+                            <td>City</td>
+                            <td>Vadodara - 390009</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="product_table">
+            <table class="full_width" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Tarif</th>
+                        <th>code</th>
+                        <th>productname</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                        <th>Vpt</th>
+                        <th>TVA</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>07.07.2017</td>
+                        <td>590</td>
+                        <td>1200</td>
+                        <td>Anamnese, per periode to 5 min</td>
+                        <td>2</td>
+                        <td>10</td>
+                        <td>1.0</td>
+                        <td>0.0%</td>
+                        <td>20</td>
+                    </tr>
+                    <tr>
+                        <td>07.07.2017</td>
+                        <td>590</td>
+                        <td>1200</td>
+                        <td>Anamnese, per periode to 5 min</td>
+                        <td>2</td>
+                        <td>10</td>
+                        <td>1.0</td>
+                        <td>0.0%</td>
+                        <td>20</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>Total</td>
+                        <td colspan="7"></td>
+                        <td>100</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+      
+        <div class="print_displayNone">
+            <div class="col-lg-24 col-md-24 col-sm-24 margin-bottom20">
+                <a class="title-green16 GroupTextTouch margin0" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    <i class="fa fa-plus-square margin-right5"></i>
+                    want to add a product manually?
+                </a>
+            </div>
+            <div class="clearfix"></div>
+            <div class="product-catalog-table collapse" id="collapseExample">
+                <div class="product_addtable">
+                    <table class="table margin-top15 grouping-detail-table">
+                        <thead>
+                            <tr>
+                                <th colspan="7" class="title-green16" style="text-align:left">Product</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="spa-label1">1</td>
+                                <td class="width5per">
+                                    <span class="spa-checkbox checkbox margin0 float_left">
+                                        <input value="true" name="aaa" id="aaa" type="checkbox">
+                                        <label for="aaa" class="form-label spa-label1"></label>
+                                    </span>
+                                </td>
+                                <td class="spa-label1">Makeup Box</td>
+                                <td class="spa-label1">$ 100</td>
+                                <td class="spa-label1">2</td>
+                                <td class="width15per"><input type="text" class="form-control spa-text-box spa-text-box2" placeholder="Date"></td>
+                                <td class="width15per"><input type="text" class="form-control spa-text-box spa-text-box2" placeholder="Time"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="margin-top20 text-right margin-bottom20">
+                        <input type="button" class="btn btn-green btn-small margin-right5" value="Save">
+                        <input type="button" class="btn btn-black btn-small" value="Cancel">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

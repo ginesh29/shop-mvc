@@ -1,0 +1,15 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+@foreach (var Time in ViewBag.DayTime)
+{
+    string T = Time.ToString().Remove(Time.ToString().Length-3,3);
+    <tr>
+        <td colspan="2" class="col-lg-3 col-md-3 col-sm-3 col-xs-3">@T</td>
+        <td colspan="22" class="rv_blue"></td>
+    </tr>
+}
+

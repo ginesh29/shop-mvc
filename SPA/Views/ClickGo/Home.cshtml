@@ -1,0 +1,654 @@
+﻿@model SPA.spa_DemoShop
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/ClickGoLayout.cshtml";
+    List<SPA.Models.LanguageNewShop>
+    LanguageDetails = ViewBag.Language;
+    var Language = LanguageDetails.Where(c => c.Page_Name == "New_Home_Page").ToList();
+    int LanguageId = ViewBag.LangId;
+    int Menucount = 0;
+    }
+    @*<link href="~/clickcontent/onepage-scroll.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.onepage-scroll.min.js"></script>*@
+    @if (Session["Message"].ToString() == "MailSentSuccessFully")
+    {
+    <script>
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 136).Select(c => c.Value).FirstOrDefault()</p>");
+        $('#welcome').modal("show");
+    </script>
+    Session["Message"] = "";
+    }
+    @if (Session["Message"].ToString() == "MailNotSent")
+    {
+    <script>
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 137).Select(c => c.Value).FirstOrDefault()</p>");
+            $('#welcome').modal("show");
+    </script>
+    Session["Message"] = "";
+    }
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,500i,400i,300i,100i" rel="stylesheet">
+    <div class="clickgo_home">
+        <!--Homepage Slider--->
+        <div class="section-class-name" data-section-name="Home">
+            <div class="home_section">
+                <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#myCarousel" data-slide-to="1"></li>
+                    </ol>
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        <div class="item active" style="background-image:url(/images/click/homepageimg1.png);background-repeat:no-repeat;">
+                            @*<img src="~/images/click/homepageimg1.png" />*@
+                            <div class="homeContent">
+                                <div class="marginBottom10Per" name="contact">
+                                    <h2>@*CLICK-AND-GO: Tarif 590*@ @Language.Where(c => c.Order_id == 46).Select(c => c.Value).FirstOrDefault()</h2>
+                                    <p>@*Mit 3 klicks Rechnungen KK-konform <br> erstellen und Online Reservation fur <br> kunden anbieten*@ @Language.Where(c => c.Order_id == 47).Select(c => c.Value).FirstOrDefault()</p>
+                                    <button type="button" class="clickNewBtn btnForContct hidden-xs">@*Kaufen*@ @Language.Where(c => c.Order_id == 45).Select(c => c.Value).FirstOrDefault()</button>
+                                </div>
+                                <div class="marginBottom10Per" name="contact">
+                                    <h2>@*Praxisadministration*@ @Language.Where(c => c.Order_id == 48).Select(c => c.Value).FirstOrDefault()</h2>
+                                    <p>@*Professionell und kostengunstig: <br> Einfach.Schnell.Bequem*@  @Language.Where(c => c.Order_id == 49).Select(c => c.Value).FirstOrDefault()</p>
+                                    <button type="button" class="clickNewBtn btnForContct hidden-xs">@*ICH MOCHTE MEHR ERFAHREN*@ @Language.Where(c => c.Order_id == 44).Select(c => c.Value).FirstOrDefault()</button>
+                                </div>
+                                <div class="marginBottom10Per">
+                                    <p>@*Gewinnen Sie mehr Zeit für das was wirklich zählt! Plus <br> weniger Kosten Dank weniger Administrationsaufwand!*@@Language.Where(c => c.Order_id == 50).Select(c => c.Value).FirstOrDefault()</p>
+                                </div>
+                            </div>
+                            <div class="saleBlockBlue">
+                                @*Einmalige Sonderaktion zur Einführung Tarif 590
+                                Software fürs 2018 zum HALBEN Preis*!*@ @Language.Where(c => c.Order_id == 39).Select(c => c.Value).FirstOrDefault()<br>
+                                <span style="font-size:0.9vw;font-family:'roboto';font-weight:300;">@*Und fürs 2017 zahlen Sie gar nichts*@ @Language.Where(c => c.Order_id == 40).Select(c => c.Value).FirstOrDefault()</span>
+                            </div>
+                        </div>
+                        <div class="item" style="background-image:url(/images/click/homepageimg2.png);background-repeat:no-repeat;">
+                            @*<img src="~/images/click/homepageimg2.png" />*@
+                            <div class="homePageSecondSlider">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 padding-right0">
+                                        <div class="sliderContent">
+                                            <h3>@*Beauty*@ @Language.Where(c => c.Order_id == 52).Select(c => c.Value).FirstOrDefault()</h3>
+                                            <p style="text-align:center;">@Language.Where(c => c.Order_id == 53).Select(c => c.Value).FirstOrDefault()</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 padding-right0 padding-left9">
+                                        <div class="sliderContent">
+                                            <h3>@*Gesundheit*@ @Language.Where(c => c.Order_id == 54).Select(c => c.Value).FirstOrDefault()</h3>
+                                            <p style="text-align:center;"> @*Therapeuten – medizinische Massagen - Psychologie - Beratungen*@ @Language.Where(c => c.Order_id == 55).Select(c => c.Value).FirstOrDefault()</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 padding-left9">
+                                        <div class="sliderContent">
+                                            <h3>@*Wellness*@ @Language.Where(c => c.Order_id == 56).Select(c => c.Value).FirstOrDefault()</h3>
+                                            <p style="text-align:center;"> @*Massagen - Spa*@ @Language.Where(c => c.Order_id == 57).Select(c => c.Value).FirstOrDefault()</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sliderContent" style="background:rgba(160,137,104,0.8);">
+                                    <div class="row">
+                                        <div class="col-lg-18 col-md-16 col-sm-16">
+                                            <h3 style="text-align:left;margin-bottom:0.6%;">@*Buchungsplattform*@ @Language.Where(c => c.Order_id == 58).Select(c => c.Value).FirstOrDefault()</h3>
+                                            <p @*style="font-size:1vw;" *@>
+                                                @*Wir unterstützen Sie nicht nur im administrativen Praxisbetrieb, sondern machen auch Werbung für Sie über unsere moderne Online Buchungsplattform. Einfaches Finden und gefunden werden: vom Therapeuten, über die passende Beratung bis zur Behandlung.
+                                                Gewinnen Sie mehr Kunden durch erhöhte Präsenz im Internet, wir beraten Sie gerne!*@ @Language.Where(c => c.Order_id == 59).Select(c => c.Value).FirstOrDefault()
+                                            </p>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6" name="contact">
+                                            <button type="button" class="clickNewBtn  btnForContct hidden-xs" style="margin-bottom:3%;">@*ICH MOCHTE MEHR ERFAHREN*@ @Language.Where(c => c.Order_id == 44).Select(c => c.Value).FirstOrDefault()</button>
+                                            <button type="button" class="clickNewBtn btnForContct hidden-xs">@*Kaufen*@ @Language.Where(c => c.Order_id == 45).Select(c => c.Value).FirstOrDefault()</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="saleBlockYellow">
+                                @*Einmalige Sonderaktion zur Einführung Tarif 590
+                                Software fürs 2018 zum HALBEN Preis*!*@ @Language.Where(c => c.Order_id == 42).Select(c => c.Value).FirstOrDefault()<br>
+                                <span style="font-size:0.9vw;font-family:'roboto';font-weight:300;">@*Und fürs 2017 zahlen Sie gar nichts*@ @Language.Where(c => c.Order_id == 43).Select(c => c.Value).FirstOrDefault()</span>
+                            </div>
+                        </div>
+                        @*<div class="item">
+                            <img src="~/images/click/Clickgo_home.png" />
+                            <div class="sliderThirdImg">
+                                <div class="col-lg-12 col-md-12 col-sm-14 padding-left5per">
+                                    <div class="homeimg_text">
+                                        <p class="homeimg_textblack">@Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault()</p>
+                                    </div>
+                                    <div name="contact">
+                                        <a class="btn getstart_btn" id="getstarted">@Language.Where(c => c.Order_id == 33).Select(c => c.Value).FirstOrDefault() </a>
+                                    </div>
+                                </div>s
+                            </div>
+                        </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Advantage block--->
+        <div class="section-class-name advantagePadding" data-section-name="Advantages">
+            <div class="tool_Content">
+                <h4 style="color:#454545;">@*Discover our Treatwell Connect Tool*@ @Language.Where(c => c.Order_id == 60).Select(c => c.Value).FirstOrDefault()</h4>
+                <div class="advantageSection">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div class="advantageMainBlock row">
+                                <div class="greenBlock col-lg-6 col-md-6 col-sm-6 col-xs-5">
+                                    <div class="">
+                                        <img src="/images/click/whitet1.png">
+                                    </div>
+                                </div>
+                                <div class="whiteBlock col-lg-18 col-md-18 col-sm-18 col-xs-19">
+                                    <h3>@*Effizient*@ @Language.Where(c => c.Order_id == 61).Select(c => c.Value).FirstOrDefault()</h3>
+                                    <p>@*Die clevere Lösung, ohne schnick-schnack: Reduziert auf das was wirklich notwendig ist.*@ @Language.Where(c => c.Order_id == 62).Select(c => c.Value).FirstOrDefault()</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div class="advantageMainBlock row">
+                                <div class="greenBlock col-lg-6 col-md-6 col-sm-6 col-xs-5">
+                                    <div class="">
+                                        <img src="/images/click/whitet2.png">
+                                    </div>
+                                </div>
+                                <div class="whiteBlock col-lg-18 col-md-18 col-sm-18 col-xs-19">
+                                    <h3>@*Kosten/Nutzen*@ @Language.Where(c => c.Order_id == 63).Select(c => c.Value).FirstOrDefault()</h3>
+                                    <p>@*Danke der Einfachheit und klaren Struktur ist diese Lösung auch sehr kostengüntstig, für ALLE!*@ @Language.Where(c => c.Order_id == 64).Select(c => c.Value).FirstOrDefault()</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div class="advantageMainBlock row">
+                                <div class="greenBlock col-lg-6 col-md-6 col-sm-6 col-xs-5">
+                                    <div class=""><img src="/images/click/whitet3.png"></div>
+                                </div>
+                                <div class="whiteBlock col-lg-18 col-md-18 col-sm-18 col-xs-19">
+                                    <h3>@*Einfach*@ @Language.Where(c => c.Order_id == 65).Select(c => c.Value).FirstOrDefault()</h3>
+                                    <p>@*Sie sparen Zeit durch einfachste Bedienung der Software: kein Training & Installation notwendig!*@ @Language.Where(c => c.Order_id == 66).Select(c => c.Value).FirstOrDefault()</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div class="advantageMainBlock row">
+                                <div class="greenBlock col-lg-6 col-md-6 col-sm-6 col-xs-5">
+                                    <div class="">
+                                        <img src="/images/click/whitet4.png">
+                                    </div>
+                                </div>
+                                <div class="whiteBlock col-lg-18 col-md-18 col-sm-18 col-xs-19">
+                                    <h3>@*Wächst mit Ihnen mit*@ @Language.Where(c => c.Order_id == 67).Select(c => c.Value).FirstOrDefault()</h3>
+                                    <p>@*Mehrere Mitarbeiter? Neue Services? Kein Problem, mit wenigen Klicks wachsen wir mit Ihnen mit.*@ @Language.Where(c => c.Order_id == 68).Select(c => c.Value).FirstOrDefault()</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div class="advantageMainBlock row">
+                                <div class="greenBlock col-lg-6 col-md-6 col-sm-6 col-xs-5">
+                                    <div class="">
+                                        <img src="/images/click/whitet5.png">
+                                    </div>
+                                </div>
+                                <div class="whiteBlock col-lg-18 col-md-18 col-sm-18 col-xs-19">
+                                    <h3>@*Fokus auf Ihre Kunden*@ @Language.Where(c => c.Order_id == 69).Select(c => c.Value).FirstOrDefault()</h3>
+                                    <p>@*Sie können sich voll auf Ihre Kunden konzentrieren, wir kümmern uns um die Updates, OHNE Zusatzkosten!*@ @Language.Where(c => c.Order_id == 70).Select(c => c.Value).FirstOrDefault()</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div class="advantageMainBlock row">
+                                <div class="greenBlock col-lg-6 col-md-6 col-sm-6 col-xs-5">
+                                    <div class="">
+                                        <img src="/images/click/whitet6.png">
+                                    </div>
+                                </div>
+                                <div class="whiteBlock col-lg-18 col-md-18 col-sm-18 col-xs-19">
+                                    <h3>@*Ihr Feedback ist uns wichtig*@ @Language.Where(c => c.Order_id == 71).Select(c => c.Value).FirstOrDefault()</h3>
+                                    <p>@*Geben Sie uns Feedback, wir hören auf Sie!*@ @Language.Where(c => c.Order_id == 72).Select(c => c.Value).FirstOrDefault()</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-24 col-md-24 col-sm-24">
+                            <div class="advantageMainBlock row">
+                                <div class="greenBlock col-lg-2 col-md-2 col-sm-2 col-xs-5">
+                                    <div class="">
+                                        <img src="/images/click/whitet7.png">
+                                    </div>
+                                </div>
+                                <div class="whiteBlock col-lg-20 col-md-20 col-sm-20 col-xs-19">
+                                    <h3>@*Benefit für unsere gemeinsamen Kunden*@ @Language.Where(c => c.Order_id == 73).Select(c => c.Value).FirstOrDefault()</h3>
+                                    <p>@*Die Kunden können jederzeit von überall her bei Ihnen Termine reservieren, auch während Ihren Ferien, ausserhalb der Öffnungszeiten, an Wochenenden, auch vom Tablet oder Handy aus... Sie behalten trotzdem die volle Kontrolle über Ihren Kalender! EINFACH. SCHNELL. BEQUEM.*@ @Language.Where(c => c.Order_id == 74).Select(c => c.Value).FirstOrDefault()</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Advantage block part 2--->
+            <div class="otherAdvantageBg" sstyle="background:#1d1e22;">
+                <div class="margin-bottom30">
+                    <h4>@*Other advantages*@ @Language.Where(c => c.Order_id == 75).Select(c => c.Value).FirstOrDefault()</h4>
+                    <p>@*at a glance:*@ @Language.Where(c => c.Order_id == 76).Select(c => c.Value).FirstOrDefault()</p>
+                </div>
+                <div class="efficintBlock">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <h6>@*Effizient*@ @Language.Where(c => c.Order_id == 77).Select(c => c.Value).FirstOrDefault()</h6>
+                            <ul>
+                                <li>@*Keine Installation notwendig*@ @Language.Where(c => c.Order_id == 78).Select(c => c.Value).FirstOrDefault()</li>
+                                <li>@*Kann ohne Aufwand jederzeit und von überall her von verschiedenen Benutzern genutzt werden*@ @Language.Where(c => c.Order_id == 79).Select(c => c.Value).FirstOrDefault()</li>
+                                <li>@*Schnellstes Kennenlernen des Systems Dank intuitiver Benutzeroberfläche*@ @Language.Where(c => c.Order_id == 80).Select(c => c.Value).FirstOrDefault()</li>
+                                <li>@*Support Gratis verfügbar, keine Zusatzkosten*@ @Language.Where(c => c.Order_id == 81).Select(c => c.Value).FirstOrDefault()</li>
+                                <li>@*Update auf die neuste Version: im Jahresbeitrag inklusive!*@ @Language.Where(c => c.Order_id == 82).Select(c => c.Value).FirstOrDefault()</li>
+                                <li>@*Sie profitieren von allen Softwareerweiterungen ohne weitere Kosten!*@ @Language.Where(c => c.Order_id == 83).Select(c => c.Value).FirstOrDefault()</li>
+                                <li>@*Die Software ist auf 4 Sprachen erhältlich: DE, FR, IT & EN*@ @Language.Where(c => c.Order_id == 84).Select(c => c.Value).FirstOrDefault()</li>
+                                <li>@*Nach Erhalt unseres Aktivierungslinks können Sie gleich mit der Nutzung beginnen. Einrichtzeit beträgt je nach Umfang Ihrer Dienstleistungen ca. 30-45 min. Danach können Ihre Kunden sofort Online bei Ihnen Termine buchen.*@ @Language.Where(c => c.Order_id == 85).Select(c => c.Value).FirstOrDefault()</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
+                            <div class="checkBoxImg">
+                                <img src="/images/click/efficient_checkbox.png">
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div class="extensionHexagonBlock">
+                                <h3>@*Extensions from 2018*@ @Language.Where(c => c.Order_id == 86).Select(c => c.Value).FirstOrDefault()</h3>
+                                <p style="color:#1d1e22;font-family:'robotomedium';margin-bottom:0.5vw !important;">@*Wir verbessern uns und entwickeln unsere Softwarelösung Dank ihren Erfahrungen stetig weiter.*@ @Language.Where(c => c.Order_id == 87).Select(c => c.Value).FirstOrDefault()</p>
+                                <p style="color:#1d1e22;font-family:'robotomedium';margin-bottom:1.5vw !important;">@*Daher sind wir für Ihr Benutzerfeedback sehr dankbar. Kontaktieren Sie uns, eventuell können Sie Ihre Ideen schon bald in Ihrer Software wiederfinden und davon profitieren!*@ @Language.Where(c => c.Order_id == 88).Select(c => c.Value).FirstOrDefault()</p>
+                                <button type="button" class="feedbackBtn">@*Give Feedback*@ @Language.Where(c => c.Order_id == 89).Select(c => c.Value).FirstOrDefault()</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Main Function block--->
+        <div class="section-class-name" data-section-name="Features">
+            <!--Function block 1--->
+            <div class="functionBlockBg">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-8">
+                        <div class="reservationContentBox">
+                            <div>
+                                <img src="/images/click/invoicingIcon.png">
+                            </div>
+                            <h3>@*Rechnungsstellung*@ @Language.Where(c => c.Order_id == 90).Select(c => c.Value).FirstOrDefault()</h3>
+                            <ul>
+                                <li>@*In 3 Klicks Rechnungen erstellen (einzel oder mehrere)*@ @Language.Where(c => c.Order_id == 91).Select(c => c.Value).FirstOrDefault()</li>
+                                <li>@*Tarif 590 konforme Rechnung*@ @Language.Where(c => c.Order_id == 92).Select(c => c.Value).FirstOrDefault()</li>
+                                <li>@*Debitorenbuchhaltung*@ @Language.Where(c => c.Order_id == 93).Select(c => c.Value).FirstOrDefault()</li>
+                                <li>@*Mahnungen versenden mit 1 Klick*@ @Language.Where(c => c.Order_id == 94).Select(c => c.Value).FirstOrDefault()</li>
+                                <li>@*Rechnungen aufgrund von Online Reservationen erstellen*@ @Language.Where(c => c.Order_id == 95).Select(c => c.Value).FirstOrDefault()</li>
+                                <li>@*Verschiedene Berichte und Statistiken*@ @Language.Where(c => c.Order_id == 96).Select(c => c.Value).FirstOrDefault()</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8">
+                        <div class="reservationContentBox">
+                            <div>
+                                <img src="/images/click/reservationIcon.png">
+                            </div>
+                            <h3>@*Online Reservation*@ @Language.Where(c => c.Order_id == 97).Select(c => c.Value).FirstOrDefault()</h3>
+                            <ul>
+                                <li>@*Online Termine buchen, 24 / 7*@ @Language.Where(c => c.Order_id == 98).Select(c => c.Value).FirstOrDefault()</li>
+                                <li>@*Schluss mit vergessenen Terminen dank Erinnerungsemail und SMS*@ @Language.Where(c => c.Order_id == 99).Select(c => c.Value).FirstOrDefault()</li>
+                                <li>@*Zugänglich von überall her: für Sie und Ihre Kunden!*@ @Language.Where(c => c.Order_id == 100).Select(c => c.Value).FirstOrDefault()</li>
+                                <li>@*Kalender (auch für mehrere Mitarbeiter)*@ @Language.Where(c => c.Order_id == 101).Select(c => c.Value).FirstOrDefault()</li>
+                                <li>@*Tool für Email und SMS Versand*@ @Language.Where(c => c.Order_id == 102).Select(c => c.Value).FirstOrDefault()</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8">
+                        <div class="reservationContentBox">
+                            <div>
+                                <img src="/images/click/bookingIcon.png">
+                            </div>
+                            <h3>@*booking platform*@ @Language.Where(c => c.Order_id == 103).Select(c => c.Value).FirstOrDefault()</h3>
+                            <ul>
+                                <li>@*Kunden finden und von Kunden gefunden werden*@ @Language.Where(c => c.Order_id == 104).Select(c => c.Value).FirstOrDefault()</li>
+                                <li>@*Online Profil von Ihnen und Ihrer Praxis / ihrem Geschäft*@ @Language.Where(c => c.Order_id == 105).Select(c => c.Value).FirstOrDefault()</li>
+                                <li>@*Bewertung durch Ihre Kunden*@ @Language.Where(c => c.Order_id == 106).Select(c => c.Value).FirstOrDefault()</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Function block 2--->
+            <div class="feautureSection">
+                <div class="tool_Content">
+                    <h4 style="margin-bottom:3vw;">@*FEATURES*@ @Language.Where(c => c.Order_id == 107).Select(c => c.Value).FirstOrDefault()</h4>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="trapezoid">
+                                @*basic functions*@ @Language.Where(c => c.Order_id == 108).Select(c => c.Value).FirstOrDefault()
+                            </div>
+                            <div class="featuresList">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>@*Features*@ @Language.Where(c => c.Order_id == 109).Select(c => c.Value).FirstOrDefault()</th>
+                                            <th>@*Full version*@ @Language.Where(c => c.Order_id == 110).Select(c => c.Value).FirstOrDefault()</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>@*Therapeutenprofil*@ @Language.Where(c => c.Order_id == 111).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td class="text-center"><i class="fa fa-check-circle" style="color:#568424;" aria-hidden="true"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>@*Kundendatenbank/Adressverwaltung*@ @Language.Where(c => c.Order_id == 112).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td class="text-center"><i class="fa fa-check-circle" style="color:#568424;" aria-hidden="true"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>@*Rechnungsstellung (KK-konform /Tarif 590)*@ @Language.Where(c => c.Order_id == 113).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td class="text-center"><i class="fa fa-check-circle" style="color:#568424;" aria-hidden="true"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>@*Eigene einfache Webseite*@ @Language.Where(c => c.Order_id == 114).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td class="text-center"><i class="fa fa-check-circle" style="color:#568424;" aria-hidden="true"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>@*Patientendossier*@ @Language.Where(c => c.Order_id == 115).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td class="text-center"><i class="fa fa-check-circle" style="color:#568424;" aria-hidden="true"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>@*Verschiedene Berichte (für Treuhänder, etc.)*@ @Language.Where(c => c.Order_id == 116).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td class="text-center"><i class="fa fa-check-circle" style="color:#568424;" aria-hidden="true"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>@*Datensicherung (Cloud)*@ @Language.Where(c => c.Order_id == 117).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td class="text-center"><i class="fa fa-check-circle" style="color:#568424;" aria-hidden="true"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>@*Kalender (auch für mehrere Mitarbeiter)*@ @Language.Where(c => c.Order_id == 118).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td class="text-center"><i class="fa fa-check-circle" style="color:#568424;" aria-hidden="true"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>@*Reservationsbenachrichtigung via email*@ @Language.Where(c => c.Order_id == 119).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td class="text-center"><i class="fa fa-check-circle" style="color:#568424;" aria-hidden="true"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td> @*Quick-Blocker für rasches und unkompliziertes blockieren von freier Zeit*@ @Language.Where(c => c.Order_id == 120).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td class="text-center"><i class="fa fa-check-circle" style="color:#568424;" aria-hidden="true"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>@*Berechtigungen vergeben (unterschiedliche Berechtigungen and Mitarbeiter, jenach Aufgabe)*@ @Language.Where(c => c.Order_id == 121).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td class="text-center"><i class="fa fa-check-circle text-center" style="color:#568424;" aria-hidden="true"></i></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="trapezoid">
+                                @*Online Reservation*@ @Language.Where(c => c.Order_id == 125).Select(c => c.Value).FirstOrDefault()
+                            </div>
+                            <div class="featuresList">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>@*Features*@ @Language.Where(c => c.Order_id == 109).Select(c => c.Value).FirstOrDefault()</th>
+                                            <th>@*Full version*@ @Language.Where(c => c.Order_id == 110).Select(c => c.Value).FirstOrDefault()</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>@*24/7 Online Reservationen für Kunden*@ @Language.Where(c => c.Order_id == 122).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td class="text-center"><i class="fa fa-check-circle" style="color:#568424;" aria-hidden="true"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>@*Zugriff über alle Geräte (PC, Laptop, Tablet & Smartphone)*@ @Language.Where(c => c.Order_id == 123).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td class="text-center"><i class="fa fa-check-circle" style="color:#568424;" aria-hidden="true"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>@*Email & SMS Reminder für Kunden (individualisierbare Texte)*@ @Language.Where(c => c.Order_id == 124).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td class="text-center"><i class="fa fa-check-circle" style="color:#568424;" aria-hidden="true"></i></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="trapezoid">
+                                @*Marketing Mode*@ @Language.Where(c => c.Order_id == 126).Select(c => c.Value).FirstOrDefault()
+                            </div>
+                            <div class="featuresList">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>@*Features*@ @Language.Where(c => c.Order_id == 109).Select(c => c.Value).FirstOrDefault()</th>
+                                            <th>@*Full version*@ @Language.Where(c => c.Order_id == 110).Select(c => c.Value).FirstOrDefault()</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>@*Email Versand für Ihre Kundenkommunikation*@ @Language.Where(c => c.Order_id == 127).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td class="text-center"><i class="fa fa-check-circle" style="color:#568424;" aria-hidden="true"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>@*SMS Versand für Aktionen, Gratulationen, Mitteilungen,etc.*@ @Language.Where(c => c.Order_id == 128).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td class="text-center"><i class="fa fa-check-circle" style="color:#568424;" aria-hidden="true"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>@*Fotos , pdf, etc. hochladen*@ @Language.Where(c => c.Order_id == 129).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td class="text-center"><i class="fa fa-check-circle" style="color:#568424;" aria-hidden="true"></i></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Prices block--->
+        
+            <div class="section-class-name" data-section-name="Process">
+                <!--why click and go block 1--->
+                <div class="Step_Rre">
+                    <div class="row">
+                        <div class="col-lg-16 col-md-18 col-sm-16 col-xs-14 padding-right0" style="margin-bottom: 1vw;">
+                            <div class="Step_img">
+                                <img src="/images/click/iPhone 5S.png" />
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-6 col-sm-8 col-xs-10 padding-left0">
+                            <div class="Step_box">
+                                <div class="step_green">
+                                    <div class="row">
+                                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 padding0">
+                                            <div class="steptxt_white">
+                                                <h4>3</h4>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-13 col-md-13 col-sm-13 col-xs-13 padding0">
+                                            <div class="steptxt_black">
+                                                <p>@Language.Where(c => c.Order_id == 34).Select(c => c.Value).FirstOrDefault()</p>
+                                                <h6>@Language.Where(c => c.Order_id == 35).Select(c => c.Value).FirstOrDefault()</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="step_black">
+                                    <div class="Hoz_greenline"></div>
+                                    <ul>
+                                        <li class="row">
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 padding0">
+                                                <div class="Round_step">1</div>
+                                            </div>
+                                            <div class="col-lg-20 col-md-20 col-sm-20 col-xs-20">
+                                                <h5>@Language.Where(c => c.Order_id == 36).Select(c => c.Value).FirstOrDefault() </h5>
+                                            </div>
+                                        </li>
+                                        <li class="row">
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 padding0">
+                                                <div class="Round_step">2</div>
+                                            </div>
+                                            <div class="col-lg-20 col-md-20 col-sm-20 col-xs-20">
+                                                <h5>@Language.Where(c => c.Order_id == 37).Select(c => c.Value).FirstOrDefault()</h5>
+                                            </div>
+                                        </li>
+                                        <li class="row">
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 padding0">
+                                                <div class="Round_step">3</div>
+                                            </div>
+                                            <div class="col-lg-20 col-md-20 col-sm-20 col-xs-20">
+                                                <h5>@Language.Where(c => c.Order_id == 38).Select(c => c.Value).FirstOrDefault()</h5>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="processBlock">
+                        <p>
+                            @*Von Überall her Zugriff auf Ihr System, egal von welchem Gerät!
+                            Auch für mehrere Benutzer! Ohne Installation, sofort verfügbar!*@ @Language.Where(c => c.Order_id == 130).Select(c => c.Value).FirstOrDefault()
+                        </p>
+                    </div>
+                </div>
+                <!--why click and go block 2--->
+                <div class="whyClickAndGoBlock">
+                    <div class="">
+                        <div class="fullBackground">
+                            <div class="col-lg-12 col-md-12 col-sm-14 padding-left5per">
+                                <div class="homeimg_text">
+                                    <p class="homeimg_textblack">@*offering services by appointment*@ @Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault()</p>
+                                </div>
+                                <div name="contact">
+                                    <a class="btn getstart_btn" id="getstarted">@*GET Started*@ @Language.Where(c => c.Order_id == 33).Select(c => c.Value).FirstOrDefault() </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*<div class="black_box">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <div class="count_box">
+                            <h4>1000+</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-20 col-md-20 col-sm-20">
+                        <div class="black_content">
+                            <h4>Customer per day visit</h4>
+                            <p>This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+            <div class="section-class-name" data-section-name="Click-and-go">
+                <div class="tool_Content">
+                    <h4>@LanguageDetails.Where(c => c.Order_id == 11 && c.Page_Name == "Layout_Header").Select(c => c.Value).FirstOrDefault()</h4>
+                    <div class="">
+                        <ul class="text-center list-inline">
+                            @foreach (var Menu_Bottom in Language.Where(c => c.Order_id >= 23 && c.Order_id <= 30).ToList())
+                            {
+                                Menucount = Menucount + 1;
+                                var classMenu = "icon" + Menucount;
+                                <li class="tool_box">
+                                    <div class="@classMenu"></div>
+                                    <p class="text-center">@Html.Raw(Menu_Bottom.Value)</p>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    @*<div class="row margin5p-0">
+                        @foreach (var Menu_Bottom in Language.Where(c => c.Order_id >= 27 && c.Order_id <= 30).ToList())
+                        {
+                        Menucount = Menucount + 1;
+                        var classMenu = "icon" + Menucount;
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-center">
+                            <div class="@classMenu"></div>
+                            <div class="">
+                                <p class="text-center">@Html.Raw(Menu_Bottom.Value)</p>
+                            </div>
+                        </div>
+                        }
+                    </div>*@
+
+                </div>
+            </div>
+            @*<div class="gif_box" id="contact">
+                <h4>Fill in the form we will contact you</h4>
+                <p>This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris.</p>
+                <img src="~/images/click/MacBook Silver.png" />
+            </div>*@
+            <div class="section-class-name" data-section-name="contact">
+                <div class="contact_box">
+                    <h4>@*Fill in the form we will contact you*@ @Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()</h4>
+                    <form name="frmLiveDemo" id="frmLiveDemo" action="/ClickGo/AddLiveDemo?Lang=@LanguageId" method="post">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 padding0-5">
+                                <div class="form-group">
+                                    @*<input type="text" class="form-control contact_text" placeholder="First Name" />*@
+                                    @Html.EditorFor(model => model.first_name, new { htmlAttributes = new { @class = "form-control contact_text required", @placeholder = Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault() } })
+                                    @Html.ValidationMessageFor(model => model.first_name, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @*<input type="text" class="form-control contact_text" placeholder="Last Name" />*@
+                                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control contact_text required", @placeholder = Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault() } })
+                                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @*<input type="text" class="form-control contact_text" placeholder="Email" />*@
+                                    @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control contact_text required email", @placeholder = Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault() } })
+                                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @*<input type="text" class="form-control contact_text" placeholder="Phone number" />*@
+                                    @Html.EditorFor(model => model.mobilenumber, new { htmlAttributes = new { @class = "form-control contact_text required digits", @placeholder = Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault() } })
+                                    @Html.ValidationMessageFor(model => model.mobilenumber, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 padding0-5">
+                                @*<div class="form-group">
+                                    @*<input type="text" class="form-control contact_text" placeholder="Phone number" />
+                                    @Html.DropDownListFor(c => c.ShopType, (SelectList)(ViewBag.ShopTypeList), new { @class = "form-control contact_text required", @placeholder = Language.Where(c => c.Order_id == 31).Select(c => c.Value).FirstOrDefault() })
+                                    @Html.ValidationMessageFor(model => model.ShopType, "", new { @class = "text-danger" })
+                                </div>*@
+
+                                <div class="form-group">
+                                    <input class="form-control contact_text single-line required" id="ShopType" name="ShopType"  placeholder="@Language.Where(c => c.Order_id == 133).Select(c => c.Value).FirstOrDefault()" type="text" />
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control contact_text single-line required" id="FreeTextSubject" name="Extra1" placeholder="@Language.Where(c => c.Order_id == 134).Select(c => c.Value).FirstOrDefault()" type="text" />
+                                </div>
+                                <div class="form-group">
+                                    <textarea class="form-control contact_text required" id="Comments" name="Extra2" placeholder="@Language.Where(c => c.Order_id == 135).Select(c => c.Value).FirstOrDefault()"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-lg-offset-6 col-md-12 col-md-offset-6 col-sm-12 col-sm-offset-6 padding0-5 margin-top20">
+                                    <div class="form-group">
+                                        <input type="submit" class="btn contact_btn" value="@Language.Where(c => c.Order_id == 32).Select(c => c.Value).FirstOrDefault()" />@*Start Now*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="">
+                    @Html.Partial("ClickGo_Footer", Model)
+                </div>
+            </div>
+        </div>
+    <!-- Welcome modal start-->
+    <!-- Welcome modal End-->
+    <script>
+                    $("#frmLiveDemo").validate();
+                    $.ajax({
+                        url: "/ClickGo/AddLogDetails",
+                        type: 'GET',
+                        async: true,
+                        success: function (result) {
+                        },
+                        error: function (request, status, error) { $(".loader").hide(); alert(status + ", " + error); },
+                        cache: false,
+                    });
+                </script>

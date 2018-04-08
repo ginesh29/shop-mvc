@@ -1,0 +1,24 @@
+﻿@{
+    Layout = "~/Views/Shared/_Employee_layout.cshtml";
+    List<Language_Label_Detail> LanguageList = new List<Language_Label_Detail>();
+    LanguageList = ViewBag.Language;
+    var Language= LanguageList.Where(c => c.Page_Name == "Confirm_Booking").ToList();
+    ViewBag.Title = LanguageList.Where(c => c.Page_Name == "Title" && c.Order_id == 5).Select(c => c.Value).FirstOrDefault();
+    var LanguageBack = ViewBag.LanguageBack;
+}
+<!DOCTYPE html>
+<ol class="spa-breadcrumbs breadcrumb"></ol>
+<div class="form-content">
+    <div class="confirm-booking">
+        <div class="col-lg-22 col-md-22 col-sm-23">
+            <a href="/BookOrder/GoBackEmployee?Id=@ViewBag.UserId" class="title-green16 pull-right"><i class="fa fa-reply-all margin-right5"></i>@LanguageBack</a>
+        </div>
+        <div class="col-lg-18 col-lg-offset-3 col-md-20 col-md-offset-2 col-sm-24">
+            <h1 class="title36 text-center">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()@*THANKS, YOU HAVE CHOOSEN THE FOLLOWING:*@</h1>
+            <div id="MainLastBooking">
+                @Html.Action("DisplayBookedProduct", "BookOrder", new { Id = @ViewBag.UserId, Status=@ViewBag.Status,Url= @ViewBag.Url })
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>

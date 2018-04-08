@@ -1,0 +1,91 @@
+﻿@{
+    Layout = null;
+    int index = ViewBag.index;
+    List<string> dayList = Model;
+}
+<li class="time_section-li">
+    <ul class="time_box">
+        <li class="Ellips time_header">
+            <span>
+                @ViewBag.lbl1
+            </span>
+        </li>
+        @foreach (var days in dayList)
+        {
+            <li class="week-time">
+                <div class="date uldate-picker">
+                    <input class="form-control spa-text-box text-box clock_image" type="text" name="@(days)_@index" />
+                    @*<a><i class="fa fa-clock-o icon-clock"></i></a>*@
+                </div>
+            </li>
+        }
+    </ul>
+</li>
+<li class="time_section-li">
+    <ul class="time_box">
+        <li class="Ellips time_header">
+            <span>
+                @ViewBag.lbl2
+            </span>
+        </li>
+        @foreach (var days in dayList)
+        {
+            <li class="week-time">
+                <div class="date uldate-picker">
+                    <input class="form-control spa-text-box text-box required clock_image" type="text" name="@(days)_@(index+1)" />
+                    @*<a><i class="fa fa-clock-o icon-clock"></i></a>*@
+                </div>
+            </li>
+        }
+    </ul>
+</li>
+<script>
+    $('.week-time input[type="Text"]').datetimepicker({
+        //stepping: 5,
+        stepping:@ViewBag.slot,
+        format: 'HH:mm',
+        widgetPositioning: {
+            horizontal: 'auto',
+            vertical: 'bottom'
+        }
+    });
+    function NewLaneCheck(current, cell, Row) {
+        var getpastdate = $("ul.time_section li.time_section-li:lt(" + (cell) + ") ul.time_box li:nth-child(" + Row + ") input[type='text']").filter(function () {
+            if ($(this).val() != '')
+            {
+                return $(this);
+            }
+        }).last();
+        //current Datetimepicker logic
+        if (getpastdate.length > 0 && cell != 0) {
+            if (getpastdate.val() != "" && getpastdate.val() != null && current.attr("done") != "true") {
+                current.data("DateTimePicker").minDate(getpastdate.val());
+                current.val(getpastdate.val());
+                current.attr("done", "true");
+            }
+        }
+    }
+    $('.week-time input[type="Text"]').on("dp.show", function (e) {
+        $(this).parents("ul").find("script").remove();
+        var cell = $(this).parents(".time_section-li:first").index();
+        var Row = $(this).parents(".week-time:first").index() + 1;
+        NewLaneCheck($(this), cell, Row);
+    })
+    $('.week-time input[type="Text"]').on("dp.change", function (e) {
+        $(this).parents("ul").find("script").remove();
+        var cell = $(this).parents(".time_section-li:first").index();
+        var Row = $(this).parents(".week-time:first").index() + 1;
+        var currents = $(this);
+        NewLaneCheck($(this), cell, Row);
+        //All the Datetimepicker after the current one selected
+        if ($("ul.time_section li.time_section-li:gt(" + cell + ") ul.time_box li:nth-child(" + Row + ") input[type='text']").length > 0) {
+            $("ul.time_section li.time_section-li:gt(" + cell + ") ul.time_box li:nth-child(" + Row + ") input[type='text']").each(function () {
+                if (currents.data("DateTimePicker").date() >= currents.data("DateTimePicker").minDate())
+                    $(this).val(currents.data("DateTimePicker").date().format("HH:mm")).data("DateTimePicker").minDate(currents.data("DateTimePicker").date().format("HH:mm"));
+                else
+                    $(this).val(currents.data("DateTimePicker").minDate().format("HH:mm")).data("DateTimePicker").minDate(currents.data("DateTimePicker").minDate().format("HH:mm"));
+                $(this).attr("done", "true");
+            });
+        }
+    });
+</script>

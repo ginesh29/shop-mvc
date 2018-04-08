@@ -1,0 +1,15 @@
+﻿@{
+    Layout = null;
+    List<SPA.Models.WeekDayBlockDetail> EmployeeDetails = new List<SPA.Models.WeekDayBlockDetail>();
+    EmployeeDetails = ViewBag.EmployeeDetails;
+    //gets Translation of Employee Text only
+    Language_Label_Detail langDetail = new Language_Label_Detail();
+    langDetail = ViewBag.LanguageLabel;
+}
+<tr>
+    <th colspan="2" class="cal-border col-lg-3 col-md-3 col-sm-3 col-xs-3">@langDetail.Value</th>
+    @foreach (var item in EmployeeDetails.OrderBy(c=>c.UserId))
+    {
+        <th class="cal-border text-center" id="@item.UserId">@item.firstName @item.lastName</th>
+    }
+</tr>

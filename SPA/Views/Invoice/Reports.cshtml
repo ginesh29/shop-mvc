@@ -1,0 +1,73 @@
+﻿
+@{
+    Layout = null;
+    ViewBag.Title = "Reports";
+    List<SPA.Models.AbstractInvoiceReport> Reports = Model != null ? Model : new List<SPA.Models.AbstractInvoiceReport>();
+    List<SPA.Language_Label_Detail> Language = ViewBag.Language;
+    List<SPA.Models.dropdownfilter> FilterList = ViewBag.FilterList;
+}
+<div class="Reports">
+    <div class="row margin-bottom10">
+        <div class="col-lg-6 col-md-8 col-sm-12">
+            <div class="float_left margin-right10">
+            <label class="spa-label-bold" style="margin-top:5px;">@*Filter By*@ @Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()</label>
+                </div>
+            <div class="float_left">
+                @*<select class="spa-dropdown-box required form-control" style="height:33px;" id="dropFilterReport">
+                    <option id="1" @(ViewBag.status=="1"?"selected":"") class="dropFr">Booking Date</option>
+                    <option id="2" @(ViewBag.status=="2"?"selected":"") class="dropFr">Paid Date</option>
+                </select>*@
+                @Html.DropDownList("dropFilterReport", new SelectList(FilterList, "id", "filterName", ViewBag.status), new { @class = "spa-dropdown-box required form-control", @style = "height:33px;" })
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive Resporstable">
+        <table class="table">
+            <tbody>
+                @*@foreach (var YearReport in Reports.Select(c => c.year).Distinct().ToList())*@
+                @if (Reports.Count > 0)
+                {
+                    var Currency = Reports.Select(c => c.currency).FirstOrDefault();
+                    for (DateTime? Mindate = Reports.Select(c => c.MINDATE).FirstOrDefault(); Mindate <= Reports.Select(c => c.MAXDATE).FirstOrDefault(); Mindate = Mindate.Value.AddMonths(1))
+                    {
+                        if (Mindate == Reports.Select(c => c.MINDATE).FirstOrDefault() || Mindate.Value.Month == 1)
+                        {
+                            <tr class="year_heading">
+                                <td class="width60Per">@Mindate.Value.Year</td>
+                                @*Total*@
+                                <td class="width20per text-right">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault():<span style="color:#555;margin-left:5px;">@Reports.Where(c => c.year == Mindate.Value.Year).Select(c => c.Price).Sum() @Currency</span></td>
+                                @*Click Here*@
+                                <td class="text-right"><a class="create_invoice" href="/Invoice/Yearly_Report?Year=@Mindate.Value.Year&Status=@ViewBag.status">@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()</a></td>
+                            </tr>
+                        }
+                        //@(.ToString("MMMM", new System.Globalization.CultureInfo(Reports.Select(c => c.Culture).FirstOrDefault()))
+                        <tr class="month_heading">
+                            <td class="width60Per">@(new DateTime(Mindate.Value.Year, Mindate.Value.Month, 1).ToString("MMMM", new System.Globalization.CultureInfo(Reports.Select(c => c.Culture).FirstOrDefault())))</td>
+                            @*Total*@
+                            <td class="width20per text-right"><span style="color:#555;margin-left:5px;">@Reports.Where(c => c.year == Mindate.Value.Year && c.Month == Mindate.Value.ToString("MMMM")).Select(c => c.Price).Sum() @Currency</span></td>
+                            @*Click Here*@
+                            <td class="text-right"><a href="/Invoice/Monthly_Report?Month=@Mindate.Value.ToString("MMMM")&Year=@Mindate.Value.Year&Status=@ViewBag.status">@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()</a></td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td class="font16 Nodata text-center">
+                            <img src="~/images/Invoice_notfound.png" />
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+
+
+        </table>
+    </div>
+</div>
+<script>
+    $("#dropFilterReport").change(function () {
+        var URLPATH = "/Invoice/Reports?Status=" + $(this).val();
+        CommonTabDetails(URLPATH, '#Reports');
+    });
+</script>

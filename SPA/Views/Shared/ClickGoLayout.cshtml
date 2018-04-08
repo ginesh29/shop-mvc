@@ -1,0 +1,173 @@
+﻿@using SPA.Common
+@{
+    List<SPA.Models.LanguageNewShop> Language = ViewBag.Language;
+    Language = Language.Where(c => c.Page_Name == "Layout_Header").ToList();
+    int status = ViewBag.status;
+    int LanguageId = ViewBag.LangId;
+    Function fu = new Function();
+    var LangNameList = fu.LanguageNameList();
+
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="description" content="Make Your Personal Website as sale your service online with online Reservation functionality">
+    <meta name="keywords" content="Online Booking,SPA,Doctor Service,HealthCare,TARIF 590">
+    <meta name="og:region" content="männedorf">
+    <meta name="og:country-name" content="Switzerland">
+    <meta name="og:email" content="info@click-and-go.ch">
+    <meta name="author" content="christoph glathard">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="CLICK-AND-GO" />
+    @Styles.Render("~/Contents/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/clickscript")
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-106805354-1"></script>
+    <script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments)};
+	gtag('js', new Date());
+	gtag('config', 'UA-106805354-1');
+    </script>
+    @if (LanguageId > 1)
+    {
+       @Html.Partial("_LangValidation", "/Scripts/messages_" + LangNameList.Where(c => c.Lang_id == LanguageId).Select(c => c.English_Label).FirstOrDefault().ToLower() + ".js");
+    }
+    <script src="~/Scripts/jquery.scrollify.min.js"></script>
+    <title>CLICK-AND-GO</title>
+</head>
+<body>
+    <div class="ClickGo_layout">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-24 col-md-24 col-sm-24">
+                    <div class="language-menu">
+                        <ul id="LangChange">
+                            @if (status == 2)
+                            {
+                                foreach (var Item in LangNameList)
+                                {
+                                    <li id=@Item.Value><a href="?Lang=@Item.Lang_id" class="@( (LanguageId==Item.Lang_id || (LanguageId==0 && Item.Lang_id==2))? "lan-active" : "")">@Item.English_Label</a></li>
+                                }
+                                @*<li id="German"><a href="?Lang=2" class="@(LanguageId == 2 || LanguageId==0? "lan-active" : "")">DE</a></li>
+                                    <li id="French"><a href="?Lang=3" class="@(LanguageId == 3 ? "lan-active" : "")">FR</a></li>
+                                    <li id="English"><a href="?Lang=1" class="@(LanguageId == 1? "lan-active" : "")">EN</a></li>*@
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row layout_padding">
+                <div class="col-lg-8 col-md-8 col-sm-10">
+                    <div class="ClickGo_logo" name="Home">
+                        <a id="logo" href="/ClickGo?Lang=@LanguageId#Home">
+                            <img src="~/images/click/Click_icon.png" />
+                            <div class="clicklogo_text">
+                                <img src="~/images/click/Click_text.png" />
+                                <p>@*EINFACH.SCHNELL.BEQUEM.*@ @Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-16 col-md-16 col-sm-14">
+                    @*<div class="right-btn">
+                            <a href="javascript:void()" class="isdrag">
+                                <i class="fa fa-align-justify"></i>
+                            </a>
+                        </div>*@
+                    <div class="clickgo_menu headertop-box" id="clickgo_menu">
+                        <ul class="subMenu">
+                            <li name="Home" class="active" index-scroll="0"><a href="/ClickGo?Lang=@LanguageId#Home">@*HOME*@ @Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()</a></li>
+                            <li name="Advantages" index-scroll="1"><a href="/ClickGo?Lang=@LanguageId#Advantages">@*ADVANTAGES*@ @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</a></li>
+                            <li name="Features" index-scroll="2"><a href="/ClickGo?Lang=@LanguageId#Features">@*FEATURES*@ @Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()</a></li>
+                            @*<li name="Prices" index-scroll="3"><a href="/ClickGo?Lang=@LanguageId#Prices">@*Prices @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()</a></li>*@
+                            <li name="Process" index-scroll="3"><a href="/ClickGo?Lang=@LanguageId#Process">@*PROCESS*@ @Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()</a></li>
+                            <li name="Click-and-go" index-scroll="4"><a href="/ClickGo?Lang=@LanguageId#Click-and-go">@*WHY CLICK-AND-GO*@ @Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()</a></li>
+                            <li name="contact" index-scroll="5"><a href="/ClickGo?Lang=@LanguageId#contact">@*CONTACT US*@ @Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="welcome-modal">
+        <div id="welcome" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body margin-bottom30" id="WelcomeAlert">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @RenderBody()
+    @RenderSection("scripts", required: false)
+    <script>
+
+        //$(".right-btn a").click(function (event) {
+        //    // lock scroll position, but retain settings for later
+        //    var scrollPosition = [
+        //        self.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft,
+        //        self.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+        //    ];
+        //    event.preventDefault();
+        //    if ($(this).hasClass("isdrag")) {
+        //        $(".headertop-box").animate({
+        //            right: "0px"
+        //        }, 400);
+        //        $(this).removeClass("isdrag").addClass("drag-toggle");
+        //        $('.blackBG').prepend('<div class="mask2"></div>');
+        //        var html = jQuery('html');
+        //        html.data('scroll-position', scrollPosition);
+        //        html.data('previous-overflow', html.css('overflow'));
+        //        html.css('overflow', 'hidden');
+        //        window.scrollTo(scrollPosition[0], scrollPosition[1]);
+        //    } else {
+        //        $(".headertop-box").animate({
+        //            right: "-270px"
+        //        }, 400);
+        //        $(this).addClass("isdrag").removeClass("drag-toggle");
+        //        $('.mask2').remove();
+
+        //        // un-lock scroll position
+        //        var html = jQuery('html');
+        //        var scrollPosition = html.data('scroll-position');
+        //        html.css('overflow', html.data('previous-overflow'));
+        //        window.scrollTo(scrollPosition[0], scrollPosition[1])
+        //    }
+        //    return false;
+        //});
+        if ($(window).width() > 767) {
+            $(function () {
+                $.scrollify({
+                    section: ".section-class-name",
+                    sectionName: "section-name",
+                    updateHash: true,
+                    before: function (index) {
+                        $("#clickgo_menu li").removeClass("active");
+                        $("#clickgo_menu li[index-scroll='" + index + "']").addClass("active");
+                    },
+                });
+                $("#clickgo_menu li a,#getstarted,#logo,.btnForContct").click(function () {                    
+                    if ($(this).closest(".btnForContct").length > 0)
+                        $("#FreeTextSubject").val($(this).html());
+                    else
+                        $("#FreeTextSubject").val("");
+                    var Scroll = $(this).parent().attr("name");
+                    $.scrollify.move("#" + Scroll);
+                })
+            });
+        }
+    </script>
+</body>
+
+</html>

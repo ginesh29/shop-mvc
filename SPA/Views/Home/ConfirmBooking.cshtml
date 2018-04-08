@@ -1,0 +1,35 @@
+﻿@{
+
+    List<Language_Label_Detail> LanguageList = new List<Language_Label_Detail>();
+    LanguageList = ViewBag.Language;
+    var Language = LanguageList.Where(c => c.Page_Name == "Confirm_Booking").ToList();
+    var LanguageBack = ViewBag.LanguageBack;
+    ViewBag.Title = LanguageList.Where(c => c.Page_Name == "Title" && c.Order_id == 5).Select(c => c.Value).FirstOrDefault();
+}
+<ol class="spa-breadcrumbs breadcrumb">
+</ol>
+<div class="form-content">
+    @if (Session["heading"].ToString() == "a"){@Html.Partial("_ProcessHead")}
+    else{@Html.Partial("_ProcessHead1")}
+    <div class="confirm-booking">
+        <div class="col-lg-22 col-md-22 col-sm-23">
+            <a href="/Home/GoBackEmployee?UserId=@Session["UserId"]" class="title-green16 pull-right"><i class="fa fa-reply-all margin-right5"></i>@LanguageBack</a>
+        </div>
+        <div class="col-lg-18 col-lg-offset-3 col-md-20 col-md-offset-2 col-sm-24">
+            <h1 class="title36 text-center">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()@*THANKS, YOU HAVE CHOOSEN THE FOLLOWING:*@</h1>
+            <div id="MainLastBooking">
+                @Html.Action("DisplayBookedProduct", "Home")
+            </div>
+        </div>
+
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+<script>
+    $(".header-top").hide();
+    $('#a1').addClass('present active');
+    $('#a2').addClass('present active');
+    $('#a3').addClass('present active');
+    $('#a4').addClass('present');
+</script>

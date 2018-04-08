@@ -1,0 +1,359 @@
+﻿@using System.Configuration
+@{
+    Layout = null;
+    List<SPA.Models.PendingApproval> PendingAppList = new List<SPA.Models.PendingApproval>();
+    PendingAppList = ViewBag.AllData;
+    int i = 0;
+    int index = 1;
+    string currency = ViewBag.currency;
+    string DurationPre = "Min";
+    List<Language_Label_Detail> FullLang = ViewBag.OpenLang;
+    var Language = FullLang.Where(c => c.Page_Name.ToLower() == "reservation_pending").ToList();
+    var Monthlist = FullLang.Where(c => c.Page_Name.ToLower() == "small_calander").ToList();
+    string Dyn = FullLang.Where(c => c.Page_Name.ToLower() == "common" && c.Order_id == 1).Select(c => c.Value).FirstOrDefault();
+    string Static = FullLang.Where(c => c.Page_Name.ToLower() == "common" && c.Order_id == 2).Select(c => c.Value).FirstOrDefault();
+    int pending = 0;
+    int Accept = 0;
+    int DeclineTab = 0;
+    int All = 0;
+    int? ActiveSorting = ViewBag.Sorting;
+    var ActiveOrderby = ViewBag.OrderBy;
+}
+@if (PendingAppList.Count > 0)
+{
+    foreach (var item in PendingAppList)
+    {
+
+        if (item.diff != 0 && item.EmpSchDetailsId != 0)
+        {
+
+            string LastVisitedReservation = "";
+            <tr>
+                <td class="spa-label1 RemovePosition">@index</td>
+                @{
+                    index = index + 1;
+                }
+                <td class="spa-label1">@item.EmpSchDetailsId</td>
+                @if (item.CustomerLastName != null)
+                {
+                    <td class="spa-label1">@item.CustomerLastName</td>
+                }
+                else
+                {
+                    <td class="spa-label1"></td>
+                }
+                <td class="spa-label1">@item.CustomerFirstName </td>
+                <td class="spa-label1">@item.CustomerPhone </td>
+                <td class="spa-label1 mulreservaction_td">@item.CatgDesc </td>
+                <td class="spa-label1">@item.EmpfirstName </td>
+                @{
+                    if (item.BookingDate != null)
+                    {
+                        var monthname = DateTime.Parse(item.BookingDate).ToString("MMMM");
+                        var MonthLanguagechange = Monthlist.Where(c => c.English_Label.ToLower() == monthname.ToLower()).Select(c => c.Value).FirstOrDefault();
+                        LastVisitedReservation = item.BookingDate.Replace(monthname, MonthLanguagechange);
+                    }
+                    int TotalMinutes = item.diff;
+
+                }
+                <td class="spa-label1">@LastVisitedReservation</td>
+                <td class="spa-label1">@item.FromSlotMasterId.ToString().Remove(item.FromSlotMasterId.ToString().Length - 3, 3)</td>
+                <td class="spa-label1">@TotalMinutes @DurationPre</td>
+                <td class="spa-label1">@float.Parse(item.Amount.ToString()) @currency</td>
+                @if (ViewBag.StatusApproval == "Pending")
+                {
+                    <td>
+                        @*<a onclick="StatusOfBookingData(@item.EmpSchDetailsId);"><i class="fa fa-check spa-icon1"></i></a>*@
+                        <span class="spa-checkbox checkbox ap-closed acceptchk">
+                            <input name="PendingRquestAccept" id="PendingRquestAccept_@item.EmpSchDetailsId" type="checkbox" onclick="StatusOfBookingData(@item.EmpSchDetailsId)">
+                            <label for="PendingRquestAccept_@item.EmpSchDetailsId" class="form-label spa-label1  apclosedicon"></label>
+                        </span>
+                    </td>
+                    if (((item.DeleteAccess != "N" && (item.FlowStatus=="2"||item.FlowStatus=="3")) || (item.FlowStatus=="1")))
+                    {
+                        <td>
+                            <span class="spa-checkbox checkbox decline">
+                                <input name="PendingRquestCancel" id="PendingRquestCancel_@item.EmpSchDetailsId" type="checkbox" onclick="RemoveBooking(@item.EmpSchDetailsId)">
+                                <label for="PendingRquestCancel_@item.EmpSchDetailsId" class="form-label spa-label1 apclosedicon"></label>
+                            </span>
+                        </td>
+                    }
+                    <td>
+                        @if (item.reg_status.Trim() == "D")
+                        {
+                            <span class="spa-label1">@Dyn</span>
+                        }
+                        @if (item.reg_status.Trim() == "M")
+                        {
+                            <span class="spa-label1">@Static</span>
+                        }
+                        @if (item.reg_status.Trim() == "PlatForm")
+                        {<span class="spa-label1">PlatForm</span>}
+                    </td>
+                    if (item.comment != null && item.comment != "")
+                    {
+                        <td class="spa-label1">
+                            <span>
+                                <i class="fa fa-info-circle spa-icon" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="@item.comment"></i>
+                            </span>
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+
+                    }
+                    <td><span class="spa-label1">@item.CreatedOn.ToString("HH.mm.ss ; dd.MM.yyyy")</span></td>
+                    if (pending == 0)
+                    {
+                        if (((item.DeleteAccess != "N" && (item.FlowStatus == "2" || item.FlowStatus == "3")) ||(item.FlowStatus=="1")))
+                        {
+                            <script>
+                                $("#CancelPending").show();
+                                $.post("/Product/GetCommonLangauge?PageName=Reservation_pending&orderid=13", function(data) {
+                                    $("#AcceptPending").show();
+                                    $("#CancelPending").html(data);//Cancel
+                                });
+                            </script>
+                        }
+                        else
+                        {
+                            <script>
+                                $("#CancelPending").hide();
+                            </script>
+                        }
+                        <script>
+                            $.post("/Product/GetCommonLangauge?PageName=Reservation_pending&orderid=12", function(data) {
+                                $("#AcceptPendingspan").html(data);//Accept
+                            });
+                            $("#SelectAll").parent().show();
+                            $("#SelectAll").prop("checked", false);
+                            $("#SelectAlltr").hide();
+                            $("#PendingViewComment").show();
+
+                        </script>
+                        pending = pending + 1;
+                    }
+
+
+                }
+                @if (ViewBag.StatusApproval == "Accepted")
+                {
+                    if (((item.DeleteAccess != "N" && (item.FlowStatus == "2" || item.FlowStatus == "3")) || (item.FlowStatus == "1")))
+                    {
+                        <td>
+                            @*<a onclick="RemoveBooking(@item.EmpSchDetailsId);"><i class="fa fa-times spa-icon1"></i></a>*@
+
+                            <span class="spa-checkbox checkbox ap-closed ">
+                                <input name="PendingRquestCancel" id="PendingRquestCancel_@item.EmpSchDetailsId" type="checkbox" onclick="RemoveBooking(@item.EmpSchDetailsId)">
+                                <label for="PendingRquestCancel_@item.EmpSchDetailsId" class="form-label spa-label1"></label>
+                            </span>
+                        </td>
+                    }
+                    string Back = "Accepted";
+                    <td>
+                        <a onclick="GoToPendingAccepted(@item.EmpSchDetailsId);"><i class="fa fa-reply-all"></i></a>
+                    </td>
+                    <td>
+                        @if (item.reg_status.Trim() == "D")
+                        {
+                            <span class="spa-label1">@Dyn</span>
+                        }
+                        @if (item.reg_status.Trim() == "M")
+                        {
+                            <span class="spa-label1">@Static</span>
+                        }
+                        @if (item.reg_status.Trim() == "PlatForm")
+                        {<span class="spa-label1">PlatForm</span>}
+                    </td>
+                    if (item.comment != null && item.comment != "")
+                    {
+                        <td class="spa-label1">
+                            <span>
+                                <i class="fa fa-info-circle spa-icon" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="@item.comment"></i>
+                            </span>
+                        </td>
+
+                    }
+                    else
+                    {
+                        <td></td>
+
+                    }
+                    <td><span class="spa-label1">@item.CreatedOn.ToString("HH.mm.ss ; dd.MM.yyyy")</span></td>
+
+                    if (Accept == 0)
+                    {
+                        <script>
+                            $("#CancelPending").show();
+                            $.post("/Product/GetCommonLangauge?PageName=Reservation_pending&orderid=13", function (data) {
+                                $("#AcceptPending").show();
+                                $("#AcceptPendingspan").html(data);
+                            });
+                            $.post("/Product/GetCommonLangauge?PageName=Reservation_pending&orderid=18", function (data) {
+                                $("#CancelPending").html(data);
+                            });
+
+                            $("#SelectAll").parent().hide();
+                            $("#SelectAlltr").hide();
+                            $("#PendingViewComment").show();
+                        </script>
+                        Accept = Accept + 1;
+                    }
+
+                }
+                @if (ViewBag.StatusApproval == "Declined")
+                {
+                    @*<td>
+                            <span class="spa-checkbox checkbox ap-closed">
+                                <input name="PendingRquestAccept" id="PendingRquestAccept_@item.EmpSchDetailsId" type="checkbox" onclick="StatusOfBookingData(@item.EmpSchDetailsId)">
+                                <label for="PendingRquestAccept_@item.EmpSchDetailsId" class="form-label spa-label1"></label>
+                            </span>
+                        </td>*@
+                var Back = "Declined";
+                <td>
+                    <a onclick="GoToPendingDecline(@item.EmpSchDetailsId);"><i class="fa fa-reply-all"></i></a>
+                </td>
+                <td>
+                    @if (item.reg_status.Trim() == "D")
+                    {
+                        <span class="spa-label1">@Dyn</span>
+                    }
+                    @if (item.reg_status.Trim() == "M")
+                    {
+                        <span class="spa-label1">@Static</span>
+                    }
+                    @if (item.reg_status.Trim() == "PlatForm")
+                    {<span class="spa-label1">PlatForm</span>}
+                </td>
+                <td><span class="spa-label1">@item.CreatedOn.ToString("HH.mm.ss ; dd.MM.yyyy")</span></td>
+                    if (DeclineTab == 0)
+                    {
+                        <script>
+                            $("#CancelPending").show();
+                            $("#AcceptPending").hide();
+
+                            //$.post("/Product/GetCommonLangauge?PageName=Reservation_pending&orderid=12", function (data) {
+                            //    $("#AcceptPendingspan").html(data);
+                            //});
+                            $.post("/Product/GetCommonLangauge?PageName=Reservation_pending&orderid=18", function (data) {
+                                $("#CancelPending").html(data);
+                            });
+                            $("#SelectAll").parent().hide();
+                            $("#SelectAlltr").hide();
+                            $("#PendingViewComment").hide();
+                        </script>
+                        DeclineTab = DeclineTab + 1;
+                    }
+                }
+                @if (ViewBag.StatusApproval == "All")
+                {
+
+                    if (All == 0)
+                    {
+                        <script>
+                            $.post("/Product/GetCommonLangauge?PageName=Reservation_pending&orderid=19", function (data) {
+                                $("#AcceptPending").show();
+                                $("#AcceptPendingspan").html(data);
+                            });
+                            $("#CancelPending").hide();
+                            $("#SelectAll").parent().hide();
+                            $("#SelectAlltr").hide();
+                            $("#PendingViewComment").show();
+                        </script>
+                        All = All + 1;
+                    }
+
+                    <td>
+                        @if (item.BookedStatus.ToString().Trim() == "B" && item.ActiveStatus.ToString().Trim() == "DA")
+                        {
+                            <a class="spa-label1">@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()@*Pending*@</a>
+                        }
+                        @if (item.BookedStatus.ToString().Trim() == "B" && item.ActiveStatus.ToString().Trim() == "A")
+                        {
+                            <a class="spa-label1">@Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault()@*Accepted*@</a>
+                        }
+                        @if (item.BookedStatus.ToString().Trim() == "B" && item.ActiveStatus.ToString().Trim() == "D")
+                        {
+                            <a class="spa-label1">@Language.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault()@*Declined*@</a>
+                        }
+                    </td>
+                    @*<td></td>*@
+                    <td>
+                        @if (item.reg_status.Trim() == "D")
+                        {
+                            <span class="spa-label1">@Dyn</span>
+                        }
+                        @if (item.reg_status.Trim() == "M")
+                        {
+                            <span class="spa-label1">@Static</span>
+                        }
+                        @if (item.reg_status.Trim() == "PlatForm")
+                        {<span class="spa-label1">PlatForm</span>}
+                    </td>
+                    if (item.comment != null && item.comment != "")
+                    {
+                        <td class="spa-label1">
+                            <span>
+                                <i class="fa fa-info-circle spa-icon" data-trigger="hover" data-placement="top" data-toggle="popover" data-content="@item.comment"></i>
+                            </span>
+                        </td>
+
+                    }
+                    else
+                    {
+                        <td></td>
+
+                    }
+                    <td><span class="spa-label1">@item.CreatedOn.ToString("HH.mm.ss ; dd.MM.yyyy")</span></td>
+                }
+                @*<td><button class="btn" id="ReservationPopUp" type="button">See Details</button></td>*@
+            </tr>
+                            }
+                            i = i + 1;
+
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="14" class="spa-label1 Nodata">
+                                <img src="~/images/No Data_2.png" />
+                                <div>@Language.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault()@*No Pending Bookings are Available*@</div>
+                            </td>
+                            <script>
+                                $("#SelectAll").parent().hide();
+
+                            </script>
+                        </tr>
+                    }
+@if (!string.IsNullOrEmpty(ActiveOrderby) && ActiveSorting != null)
+{
+    <script>
+        $("#PendingApprovaltable th i").removeClass("display-none");
+        if (@ActiveSorting.Value == 1)
+            $("[id=DescPend_@ActiveOrderby]").addClass("display-none");
+        else
+            $("[id=AscePend_@ActiveOrderby]").addClass("display-none");
+    </script>
+}
+<script>
+    $(document).ready(function () {
+        $("#PendingApprovaltable").tableHeadFixer({ "left": 1 });
+        $('[data-toggle="popover"]').popover();
+        $("#ReservationPopUp").click(function () {
+            $.ajax({
+                url: "/Reservation/ReservationPopup",
+                cache: false,
+                success: function (Result) {
+                    $(".modal-dialog").addClass("Reservation_popupwidth");
+                    $("#WelcomeAlert").html(Result);
+                    $("#welcome").modal('show');
+                },
+                error: function (request, status, error) { alert(status + ", " + error); }
+            });
+
+
+        });
+    });
+</script>

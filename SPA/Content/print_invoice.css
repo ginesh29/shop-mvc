@@ -1,0 +1,87 @@
+﻿@media print and (color) {
+   * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+   }
+}
+@media print {
+     .Bill-detail table thead tr{border-top:1px solid #bbbbbb;}
+     .print_displayNone{display:none;}
+     /*Invoice print css*/
+      .Invoice_box{margin-top: 0 !important;background-color: #fff !important;border: 0 !important;}
+      .details_table tbody tr td{white-space:normal !important;font-size:9px !important;font-weight:normal !important;}
+      .details_table tbody tr td.HelthTD_14px{font-size:10px !important;}
+      .HelthTD_14px{font-size:10px !important;}
+      .P_font10{font-size:12px !important;}
+      .print_maring{margin:0 !important;background-color:#fff;}
+      .product_print table thead tr th,.product_print table tbody tr td,.Invoice_footer table tbody tr td{font-size:9px !important;}
+      .product_print table tbody tr td .HelthTD_11px{font-size:8px !important;}
+      .Invoice_footer table tbody tr td{word-break:break-all !important;}
+      .new_invoice{page-break-before:unset;page-break-after:always;}
+      .P_font9 {font-size: 9px !important;}
+      .P_font14{font-size:14px !important;}
+      .Invoice_print {position:relative;height: 1060px !important;margin:0 !important}
+      .Invoice_footer{ position: absolute !important;bottom: 7px !important;width:98% !important;left:auto !important;right:auto !important;}
+       @-moz-document url-prefix() {
+          .margin_firfox{margin-top:25px !important;}
+       .Invoice_print {position:relative;height: 1045px !important;}
+        .FirFox_Health{height:1070px !important}
+       .barcode {margin-left: 0px !important;}
+       .page_margin{margin:7.5mm 8.5mm 0mm 9.5mm;}
+       .Invoice_box{padding:0 !important;}
+        .Invoice_footer{width:99.85% !important}
+        .IE_1-8{width:1.8cm !important}
+       .IE_2-0{width:2.1cm !important}
+        .IE_2-4{width:2.4cm !important}
+       .IE_2-7{width:2.7cm !important}
+            @page {
+                size: A4;
+               margin:0 !important;
+         }
+       }
+       /*For Safari*/
+       @media not all and (min-resolution:.001dpcm)
+       { @supports (-webkit-appearance:none) and (not (stroke-color:transparent)) {
+         @page {
+         margin:0.5mm 0.5mm 0mm 0.5mm !important;
+          }  
+    }
+}
+
+       .barcode {margin-left: 5px !important;}
+      /*.invoice_footer_box{position:relative;margin-top:0 !important;}*/
+    .details_table tbody tr td {font-family: Verdana !important;font-weight:500;}
+    .width60{width:60px !important;}
+    .black_border{margin-bottom:-1px;}
+    .Back_button{display:none !important;}
+    /*@page {
+          size: A4;
+          margin:6mm 6mm 0 6mm;
+     }*/
+     @page {
+          size: A4;
+         margin:7.5mm 8.5mm 0mm 9.5mm;
+     }  
+}
+ 
+  @font-face {
+    font-family: 'ocr-b1_demoregular';
+    src: url('../fonts/ocrb1-webfont.woff2') format('woff2'),
+         url('../fonts/ocrb1-webfont.woff') format('woff'),
+         url('../fonts/OCRB1.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+} 
+  @font-face {
+  font-family: 'Verdana';
+  src: url('../fonts/Verdana.woff') format('woff'),
+       url('../fonts/Verdana.woff2') format('woff2')
+       url('../fonts/Verdana.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+   
+ 
+

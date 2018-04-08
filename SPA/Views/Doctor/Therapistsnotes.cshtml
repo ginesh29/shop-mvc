@@ -1,0 +1,620 @@
+﻿
+@{
+    ViewBag.Title = "Therapistsnotes";
+    Layout = null;
+}
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/bootstrap")
+
+<html>
+<head>
+</head>
+<body>
+    <div class="doctor-popup Therapists_notes">
+        <div class="row form-group">
+            <div class="col-lg-24 col-md-24 col-sm-24 text-right"><a href="" class="title-green16"><i class="fa fa-reply-all margin-right5"></i>Back To List</a></div>
+        </div>
+        <div class="Note_header">
+            <div class="patient-desc-block">
+                <!--New Header-->
+                <div class="row Header_box">
+                    <div class="col-lg-6 col-md-6 col-sm-8 padding0">
+                        <div class="Note_BOX">
+                            <div class="col-lg-6 col-md-6 col-sm-7 col-xs-4">
+                                <div class="Notes_Img">
+                                    <img src="/images/prescription-img.png" />
+                                </div>
+                            </div>
+                            <div class="col-lg-18 col-md-18 col-sm-17 col-xs-20 padding0">
+                                <p class="dropmenuEllips">Therapistsnotes</p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-18 col-md-18 col-sm-16">
+                        <div class="row Note_info">
+                            <div class="col-lg-7 col-md-7 col-sm-12 padding0">
+                                <label class="dropmenuEllips">
+                                    Family Name
+                                    <span>Patel</span>
+                                </label>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-12 padding0">
+                                <label class="dropmenuEllips">
+                                    First Name
+                                    <span>Divya</span>
+                                </label>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-12 padding0">
+                                <label class="dropmenuEllips">
+                                    Gender
+                                    <span>Female</span>
+                                </label>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-12 padding0">
+                                <label class="dropmenuEllips">
+                                    Age
+                                    <span>25 Year</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="Notes_table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="TN_header">Consultation Shiatsu-Acupuncture / Consultation générale</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div class="table-responsive" style="border: 1px solid #ddd;">
+                        <table class="table" id="Th_notes">
+                            <thead class="TN_subheader">
+                                <tr>
+                                    <th>Date/SA</th>
+                                    <th>
+                                        <div>
+                                            <p>
+                                                01/10/2017
+                                                <div class="TN_subheaderDate">
+                                                    <a class="margin-right5"><i class="fa fa-floppy-o" aria-hidden="true" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Save" data-original-title="" title=""></i></a>
+                                                    <a class="margin-right5"><i class="fa fa-envelope" aria-hidden="true" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Email" data-original-title="" title=""></i></a>
+                                                    <a class="margin-right5"><i class="fa fa-print" aria-hidden="true" data-toggle="popover" data-trigger="hover" data-placement="left" data-content="Print" data-original-title="" title=""></i></a>
+                                                </div>
+                                            </p>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div>
+                                            <p>
+                                              03/10/2017
+                                                <div class="TN_subheaderDate">
+                                                    <a class="margin-right5"><i class="fa fa-floppy-o" aria-hidden="true" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Save" data-original-title="" title=""></i></a>
+                                                    <a class="margin-right5"><i class="fa fa-envelope" aria-hidden="true" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Email" data-original-title="" title=""></i></a>
+                                                    <a class="margin-right5"><i class="fa fa-print" aria-hidden="true" data-toggle="popover" data-trigger="hover" data-placement="left" data-content="Print" data-original-title="" title=""></i></a>
+                                                </div>
+                                            </p>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div>
+                                            <p>
+                                                05/10/2017
+                                                <div class="TN_subheaderDate">
+                                                    <a class="margin-right5"><i class="fa fa-floppy-o" aria-hidden="true" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Save" data-original-title="" title=""></i></a>
+                                                    <a class="margin-right5"><i class="fa fa-envelope" aria-hidden="true" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Email" data-original-title="" title=""></i></a>
+                                                    <a class="margin-right5"><i class="fa fa-print" aria-hidden="true" data-toggle="popover" data-trigger="hover" data-placement="left" data-content="Print" data-original-title="" title=""></i></a>
+                                                </div>
+                                            </p>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div>
+                                            <p>
+                                                12/10/2017
+                                                <div class="TN_subheaderDate">
+                                                    <a class="margin-right5"><i class="fa fa-floppy-o" aria-hidden="true" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Save" data-original-title="" title=""></i></a>
+                                                    <a class="margin-right5"><i class="fa fa-envelope" aria-hidden="true" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Email" data-original-title="" title=""></i></a>
+                                                    <a class="margin-right5"><i class="fa fa-print" aria-hidden="true" data-toggle="popover" data-trigger="hover" data-placement="left" data-content="Print" data-original-title="" title=""></i></a>
+                                                </div>
+                                            </p>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="color:#84b002"><div class="TN_title">Motif(s) de consultation</div></td>
+                                    <td>
+                                        <div class="TN_box">
+                                            <div class="medicine-dropdown flowUpdropdown Main-Div BorderName">
+                                                <div class="dropdown p-relative">
+                                                    <input type="text" class="dropdown-toggle form-control select-medicine padding-right35" name="" data-toggle="dropdown" aria-expanded="false" value="">
+                                                    <a class="plus-icon"><i class="fa fa-search" aria-hidden="true"></i></a>
+                                                    <div class="NewAddlist height176 display-none">
+                                                        <h4 class="font16 txtRobotoMedium">Not Data found Do you Want to Add this then Press<span><i class="font20 fa fa-plus-circle green-text margin-left10 cursorPoint AddCatg" aria-hidden="true"></i></span></h4>
+                                                    </div>
+                                                    <ul class="dropdown-menu disc-list">
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="margin-top10">
+                                                <ul class="medicine-list">
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                </ul>
+
+                                            </div>
+                                            <div class="border-green border-radius2 margin-bottom5">
+                                                <div class="p-relative">
+                                                    <textarea class="form-control spa-text-box resizeNone txt-area-scroll Patienttextarea" placeholder="Free Text" style="height:100px;"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="TN_box">
+                                            <div class="medicine-dropdown flowUpdropdown Main-Div BorderName">
+                                                <div class="dropdown p-relative">
+                                                    <input type="text" class="dropdown-toggle form-control select-medicine padding-right35" name="" data-toggle="dropdown" aria-expanded="false" value="">
+                                                    <a class="plus-icon"><i class="fa fa-search" aria-hidden="true"></i></a>
+                                                    <div class="NewAddlist height176 display-none">
+                                                        <h4 class="font16 txtRobotoMedium">Not Data found Do you Want to Add this then Press<span><i class="font20 fa fa-plus-circle green-text margin-left10 cursorPoint AddCatg" aria-hidden="true"></i></span></h4>
+                                                    </div>
+                                                    <ul class="dropdown-menu disc-list">
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="margin-top10">
+                                                <ul class="medicine-list">
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="border-green border-radius2 margin-bottom5">
+                                                <div class="p-relative">
+                                                    <textarea class="form-control spa-text-box resizeNone txt-area-scroll Patienttextarea" placeholder="Free Text" style="height:100px;"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="TN_box">
+                                            <div class="medicine-dropdown flowUpdropdown Main-Div BorderName">
+                                                <div class="dropdown p-relative">
+                                                    <input type="text" class="dropdown-toggle form-control select-medicine padding-right35" name="" data-toggle="dropdown" aria-expanded="false" value="">
+                                                    <a class="plus-icon"><i class="fa fa-search" aria-hidden="true"></i></a>
+                                                    <div class="NewAddlist height176 display-none">
+                                                        <h4 class="font16 txtRobotoMedium">Not Data found Do you Want to Add this then Press<span><i class="font20 fa fa-plus-circle green-text margin-left10 cursorPoint AddCatg" aria-hidden="true"></i></span></h4>
+                                                    </div>
+                                                    <ul class="dropdown-menu disc-list">
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="margin-top10">
+                                                <ul class="medicine-list">
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="border-green border-radius2 margin-bottom5">
+                                                <div class="p-relative">
+                                                    <textarea class="form-control spa-text-box resizeNone txt-area-scroll Patienttextarea" placeholder="Free Text" style="height:100px;"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="TN_box">
+                                            <div class="medicine-dropdown flowUpdropdown Main-Div BorderName">
+                                                <div class="dropdown p-relative">
+                                                    <input type="text" class="dropdown-toggle form-control select-medicine padding-right35" name="" data-toggle="dropdown" aria-expanded="false" value="">
+                                                    <a class="plus-icon"><i class="fa fa-search" aria-hidden="true"></i></a>
+                                                    <div class="NewAddlist height176 display-none">
+                                                        <h4 class="font16 txtRobotoMedium">Not Data found Do you Want to Add this then Press<span><i class="font20 fa fa-plus-circle green-text margin-left10 cursorPoint AddCatg" aria-hidden="true"></i></span></h4>
+                                                    </div>
+                                                    <ul class="dropdown-menu disc-list">
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="margin-top10">
+                                                <ul class="medicine-list">
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="border-green border-radius2 margin-bottom5">
+                                                <div class="p-relative">
+                                                    <textarea class="form-control spa-text-box resizeNone txt-area-scroll Patienttextarea" placeholder="Free Text" style="height:100px;"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="color:#84b002"><div class="TN_title">Motif(s) de consultation</div></td>
+                                    <td>
+                                        <div class="TN_box">
+                                            <div class="medicine-dropdown flowUpdropdown Main-Div BorderName">
+                                                <div class="dropdown p-relative">
+                                                    <input type="text" class="dropdown-toggle form-control select-medicine padding-right35" name="" data-toggle="dropdown" aria-expanded="false" value="">
+                                                    <a class="plus-icon"><i class="fa fa-search" aria-hidden="true"></i></a>
+                                                    <div class="NewAddlist height176 display-none">
+                                                        <h4 class="font16 txtRobotoMedium">Not Data found Do you Want to Add this then Press<span><i class="font20 fa fa-plus-circle green-text margin-left10 cursorPoint AddCatg" aria-hidden="true"></i></span></h4>
+                                                    </div>
+                                                    <ul class="dropdown-menu disc-list">
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="margin-top10">
+                                                <ul class="medicine-list">
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="border-green border-radius2 margin-bottom5">
+                                                <div class="p-relative">
+                                                    <textarea class="form-control spa-text-box resizeNone txt-area-scroll Patienttextarea" placeholder="Free Text" style="height:100px;"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="TN_box">
+                                            <div class="medicine-dropdown flowUpdropdown Main-Div BorderName">
+                                                <div class="dropdown p-relative">
+                                                    <input type="text" class="dropdown-toggle form-control select-medicine padding-right35" name="" data-toggle="dropdown" aria-expanded="false" value="">
+                                                    <a class="plus-icon"><i class="fa fa-search" aria-hidden="true"></i></a>
+                                                    <div class="NewAddlist height176 display-none">
+                                                        <h4 class="font16 txtRobotoMedium">Not Data found Do you Want to Add this then Press<span><i class="font20 fa fa-plus-circle green-text margin-left10 cursorPoint AddCatg" aria-hidden="true"></i></span></h4>
+                                                    </div>
+                                                    <ul class="dropdown-menu disc-list">
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="margin-top10">
+                                                <ul class="medicine-list No_data">
+                                                   <li>No Data</li>
+                                                </ul>
+                                            </div>
+                                            <div class="border-green border-radius2 margin-bottom5">
+                                                <div class="p-relative">
+                                                    <textarea class="form-control spa-text-box resizeNone txt-area-scroll Patienttextarea" placeholder="Free Text" style="height:100px;"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="TN_box">
+                                            <div class="medicine-dropdown flowUpdropdown Main-Div BorderName">
+                                                <div class="dropdown p-relative">
+                                                    <input type="text" class="dropdown-toggle form-control select-medicine padding-right35" name="" data-toggle="dropdown" aria-expanded="false" value="">
+                                                    <a class="plus-icon"><i class="fa fa-search" aria-hidden="true"></i></a>
+                                                    <div class="NewAddlist height176 display-none">
+                                                        <h4 class="font16 txtRobotoMedium">Not Data found Do you Want to Add this then Press<span><i class="font20 fa fa-plus-circle green-text margin-left10 cursorPoint AddCatg" aria-hidden="true"></i></span></h4>
+                                                    </div>
+                                                    <ul class="dropdown-menu disc-list">
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="margin-top10">
+                                                <ul class="medicine-list">
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="border-green border-radius2 margin-bottom5">
+                                                <div class="p-relative">
+                                                    <textarea class="form-control spa-text-box resizeNone txt-area-scroll Patienttextarea" placeholder="Free Text" style="height:100px;"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="TN_box">
+                                            <div class="medicine-dropdown flowUpdropdown Main-Div BorderName">
+                                                <div class="dropdown p-relative">
+                                                    <input type="text" class="dropdown-toggle form-control select-medicine padding-right35" name="" data-toggle="dropdown" aria-expanded="false" value="">
+                                                    <a class="plus-icon"><i class="fa fa-search" aria-hidden="true"></i></a>
+                                                    <div class="NewAddlist height176 display-none">
+                                                        <h4 class="font16 txtRobotoMedium">Not Data found Do you Want to Add this then Press<span><i class="font20 fa fa-plus-circle green-text margin-left10 cursorPoint AddCatg" aria-hidden="true"></i></span></h4>
+                                                    </div>
+                                                    <ul class="dropdown-menu disc-list">
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="doctor-checkbox">
+                                                                <input name="111" id="111" type="checkbox" value="111">
+                                                                <label for="111">AAA</label>
+                                                                <span class="doctor-delete"><i class="fa fa-trash"></i></span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="margin-top10">
+                                                <ul class="medicine-list">
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                    <li><a>AAA</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="border-green border-radius2 margin-bottom5">
+                                                <div class="p-relative">
+                                                    <textarea class="form-control spa-text-box resizeNone txt-area-scroll Patienttextarea" placeholder="Free Text" style="height:100px;"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $("#Th_notes").tableHeadFixer({ "left": 1 });
+    </script>
+</body>
+</html>
+

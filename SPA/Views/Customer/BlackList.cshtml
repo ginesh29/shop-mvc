@@ -1,0 +1,130 @@
+﻿@using System.Globalization
+@{
+    Layout = null;
+    int index = 1;
+    int tyi = 5;
+    List<Language_Label_Detail> Language = ViewBag.Language;
+    List<Language_Label_Detail> Monthlist = ViewBag.MonthList;
+    CultureInfo enGB = new CultureInfo("en-GB");
+    List<SPA.Models.CustomerTabInfo> BlackList = new List<SPA.Models.CustomerTabInfo>();
+    BlackList = ViewBag.BlackList;
+    int? ActiveSorting = ViewBag.Sorting;
+    var ActiveOrderby = ViewBag.OrderBy;
+    if (ViewBag.AcesofNewCust == new SPA.Models.getAccess()) { ViewBag.AcesofNewCust = null; }
+}
+<div class="assign-product user-details">
+    <h2 class="title-green16 margin-top15 cursor-default">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()@*CUSTOMER BLACK LIST*@</h2>
+    <div class="choose-your-product table-responsive margin-top15 pending-approval-table padding0" id="fixColumnHead">
+        <table class="table table-striped" id="CustomerBlackListtable">
+            <thead>
+                <tr>
+                    <th class="RemovePosition">@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()@*NO*@</th>
+                    <th>
+                        @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()@*TITLE*@
+                        <span class="sorting_arrow">
+                            <i class="fa fa-long-arrow-up" aria-hidden="true" id="AsceBlack_Gender" onclick="SortingBlackList('Gender', 0)"></i>
+                            <i class="fa fa-long-arrow-down" aria-hidden="true" id="DescBlack_Gender" onclick="SortingBlackList('Gender', 1)"></i>
+                        </span>
+                    </th>
+                    <th>
+                        @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()@*FAMILY NAME*@
+                        <span class="sorting_arrow">
+                            <i class="fa fa-long-arrow-up" aria-hidden="true" id="AsceBlack_LastName" onclick="SortingBlackList('LastName', 0)"></i>
+                            <i class="fa fa-long-arrow-down" aria-hidden="true" id="DescBlack_LastName" onclick="SortingBlackList('LastName', 1)"></i>
+                        </span>
+                    </th>
+                    <th>
+                        @Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()@*FIRST NAME*@
+                        <span class="sorting_arrow">
+                            <i class="fa fa-long-arrow-up" aria-hidden="true" id="AsceBlack_Firstname" onclick="SortingBlackList('Firstname', 0)"></i>
+                            <i class="fa fa-long-arrow-down" aria-hidden="true" id="DescBlack_Firstname" onclick="SortingBlackList('Firstname', 1)"></i>
+                        </span>
+                    </th>
+                    <th>
+                        @Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()@*MOBILE NO*@
+                        <span class="sorting_arrow">
+                            <i class="fa fa-long-arrow-up" aria-hidden="true" id="AsceBlack_Phoneno" onclick="SortingBlackList('Phoneno', 0)"></i>
+                            <i class="fa fa-long-arrow-down" aria-hidden="true" id="DescBlack_Phoneno" onclick="SortingBlackList('Phoneno', 1)"></i>
+                        </span>
+                    </th>
+                    <th>@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()@*EMAIL*@</th>
+                    <th hidden>EMPLOYEE</th>
+                    <th>@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()@*BLACKLISTED SINCE*@</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (BlackList.Count > 0)
+                {
+                    foreach (var item in BlackList)
+                    {
+                        string BlacklistDate = "";
+                        if (item.LastVisited != null)
+                        {
+                            var monthname = item.LastVisited.Value.ToString("MMMM");
+                            var MonthLanguagechange = Monthlist.Where(c => c.English_Label == monthname).Select(c => c.Value).FirstOrDefault();
+                            BlacklistDate = item.LastVisited.Value.ToString("dd MMMM, yyyy hh:mm").Replace(monthname, MonthLanguagechange);
+                        }
+                        <tr>
+                            <td class="spa-label1 RemovePosition">@index</td>
+                            <td class="spa-label1">@item.Gender@*Mr.*@</td>
+                            <td class="spa-label1">@item.LastName@*Patel*@</td>
+                            <td class="spa-label1">@item.Firstname@*JigneshKumar*@</td>
+                            <td class="spa-label1">@item.Phoneno@*9016262365*@</td>
+                            <td class="spa-label1">@item.Emailid@*jignesh@bcssarl.com*@</td>
+                            @*20.10.2015*@
+                            <td class="spa-label1">@BlacklistDate</td>
+                            <td>
+                                @if (((item.UpdateAccess != "N" && (item.FlowStatus == "2" || item.FlowStatus == "3")) || (item.FlowStatus == "1")) && ViewBag.AcesofNewCust != null)
+                                {
+                                    <a onclick="BlackEditCustomer(@item.UserId)"><i class="fa fa-pencil-square-o spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()" data-original-title="" title=""></i></a>
+                                }
+                                @if (((item.DeleteAccess != "N" && (item.FlowStatus == "2" || item.FlowStatus == "3")) || (item.FlowStatus == "1")))
+                                {
+                                    <a onclick="CustomerDelete(@item.UserId,@tyi);"> <i class="fa fa-trash spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()" data-original-title="" title=""></i></a>
+                                }
+                            </td>
+                        </tr>
+                        index = index + 1;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td class="spa-label1 Nodata" colspan="8">
+                            <img src="~/images/Customer.png" />
+                            <div>@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()@*No BlackListed Customer*@</div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@if (!string.IsNullOrEmpty(ActiveOrderby) && ActiveSorting != null)
+{
+    <script>
+        $("#CustomerBlackListtable th i").removeClass("display-none");
+        if (@ActiveSorting.Value == 1)
+            $("[id=DescBlack_@ActiveOrderby]").addClass("display-none");
+        else
+            $("[id=AsceBlack_@ActiveOrderby]").addClass("display-none");
+    </script>
+}
+<script>
+    //$('.CustomerBlackListtable').on('scroll', function () {
+    //    $(".CustomerBlackListtable > *").width($(".CustomerBlackListtable").width() + $(".CustomerBlackListtable").scrollLeft());
+    //});
+
+    $(document).ready(function() {
+        $("#CustomerBlackListtable").tableHeadFixer({ "left": 1 });
+    });
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    });
+    function SortingBlackList(OrderBy, Sorting) {
+        $(".loader").show();
+        var url = "/Customer/BlackList?OrderBy=" + OrderBy + "&Sorting=" + Sorting;
+        CommonSorting(url, "blacklist")
+    }
+</script>

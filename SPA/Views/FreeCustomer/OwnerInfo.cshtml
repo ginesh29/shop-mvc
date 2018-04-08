@@ -1,0 +1,618 @@
+﻿@model SPA.Models.FreeCustomer
+
+@{
+    Layout = "~/Views/Shared/_Employee_Layout.cshtml";
+    List<spatime_zone> CountryList = ViewBag.countrylist;
+    SPA.Models.FreeCustomer Info = new SPA.Models.FreeCustomer();
+    Info = Model;
+    SPA.Models.MainCategoryDetails MainCatgInfo = new SPA.Models.MainCategoryDetails();
+    MainCatgInfo = ViewBag.MainCategory;
+    List<SPA.Models.LendingWeekScheduleDetails> WeekDetails = new List<SPA.Models.LendingWeekScheduleDetails>();
+    WeekDetails = ViewBag.WeekDetails;
+    List<SPA.Models.LanguageNewShop> Language = new List<SPA.Models.LanguageNewShop>();
+    Language = ViewBag.Language;
+    var Closed = Language.Where(c => c.Order_id == 41).FirstOrDefault();
+    var StatusClosed = Closed.Value;
+    var EnLabelStatusClosed = Closed.English_Label;
+    string Status = ViewBag.Status;
+
+}
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMSFX8VQlWkX6sUZPN9bKh5aF7lpS9Lwc&libraries=places&sensor=false"></script>
+<ol class="spa-breadcrumbs breadcrumb">
+    @*<li><a href="#" class="active">Home</a></li>
+        <li><a href="#">Reservation</a></li>*@
+</ol>
+<div class="form-content">
+    @Html.Partial("Freecustomer_Layout")
+    <div class="col-lg-24 col-md-24 col-sm-24 margin-top10 padding-right20">
+        <a class="title-green16 pull-right" href="/FreeCustomer/FreeCustomerList"><i class="fa fa-reply-all margin-right5"></i>Back</a>
+    </div>
+    <div class="employee-blank Owner_infopage">
+        <form id="FrmFreeCustomer" action="/FreeCustomer/AddOwnerInfo" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <input type="hidden" value="@ViewBag.ShopDetails" name="ShopTypeJson" id="ShopTypeJson" />
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="Owner_section margin-top20">
+                    <div class="Owner_section_heading p-relative">
+                        <div class="Ownerborder-green"></div>
+                        <h4>
+                            Personal Info
+                        </h4>
+                    </div>
+                    <div class="Main_section">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group row">
+                                <div class="col-lg-8 col-md-8">
+                                    @Html.Label("Title", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                </div>
+                                <div class="col-lg-16 col-md-16">
+                                    @Html.DropDownListFor(model => model.Title, (SelectList)(ViewBag.Client), new { @class = "form-control required spa-dropdown-box" })
+                                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-lg-8 col-md-8">
+                                    @Html.Label("First Name", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                </div>
+                                <div class="col-lg-16 col-md-16">
+                                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control spa-text-box text-box single-line required", @maxlength = "50" } })
+                                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-lg-8 col-md-8">
+                                    @Html.Label("Last Name", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                </div>
+                                <div class="col-lg-16 col-md-16">
+                                    @Html.EditorFor(model => model.FamilyName, new { htmlAttributes = new { @class = "form-control spa-text-box text-box single-line ", @maxlength = "50" } })
+                                    @Html.ValidationMessageFor(model => model.FamilyName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-8 col-md-8">
+                                    @Html.Label("Phone Number", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                </div>
+                                <div class="col-lg-16 col-md-16">
+                                    @Html.EditorFor(model => model.phoneno, new { htmlAttributes = new { @class = "form-control spa-text-box text-box single-line digits", @minlength = "10", @maxlength = "10" } })
+                                    @Html.ValidationMessageFor(model => model.phoneno, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-8 col-md-8">
+                                    @Html.Label("Email", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                </div>
+                                <div class="col-lg-16 col-md-16">
+                                    @Html.EditorFor(model => model.emailid, new { htmlAttributes = new { @class = "form-control spa-text-box text-box single-line email", @maxlength = "50" } })
+                                    @Html.ValidationMessageFor(model => model.emailid, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            @*<div class="form-group row">
+                                    <div class="col-lg-8 col-md-8">
+                                        @Html.Label("Password", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                    </div>
+                                    <div class="col-lg-16 col-md-16">
+                                        @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control spa-text-box text-box single-line required", Type = "password", @id = "password", autocomplete = "off", @minlength = "6" } })
+                                        @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-8 col-md-8">
+                                        @Html.Label("Confirm Password", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                    </div>
+                                    <div class="col-lg-16 col-md-16">
+                                        @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control required spa-text-box text-box single-line", Type = "password", autocomplete = "off", equalto = "#password" } })
+                                        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>*@
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+
+
+                            <div class="form-group row">
+                                <div class="col-lg-8 col-md-8">
+                                    @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                </div>
+                                <div class="col-lg-16 col-md-16">
+                                    @Html.DropDownListFor(model => model.Country, new SelectList(CountryList, "name_country", "name_country", "INDIA"), new { @class = "form-control required spa-dropdown-box", replica = "shopcountry" })
+                                    @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-lg-8 col-md-8">
+                                    @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                </div>
+                                <div class="col-lg-16 col-md-16">
+                                    @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control required spa-text-box text-box single-line", replica = "shopState", @maxlength = "100" } })
+                                    @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-lg-8 col-md-8">
+                                    @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                </div>
+                                <div class="col-lg-16 col-md-16">
+                                    @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control required spa-text-box text-box single-line", replica = "shopcity", @maxlength = "200" } })
+                                    @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-8 col-md-8">
+                                    @Html.LabelFor(model => model.Zipcode, htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                </div>
+                                <div class="col-lg-16 col-md-16">
+                                    @Html.EditorFor(model => model.Zipcode, new { htmlAttributes = new { @class = "form-control required digits spa-text-box text-box single-line", @maxlength = "8", replica = "shopzipcode" } })
+                                    @Html.ValidationMessageFor(model => model.Zipcode, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-lg-8 col-md-8">
+                                    @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                </div>
+                                <div class="col-lg-16 col-md-16">
+                                    @*<textarea class="form-control required spa-text-box text-box single-line" id="Address" name="Address"  rows="3" replica="shopaddress">@Info.Address</textarea>*@
+                                    @Html.TextAreaFor(c => c.Address, new { @class = "form-control required spa-text-box text-box single-line", @rows = 2, replica = "shopaddress" })
+                                    @*@Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "" } })*@
+                                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="Owner_section">
+                    <div class="Owner_section_heading p-relative">
+                        <div class="Ownerborder-green"></div>
+                        <h4>
+                            Shop Info
+                        </h4>
+                    </div>
+                    <div class="Main_section">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group row">
+                                <div class="col-lg-8 col-md-8">
+                                    @Html.Label("Shop Name", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                </div>
+                                <div class="col-lg-16 col-md-16">
+                                    @Html.EditorFor(model => model.shopname, new { htmlAttributes = new { @class = "form-control required spa-text-box text-box single-line",@maxlength = "499" } })
+                                    @Html.ValidationMessageFor(model => model.shopname, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-8 col-md-8">
+                                    @Html.Label("Shop Country", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                </div>
+                                <div class="col-lg-16 col-md-16">
+                                    @Html.DropDownListFor(model => model.shopcountry, new SelectList(CountryList, "name_country", "name_country", "INDIA"), new { @class = "form-control required spa-dropdown-box" })
+                                    @Html.ValidationMessageFor(model => model.shopcountry, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-lg-8 col-md-8">
+                                    @Html.Label("Shop State", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                </div>
+                                <div class="col-lg-16 col-md-16">
+                                    @Html.EditorFor(model => model.shopState, new { htmlAttributes = new { @class = "form-control required spa-text-box text-box single-line",@maxlength = "100" } })
+                                    @Html.ValidationMessageFor(model => model.shopState, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-lg-8 col-md-8">
+                                    @Html.Label("Shop city", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                </div>
+                                <div class="col-lg-16 col-md-16">
+                                    @Html.EditorFor(model => model.shopcity, new { htmlAttributes = new { @class = "form-control required spa-text-box text-box single-line", @maxlength = "200" } })
+                                    @Html.ValidationMessageFor(model => model.shopcity, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-8 col-md-8">
+                                    @Html.Label("Shop Address", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                </div>
+                                <div class="col-lg-16 col-md-16">
+                                    @*@Html.EditorFor(model => model.shopaddress, new { htmlAttributes = new { @class = "form-control required spa-text-box text-box single-line" } })*@
+                                    @*<textarea class="form-control required spa-text-box text-box single-line" id="shopaddress" name="shopaddress" rows="3">@Info.shopaddress</textarea>*@
+                                    @Html.TextAreaFor(c => c.shopaddress, new { @class = "form-control required spa-text-box text-box single-line", @rows = 2 })
+                                    @Html.ValidationMessageFor(model => model.shopaddress, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group row">
+                                <div class="col-lg-8 col-md-8">
+                                    @Html.Label("Shop Zipcode", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                </div>
+                                <div class="col-lg-16 col-md-16">
+                                    @Html.EditorFor(model => model.shopzipcode, new { htmlAttributes = new { @class = "form-control required digits spa-text-box text-box single-line", @maxlength = "8" } })
+                                    @Html.ValidationMessageFor(model => model.shopzipcode, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-lg-8 col-md-8">
+                                    @Html.Label("Latitude", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                </div>
+                                <div class="col-lg-16 col-md-16">
+                                    @Html.EditorFor(model => model.latitude, new { htmlAttributes = new { @class = "form-control  number spa-text-box text-box single-line",@maxlength = "15" } })
+                                    @Html.ValidationMessageFor(model => model.latitude, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-8 col-md-8">
+                                    @Html.Label("Longitude", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                </div>
+                                <div class="col-lg-16 col-md-16">
+                                    @Html.EditorFor(model => model.longitude, new { htmlAttributes = new { @class = "form-control  number spa-text-box text-box single-line", @maxlength = "15" } })
+                                    @Html.ValidationMessageFor(model => model.longitude, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-8 col-md-8">
+                                    @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                </div>
+                                <div class="col-lg-16 col-md-16">
+                                    @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control required spa-text-box text-box single-line" } })
+                                    @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-8 col-md-8">
+                                    @Html.Label("Shop Description", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                </div>
+                                <div class="col-lg-16 col-md-16">
+                                    @*@Html.EditorFor(model => model.ShopDesc, new { htmlAttributes = new { @class = "form-control required spa-text-box text-box single-line" } })*@
+                                    @Html.TextAreaFor(c => c.ShopDesc, new { @class = "form-control required spa-text-box text-box single-line", @rows = 2 })
+                                    @*<textarea class="form-control required spa-text-box text-box single-line" id="ShopDesc" name="ShopDesc" rows="3">@Info.ShopDesc</textarea>*@
+                                    @Html.ValidationMessageFor(model => model.ShopDesc, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="Owner_section">
+                    <div class="Owner_section_heading p-relative">
+                        <div class="Ownerborder-green"></div>
+                        <h4>Various</h4>
+                    </div>
+                    <div class="Main_section">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group row">
+                                <div class="col-lg-8 col-md-8">
+                                    @Html.Label("Shop Type", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                </div>
+                                <div class="col-lg-16 col-md-16">
+                                    @Html.DropDownListFor(c => c.ShopType, (SelectList)(ViewBag.ShopTypeList), new { @class = "form-control required spa-dropdown-box", @id = "ShopType", @onchange = "FillMainCatgType()" })
+                                    @Html.ValidationMessageFor(model => model.ShopType, "", new { @class = "text-danger" })
+                                    <input type="hidden" name="ShopTypeName" id="ShopTypeName" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group row">
+                                <div class="col-lg-8 col-md-8">
+                                    @Html.Label("Main Category", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                </div>
+                                <div class="col-lg-16 col-md-16">
+                                    @Html.EditorFor(model => model.maincategory, new { htmlAttributes = new { @class = "form-control spa-text-box text-box single-line", @id = "MainCategory", @readonly = "true", @Value = Model != null ? Model.maincategory : MainCatgInfo.MainCategory } })
+                                    @Html.ValidationMessageFor(model => model.maincategory, "", new { @class = "text-danger" })
+                                    <input type="hidden" name="MainCatgId" id="MainCatgId" value="@(Model != null?Model.MainCatgId:MainCatgInfo.MainCatgId)" />
+                                    <input type="hidden" name="DoctorStatus" id="DoctorStatus" value="@(Model != null?Model.DoctorStatus:Status)" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="Owner_section">
+                    <div class="Owner_section_heading p-relative">
+                        <div class="Ownerborder-green"></div>
+                        <h4>@Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault() </h4>
+                    </div>
+                    <div class="Main_section">
+                        <input type="hidden" id="LendingObject" name="LendingObject" value="@ViewBag.SerialzeLendingList" />
+                        <div class="col-lg-12 col-md-12 col-sm-24">
+                            <div class="form-group row">
+                                <div class="col-lg-24 col-md-24 col-sm-24">
+                                    <label class="form-label spa-label-bold" style="line-height:27px;">From Day</label>
+                                    @*<input type="text" class="form-control spa-text-box required spa-text-box2" id="FromDay" name="FromDay" placeholder="Text" value="@Model.FromDay">*@
+                                    @*@Html.DropDownList("FromDay", new SelectList(ViewBag.WeekDay, "CatgTypeId", "CatgDesc", Model.FromDay), new { @class = "login-input-box form-control required", @id = "FromDay" })*@
+                                    <div class="dropdown spa-dropdown leading-dropdown">
+                                        <a class="dropdown-toggle spa-text-box form-control spa-dropdown-box  dropmenuEllips" id="DisplayLendingDropDown" data-toggle="dropdown">
+                                            @if (WeekDetails.Count > 0)
+                                            {
+                                                @*@DaysList.Select(c => c.CatgDesc).FirstOrDefault()*@
+                                                @WeekDetails.Select(c => c.Day).FirstOrDefault()
+                                            }
+                                            <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu" id="LendingDayText">
+                                            @if (WeekDetails.Count > 0)
+                                            {
+                                                foreach (var item in WeekDetails)
+                                                {
+                                                    <li>
+                                                        <a class="dropmenuEllips" id="@item.CatgTypeId">
+                                                            @item.Day
+                                                        </a>
+                                                    </li>
+                                                }
+                                            }
+                                            @if (WeekDetails.Count > 0)
+                                            {
+                                                <input type="hidden" value="@WeekDetails.Select(c => c.CatgTypeId).FirstOrDefault()" name="SelectedLendingDay" id="SelectedLendingDay" />
+                                            }
+                                            else
+                                            {
+                                                <input type="hidden" value="" name="SelectedLendingDay" id="SelectedLendingDay" />
+                                            }
+                                            @*@Html.Hidden("SelectedEvent")*@
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-2 col-md-4 col-sm-4">
+                                    <label class="form-label spa-label-bold">AM</label>
+                                    <div class="spa-checkbox checkbox Week_checkbox">
+                                        <input type="checkbox" id="Check_Am">
+                                        <label for="Check_Am" class="form-label spa-label1"></label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-11 col-md-10 col-sm-10">
+                                    <label class="form-label spa-label-bold">Shop Start Time </label>
+                                    <input type="text" class="form-control spa-text-box  spa-text-box2 " id="ShopStartTime" name="ShopStartTime" placeholder="Shop Start Time" value="">
+                                </div>
+                                <div class="col-lg-11 col-md-10 col-sm-10">
+                                    <label class="form-label spa-label-bold">Shop End Time</label>
+                                    <input type="text" class="form-control spa-text-box  spa-text-box2 " id="ShopEndTime" name="ShopEndTime" placeholder="Shop End Time" value="">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-2 col-md-4 col-sm-4">
+                                    <label class="form-label spa-label-bold">PM</label>
+                                    <div class="spa-checkbox checkbox Week_checkbox">
+                                        <input type="checkbox" id="Check_Pm">
+                                        <label for="Check_Pm" class="form-label spa-label1"></label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-11 col-md-10 col-sm-10">
+                                    <label class="form-label spa-label-bold">Shop Start Time</label>
+                                    <input type="text" class="form-control spa-text-box  spa-text-box2 " id="ShopIStartTime" name="ShopIStartTime" placeholder="Shop Start Time" value="">
+                                </div>
+                                <div class="col-lg-11 col-md-10 col-sm-10">
+                                    <label class="form-label spa-label-bold">Shop End Time</label>
+                                    <input type="text" class="form-control spa-text-box  spa-text-box2 " id="ShopIEndTime" name="ShopIEndTime" placeholder="Shop End Time" value="">
+                                </div>
+                            </div>
+                            <div class="form-group text-right margin-top10">
+                                <span id="statusLendingSchedule" class="doctorValid"></span>
+                                <input type="button" class="btn btn-green btn-small margin-right5" id="AddLendingDay" value="@Language.Where(c => c.Order_id == 31).Select(c => c.Value).FirstOrDefault()">  @*Add*@
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-24">
+                            <div class="table-responsive laending-Table">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>@*DAY*@ @Language.Where(c => c.Order_id == 26).Select(c => c.Value).FirstOrDefault()</th>
+                                            <th>@*TIME*@ @Language.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault()</th>
+                                            <th>@*TIME*@ @Language.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault()</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="LendingWeekScheduleDetails">
+                                        @foreach (var item in WeekDetails.OrderBy(c => c.CatgTypeId).ToList())
+                                        {
+                                            <tr id="Week_@item.CatgTypeId">
+                                                <td class="spa-label1 text-center">@item.Day </td>
+                                                <td class="spa-label1 text-center">@(item.Catgdesc != null && item.Catgdesc != StatusClosed ? item.Catgdesc : StatusClosed)</td>
+                                                <td class="spa-label1 text-center">@(item.Gender != null && item.Gender != StatusClosed ? item.Gender : StatusClosed)</td>
+                                                <td>
+                                                    <a id="@item.CatgTypeId"> <i class="fa fa-times spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 30).Select(c => c.Value).FirstOrDefault()" data-original-title="" title=""></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row text-center">
+                    <input type="submit" value="Create" class="btn btn-green margin-right5 margin-bottom10" />
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+
+    $(document).ready(function () {
+        $("#FrmFreeCustomer").validate();
+    });
+    //$("#EditJson").click(function () {
+    //    var JsonArray = [];
+    //    var Details = "";
+    //    if ($("#EmpJsonModel").val() != "")
+    //        JsonArray = jQuery.parseJSON($("#EmpJsonModel").val());
+    //    for (var i = 0; i < JsonArray.length; i++) {
+    //        // get i-th object in the results array
+    //        var columnsIn = JsonArray[i];
+    //        // loop through every key in the object
+    //        for (var key in columnsIn) {
+    //            console.log(key + ' : ' + JsonArray[i][key]); // here is your column name you are looking for + its value
+    //        }
+    //    }
+    //});
+
+    function FillMainCatgType() {
+        var SolutionId = $('#ShopType').val();
+        var JsonArray = [];
+        if ($("#ShopTypeJson").val() != "")
+            JsonArray = jQuery.parseJSON($("#ShopTypeJson").val());
+        jQuery.grep(JsonArray, function (obj) {
+            if (obj.ShopTypeId == SolutionId) {
+                $("#ShopTypeName").val(obj.ShopTypeId);
+                $("#MainCategory").val(obj.MainCategory);
+                $("#MainCatgId").val(obj.MainCatgId);
+            }
+        });
+
+    }
+    var Stateinput = document.getElementById('State');
+    var Stateautocomplete = new google.maps.places.Autocomplete(Stateinput);
+    google.maps.event.addListener(Stateautocomplete, 'place_changed', function (Stateinput) {
+        var place = Stateautocomplete.getPlace();
+        $("#State").val(place.name).change();
+    })
+    var Cityinput = document.getElementById('City');
+    var Cityautocomplete = new google.maps.places.Autocomplete(Cityinput, { types: ['(cities)'] });
+    google.maps.event.addListener(Cityautocomplete, 'place_changed', function (Cityinput) {
+        var place = Cityautocomplete.getPlace();
+        $("#City").val(place.name).change();
+    })
+    var ShopStateinput = document.getElementById('shopState');
+    var ShopStateautocomplete = new google.maps.places.Autocomplete(ShopStateinput);
+    google.maps.event.addListener(ShopStateautocomplete, 'place_changed', function (ShopStateinput) {
+        var place = ShopStateautocomplete.getPlace();
+        $("#shopState").val(place.name);
+    })
+    var ShopCityinput = document.getElementById('shopcity');
+    var ShopCityautocomplete = new google.maps.places.Autocomplete(ShopCityinput, { types: ['(cities)'] });
+    google.maps.event.addListener(ShopCityautocomplete, 'place_changed', function (ShopCityinput) {
+        var place = ShopCityautocomplete.getPlace();
+        $("#shopcity").val(place.name);
+    })
+    var input = document.getElementById('Location');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    google.maps.event.addListener(autocomplete, 'place_changed', function () {
+        var place = autocomplete.getPlace();
+        $("#Location").val(place.name).change();
+    })
+    //Lending Info
+    $('#LendingDayText li a').click(function () {
+        var selText = $(this).html();
+        var id = $(this).prop("id");
+        $("#SelectedLendingDay").val(id);
+        $("#DisplayLendingDropDown").html(selText + '<span class="caret"></span>');
+    });
+    $("#ShopStartTime,#ShopEndTime,#ShopIStartTime,#ShopIEndTime").datetimepicker({
+        stepping: 5,
+        format: 'HH:mm'
+    });
+    $("#ShopStartTime").on("dp.change", function (e) {
+        $("#ShopEndTime").val("").data("DateTimePicker").minDate(e.date.format("HH:mm"));
+        $("#ShopIStartTime").val("").data("DateTimePicker").minDate(e.date.format("HH:mm"));
+        $("#ShopIEndTime").val("").data("DateTimePicker").minDate(e.date.format("HH:mm"));
+    });
+    $("#ShopEndTime").on("dp.change", function (e) {
+        $("#ShopIStartTime").val("").data("DateTimePicker").minDate(e.date.format("HH:mm"));
+        $("#ShopIEndTime").val("").data("DateTimePicker").minDate(e.date.format("HH:mm"));
+    });
+    $("#ShopIStartTime").on("dp.change", function (e) {
+        $("#ShopIEndTime").val("").data("DateTimePicker").minDate(e.date.format("HH:mm"));
+    });
+    $("#AddLendingDay").click(function () {
+        var Status = "CheckYES";
+        if ($("#Check_Am").prop("checked") == true || $("#Check_Pm").prop("checked") == true) {
+            if ($("#Check_Am").prop("checked") == true && $("#Check_Pm").prop("checked") == true) {
+                if ($("#ShopStartTime").val() == "" || $("#ShopIStartTime").val() == "") {
+                    $("#statusLendingSchedule").text("Please Fill Start and End Time").fadeIn().delay(2000).fadeOut();
+                    Status = "CheckNO";
+                }
+                if (($("#ShopStartTime").val() > $("#ShopEndTime").val()) || ($("#ShopEndTime").val() > $("#ShopIStartTime").val()) || ($("#ShopIStartTime").val() > $("#ShopIEndTime").val())) {
+                    $("#statusLendingSchedule").text("Start time should be smaller then End time").fadeIn().delay(2000).fadeOut();
+                    Status = "CheckNO";
+                }
+            }
+            if ($("#Check_Am").prop("checked") == true && $("#Check_Pm").prop("checked") == false) {
+                if ($("#ShopStartTime").val() > $("#ShopEndTime").val()) {
+                    $("#statusLendingSchedule").text("Start time should be smaller then End time").fadeIn().delay(2000).fadeOut();
+                    Status = "CheckNO";
+                }
+                if ($("#ShopStartTime").val() == "" || $("#ShopEndTime").val() == "") {
+                    $("#statusLendingSchedule").text("Please Fill Start and End Time").fadeIn().delay(2000).fadeOut();
+                    Status = "CheckNO";
+                }
+            }
+            if ($("#Check_Pm").prop("checked") == true && $("#Check_Am").prop("checked") == false) {
+                if ($("#ShopIStartTime").val() > $("#ShopIEndTime").val()) {
+                    $("#statusLendingSchedule").text("Start time should be smaller then End time").fadeIn().delay(2000).fadeOut();
+                    Status = "CheckNO";
+                }
+                if ($("#ShopIStartTime").val() == "" || $("#ShopIEndTime").val() == "") {
+                    $("#statusLendingSchedule").text("Please Fill Start and End Time").fadeIn().delay(2000).fadeOut();
+                    Status = "CheckNO";
+                }
+            }
+        }
+        if (Status == "CheckYES") {
+            var JsonArray = [];
+            if ($("#LendingObject").val() != "")
+                JsonArray = jQuery.parseJSON($("#LendingObject").val());
+            var ID = $("#SelectedLendingDay").val();
+            var Content = "@EnLabelStatusClosed";
+            var RContent = "@StatusClosed";
+            var RIContent = "@StatusClosed";
+            var IContent = "@EnLabelStatusClosed";
+            if ($("#Check_Am").prop("checked") == true) {
+                Content = $("#ShopStartTime").val() + " - " + $("#ShopEndTime").val();
+                IContent = "@EnLabelStatusClosed";
+                RContent = $("#ShopStartTime").val() + " - " + $("#ShopEndTime").val();
+                RIContent = "@StatusClosed";
+            }
+            if ($("#Check_Pm").prop("checked") == true) {
+                IContent = $("#ShopIStartTime").val() + " - " + $("#ShopIEndTime").val();
+                Content = "@EnLabelStatusClosed";
+                RContent = "@StatusClosed";
+                RIContent = $("#ShopIStartTime").val() + " - " + $("#ShopIEndTime").val();
+            }
+            if ($("#Check_Am").prop("checked") == true && $("#Check_Pm").prop("checked") == true) {
+                Content = $("#ShopStartTime").val() + " - " + $("#ShopEndTime").val();
+                IContent = $("#ShopIStartTime").val() + " - " + $("#ShopIEndTime").val();
+                RContent = $("#ShopStartTime").val() + " - " + $("#ShopEndTime").val();
+                RIContent = $("#ShopIStartTime").val() + " - " + $("#ShopIEndTime").val();
+            }
+            var Days = $("#LendingDayText #" + $("#SelectedLendingDay").val()).html();
+            var Status = "Yes";
+            JsonArray = $.grep(JsonArray, function (item, index) {
+                return item.CatgTypeId != ID
+            });
+            var JsonString = { CatgTypeId: ID, Catgdesc: Content, Day: Days, Gender: IContent };
+            JsonArray.push(JsonString);
+            $("#Week_" + ID).find("td:eq(1)").html(RContent);
+            $("#Week_" + ID).find("td:eq(2)").html(RIContent);
+            $("#LendingObject").val(JSON.stringify(JsonArray));
+        }
+
+    });
+
+    $("body").delegate("#LendingWeekScheduleDetails tr a", "click", function () {
+        var CatgTypeId = $(this).prop("id");
+        $("#Week_" + CatgTypeId).find("td:eq(1)").html("@StatusClosed");
+        $("#Week_" + CatgTypeId).find("td:eq(2)").html("@StatusClosed");
+        var TempJsonArray = [];
+        var JsonArray = JSON.parse($("#LendingObject").val());
+        JsonArray = $.grep(JsonArray, function (item, index) { return item.CatgTypeId != CatgTypeId });
+        var Days = $("#LendingDayText #" + CatgTypeId).html();
+        var JsonString = { CatgTypeId: CatgTypeId, Catgdesc: "@EnLabelStatusClosed", Day: Days, Gender: "@EnLabelStatusClosed" };
+        JsonArray.push(JsonString);
+        if (JsonArray.length == 0)
+            $("#LendingObject").val("");
+        else
+            $("#LendingObject").val(JSON.stringify(JsonArray));
+    });
+    $('#InfoPage').addClass('present');
+    replica("#Country,#State,#City,#Zipcode,#Address,#Address");
+</script>
+

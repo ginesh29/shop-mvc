@@ -1,0 +1,31 @@
+﻿
+@{
+    Layout = null;
+    var Language = (List<Language_NewShop>)(ViewBag.Language);
+}
+
+<html>
+<body style="font-family:Calibri">
+    <div style="padding:30px 40px">
+        <div style="padding:20px 15px;border-radius:4px;position:relative;">
+            <div style="border:2px solid #669900;"></div>
+            <h3 style="position:absolute;margin-top:-15px;background:#fff;left:90px;padding:0 10px;color:#3a3a3a;font-size:22px;">TERMS AND CONDITIONS</h3>
+            <br />
+            <br />
+            <div style="margin:50px auto;width:840px">
+                <p style="font-size:15px;">
+                    @Html.Raw(Language.Where(c => c.Page_Name == "Term_Condition_page" && c.Order_id == 2).Select(c => c.Value).FirstOrDefault())
+                    <br />
+                    @Html.Raw(Language.Where(c => c.Page_Name == "Term_Condition_page" && c.Order_id == 3).Select(c => c.Value).FirstOrDefault())
+                    <br />
+                    @Html.Raw(Language.Where(c => c.Page_Name == "Term_Condition_page" && c.Order_id == 4).Select(c => c.Value).FirstOrDefault())
+                    @*Before we start you get some basic information and clarifications on the registration process.
+                    For registration you need to fill out the online registration form. It will provide us the required information for the basic set up of your reservation tool.
+                    It requires 3 easy steps for your online quick-registration. Once registred, within 2 working days you can start using our product..*@
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

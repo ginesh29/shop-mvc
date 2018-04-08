@@ -1,0 +1,22 @@
+﻿@model IEnumerable<SPA.Language_NewShop>
+@using System.Configuration;
+@{
+    Layout = null;
+    List<Language_NewShop> Language = Model.ToList();
+    int LanguageId = ViewBag.LangId;
+}
+
+@*<ul class="login-progressbar">
+    <li class="col-lg-8 col-md-8 col-sm-8 col-xs-8 login-detail" id="Login"><a class="active">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 22).Select(c => c.Value).FirstOrDefault())@*Create login</a></li>
+    <li class="col-lg-8 col-md-8 col-sm-8 col-xs-8" id="Registration"><a class="">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 23).Select(c => c.Value).FirstOrDefault())Registration form</a></li>
+    <li class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="TermCondition"><a class="">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 24).Select(c => c.Value).FirstOrDefault())Terms & conditions</a></li>
+    <li class="col-lg-5 col-md-5 col-sm-5 col-xs-5" id="PaymentGateway"><a class="">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 42).Select(c => c.Value).FirstOrDefault())</a></li>Payment Gateway
+    <li class="col-lg-8 col-md-8 col-sm-8 col-xs-8" id="Submit"><a class="">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 25).Select(c => c.Value).FirstOrDefault())@*Submit</a></li>
+</ul>*@
+<ul class="login-progressbar">
+    <li class="login-detail" id="Login"><a class="active">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 22).Select(c => c.Value).FirstOrDefault())@*Create login*@</a></li>
+    <li id="Registration"><a class="">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 23).Select(c => c.Value).FirstOrDefault())@*Registration form*@</a></li>
+    @*<li id="TermCondition"><a class="">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 24).Select(c => c.Value).FirstOrDefault())@*Terms & conditions</a></li>
+    <li id="PaymentGateway"><a class="">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 42).Select(c => c.Value).FirstOrDefault())</a></li>@*Payment Gateway*@
+    <li id="Submit"><a class="">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 25).Select(c => c.Value).FirstOrDefault())@*Submit*@</a></li>
+</ul>

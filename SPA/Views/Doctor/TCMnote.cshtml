@@ -1,0 +1,181 @@
+﻿
+@{
+    ViewBag.Title = "TCMnote";
+    Layout = null;
+    var NoteCatgDetails = (List<SPA.Models.CategoryDetails>)(ViewBag.Catgdetails);
+    var Userdetail = (List<SPA.Models.DoctorPagesDisplay>)(ViewBag.PatientData);
+    var LangList = (List<SPA.Models.LanguageLabelDetails>)(ViewBag.Language);
+    var SectionList = LangList.Where(c => c.Page_Name == "Therapist_Notes").ToList();
+    var Language = LangList.Where(c => c.Page_Name == "Therapist_Notes_Default").ToList();
+    ViewBag.Title = Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault();
+    var LogoImg = ViewBag.logo;
+    var History = (List<SPA.Models.getHistoryNotes>)(ViewBag.History);
+    var ShopInfo = (SPA.Models.shopMaster)(ViewBag.ShopInfo);
+    SPA.Models.getAccess Acceess = ViewBag.CheckAccessRight;
+    List<SPA.Models.GetNoteHistoryDetails> HistoryList = new List<SPA.Models.GetNoteHistoryDetails>();
+    HistoryList = ViewBag.HistoryList;
+}
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/bootstrap")
+<html>
+<head>
+</head>
+<body>
+    @if (Userdetail.Count > 0 && Userdetail.Select(c => c.FirstName != null).Count() > 0)
+    {
+        @Html.Partial("_LoderPage", ShopInfo.SchlStudentStrength != null ? ShopInfo.SchlStudentStrength : 0)
+        <div class="doctor-popup Therapists_notes">
+            <div class="row form-group">
+                <div class="col-lg-24 col-md-24 col-sm-24 text-right"><a href="/Reservation/Reservation#@ViewBag.Url" class="title-green16"><i class="fa fa-reply-all margin-right5"></i>@*Back To List*@ @Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()</a></div>
+            </div>
+            <div class="Note_header">
+                <div class="patient-desc-block">
+                    <!--New Header-->
+                    <div class="row Header_box">
+                        <div class="col-lg-6 col-md-6 col-sm-8 padding0">
+                            <div class="Note_BOX">
+                                <div class="col-lg-6 col-md-6 col-sm-7 col-xs-4">
+                                    <div class="Notes_Img">
+                                        <img src="@LogoImg" onerror="this.onerror = null; this.src = '/images/prescription-img.png';" alt="" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-18 col-md-18 col-sm-17 col-xs-20 padding0">
+                                    <p class="dropmenuEllips">@*TCM note*@  @(SectionList.Where(c => c.Label_Name == Convert.ToString(ShopInfo.SchlStudentStrength)).Select(c => c.Value).FirstOrDefault() != null ? SectionList.Where(c => c.Label_Name == Convert.ToString(ShopInfo.SchlStudentStrength)).Select(c => c.Value).FirstOrDefault() : Language.Where(c => c.Order_id == 29).Select(c => c.Value).FirstOrDefault())</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-18 col-md-18 col-sm-16">
+                            <div class="row Note_info">
+                                <div class="col-lg-5 col-md-5 col-sm-12 padding0">
+                                    <label class="dropmenuEllips">
+                                        @*Family Name*@ @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault():
+                                        <span>@*Patel*@  @Userdetail.Select(c => c.LastName).FirstOrDefault()</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-12 padding0">
+                                    <label class="dropmenuEllips">
+                                        @*First Name*@ @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault():
+                                        <span>@*Divya*@  @Userdetail.Select(c => c.FirstName).FirstOrDefault()</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-12 padding0">
+                                    <label class="dropmenuEllips">
+                                        @*Gender*@ @Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault():
+                                        <span>@*Female*@ @Userdetail.Select(c => c.Title).FirstOrDefault()</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-12 padding0">
+                                    <label class="dropmenuEllips">
+                                        @*Birthday*@ @Language.Where(c => c.Order_id == 34).Select(c => c.Value).FirstOrDefault():
+                                        <span>@*Date *@ @(Userdetail.Select(c => c.DOB).FirstOrDefault().ToString("dd.MM.yyyy") != "01.01.0001" ? Userdetail.Select(c => c.DOB).FirstOrDefault().ToString("dd.MM.yyyy") : "")</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12 padding0">
+                                    <label class="dropmenuEllips">
+                                        @*Age*@ @Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault():
+                                        <span>@*25 Year*@ @(Userdetail.Select(c => c.Age).FirstOrDefault() > 0 ? Convert.ToString(Userdetail.Select(c => c.Age).FirstOrDefault()) : Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()) @(Userdetail.Select(c => c.Age).FirstOrDefault() > 0 ? Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault() : "")</span>
+                                    </label>
+                                </div>
+                              
+                            </div>
+                        </div>
+                    </div>
+                    <div class="Notes_table">
+                        <div class="table-responsive" style="border: 1px solid #ddd;max-height:270px;overflow:auto !important;">
+                            <table class="table" id="Th_notes">
+                                <thead class="TN_subheader">
+                                    <tr>
+                                        <th style="width:10%;">@*Date/SA*@ @Language.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault()</th>
+                                        @foreach (var Item in Userdetail.Where(c => c.flg != 1).Select(c => c.SectionCatgId).Distinct().ToList())
+                                        {
+                                            <th style="width:22%">@SectionList.Where(c => c.Label_Name == Convert.ToString(Item) && c.English_Label == "Catg_Label").Select(c => c.Value).FirstOrDefault()</th>
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var Item in HistoryList.OrderByDescending(c => c.Bookings).Select(c => c.ReservationId).Distinct().ToList())
+                                    {
+                                        var Info = HistoryList.Where(c => c.ReservationId == Item).ToList();
+                                        <tr>
+                                            <td style="color:#84b002"><div class="TCM_date">@Info.Select(c => c.BookingDate).FirstOrDefault()</div></td>
+                                            @foreach (var item in Info.Select(c => c.SectionCatgId).Distinct().ToList())
+                                            {
+                                                <td>
+                                                    <div class="TCM_data">
+                                                        <div class="border-gray border-radius2 margin-bottom5">
+                                                            <div class="p-relative">
+                                                                <p class="form-control spa-text-box txt-area-scroll Patienttextarea" style="height:80px;">
+                                                                    @Info.Where(c => c.CatgId == item).Select(c => c.CatgDesc).FirstOrDefault()
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            }
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <table class="table">
+                            <thead class="TN_subheader">
+                                <tr>
+                                    <th style="width:10%;" class="TN_header">@*Date/SA*@ @Language.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault()</th>
+                                    @foreach (var Item in Userdetail.Where(c => c.flg != 1).Select(c => c.SectionCatgId).Distinct().ToList())
+                                    {
+                                        <th style="width:22%" class="TN_header">@SectionList.Where(c => c.Label_Name == Convert.ToString(Item) && c.English_Label == "Catg_Label").Select(c => c.Value).FirstOrDefault()</th>
+                                    }
+                                </tr>
+                            </thead>
+
+                        </table>
+                        <form id="frmNote" method="post" action="/Doctor/AddNotes?ReservationId=@(Userdetail.FirstOrDefault().EmpSchDetailsId)&UserId=@Userdetail.FirstOrDefault().UserId&Url=@ViewBag.Url&diff=@ShopInfo.SchlStudentStrength" enctype="multipart/form-data" autocomplete="off">
+                            <input type="hidden" id="EmailId" name="EmailId" value="@Userdetail.Select(c=>c.EmailId).FirstOrDefault()" />
+                            <div class="table-responsive" style="border: 1px solid #ddd;overflow:auto !important;">
+                                <table id="Th_notes_display" class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td style="color:#84b002;width:10%;"><div class="TCM_date">@Userdetail.Select(c => c.BookingDate).FirstOrDefault()</div></td>
+                                            @foreach (var Item in Userdetail.Where(c => c.flg != 1).Select(c => c.SectionCatgId).Distinct().ToList())
+                                            {
+                                                <td style="width:22%;">
+                                                    <div class="TCM_data">
+                                                        <div class="border-green border-radius2 margin-bottom5">
+                                                            <div class="p-relative">
+                                                                <textarea class="form-control spa-text-box resizeNone txt-area-scroll Patienttextarea" id="FreeText_@Userdetail.Where(c => c.SectionCatgId == Item).Select(c=>c.SectionType).FirstOrDefault()" name="FreeText_FreeText_@Userdetail.Where(c => c.SectionCatgId == Item).Select(c=>c.SectionType).FirstOrDefault()" placeholder="@SectionList.Where(c => c.Label_Name == Convert.ToString(Item) && c.English_Label == "Place_Order_FreeText").Select(c => c.Value).FirstOrDefault()" style="height:130px;">@Userdetail.Where(c => c.SectionCatgId == Item && c.CatgTypeId == null).Select(c => c.CatgDesc).FirstOrDefault()</textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            }
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-right margin-top10">
+                                <button class="save-btn bg-close-btn margin-bottom10 widthauto" type="submit">@Language.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault()@*Save*@</button>
+                                <button class="save-btn bg-close-btn margin-bottom10 widthauto" type="button" onclick="JustAddRedirect(1)">@Language.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault()@*Save*@</button>
+                                @*<button class="save-btn bg-close-btn margin-bottom10 widthauto" type="button">Save & Print</button>*@
+                                @if (!string.IsNullOrEmpty(Userdetail.FirstOrDefault().EmailId))
+                                {
+                                    <button class="save-btn bg-close-btn margin-bottom10 widthauto" type="button" onclick="JustAddRedirect(2)">@Language.Where(c => c.Order_id == 17).Select(c => c.Value).FirstOrDefault()@*Save, Mail & Print*@</button>
+                                }
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    }
+    <script>
+        $("#Th_notes").tableHeadFixer({ "left": 1 });
+        $("#Th_notes_display").tableHeadFixer({ "left": 1 });
+        function JustAddRedirect(value) {
+            $("form").attr("action", $("form").attr("action") + "&status=" + value).submit();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Payment History";
+    var shopId = ((List<SPA.Models.PaymentHistory>)(Model)).Select(c => c.ShopId).FirstOrDefault();
+}
+<div class="panel-group PaymentHis_down" id="accordion" role="tablist" aria-multiselectable="true">
+    @foreach (var Year in ((List<SPA.Models.PaymentHistory>)(Model)).Select(c => c.years).Distinct().ToList())
+    {
+        var Index = 0;
+        <div class="panel panel-default Payment_year">
+            <div class="panel-heading payment_tab" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                        @Year
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse paymentHis_table" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="3">Monthly</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var Months in ((List<SPA.Models.PaymentHistory>)(Model)).Where(c => c.years == Year).Select(c => c.Months).Distinct().ToList())
+                                    {
+                                        var PayData = ((List<SPA.Models.PaymentHistory>)(Model)).Where(c => c.years == Year && c.Months == Months).FirstOrDefault();
+                                        <tr>
+                                            <td>@PayData.MonthNames</td>
+                                            <td>@PayData.CreditRemaining</td>
+                                            <td>
+                                                <a class="pdf_btn" year="@PayData.years" grt="@PayData.Months" sml="@PayData.Months">PDF</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="3">Quarterly</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int QuCount = 3; QuCount <= 12; QuCount = QuCount + 3)
+                                    {
+                                        Index = Index + 1;
+                                        var QuaData = ((List<SPA.Models.PaymentHistory>)(Model)).Where(c => c.years == Year && c.Months == QuCount).FirstOrDefault();
+                                        if (QuaData != null)
+                                        {
+                                            <tr>
+                                                <td>Q(@Index)</td>
+                                                <td>@QuaData.CreditRemaining</td>
+                                                <td>
+                                                    <a class="pdf_btn" year="@QuaData.years" grt="@(QuaData.Months-2)" sml="@QuaData.Months">PDF</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@*<div class="PaymentHis_down">
+        <div class="choose-your-product table-responsive pending-approval-table padding0">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>NO</th>
+                        <th>Month</th>
+                        <th>Credit Remaining (@ViewBag.currency)</th>
+                        <th>Download</th>
+                    </tr>
+                </thead>
+                <tbody id="payHistoryBody">
+                    @foreach (var item in (List<SPA.Models.PaymentHistory>)(Model))
+                    {
+                        Index = Index + 1;
+                        <tr>
+                            <td class="spa-label1">@Index</td>
+                            <td class="spa-label1">@item.Monthd</td>
+                            <td class="spa-label1">@item.CreditRemaining</td>
+                            <td class="edit-icon">
+                                <a class="Download" Month="@item.Months" year="@item.years"><i class="fa fa-download spa-icon1"></i></a>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>*@
+<div id="Payment-HistoryDiv" style="display:none;">
+    @*<table class="table table-striped" data-tableexport-display="always" id="Payment-HistoryTable" style="display:none;"></table>*@
+</div>
+<script src="~/Scripts/SPA_Common.js"></script>
+<script>
+    $('.collapse').on('shown.bs.collapse', function () {
+
+        $(this).parent().find(".fa-plus-circle").removeClass("fa-plus-circle").addClass("fa-minus-circle");
+    }).on('hidden.bs.collapse', function () {
+        $(this).parent().find(".fa-minus-circle").removeClass("fa-minus-circle").addClass("fa-plus-circle");
+    });
+    $("tbody a.pdf_btn").click(function () {
+        //var Parameter = "/Shop/PaymentHistoryPrint?Months=" + $(this).attr("Month") + "&Year=" + $(this).attr("Year") + "&status=" + true;
+        var Parameter = "/Common/DownloadPDF?schId=@shopId&Year=" + $(this).attr("Year") + "&grt=" + $(this).attr("grt") + "&sml=" + $(this).attr("sml");
+        window.open(Parameter, "_blank");
+        //AjaxCommon(Url, SuccessEvent);
+    });
+</script>

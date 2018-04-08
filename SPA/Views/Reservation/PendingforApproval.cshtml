@@ -1,0 +1,190 @@
+﻿@{
+    ViewBag.Title = "PendingforApproval";
+    Layout = null;
+    List<Language_Label_Detail> Language = new List<Language_Label_Detail>();
+    Language = ViewBag.Language;
+    string currency = ViewBag.currency;
+}
+<div class="assign-product">
+    <div class="margin-top15 user-details col-lg-16 col-md-16 col-sm-20 col-xs-12 res-margin-btm">
+        <form>
+            <label class="title-green16 cursor-default">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()@*LIST OF APPROVALS FOR ONLINE RESERVATIONS*@</label>
+            @*<div class="dropdown spa-dropdown open-list-dropdown DropPendDef">
+                    <a class="dropdown-toggle spa-text-box form-control spa-dropdown-box DropPendingDef dropmenuEllips" data-toggle="dropdown">
+                        @Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()<span class="caret"></span>
+                    </a>
+                </div>*@
+        </form>
+    </div>
+    <div class="col-lg-8 col-md-8 col-sm-4 col-xs-12 margin-top20 select-label-res">
+        <span class="spa-checkbox checkbox ap-closed">
+            <input name="SelectAll" id="SelectAll" type="checkbox">
+            <label for="SelectAll" class="form-label spa-label1 res-lbl"> </label>
+            <span class="spa-label1">
+                @Language.Where(c => c.Order_id == 23).Select(c => c.Value).FirstOrDefault()
+            </span>
+        </span>
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="choose-your-product table-responsive pending-approval-table padding0 mulReser_table">
+        <div id="fixColumnHead">
+            <table class="table table-striped" id="PendingApprovaltable">
+                <thead>
+                    <tr>
+                        <th class="RemovePosition">@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()@*NO*@</th>
+                        <th>Reservation Id 
+                            <span class="sorting_arrow">
+                                <i class="fa fa-long-arrow-up" aria-hidden="true" id="AscePend_EmpSchDetailsId" onclick="SortingPendingApproval('EmpSchDetailsId', 0)"></i>
+                                <i class="fa fa-long-arrow-down" aria-hidden="true" id="DescPend_EmpSchDetailsId" onclick="SortingPendingApproval('EmpSchDetailsId', 1)"></i>
+                            </span>
+                        </th>
+                        <th>@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()@*FAMILY NAME*@
+                            <span class="sorting_arrow">
+                                <i class="fa fa-long-arrow-up" aria-hidden="true" id="AscePend_CustomerLastName" onclick="SortingPendingApproval('CustomerLastName', 0)"></i>
+                                <i class="fa fa-long-arrow-down" aria-hidden="true" id="DescPend_CustomerLastName" onclick="SortingPendingApproval('CustomerLastName', 1)"></i>
+                            </span>
+                        </th>
+                        <th>
+                            @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()
+                            <span class="sorting_arrow">
+                                <i class="fa fa-long-arrow-up" aria-hidden="true" id="AscePend_CustomerFirstName" onclick="SortingPendingApproval('CustomerFirstName', 0)"></i>
+                                <i class="fa fa-long-arrow-down" aria-hidden="true" id="DescPend_CustomerFirstName" onclick="SortingPendingApproval('CustomerFirstName', 1)"></i>
+                            </span>
+                            @*FIRST NAME*@
+                        </th>
+                        <th>@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()@*MOBILE*@
+                            <span class="sorting_arrow">
+                                <i class="fa fa-long-arrow-up" aria-hidden="true" id="AscePend_CustomerPhone" onclick="SortingPendingApproval('CustomerPhone', 0)"></i>
+                                <i class="fa fa-long-arrow-down" aria-hidden="true" id="DescPend_CustomerPhone" onclick="SortingPendingApproval('CustomerPhone', 1)"></i>
+                            </span>
+                        </th>
+                        <th>
+                            @Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()
+                            <span class="sorting_arrow">
+                                <i class="fa fa-long-arrow-up" aria-hidden="true" id="AscePend_CatgDesc" onclick="SortingPendingApproval('CatgDesc', 0)"></i>
+                                <i class="fa fa-long-arrow-down" aria-hidden="true" id="DescPend_CatgDesc" onclick="SortingPendingApproval('CatgDesc', 1)"></i>
+                            </span>
+                            @*SERVICEBOOKED*@
+                        </th>
+                        <th>
+                            @Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()
+                            <span class="sorting_arrow">
+                                <i class="fa fa-long-arrow-up" aria-hidden="true" id="AscePend_EmpfirstName" onclick="SortingPendingApproval('EmpfirstName', 0)"></i>
+                                <i class="fa fa-long-arrow-down" aria-hidden="true" id="DescPend_EmpfirstName" onclick="SortingPendingApproval('EmpfirstName', 1)"></i>
+                            </span>
+                            @*EMPLOYEE*@
+                        </th>
+                        <th>
+                            @Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()
+                        <span class="sorting_arrow">
+                            <i class="fa fa-long-arrow-up" aria-hidden="true" id="AscePend_Date" onclick="SortingPendingApproval('Date', 0)"></i>
+                            <i class="fa fa-long-arrow-down" aria-hidden="true" id="DescPend_Date" onclick="SortingPendingApproval('Date', 1)"></i>
+                        </span>
+                        @*DATE*@
+                    </th>
+                    <th>@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()@*TIME*@</th>
+                    <th>@Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()@*DURATION*@</th>
+                    <th>@currency@*@Language.Where(c => c.Order_id == 17).Select(c => c.Value).FirstOrDefault()*@@*AMOUNT*@</th>
+                    <th id="AcceptPending">
+                        <span id="AcceptPendingspan">
+                            @Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()@*ACCEPT*@
+                        </span>
+                    </th>
+                    <th id="CancelPending">@Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()@*CANCEL*@</th>
+                    <th>@Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault()@*SOURCE*@</th>
+                    <th id="PendingViewComment">@Language.Where(c => c.Order_id == 25).Select(c => c.Value).FirstOrDefault()@*Comment*@</th>
+                    <th>@Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault()@*CREATED DATE*@
+                        <span class="sorting_arrow">
+                            <i class="fa fa-long-arrow-up" aria-hidden="true" id="AscePend_CreatedOn" onclick="SortingPendingApproval('CreatedOn', 0)"></i>
+                            <i class="fa fa-long-arrow-down" aria-hidden="true" id="DescPend_CreatedOn" onclick="SortingPendingApproval('CreatedOn', 1)"></i>
+                        </span>
+                        </th>
+                    @*<th>See Details</th>*@
+                </tr>
+            </thead>
+            <tbody id="PendingDataDefault">
+                @Html.Action("PendingForApprovalDetail", "Reservation")
+            </tbody>
+        </table>
+    </div>
+    <div class="text-right margin-top10 margin-right20" id="SelectAlltr" style="display:none;">
+        <input type="button" id="SelectAllbtn" class="btn btn-green btn-small1 margin-bottom10" value="@Language.Where(c=>c.Order_id==22).Select(c => c.Value).FirstOrDefault()" onclick="SelectAllData();" />
+    </div>
+</div>
+</div>
+<script>
+
+    $(".PenDropmenu li a").click(function () {
+        $(".loader").show();
+        var selText = $(this).prop('id');
+        var TextDisplay = $.trim($(this).html());
+        $.post("/Reservation/PendingForApprovalDetail?status=" + selText + "", function (data) {
+            $("#PendingDataDefault").html(data);
+            $(".DropPendingDef").html(TextDisplay + '<span class="caret"></span>');
+            $(".loader").hide();
+        });
+    });
+    $("#SelectAll").click(function () {
+        var IdNAme = $(this).prop("id");
+        //var ListofSelection = "";
+        if ($("#" + IdNAme).prop("checked")) {
+            $.each($("#PendingDataDefault tr td .acceptchk input[type='checkbox']"), function () {
+                $(this).prop("checked", true);
+                //var tempId = $(this).prop("id").replace("PendingRquestAccept_", "");
+                //if (ListofSelection == "") {
+                //    ListofSelection = tempId;
+                //}
+                //else {
+                //    ListofSelection = ListofSelection + "~" + tempId;
+                //}
+            });
+            $("#SelectAlltr").show();
+            //alert(ListofSelection);
+        }
+        else {
+            $.each($("#PendingDataDefault tr td .acceptchk input[type='checkbox']"), function () {
+                $(this).prop("checked", false);
+            });
+            $("#SelectAlltr").hide();
+        }
+    });
+
+    function SelectAllData() {
+        var ListofSelection = "";
+        var IdNAme = $("#SelectAll");
+        $.post("/Product/GetDataOfLanguage?Text='do you want to Approve all Booking?'&id=37", function (data) {
+            var ConfirmSelectAll = confirm(data);
+            if (ConfirmSelectAll) {
+                $(".loader").show();
+                $.each($("#PendingDataDefault tr td .acceptchk input[type='checkbox']"), function () {
+                    if ($(this).is(":checked")) {
+                        var tempId = $(this).prop("id").replace("PendingRquestAccept_", "");
+                        if (ListofSelection == "") {
+                            ListofSelection = tempId;
+                        }
+                        else {
+                            ListofSelection = ListofSelection + " " + tempId;
+                        }
+                    }
+                });
+                $.post("/Reservation/SelectAllAppointment?EmpschIdList=" + ListofSelection, function () {
+                    MoveTo();
+                });
+            }
+            else {
+                $(IdNAme).prop("checked", false)
+                $.each($("#PendingDataDefault tr td .acceptchk input[type='checkbox']"), function () {
+                    $(this).prop("checked", false);
+                });
+                $("#SelectAlltr").hide();
+            }
+        });
+    }
+    function SortingPendingApproval(OrderBy, Sorting) {
+        $(".loader").show();
+        var url = "/Reservation/PendingForApprovalDetail?OrderBy=" + OrderBy + "&Sorting=" + Sorting;
+        CommonSorting(url, "PendingDataDefault")
+    }
+</script>
+

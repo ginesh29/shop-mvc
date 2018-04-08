@@ -1,0 +1,110 @@
+﻿@{
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.LanguageInfo;
+    Layout = null;
+    List<SPA.Models.PartialPaymentList> PartialPaymentList = new List<SPA.Models.PartialPaymentList>();
+    PartialPaymentList = Model;
+    var BasicInfo = PartialPaymentList.FirstOrDefault();
+    SPA.Models.BasicInfo_PartialPopup BasicPopupInfo = new SPA.Models.BasicInfo_PartialPopup();
+    BasicPopupInfo = ViewBag.BasicInfo;
+}
+<form id="frmPartialPayment" name="frmPartialPayment" method="post">
+    <input type="hidden" id="Invoice_Id" name="Invoice_Id" value="@BasicInfo.Invoice_Id" />
+    <input type="hidden" id="UrlStatus" name="UrlStatus" value="@BasicPopupInfo.UrlStatus" />
+    <input type="hidden" id="Invoice_Service" name="Invoice_Service" value="@BasicPopupInfo.Invoice_Service" />
+    <div class="row form-group">
+        <div class="col-lg-8 col-md-8">
+            <label class="form-label spa-label1">@*Date*@ @Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()</label>
+        </div>
+        <div class="col-lg-16 col-md-16 p-relative">
+            <input type="text" class="form-control spa-text-box required spa-text-box2" placeholder="@Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()" value="" id="Pay_Date" name="Pay_Date">
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-lg-8 col-md-8">
+            @*Pay Amount*@
+            <label class="form-label spa-label1">@Language.Where(c => c.Order_id == 34).Select(c => c.Value).FirstOrDefault()</label>
+        </div>
+        <div class="col-lg-16 col-md-16">
+            <input type="text" class="form-control spa-text-box required number spa-text-box2" id="Pay_Amount" name="Pay_Amount" max="@String.Format("{0:0.00}",BasicInfo.Remaining_Amount != null?BasicInfo.Remaining_Amount:BasicInfo.Total_Amount)" placeholder="" value="@String.Format("{0:0.00}",BasicInfo.Remaining_Amount != null?BasicInfo.Remaining_Amount:BasicInfo.Total_Amount)">
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-lg-8 col-md-8">
+            @*Remaining Amount*@
+            <label class="form-label spa-label1">@Language.Where(c => c.Order_id == 32).Select(c => c.Value).FirstOrDefault()</label>
+        </div>
+        <div class="col-lg-16 col-md-16">
+            <input type="text" class="form-control spa-text-box  spa-text-box2" id="Remaining_Amount" name="Remaining_Amount" placeholder="" readonly="readonly" value="@String.Format("{0:0.00}",BasicInfo.Remaining_Amount != null?BasicInfo.Remaining_Amount:BasicInfo.Total_Amount)">
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-lg-8 col-md-8">
+            @*Total Amount*@
+            <label class="form-label spa-label1">@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()</label>
+        </div>
+        <div class="col-lg-16 col-md-16">
+            <input type="text" class="form-control spa-text-box  spa-text-box2" id="Total_Amount" name="Total_Amount" placeholder="" readonly="readonly" value="@String.Format("{0:0.00}",BasicInfo.Total_Amount)">
+        </div>
+    </div>
+  
+    <div class="row form-group display-none">
+        <div class="col-lg-8 col-md-8">
+            @*Discount*@
+            <label class="form-label spa-label1">@Language.Where(c => c.Order_id == 33).Select(c => c.Value).FirstOrDefault()</label>
+        </div>
+        <div class="col-lg-16 col-md-16">
+            <input type="text" class="form-control spa-text-box number spa-text-box2" id="Discount" name="Discount"  max="@String.Format("{0:0.00}",BasicInfo.Remaining_Amount != null?BasicInfo.Remaining_Amount:BasicInfo.Total_Amount)" placeholder="" value="0">
+        </div>
+    </div>
+  
+    <div class="row form-group text-right">
+        <div class="col-lg-24 col-md-24 col-sm-24">
+            <a class="create_invoice Ellips" id="SavePayRecord">@*Save*@ @Language.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault()</a>
+        </div>
+    </div>
+</form>
+@if (PartialPaymentList.Where(c => c.Invoice_Payment_id != null).Select(c => c.Invoice_Payment_id).Count() > 0)
+{
+    @Html.Action("PaymentHistory", "Invoice", new { PartialPaymentList = PartialPaymentList, LangList = Language })
+}
+<script src="~/Scripts/Invoice.js"></script>
+<script>
+    @*$('#Pay_Date').datetimepicker({
+        format: 'DD/MM/YYYY',
+        locale: '@BasicPopupInfo.LngLocal',
+        @*minDate: '@BasicPopupInfo.ShopDate.Value.ToString("yyyy/MM/dd")'
+    });*@
+    CommonDatePicker('#Pay_Date', '@BasicPopupInfo.LngLocal', false, false, false);
+    $("[id='Discount']").keyup(function () {
+        var Payobj = $(this).closest("form").find("#Pay_Amount");
+        var Amount = ($(this).closest("form").find("#Remaining_Amount").val() - $(this).val()).toFixed(2);
+        Payobj.val(Amount);
+        Payobj.attr("max", Amount);
+    });
+    $("#tblPartialPayment tr td .fa-trash").click(function () {
+        var PartialPId = $(this).closest("tr").prop("id");
+        $.ajax({
+            url: "/Invoice/RemovePartialPayment?PartialPId=" + PartialPId,
+            beforeSend: function () {
+                if (!$(".loader").is(":visible"))
+                    $(".loader").show();
+            },
+            type: 'POST',
+            async: true,
+            success: function (Amount) {
+                $("#" + PartialPId).remove();
+                $("#Remaining_Amount").val(Amount);
+                $("#Pay_Amount,#Discount").attr("max", Amount);
+                $("#Pay_Amount").val(Amount);
+            },
+            complete: function () {
+                $(".loader").hide();
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+
+    });
+</script>

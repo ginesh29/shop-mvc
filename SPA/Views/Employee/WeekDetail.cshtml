@@ -1,0 +1,76 @@
+﻿@model IEnumerable<SPA.CCTSP_CategoryDetails>
+@{
+    ViewBag.Title = "WeekDetail";
+    Layout = null;
+    int count = 0;
+}
+
+<h1 class="title14-border">Added Week</h1>
+<div class="table-responsive choose-your-product margin-top20">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>S.NO</th>
+                <th>Name </th>
+                <th>Short Name</th>
+                <th>Order</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.DataCount != 0)
+            {
+                foreach (var item in Model)
+                {
+                    count = count + 1;
+                    <tr>
+                        <td class="spa-label1">
+                            @count
+                        </td>
+                        <td class="spa-label1">
+                            @item.CatgDesc
+                        </td>
+                        <td class="spa-label1">
+                            @item.CatgType
+                        </td>
+
+                        <td class="text-center">
+                            <button class="btn btn-primary" name="Edit" id="Edit" onclick="editWeekDivShow(@item.CatgTypeId)">Edit</button>
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-default" name="Delete" id="Delete" onclick="deleteWeekDivShow(@item.CatgTypeId)">Delete</button>
+                            @*@Html.ActionLink("Delete", "DeleteCat", "AdminPanel", new { CatTid = item.CatgTypeId, Edit = 5 }, new { @class = "btn btn-default" })*@
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td class="spa-label1">
+                        No Data Available
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div id="EditWeek" style="display:none;">
+        <form id="WeekUpdateForm" action="/Employee/updateWeek" method="post">
+            <div class="form-group">
+                @Html.Label("Name", htmlAttributes: new { @class = "form-label spa-label" })
+                @Html.TextBox("EditCatgDesc", null, new { @class = "spa-text-box form-control" })
+                <div class="form-group">
+                    @Html.Label("Short Name", htmlAttributes: new { @class = "form-label spa-label" })
+                    @Html.TextBox("EditCatgType", null, new { @class = "spa-text-box form-control" })
+                </div>
+                @Html.Hidden("EditItemId")
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary" value="Update" onclick="Updateweek();">
+                    <input type="button" class="btn btn-primary" value="Cancel" onclick="closeWeekDiv();">
+                </div>
+            </div>
+        </form>
+    </div>
+    @Html.Action("DeletedDayScheduler", "Employee")
+</div>

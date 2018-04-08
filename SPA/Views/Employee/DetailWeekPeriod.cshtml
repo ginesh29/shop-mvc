@@ -1,0 +1,74 @@
+﻿@model IEnumerable<SPA.CCTSP_SchedulerMaster>
+@{
+    ViewBag.Title = "DetailWeekPeriod";
+    Layout = null;
+    int count = 0;
+}
+
+
+<div class="table-responsive choose-your-product margin-top20" id="TableDetail">
+    <h1 class="title14-border">DetailWeekPeriod</h1>
+    <table class="table table-striped">
+        <tr>
+            <td colspan="2" class="spa-label">Schedule Details</td>
+        </tr>
+        <thead>
+            <tr>
+                <th style="width: 20px; text-align: center">
+                    S.NO
+                </th>
+                <th>Week Day </th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>order</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.DataCount != 0)
+            {
+                foreach (var item in Model)
+                {
+                    count = count + 1;
+                    <tr>
+                        <td class="spa-label1">
+                            @count
+                        </td>
+                        <td class="spa-label1">
+                            @item.WeekDay
+                        </td>
+                        <td class="spa-label1">
+                            @DateTime.Parse(item.StartTime.ToString()).ToString("hh:mm tt")
+                        </td>
+                        <td class="spa-label1">
+                            @DateTime.Parse(item.EndTime.ToString()).ToString("hh:mm tt")
+                        </td>
+                        <td class="spa-label1">
+                            @item.PeriodNumber
+                        </td>
+                        <td>
+                            <button class="btn-primary" onclick="DisplayEditPeriod(@item.SchedulerId)">Edit</button>
+                            @*@Html.ActionLink("Edit", "EditPeriodCat", "Schedular", new { Schedulerid = item.SchedulerId }, new { @class = "radius button" })*@
+                        </td>
+                        @*<td>
+                            <button class="btn-primary" onclick="ReplicateDays(@item.SchedulerId)">Replicate All days</button>
+                           
+                        </td>*@
+
+                        <td>
+                            <button class="btn-primary" onclick="DeleteWeekPeriod(@item.SchedulerId)">Delete</button>
+                            @*@Html.ActionLink("Delete", "DeletePeriodCat", "Schedular", new { Schedulerid = item.SchedulerId }, new { @class = "btn-primary" })*@
+                        </td>
+
+                    </tr>
+                }
+            }
+
+
+
+        </tbody>
+
+    </table>
+    
+
+</div>

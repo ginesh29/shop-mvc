@@ -1,0 +1,1889 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6FA497BE-D32C-416D-B39C-8F7ACEF17FCF}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SPA</RootNamespace>
+    <AssemblyName>SPA</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DataMatrix.net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DataMatrix.net.0.4.2\lib\20\DataMatrix.net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml">
+      <HintPath>..\..\PLATFORMADMIN\PLATEFORM11\bin\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus">
+      <HintPath>..\..\..\Users\Ankitk\Desktop\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlToPdfOrImage, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlToPdfOrImage.1.0.2\lib\HtmlToPdfOrImage.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="HttpCookieEncryption, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\httpsecurecookie.0.1.1\lib\net\HttpCookieEncryption.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.3.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Add_On_Product_Detail.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Add_on_Product_Master.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="APP_AnwserDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="APP_QuestionMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_UserAnserDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_Applications.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_Membership.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_Paths.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_PersonalizationAllUsers.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_PersonalizationPerUser.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_Profile.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_Roles.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_SchemaVersions.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_Users.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_UsersInRoles.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="aspnet_WebEvent_Events.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Assigned_Health_Insurance.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Cart.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_ABC.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_AcademicYear.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_Anamnese.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_AnswerDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_AssgnmentHomeworkMarksDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_AttendenceDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_AttendenceMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_BookIssueRegister.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_CalendarDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_CategoryDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_CategoryMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_ClassSection.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_ClassSubjectDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_ColorMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_Database.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_EmployeeActivityDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_EmployeeCurrentDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_EvalutionDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_ExamAnswerMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_Examdetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_ExamMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_ExamQuestionMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_FeeCollectionDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_FeeCollectionMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_FeeCollectionReciept.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_FeeNotApplicableMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_FeeRuleClassSection.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_FeeSecurityDeposit.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_FinancialYearDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_GradeRule.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_GroupProductDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_HealthDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_ImageTable.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_InstallmetDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_ItemIssueReturnDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_ItemIssueSaleMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_ItemIssueSalesDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_ItemMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_ItemQtyIssueDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_ItemSalesBalance_PaymentDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_ItemStockVerification.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_ItemStoreDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_ItemStoreInvoiceMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_LendingPageMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_LessonProgress.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_MedicalDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_Messaging.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_ProductDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_ProductMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_Role.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="cctsp_RoleDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_SchedulerDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_SchedulerMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_SchoolCalender.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_SchoolMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="cctsp_SecureIdentity.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_StockRegisterOfLibrary.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_StudentAnswerMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_StudentBatchAssociation.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_StudentCurrentDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_StudentOptionalSubjectDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_SubjectSyllabusDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_TaxDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_TeacherScheduler.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="cctsp_Timezone.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_TransportRouteDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_User.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_UserB.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_UserDetail.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_UserDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_VaccineDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_Validation.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_ValueAddedServiceDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_ValueAddedServiceMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CCTSP_values.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Alert.cs" />
+    <Compile Include="Common\Authorize.cs" />
+    <Compile Include="Common\CheckClickandgo.cs" />
+    <Compile Include="Common\dynamicClass.cs" />
+    <Compile Include="Common\Function.cs" />
+    <Compile Include="Common\PuchSMS.cs" />
+    <Compile Include="Common\PushEmail.cs" />
+    <Compile Include="Common\Sql.cs" />
+    <Compile Include="Controllers\AccessRightController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ANGEBOTController.cs" />
+    <Compile Include="Controllers\APIController.cs" />
+    <Compile Include="Controllers\BookOrderController.cs" />
+    <Compile Include="Controllers\ClickandgoController.cs" />
+    <Compile Include="Controllers\ClickGoController.cs" />
+    <Compile Include="Controllers\CommonController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\DoctorController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\FooterController.cs" />
+    <Compile Include="Controllers\FreeCustomerController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InvoiceController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MassageController.cs" />
+    <Compile Include="Controllers\ModelFlow.cs" />
+    <Compile Include="Controllers\NutzenController.cs" />
+    <Compile Include="Controllers\paymentController.cs" />
+    <Compile Include="Controllers\PDFController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\RegistrationController.cs" />
+    <Compile Include="Controllers\ReservationController.cs" />
+    <Compile Include="Controllers\ShopController.cs" />
+    <Compile Include="Controllers\TranslationController.cs" />
+    <Compile Include="CTSP_SolutionMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DCM_AvailDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DCm_AvailMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DCM_Deals.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DCM_PackageDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DCM_ProductMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Email_Record.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="GYMActivityDetail.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GYM_DefinationMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GYM_MembershipDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GYM_Member_Dept.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GYM_MemeberActivityGrouping.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GYM_TaxDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Health_Insurance.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Hotel_BillDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Hotel_BillMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Hotel_BookingDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Hotel_BookingMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Hotel_ServiceMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Hotel_ServicesDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Hotel_TaxDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Invoice_CategoryDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Invoice_Master.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Language_Label_Detail.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Language_Master.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Language_NewShop.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="lodhiAirVisaApp.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Maarkss_ActivityDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Maarkss_ClientPaymentdetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Maarkss_MarketingWorkSheet.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Maarkss_ProjectDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Maarkss_ProjectMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Maarkss_ProjectPaymentDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Maarkss_TechDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Marketing_Customer.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Marketing_Group_Customer.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Marketing_Info.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Marketing_Master.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Marketing_SendHistory.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Medicine_Master.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model1.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccessRight.cs" />
+    <Compile Include="Models\ActivityLog.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AlertAPIModel.cs" />
+    <Compile Include="Models\AlertModel.cs" />
+    <Compile Include="Models\anamnese.cs" />
+    <Compile Include="Models\CalendarMonthModel.cs" />
+    <Compile Include="Models\category.cs" />
+    <Compile Include="Models\clickandgo.cs" />
+    <Compile Include="Models\ConfirmModel.cs" />
+    <Compile Include="Models\CustomerDisplay.cs" />
+    <Compile Include="Models\DateAndTimeArray.cs" />
+    <Compile Include="Models\DoctorNotes.cs" />
+    <Compile Include="Models\DoctorPagesDisplay.cs" />
+    <Compile Include="Models\DynamicClass.cs" />
+    <Compile Include="Models\EditPeriod.cs" />
+    <Compile Include="Models\EditShopDetails.cs" />
+    <Compile Include="Models\Email.cs" />
+    <Compile Include="Models\EmailSend.cs" />
+    <Compile Include="Models\EmployeeBooking.cs" />
+    <Compile Include="Models\EmployeeLeaves.cs" />
+    <Compile Include="Models\EmployeeList.cs" />
+    <Compile Include="Models\FreeCustomer.cs" />
+    <Compile Include="Models\GeneralInvoice.cs" />
+    <Compile Include="Models\GetAllBookedData.cs" />
+    <Compile Include="Models\GroupProductList.cs" />
+    <Compile Include="Models\HomeDefaultStructure.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ImportCustomer.cs" />
+    <Compile Include="Models\Invoice.cs" />
+    <Compile Include="Models\LanguageLabelDetails.cs" />
+    <Compile Include="Models\LendingWeekSchedule.cs" />
+    <Compile Include="Models\LiveDemoList.cs" />
+    <Compile Include="Models\LoginModels.cs" />
+    <Compile Include="Models\MainEmailSend.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MarketingAttachment.cs" />
+    <Compile Include="Models\MarketingMaster.cs" />
+    <Compile Include="Models\PaySection.cs" />
+    <Compile Include="Models\PendingApproval.cs" />
+    <Compile Include="Models\ProductList.cs" />
+    <Compile Include="Models\ProListModel.cs" />
+    <Compile Include="Models\ReminderCountry.cs" />
+    <Compile Include="Models\ReminderText.cs" />
+    <Compile Include="Models\ShopInfoJson.cs" />
+    <Compile Include="Models\shopMaster.cs" />
+    <Compile Include="Models\SpecialInsertForDoctor.cs" />
+    <Compile Include="Models\TopTen.cs" />
+    <Compile Include="Models\translateModel.cs" />
+    <Compile Include="Models\UserInfoCalendar.cs" />
+    <Compile Include="Models\vacation.cs" />
+    <Compile Include="Models\WeekDayBlockDetail.cs" />
+    <Compile Include="OnlineShopping_FinancialYearDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OnlineShopping_ProductMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Order.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderDetail.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderTracking.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaymentTxnDetail.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Platform_Marketing_ImageList.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Platform_Marketing_SendHistory.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Prescription_Detail.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Prescription_Master.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Session.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ses_emp_per_porting.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Shop_Address_Details.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spatime_zone.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPA_ActivityLog.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Spa_Assign_FieldDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spa_balanceCatg.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spa_BillingDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spa_BillingMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Spa_BookingDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spa_contact.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spa_currency.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spa_CustomerFeedback.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spa_DemoShop.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPA_EmployeeScheduler.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPA_EmployeeSchedulers.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spa_Em_SmsLog.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPA_Error.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Spa_Flow.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Spa_FlowDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPA_INVOICE_Detail.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPA_INVOICE_MASTER.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPA_INVOICE_PAYMENTDETAILS.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPA_INVOICE_STATUS.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPA_LeaveMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spa_Location.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spa_Master_Reservation.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spa_paymentCategory.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spa_PaymentDeduction.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spa_Payment_Gateway.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spa_Payment_plan.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPA_SchedulerSlotMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spa_sms.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Spa_Table_FieldName.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SPA_UserDetail.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spa_website.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Startup.cs" />
+    <Compile Include="StockReview.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Travel_BookingMast.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UNI_GAS_REFUEL_DETLS.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UNI_ITEM_MASTER.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UNI_ITEM_PURCHASE_DETLS.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UNI_ITEM_PURCHASE_MAST.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UNI_ITEM_SALES_DETLS.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UNI_ITEM_STORE.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UNI_PUR_TaxDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UNI_SUPPLER_DETAILS.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="V_BOOKING_MASTER.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="V_Recpit_BillMaster.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Antlr3.Runtime.dll" />
+    <Content Include="bin\Antlr3.Runtime.pdb" />
+    <Content Include="bin\DataMatrix.net.dll" />
+    <Content Include="bin\DocumentFormat.OpenXml.dll" />
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.xml" />
+    <Content Include="bin\EntityFramework.xml" />
+    <Content Include="bin\EPPlus.dll" />
+    <Content Include="bin\Google.Apis.Auth.dll" />
+    <Content Include="bin\Google.Apis.Auth.PlatformServices.dll" />
+    <Content Include="bin\Google.Apis.Auth.xml" />
+    <Content Include="bin\Google.Apis.Calendar.v3.dll" />
+    <Content Include="bin\Google.Apis.Calendar.v3.xml" />
+    <Content Include="bin\Google.Apis.Core.dll" />
+    <Content Include="bin\Google.Apis.Core.xml" />
+    <Content Include="bin\Google.Apis.dll" />
+    <Content Include="bin\Google.Apis.PlatformServices.dll" />
+    <Content Include="bin\Google.Apis.xml" />
+    <Content Include="bin\HtmlToPdfOrImage.dll" />
+    <Content Include="bin\HttpCookieEncryption.dll" />
+    <Content Include="bin\HttpCookieEncryption.xml" />
+    <Content Include="bin\Microsoft.AspNet.Identity.Core.dll" />
+    <Content Include="bin\Microsoft.AspNet.Identity.Core.xml" />
+    <Content Include="bin\Microsoft.AspNet.Identity.EntityFramework.dll" />
+    <Content Include="bin\Microsoft.AspNet.Identity.EntityFramework.xml" />
+    <Content Include="bin\Microsoft.AspNet.Identity.Owin.dll" />
+    <Content Include="bin\Microsoft.AspNet.Identity.Owin.xml" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
+    <Content Include="bin\Microsoft.Owin.dll" />
+    <Content Include="bin\Microsoft.Owin.Host.SystemWeb.dll" />
+    <Content Include="bin\Microsoft.Owin.Host.SystemWeb.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.Cookies.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Cookies.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Facebook.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Facebook.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.Google.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Google.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.MicrosoftAccount.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.MicrosoftAccount.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.OAuth.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.OAuth.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.Twitter.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Twitter.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.xml" />
+    <Content Include="bin\Microsoft.Owin.xml" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Newtonsoft.Json.xml" />
+    <Content Include="bin\Owin.dll" />
+    <Content Include="bin\SPA.dll" />
+    <Content Include="bin\SPA.pdb" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Helpers.xml" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Mvc.xml" />
+    <Content Include="bin\System.Web.Optimization.dll" />
+    <Content Include="bin\System.Web.Optimization.xml" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
+    <Content Include="bin\System.Web.WebPages.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.xml" />
+    <Content Include="bin\WebGrease.dll" />
+    <Content Include="clickcontent\--Site.css" />
+    <Content Include="clickcontent\aos.css" />
+    <Content Include="clickcontent\bootstrap-theme.css" />
+    <Content Include="clickcontent\bootstrap-theme.min.css" />
+    <Content Include="clickcontent\bootstrap.css" />
+    <Content Include="clickcontent\bootstrap.min.css" />
+    <Content Include="clickcontent\ClickGo.css" />
+    <Content Include="clickcontent\ClickGo_Responsive.css" />
+    <Content Include="clickcontent\font-awesome.min.css" />
+    <Content Include="clickcontent\font-min.css" />
+    <Content Include="clickcontent\onepage-scroll.css" />
+    <Content Include="clickcontent\responsive.css" />
+    <Content Include="clickcontent\style.css" />
+    <Content Include="Content\animate.css" />
+    <Content Include="Content\bootstrap-datetimepicker.css" />
+    <Content Include="Content\bootstrap-timepicker.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\cropper.css" />
+    <Content Include="Content\Cropper_main.css" />
+    <Content Include="Content\dropzone.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\jquery.Jcrop.css" />
+    <Content Include="Content\kalendae.css" />
+    <Content Include="Content\main.css" />
+    <Content Include="Content\metal.css" />
+    <Content Include="Content\owl.carousel.css" />
+    <Content Include="Content\print.css" />
+    <Content Include="Content\Print_Invocie_Safari.css" />
+    <Content Include="Content\print_invoice.css" />
+    <Content Include="Content\Print_invoice_IE.css" />
+    <Content Include="Content\Reports_Print.css" />
+    <Content Include="Content\spa_responsive.css" />
+    <Content Include="Content\spa_style.css" />
+    <Content Include="Content\sweetalert2.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\roboto-bolditalic-webfont.svg" />
+    <Content Include="fonts\roboto-italic-webfont.svg" />
+    <Content Include="fonts\roboto.black-italic-webfont.svg" />
+    <Content Include="fonts\roboto.black-webfont.svg" />
+    <Content Include="fonts\roboto.bold-webfont.svg" />
+    <Content Include="fonts\roboto.medium-webfont.svg" />
+    <Content Include="fonts\roboto.regular-webfont.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="images\4.jpeg" />
+    <Content Include="images\404-error-pages-16.png" />
+    <Content Include="images\5.jpeg" />
+    <Content Include="images\add.png" />
+    <Content Include="images\barcode.png" />
+    <Content Include="images\basket.png" />
+    <Content Include="images\bg_spa.png" />
+    <Content Include="images\blue.png" />
+    <Content Include="images\cal_arrow.png" />
+    <Content Include="images\Click-and-Go-Logo_03.png" />
+    <Content Include="images\click\admin.png" />
+    <Content Include="images\click\arbeitswahn-depp-wehrle-karriere.png" />
+    <Content Include="images\click\banner1.jpg" />
+    <Content Include="images\click\banner2.jpg" />
+    <Content Include="images\click\bookingIcon.png" />
+    <Content Include="images\click\Clickgo_home.png" />
+    <Content Include="images\click\Click_home.png" />
+    <Content Include="images\click\Click_icon.png" />
+    <Content Include="images\click\Click_text.png" />
+    <Content Include="images\click\cross.png" />
+    <Content Include="images\click\cup1.png" />
+    <Content Include="images\click\cup2.png" />
+    <Content Include="images\click\default %283%29.gif" />
+    <Content Include="images\click\default-%283%29-.gif" />
+    <Content Include="images\click\efficient_checkbox.png" />
+    <Content Include="images\click\Error1.png" />
+    <Content Include="images\click\functionBG.png" />
+    <Content Include="images\click\googleplay.png" />
+    <Content Include="images\click\homepage1.jpg" />
+    <Content Include="images\click\homepageimg1.png" />
+    <Content Include="images\click\homepageimg2.png" />
+    <Content Include="images\click\i1.png" />
+    <Content Include="images\click\i2.png" />
+    <Content Include="images\click\i3.png" />
+    <Content Include="images\click\i4.png" />
+    <Content Include="images\click\i5.png" />
+    <Content Include="images\click\i6.png" />
+    <Content Include="images\click\i7.png" />
+    <Content Include="images\click\i8.png" />
+    <Content Include="images\click\icon1.png" />
+    <Content Include="images\click\icon10.png" />
+    <Content Include="images\click\icon11.png" />
+    <Content Include="images\click\icon12.png" />
+    <Content Include="images\click\icon152 - Copy.png" />
+    <Content Include="images\click\icon152.png" />
+    <Content Include="images\click\icon1_hover.png" />
+    <Content Include="images\click\icon2.png" />
+    <Content Include="images\click\icon2_hover.png" />
+    <Content Include="images\click\icon3.png" />
+    <Content Include="images\click\icon3_hover.png" />
+    <Content Include="images\click\icon4.png" />
+    <Content Include="images\click\icon4_hover.png" />
+    <Content Include="images\click\icon5.png" />
+    <Content Include="images\click\icon5_hover.png" />
+    <Content Include="images\click\icon6.png" />
+    <Content Include="images\click\icon6_hover.png" />
+    <Content Include="images\click\icon7.png" />
+    <Content Include="images\click\icon7_hover.png" />
+    <Content Include="images\click\icon8.png" />
+    <Content Include="images\click\icon8_hover.png" />
+    <Content Include="images\click\icon9.png" />
+    <Content Include="images\click\icons.png" />
+    <Content Include="images\click\img1.png" />
+    <Content Include="images\click\img2.png" />
+    <Content Include="images\click\img3.png" />
+    <Content Include="images\click\img3.png43.png" />
+    <Content Include="images\click\img3.png44.png" />
+    <Content Include="images\click\img4.jpg" />
+    <Content Include="images\click\img4.png" />
+    <Content Include="images\click\invoicingIcon.png" />
+    <Content Include="images\click\iPhone 5S.png" />
+    <Content Include="images\click\loder_textbox.gif" />
+    <Content Include="images\click\login.png" />
+    <Content Include="images\click\login123.png" />
+    <Content Include="images\click\logo.png" />
+    <Content Include="images\click\logo1.png" />
+    <Content Include="images\click\logo_English.png" />
+    <Content Include="images\click\logo_French.png" />
+    <Content Include="images\click\MacBook Silver.png" />
+    <Content Include="images\click\MapImage.png" />
+    <Content Include="images\click\Marketing.png" />
+    <Content Include="images\click\Online_Reservation.png" />
+    <Content Include="images\click\Picture1.png" />
+    <Content Include="images\click\reservationIcon.png" />
+    <Content Include="images\click\responsive.png" />
+    <Content Include="images\click\right.png" />
+    <Content Include="images\click\right_new.png" />
+    <Content Include="images\click\select.png" />
+    <Content Include="images\click\select2.png" />
+    <Content Include="images\click\sky.png" />
+    <Content Include="images\click\sky.png43.png" />
+    <Content Include="images\click\sky.png44.png" />
+    <Content Include="images\click\sky.png45.png" />
+    <Content Include="images\click\sky.png46.png" />
+    <Content Include="images\click\slide-1.png" />
+    <Content Include="images\click\slide-2.png" />
+    <Content Include="images\click\slide-3.png" />
+    <Content Include="images\click\slide-4.png" />
+    <Content Include="images\click\SPALOADER.gif" />
+    <Content Include="images\click\swiss.png" />
+    <Content Include="images\click\t1.png" />
+    <Content Include="images\click\t2.png" />
+    <Content Include="images\click\t3.png" />
+    <Content Include="images\click\t4.png" />
+    <Content Include="images\click\t5.png" />
+    <Content Include="images\click\t6.png" />
+    <Content Include="images\click\t7.png" />
+    <Content Include="images\click\tool1.png" />
+    <Content Include="images\click\tool2.png" />
+    <Content Include="images\click\tool3.png" />
+    <Content Include="images\click\tool4.png" />
+    <Content Include="images\click\tool5.png" />
+    <Content Include="images\click\tool6.png" />
+    <Content Include="images\click\tool7.png" />
+    <Content Include="images\click\Website.png" />
+    <Content Include="images\click\whitet1.png" />
+    <Content Include="images\click\whitet2.png" />
+    <Content Include="images\click\whitet3.png" />
+    <Content Include="images\click\whitet4.png" />
+    <Content Include="images\click\whitet5.png" />
+    <Content Include="images\click\whitet6.png" />
+    <Content Include="images\click\whitet7.png" />
+    <Content Include="images\click\wrong.png" />
+    <Content Include="images\clock.png" />
+    <Content Include="images\Customer.png" />
+    <Content Include="images\datepicker.png" />
+    <Content Include="images\defaultuser.png" />
+    <Content Include="images\docot1.jpg" />
+    <Content Include="images\doctor default1.jpg" />
+    <Content Include="images\doctor default2.jpg" />
+    <Content Include="images\doctor default3.jpg" />
+    <Content Include="images\doctor default4.jpg" />
+    <Content Include="images\Doctor_Loader3.gif" />
+    <Content Include="images\Dropzone.png" />
+    <Content Include="images\drop_here.jpg" />
+    <Content Include="images\Excellist.png" />
+    <Content Include="images\expired.jpg" />
+    <Content Include="images\file_hover add.png" />
+    <Content Include="images\file_hover edit.png" />
+    <Content Include="images\file_hover.png" />
+    <Content Include="images\googlr.png" />
+    <Content Include="images\grey.png" />
+    <Content Include="images\Invoice_notfound.png" />
+    <Content Include="images\Jcrop.gif" />
+    <Content Include="images\lightgreen.png" />
+    <Content Include="images\lightyellow.png" />
+    <Content Include="images\logo1.png" />
+    <Content Include="images\Maarkss.png" />
+    <Content Include="images\Maarkss1.png" />
+    <Content Include="images\Marketing\0.jpg" />
+    <Content Include="images\Marketing\1.jpg" />
+    <Content Include="images\Marketing\10.jpg" />
+    <Content Include="images\Marketing\11.jpg" />
+    <Content Include="images\Marketing\12.jpg" />
+    <Content Include="images\Marketing\13.jpg" />
+    <Content Include="images\Marketing\14.jpg" />
+    <Content Include="images\Marketing\15.jpg" />
+    <Content Include="images\Marketing\16.jpg" />
+    <Content Include="images\Marketing\17.jpg" />
+    <Content Include="images\Marketing\18.jpg" />
+    <Content Include="images\Marketing\19.jpg" />
+    <Content Include="images\Marketing\2.jpg" />
+    <Content Include="images\Marketing\20.jpg" />
+    <Content Include="images\Marketing\21.jpg" />
+    <Content Include="images\Marketing\22.jpg" />
+    <Content Include="images\Marketing\3.jpg" />
+    <Content Include="images\Marketing\4.jpg" />
+    <Content Include="images\Marketing\5.jpg" />
+    <Content Include="images\Marketing\6.jpg" />
+    <Content Include="images\Marketing\7.jpg" />
+    <Content Include="images\Marketing\8.jpg" />
+    <Content Include="images\Marketing\9.jpg" />
+    <Content Include="images\No Data_2.png" />
+    <Content Include="images\No_image.png" />
+    <Content Include="images\orange.png" />
+    <Content Include="images\Payment_failed.png" />
+    <Content Include="images\payment_img.png" />
+    <Content Include="images\prescription-img.png" />
+    <Content Include="images\red.png" />
+    <Content Include="images\remove.png" />
+    <Content Include="images\Resized-4JWD8.jpg" />
+    <Content Include="images\Resized-LTSSA.jpg" />
+    <Content Include="images\Resized-QSY5L.jpg" />
+    <Content Include="images\Resized-YYTI8.jpg" />
+    <Content Include="images\search.jpg" />
+    <Content Include="images\secure_payment_icon.png" />
+    <Content Include="images\shoplogo.png" />
+    <Content Include="images\spa01.jpg" />
+    <Content Include="images\spa02.jpg" />
+    <Content Include="images\spa03.jpg" />
+    <Content Include="images\spa04.jpg" />
+    <Content Include="images\SPALOADER.gif" />
+    <Content Include="images\spa_logo_02.png" />
+    <Content Include="images\spa_logo_03.png" />
+    <Content Include="images\spritemap.png" />
+    <Content Include="images\sprite_u_d.png" />
+    <Content Include="images\thanks.png" />
+    <Content Include="images\timer-off.png" />
+    <Content Include="images\user.png" />
+    <Content Include="images\userimg.png" />
+    <Content Include="images\vacation.png" />
+    <Content Include="images\WhatsApp-Image-2016-09-27-at-10.37.png" />
+    <Content Include="LanguageUpload\admin_tab.png" />
+    <Content Include="LanguageUpload\AlertMsg.png" />
+    <Content Include="LanguageUpload\back_button.png" />
+    <Content Include="LanguageUpload\Booking_Done.png" />
+    <Content Include="LanguageUpload\Calender_view.png" />
+    <Content Include="LanguageUpload\Cancel_Link.png" />
+    <Content Include="LanguageUpload\Change_Password.png" />
+    <Content Include="LanguageUpload\Choose_Employee.png" />
+    <Content Include="LanguageUpload\Choose_Product.png" />
+    <Content Include="LanguageUpload\Common.png" />
+    <Content Include="LanguageUpload\Confirm_Booking.png" />
+    <Content Include="LanguageUpload\Create_Employee.png" />
+    <Content Include="LanguageUpload\Customer_Black_List.png" />
+    <Content Include="LanguageUpload\Customer_List_view.png" />
+    <Content Include="LanguageUpload\Customer_New_Customer.png" />
+    <Content Include="LanguageUpload\Customer_Tab.png" />
+    <Content Include="LanguageUpload\Customer_Top_Ten.png" />
+    <Content Include="LanguageUpload\DefaultImage.png" />
+    <Content Include="LanguageUpload\Email.png" />
+    <Content Include="LanguageUpload\Email_Tag.png" />
+    <Content Include="LanguageUpload\Employee_Tab.png" />
+    <Content Include="LanguageUpload\Footer_contact.png" />
+    <Content Include="LanguageUpload\Forgot_Password.png" />
+    <Content Include="LanguageUpload\HomePage.png" />
+    <Content Include="LanguageUpload\Layout_Client.png" />
+    <Content Include="LanguageUpload\Layout_Footer.png" />
+    <Content Include="LanguageUpload\login page.png" />
+    <Content Include="LanguageUpload\Login_Reservation.png" />
+    <Content Include="LanguageUpload\Product_Catalog.png" />
+    <Content Include="LanguageUpload\Reservation_Open_List.png" />
+    <Content Include="LanguageUpload\Reservation_Pending.png" />
+    <Content Include="LanguageUpload\Reservation_Row.png" />
+    <Content Include="LanguageUpload\Reservation_Tab.png" />
+    <Content Include="LanguageUpload\Reservation_Update.png" />
+    <Content Include="LanguageUpload\Shop_Owner_Chg_Pwd.png" />
+    <Content Include="LanguageUpload\shop_owner_holiday.png" />
+    <Content Include="LanguageUpload\Shop_Owner_Setup.png" />
+    <Content Include="LanguageUpload\shop_owner_text.png" />
+    <Content Include="LanguageUpload\shop_tab.png" />
+    <Content Include="LanguageUpload\Small_calander.png" />
+    <Content Include="LanguageUpload\Various.png" />
+    <Content Include="MailMessages\Message2.xml" />
+    <Content Include="MailMessages\messages1.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Model1.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Model1.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Scripts\aos.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\bootstrap-tabcollapse.js" />
+    <Content Include="Scripts\bootstrap-timepicker.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\roboto.black-italic-webfont.eot" />
+    <Content Include="fonts\roboto.black-italic-webfont.ttf" />
+    <Content Include="fonts\roboto.black-italic-webfont.woff" />
+    <Content Include="fonts\roboto.black-italic-webfont.woff2" />
+    <Content Include="fonts\roboto.black-webfont.eot" />
+    <Content Include="fonts\roboto.black-webfont.ttf" />
+    <Content Include="fonts\roboto.black-webfont.woff" />
+    <Content Include="fonts\roboto.black-webfont.woff2" />
+    <Content Include="fonts\roboto.bold-webfont.eot" />
+    <Content Include="fonts\roboto.bold-webfont.ttf" />
+    <Content Include="fonts\roboto.bold-webfont.woff" />
+    <Content Include="fonts\roboto.bold-webfont.woff2" />
+    <Content Include="fonts\roboto.medium-webfont.eot" />
+    <Content Include="fonts\roboto.medium-webfont.ttf" />
+    <Content Include="fonts\roboto.medium-webfont.woff" />
+    <Content Include="fonts\roboto.medium-webfont.woff2" />
+    <Content Include="fonts\roboto.regular-webfont.eot" />
+    <Content Include="fonts\roboto.regular-webfont.ttf" />
+    <Content Include="fonts\roboto.regular-webfont.woff" />
+    <Content Include="fonts\roboto.regular-webfont.woff2" />
+    <Content Include="ClassDiagram1.cd" />
+    <Content Include="fonts\roboto-bolditalic-webfont.eot" />
+    <Content Include="fonts\roboto-bolditalic-webfont.ttf" />
+    <Content Include="fonts\roboto-bolditalic-webfont.woff" />
+    <Content Include="fonts\roboto-bolditalic-webfont.woff2" />
+    <Content Include="fonts\roboto-italic-webfont.eot" />
+    <Content Include="fonts\roboto-italic-webfont.ttf" />
+    <Content Include="fonts\roboto-italic-webfont.woff" />
+    <Content Include="fonts\roboto-italic-webfont.woff2" />
+    <Content Include="Scripts\Common.js" />
+    <Content Include="fonts\ocrb1-webfont.woff" />
+    <Content Include="fonts\ocrb1-webfont.woff2" />
+    <Content Include="fonts\OCRB1.TTF" />
+    <Content Include="images\Col_1.xlsx" />
+    <Content Include="images\Col_2.xlsx" />
+    <Content Include="images\Col_3.xlsx" />
+    <Content Include="images\Col_4.xlsx" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\Verdana.ttf" />
+    <Content Include="fonts\Verdana.woff" />
+    <Content Include="fonts\Verdana.woff2" />
+    <EntityDeploy Include="Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
+    <Content Include="bin\SPA.dll.config" />
+    <None Include="Properties\PublishProfiles\Ak Ak.pubxml" />
+    <None Include="Properties\PublishProfiles\Ak Testt.pubxml" />
+    <None Include="Properties\PublishProfiles\Ak Tewt.pubxml" />
+    <None Include="Properties\PublishProfiles\Ak.pubxml" />
+    <None Include="Properties\PublishProfiles\Ak0252525.pubxml" />
+    <None Include="Properties\PublishProfiles\Ak222.pubxml" />
+    <None Include="Properties\PublishProfiles\Ak25.pubxml" />
+    <None Include="Properties\PublishProfiles\Ak25225.pubxml" />
+    <None Include="Properties\PublishProfiles\Ak25255.pubxml" />
+    <None Include="Properties\PublishProfiles\Ak255.pubxml" />
+    <None Include="Properties\PublishProfiles\Ak2555.pubxml" />
+    <None Include="Properties\PublishProfiles\Ak255522.pubxml" />
+    <None Include="Properties\PublishProfiles\Ak25555.pubxml" />
+    <None Include="Properties\PublishProfiles\Ak255585.pubxml" />
+    <None Include="Properties\PublishProfiles\Akdsgdsgdsg.pubxml" />
+    <None Include="Properties\PublishProfiles\Akk.pubxml" />
+    <None Include="Properties\PublishProfiles\AKKAKAKAKKA.pubxml" />
+    <None Include="Properties\PublishProfiles\AKKAKKAKA.pubxml" />
+    <None Include="Properties\PublishProfiles\Akkkk.pubxml" />
+    <None Include="Properties\PublishProfiles\Akkkkk55.pubxml" />
+    <None Include="Properties\PublishProfiles\Akkkkkk.pubxml" />
+    <None Include="Properties\PublishProfiles\Akkkkkkk.pubxml" />
+    <None Include="Properties\PublishProfiles\AkRet.pubxml" />
+    <None Include="Properties\PublishProfiles\Insurancetesting - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\Insurancetesting - Web Deploy.pubxml" />
+    <None Include="Scripts\jquery-1.11.3.intellisense.js" />
+    <Content Include="Scripts\commonclick.js" />
+    <Content Include="Scripts\cropper.js" />
+    <Content Include="Scripts\Cropper_main.js" />
+    <Content Include="Scripts\dropzone.js" />
+    <Content Include="Scripts\Employee.js" />
+    <Content Include="Scripts\ImportExcel.js" />
+    <Content Include="Scripts\Invoice.js" />
+    <Content Include="Scripts\jquery-1.11.3.js" />
+    <Content Include="Scripts\jquery-1.11.3.min.js" />
+    <Content Include="Scripts\jquery-1.11.3.min.map" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-2.1.1.min.js" />
+    <Content Include="Scripts\jquery.formatter.js" />
+    <Content Include="Scripts\jquery.Jcrop.js" />
+    <Content Include="Scripts\jquery.onepage-scroll.min.js" />
+    <Content Include="Scripts\jquery.printPage.js" />
+    <Content Include="Scripts\jquery.scrollify.min.js" />
+    <Content Include="Scripts\jquery.slimscroll.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jquery.zoom.js" />
+    <Content Include="Scripts\jquery.zoom.min.js" />
+    <Content Include="Scripts\jqueryBase64.js" />
+    <Content Include="Scripts\jspdf.js" />
+    <Content Include="Scripts\kalendae.js" />
+    <Content Include="Scripts\LENDING.js" />
+    <Content Include="Scripts\libbase64.js" />
+    <Content Include="Scripts\Location.js" />
+    <Content Include="Scripts\Marketing.js" />
+    <Content Include="Scripts\messages_de.js" />
+    <Content Include="Scripts\messages_fr.js" />
+    <Content Include="Scripts\messages_it.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\owl.carousel.js" />
+    <Content Include="Scripts\Plugins.js" />
+    <Content Include="Scripts\Product.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\SPA_Common.js" />
+    <Content Include="Scripts\spa_script.js" />
+    <Content Include="Scripts\sprintf.js" />
+    <Content Include="Scripts\sweetalert2.min.js" />
+    <Content Include="Scripts\TableExport.js" />
+    <Content Include="Scripts\tableHeadFixer.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="tinymce\plugins\advlist\plugin.js" />
+    <Content Include="tinymce\plugins\advlist\plugin.min.js" />
+    <Content Include="tinymce\plugins\anchor\plugin.js" />
+    <Content Include="tinymce\plugins\anchor\plugin.min.js" />
+    <Content Include="tinymce\plugins\autolink\plugin.js" />
+    <Content Include="tinymce\plugins\autolink\plugin.min.js" />
+    <Content Include="tinymce\plugins\autoresize\plugin.js" />
+    <Content Include="tinymce\plugins\autoresize\plugin.min.js" />
+    <Content Include="tinymce\plugins\autosave\plugin.js" />
+    <Content Include="tinymce\plugins\autosave\plugin.min.js" />
+    <Content Include="tinymce\plugins\bbcode\plugin.js" />
+    <Content Include="tinymce\plugins\bbcode\plugin.min.js" />
+    <Content Include="tinymce\plugins\charmap\plugin.js" />
+    <Content Include="tinymce\plugins\charmap\plugin.min.js" />
+    <Content Include="tinymce\plugins\code\plugin.js" />
+    <Content Include="tinymce\plugins\code\plugin.min.js" />
+    <Content Include="tinymce\plugins\colorpicker\plugin.js" />
+    <Content Include="tinymce\plugins\colorpicker\plugin.min.js" />
+    <Content Include="tinymce\plugins\compat3x\css\dialog.css" />
+    <Content Include="tinymce\plugins\compat3x\img\buttons.png" />
+    <Content Include="tinymce\plugins\compat3x\img\icons.gif" />
+    <Content Include="tinymce\plugins\compat3x\img\items.gif" />
+    <Content Include="tinymce\plugins\compat3x\img\menu_arrow.gif" />
+    <Content Include="tinymce\plugins\compat3x\img\menu_check.gif" />
+    <Content Include="tinymce\plugins\compat3x\img\progress.gif" />
+    <Content Include="tinymce\plugins\compat3x\img\tabs.gif" />
+    <Content Include="tinymce\plugins\compat3x\plugin.js" />
+    <Content Include="tinymce\plugins\compat3x\plugin.min.js" />
+    <Content Include="tinymce\plugins\compat3x\tiny_mce_popup.js" />
+    <Content Include="tinymce\plugins\compat3x\utils\editable_selects.js" />
+    <Content Include="tinymce\plugins\compat3x\utils\form_utils.js" />
+    <Content Include="tinymce\plugins\compat3x\utils\mctabs.js" />
+    <Content Include="tinymce\plugins\compat3x\utils\validate.js" />
+    <Content Include="tinymce\plugins\contextmenu\plugin.js" />
+    <Content Include="tinymce\plugins\contextmenu\plugin.min.js" />
+    <Content Include="tinymce\plugins\directionality\plugin.js" />
+    <Content Include="tinymce\plugins\directionality\plugin.min.js" />
+    <Content Include="tinymce\plugins\emoticons\img\smiley-cool.gif" />
+    <Content Include="tinymce\plugins\emoticons\img\smiley-cry.gif" />
+    <Content Include="tinymce\plugins\emoticons\img\smiley-embarassed.gif" />
+    <Content Include="tinymce\plugins\emoticons\img\smiley-foot-in-mouth.gif" />
+    <Content Include="tinymce\plugins\emoticons\img\smiley-frown.gif" />
+    <Content Include="tinymce\plugins\emoticons\img\smiley-innocent.gif" />
+    <Content Include="tinymce\plugins\emoticons\img\smiley-kiss.gif" />
+    <Content Include="tinymce\plugins\emoticons\img\smiley-laughing.gif" />
+    <Content Include="tinymce\plugins\emoticons\img\smiley-money-mouth.gif" />
+    <Content Include="tinymce\plugins\emoticons\img\smiley-sealed.gif" />
+    <Content Include="tinymce\plugins\emoticons\img\smiley-smile.gif" />
+    <Content Include="tinymce\plugins\emoticons\img\smiley-surprised.gif" />
+    <Content Include="tinymce\plugins\emoticons\img\smiley-tongue-out.gif" />
+    <Content Include="tinymce\plugins\emoticons\img\smiley-undecided.gif" />
+    <Content Include="tinymce\plugins\emoticons\img\smiley-wink.gif" />
+    <Content Include="tinymce\plugins\emoticons\img\smiley-yell.gif" />
+    <Content Include="tinymce\plugins\emoticons\plugin.js" />
+    <Content Include="tinymce\plugins\emoticons\plugin.min.js" />
+    <Content Include="tinymce\plugins\example\dialog.html" />
+    <Content Include="tinymce\plugins\example\plugin.js" />
+    <Content Include="tinymce\plugins\example\plugin.min.js" />
+    <Content Include="tinymce\plugins\example_dependency\plugin.js" />
+    <Content Include="tinymce\plugins\example_dependency\plugin.min.js" />
+    <Content Include="tinymce\plugins\fullpage\plugin.js" />
+    <Content Include="tinymce\plugins\fullpage\plugin.min.js" />
+    <Content Include="tinymce\plugins\fullscreen\plugin.js" />
+    <Content Include="tinymce\plugins\fullscreen\plugin.min.js" />
+    <Content Include="tinymce\plugins\hr\plugin.js" />
+    <Content Include="tinymce\plugins\hr\plugin.min.js" />
+    <Content Include="tinymce\plugins\imagetools\plugin.js" />
+    <Content Include="tinymce\plugins\imagetools\plugin.min.js" />
+    <Content Include="tinymce\plugins\image\plugin.js" />
+    <Content Include="tinymce\plugins\image\plugin.min.js" />
+    <Content Include="tinymce\plugins\importcss\plugin.js" />
+    <Content Include="tinymce\plugins\importcss\plugin.min.js" />
+    <Content Include="tinymce\plugins\insertdatetime\plugin.js" />
+    <Content Include="tinymce\plugins\insertdatetime\plugin.min.js" />
+    <Content Include="tinymce\plugins\layer\plugin.js" />
+    <Content Include="tinymce\plugins\layer\plugin.min.js" />
+    <Content Include="tinymce\plugins\legacyoutput\plugin.js" />
+    <Content Include="tinymce\plugins\legacyoutput\plugin.min.js" />
+    <Content Include="tinymce\plugins\link\plugin.js" />
+    <Content Include="tinymce\plugins\link\plugin.min.js" />
+    <Content Include="tinymce\plugins\lists\plugin.js" />
+    <Content Include="tinymce\plugins\lists\plugin.min.js" />
+    <Content Include="tinymce\plugins\media\plugin.js" />
+    <Content Include="tinymce\plugins\media\plugin.min.js" />
+    <Content Include="tinymce\plugins\nonbreaking\plugin.js" />
+    <Content Include="tinymce\plugins\nonbreaking\plugin.min.js" />
+    <Content Include="tinymce\plugins\noneditable\plugin.js" />
+    <Content Include="tinymce\plugins\noneditable\plugin.min.js" />
+    <Content Include="tinymce\plugins\pagebreak\plugin.js" />
+    <Content Include="tinymce\plugins\pagebreak\plugin.min.js" />
+    <Content Include="tinymce\plugins\paste\plugin.js" />
+    <Content Include="tinymce\plugins\paste\plugin.min.js" />
+    <Content Include="tinymce\plugins\placeholder\plugin.js" />
+    <Content Include="tinymce\plugins\placeholder\plugin.min.js" />
+    <Content Include="tinymce\plugins\preview\plugin.js" />
+    <Content Include="tinymce\plugins\preview\plugin.min.js" />
+    <Content Include="tinymce\plugins\print\plugin.js" />
+    <Content Include="tinymce\plugins\print\plugin.min.js" />
+    <Content Include="tinymce\plugins\save\plugin.js" />
+    <Content Include="tinymce\plugins\save\plugin.min.js" />
+    <Content Include="tinymce\plugins\searchreplace\plugin.js" />
+    <Content Include="tinymce\plugins\searchreplace\plugin.min.js" />
+    <Content Include="tinymce\plugins\spellchecker\plugin.js" />
+    <Content Include="tinymce\plugins\spellchecker\plugin.min.js" />
+    <Content Include="tinymce\plugins\tabfocus\plugin.js" />
+    <Content Include="tinymce\plugins\tabfocus\plugin.min.js" />
+    <Content Include="tinymce\plugins\table\plugin.js" />
+    <Content Include="tinymce\plugins\table\plugin.min.js" />
+    <Content Include="tinymce\plugins\template\plugin.js" />
+    <Content Include="tinymce\plugins\template\plugin.min.js" />
+    <Content Include="tinymce\plugins\textcolor\plugin.js" />
+    <Content Include="tinymce\plugins\textcolor\plugin.min.js" />
+    <Content Include="tinymce\plugins\textpattern\plugin.js" />
+    <Content Include="tinymce\plugins\textpattern\plugin.min.js" />
+    <Content Include="tinymce\plugins\visualblocks\css\visualblocks.css" />
+    <Content Include="tinymce\plugins\visualblocks\img\address.gif" />
+    <Content Include="tinymce\plugins\visualblocks\img\article.gif" />
+    <Content Include="tinymce\plugins\visualblocks\img\aside.gif" />
+    <Content Include="tinymce\plugins\visualblocks\img\blockquote.gif" />
+    <Content Include="tinymce\plugins\visualblocks\img\div.gif" />
+    <Content Include="tinymce\plugins\visualblocks\img\dl.gif" />
+    <Content Include="tinymce\plugins\visualblocks\img\figure.gif" />
+    <Content Include="tinymce\plugins\visualblocks\img\h1.gif" />
+    <Content Include="tinymce\plugins\visualblocks\img\h2.gif" />
+    <Content Include="tinymce\plugins\visualblocks\img\h3.gif" />
+    <Content Include="tinymce\plugins\visualblocks\img\h4.gif" />
+    <Content Include="tinymce\plugins\visualblocks\img\h5.gif" />
+    <Content Include="tinymce\plugins\visualblocks\img\h6.gif" />
+    <Content Include="tinymce\plugins\visualblocks\img\hgroup.gif" />
+    <Content Include="tinymce\plugins\visualblocks\img\ol.gif" />
+    <Content Include="tinymce\plugins\visualblocks\img\p.gif" />
+    <Content Include="tinymce\plugins\visualblocks\img\pre.gif" />
+    <Content Include="tinymce\plugins\visualblocks\img\section.gif" />
+    <Content Include="tinymce\plugins\visualblocks\img\ul.gif" />
+    <Content Include="tinymce\plugins\visualblocks\plugin.js" />
+    <Content Include="tinymce\plugins\visualblocks\plugin.min.js" />
+    <Content Include="tinymce\plugins\visualchars\plugin.js" />
+    <Content Include="tinymce\plugins\visualchars\plugin.min.js" />
+    <Content Include="tinymce\plugins\wordcount\plugin.js" />
+    <Content Include="tinymce\plugins\wordcount\plugin.min.js" />
+    <Content Include="tinymce\skins\lightgray\content.inline.min.css" />
+    <Content Include="tinymce\skins\lightgray\content.min.css" />
+    <Content Include="tinymce\skins\lightgray\fonts\tinymce-small.svg" />
+    <Content Include="tinymce\skins\lightgray\fonts\tinymce.svg" />
+    <Content Include="tinymce\skins\lightgray\img\anchor.gif" />
+    <Content Include="tinymce\skins\lightgray\img\loader.gif" />
+    <Content Include="tinymce\skins\lightgray\img\object.gif" />
+    <Content Include="tinymce\skins\lightgray\img\trans.gif" />
+    <Content Include="tinymce\skins\lightgray\skin.ie7.min.css" />
+    <Content Include="tinymce\skins\lightgray\skin.min.css" />
+    <Content Include="tinymce\themes\modern\theme.js" />
+    <Content Include="tinymce\themes\modern\theme.min.js" />
+    <Content Include="tinymce\tinymce.js" />
+    <Content Include="tinymce\tinymce.min.js" />
+    <Content Include="Upload\111047\1.jpg" />
+    <Content Include="Upload\111077\1.jpg" />
+    <Content Include="Upload\111084\1.jpg" />
+    <Content Include="Upload\111085\1.jpg" />
+    <Content Include="Upload\111086\1.jpg" />
+    <Content Include="Upload\111087\1.jpg" />
+    <Content Include="Upload\111094\1.jpg" />
+    <Content Include="Upload\111096\1.jpg" />
+    <Content Include="Upload\111138\1.jpg" />
+    <Content Include="Upload\111141\1.jpg" />
+    <Content Include="Upload\111143\1.jpg" />
+    <Content Include="Upload\111144\1.jpg" />
+    <Content Include="Upload\111145\1.jpg" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\ANGEBOT\Abonnement.cshtml" />
+    <Content Include="Views\ANGEBOT\ANGEBOT.cshtml" />
+    <Content Include="Views\ANGEBOT\Geschenk.cshtml" />
+    <Content Include="Views\ANGEBOT\Preis.cshtml" />
+    <Content Include="Views\BookOrder\ChooseEmployee.cshtml" />
+    <Content Include="Views\BookOrder\ConfirmBooking.cshtml" />
+    <Content Include="Views\BookOrder\DisplayBookedProduct.cshtml" />
+    <Content Include="Views\BookOrder\OrderList.cshtml" />
+    <Content Include="Views\BookOrder\ThanksMessage.cshtml" />
+    <Content Include="Views\Customer\BlackList.cshtml" />
+    <Content Include="Views\Customer\Customer.cshtml" />
+    <Content Include="Views\Customer\DisplayCustomerHistory.cshtml" />
+    <Content Include="Views\Customer\ListView.cshtml" />
+    <Content Include="Views\Customer\NewCustomer.cshtml" />
+    <Content Include="Views\Customer\TopTenCustomer.cshtml" />
+    <Content Include="Views\Doctor\DocNotesInterface.cshtml" />
+    <Content Include="Views\Doctor\Doctor.cshtml" />
+    <Content Include="Views\Doctor\DoctorInvoice.cshtml" />
+    <Content Include="Views\Doctor\DoctorNotesDisplay.cshtml" />
+    <Content Include="Views\Doctor\DoctorPrescriptionsDisplay.cshtml" />
+    <Content Include="Views\Doctor\EditPrescriptionCard.cshtml" />
+    <Content Include="Views\Doctor\EmailDoctorPrescriptions.cshtml" />
+    <Content Include="Views\Doctor\EmailPrescriptions.cshtml" />
+    <Content Include="Views\Doctor\PrescriptionCard.cshtml" />
+    <Content Include="Views\Employee\AddTimeSlot.cshtml" />
+    <Content Include="Views\Employee\AddWeek.cshtml" />
+    <Content Include="Views\Employee\AddWeekPeriod.cshtml" />
+    <Content Include="Views\Employee\AssignProduct.cshtml" />
+    <Content Include="Views\Employee\CreateEmployee.cshtml" />
+    <Content Include="Views\Employee\createEmployeeUper.cshtml" />
+    <Content Include="Views\Employee\DeletedDayScheduler.cshtml" />
+    <Content Include="Views\Employee\DetailWeekPeriod.cshtml" />
+    <Content Include="Views\Employee\EmployeeMaster.cshtml" />
+    <Content Include="Views\Employee\TimeSlot.cshtml" />
+    <Content Include="Views\Employee\UserProductAssigned.cshtml" />
+    <Content Include="Views\Employee\Vacation.cshtml" />
+    <Content Include="Views\Employee\VacationDetail.cshtml" />
+    <Content Include="Views\Employee\WeekDetail.cshtml" />
+    <Content Include="Views\Employee\WeekSchedule.cshtml" />
+    <Content Include="Views\Error\Error_List.cshtml" />
+    <Content Include="Views\Footer\Contact.cshtml" />
+    <Content Include="Views\Footer\Links.cshtml" />
+    <Content Include="Views\Footer\Profile.cshtml" />
+    <Content Include="Views\Home\ChooseEmployee.cshtml" />
+    <Content Include="Views\Home\ChooseYourProduct.cshtml" />
+    <Content Include="Views\Home\ConfirmBooking.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\DisplayBookedProduct.cshtml" />
+    <Content Include="Views\Home\GetUserTimeSlot.cshtml" />
+    <Content Include="Views\Home\Home.cshtml" />
+    <Content Include="Views\Home\ThanksMessage.cshtml" />
+    <Content Include="Views\Login\ChangePassword.cshtml" />
+    <Content Include="Views\Login\ForgotPassword.cshtml" />
+    <Content Include="Views\Login\LinkExpired.cshtml" />
+    <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Login\Registration.cshtml" />
+    <Content Include="Views\Login\SignIn.cshtml" />
+    <Content Include="Views\Login\SignUp.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Massage\HotStone.cshtml" />
+    <Content Include="Views\Massage\Lymphdrainage.cshtml" />
+    <Content Include="Views\Massage\Massage.cshtml" />
+    <Content Include="Views\Massage\Med_Massage.cshtml" />
+    <Content Include="Views\Massage\OilMassage.cshtml" />
+    <Content Include="Views\Nutzen\Nutzen.cshtml" />
+    <Content Include="Views\Nutzen\Nutzen_Content.cshtml" />
+    <Content Include="Views\Product\ProductDataDisplay.cshtml" />
+    <Content Include="Views\Product\Product_Catalog.cshtml" />
+    <Content Include="Views\Reservation\BlockAllEmployeeDayDetail.cshtml" />
+    <Content Include="Views\Reservation\BlockDayDetail.cshtml" />
+    <Content Include="Views\Reservation\BlockNewCalenderMonthDetail.cshtml" />
+    <Content Include="Views\Reservation\BlockWeekDetails.cshtml" />
+    <Content Include="Views\Reservation\CalChooseProduct.cshtml" />
+    <Content Include="Views\Reservation\CalendarMonth.cshtml" />
+    <Content Include="Views\Reservation\CalNewCustomer.cshtml" />
+    <Content Include="Views\Reservation\CalProductBookedDetails.cshtml" />
+    <Content Include="Views\Reservation\CancelBooking.cshtml" />
+    <Content Include="Views\Reservation\CancelBookingAlert.cshtml" />
+    <Content Include="Views\Reservation\CancelFeedback.cshtml" />
+    <Content Include="Views\Reservation\ChooseEmployeeUpdates.cshtml" />
+    <Content Include="Views\Reservation\CustomerList.cshtml" />
+    <Content Include="Views\Reservation\Day.cshtml" />
+    <Content Include="Views\Reservation\DayChange.cshtml" />
+    <Content Include="Views\Reservation\DisplayCalbookingDetails.cshtml" />
+    <Content Include="Views\Reservation\EmployeeDetails.cshtml" />
+    <Content Include="Views\Reservation\Month.cshtml" />
+    <Content Include="Views\Reservation\MonthCalendar.cshtml" />
+    <Content Include="Views\Reservation\OpenListView.cshtml" />
+    <Content Include="Views\Reservation\OpenListView2.cshtml" />
+    <Content Include="Views\Reservation\PendingforApproval.cshtml" />
+    <Content Include="Views\Reservation\PendingForApprovalDetail.cshtml" />
+    <Content Include="Views\Reservation\PendingForListViewDetail.cshtml" />
+    <Content Include="Views\Reservation\Reservation.cshtml" />
+    <Content Include="Views\Reservation\UpdateReservedData.cshtml" />
+    <Content Include="Views\Reservation\Week.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_Employee_layout.cshtml" />
+    <Content Include="Views\Shared\_Footer.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_ProcessHead.cshtml" />
+    <Content Include="Views\Shared\_ProcessHead1.cshtml" />
+    <Content Include="Views\Shop\ActiveText.cshtml" />
+    <Content Include="Views\Shop\ChangePassword.cshtml" />
+    <Content Include="Views\Shop\Holiday.cshtml" />
+    <Content Include="Views\Shop\HolidayDetail.cshtml" />
+    <Content Include="Views\Shop\Language.cshtml" />
+    <Content Include="Views\Shop\Language_LabelDetail.cshtml" />
+    <Content Include="Views\Shop\RestrictionAddLeaves.cshtml" />
+    <Content Include="Views\Shop\Shop.cshtml" />
+    <Content Include="Views\Shop\ShopImageLanguage.cshtml" />
+    <Content Include="Views\Shop\ShopOwnerSetup.cshtml" />
+    <Content Include="Views\Shop\Texts.cshtml" />
+    <Content Include="Views\Shop\TextsDisplay.cshtml" />
+    <Content Include="Views\Shop\Various.cshtml" />
+    <Content Include="Views\Translation\Translate.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Spa Test Document\Admin Side.docx" />
+    <Content Include="Spa Test Document\Customer Side Flow for spa.docx" />
+    <Content Include="Spa Test Document\Test Cases for shop.xlsx" />
+    <Content Include="Spa Test Document\Test Cases for SPA.xlsx" />
+    <Content Include="Spa Test Document\Test Cases for SPAProject 1.xlsx" />
+    <Content Include="Views\Product\HelloWorld.cshtml" />
+    <Content Include="Views\Shop\Shopschedule.cshtml" />
+    <Content Include="Views\Shop\LendingPage.cshtml" />
+    <Content Include="tinymce\langs\readme.md" />
+    <Content Include="tinymce\skins\lightgray\fonts\readme.md" />
+    <Content Include="tinymce\skins\lightgray\fonts\tinymce-small.eot" />
+    <Content Include="tinymce\skins\lightgray\fonts\tinymce-small.json" />
+    <Content Include="tinymce\skins\lightgray\fonts\tinymce-small.ttf" />
+    <Content Include="tinymce\skins\lightgray\fonts\tinymce-small.woff" />
+    <Content Include="tinymce\skins\lightgray\fonts\tinymce.eot" />
+    <Content Include="tinymce\skins\lightgray\fonts\tinymce.json" />
+    <Content Include="tinymce\skins\lightgray\fonts\tinymce.ttf" />
+    <Content Include="tinymce\skins\lightgray\fonts\tinymce.woff" />
+    <Content Include="Views\Shop\Marketing.cshtml" />
+    <Content Include="Views\Doctor\EditDoctorPrescriptions.cshtml" />
+    <Content Include="Views\Shop\MCustomerDetails.cshtml" />
+    <Content Include="Views\Doctor\DoctorInvoiceDisplay.cshtml" />
+    <Content Include="Views\Reservation\AcceptBooking.cshtml" />
+    <Content Include="Views\Reservation\AcceptBookingAlert.cshtml" />
+    <Content Include="Views\Home\Index1.cshtml" />
+    <Content Include="Views\Shared\_LayoutClick.cshtml" />
+    <Content Include="Views\Shared\_ClickFooter.cshtml" />
+    <Content Include="Views\Shared\_SmartwareplusLayout.cshtml" />
+    <Content Include="Views\PDF\PDFFILE.cshtml" />
+    <Content Include="Views\PDF\PDFTERMSCondition.cshtml" />
+    <Content Include="Views\Registration\Login.cshtml" />
+    <Content Include="Views\Registration\PaymentGateway.cshtml" />
+    <Content Include="Views\Registration\Registration.cshtml" />
+    <Content Include="Views\Registration\RegistrationDetail.cshtml" />
+    <Content Include="Views\Registration\TermsCondition.cshtml" />
+    <Content Include="Views\Registration\ThanksPopup.cshtml" />
+    <Content Include="Views\Registration\Various.cshtml" />
+    <Content Include="Views\Registration\Welcome.cshtml" />
+    <Content Include="Views\Shared\_Progressbar.cshtml" />
+    <Content Include="Views\Clickandgo\About.cshtml" />
+    <Content Include="Views\Clickandgo\FUNKTIONEN.cshtml" />
+    <Content Include="Views\Clickandgo\Index.cshtml" />
+    <Content Include="Views\Clickandgo\KONTAKTREGISTRIERUNG.cshtml" />
+    <Content Include="Views\Clickandgo\PREISE.cshtml" />
+    <Content Include="Views\Clickandgo\SMARTWAREPLUS.cshtml" />
+    <Content Include="Views\Clickandgo\VORTEILE.cshtml" />
+    <Content Include="Views\Employee\specialization.cshtml" />
+    <Content Include="Views\Shop\Payment.cshtml" />
+    <Content Include="Views\Clickandgo\LiveDemo.cshtml" />
+    <Content Include="Views\Home\Payment.cshtml" />
+    <Content Include="Views\payment\PaymentError.cshtml" />
+    <Content Include="Views\Translation\ClickgoLanguage.cshtml" />
+    <Content Include="Views\ClickGo\Home.cshtml" />
+    <Content Include="Views\Shared\ClickGoLayout.cshtml" />
+    <Content Include="Views\Shared\ClickGo_Footer.cshtml" />
+    <Content Include="Views\Home\GetTimeForEmployee.cshtml" />
+    <Content Include="Views\FreeCustomer\OwnerInfo.cshtml" />
+    <Content Include="Views\FreeCustomer\FreeCustomerList.cshtml" />
+    <Content Include="Views\Reservation\QuickBlock.cshtml" />
+    <Content Include="Views\Reservation\QuickBlockPopup.cshtml" />
+    <Content Include="Views\AccessRight\Roles.cshtml" />
+    <Content Include="Views\AccessRight\AccessRight.cshtml" />
+    <Content Include="Views\AccessRight\Permissions.cshtml" />
+    <Content Include="Views\FreeCustomer\AddMultipleEmployee.cshtml" />
+    <Content Include="Views\FreeCustomer\MultipleEmpList.cshtml" />
+    <Content Include="Views\FreeCustomer\ThankYou.cshtml" />
+    <Content Include="Views\Shared\Freecustomer_Layout.cshtml" />
+    <Content Include="Views\Reservation\HolidayCalendar.cshtml" />
+    <Content Include="Views\FreeCustomer\EditFreeCustomer.cshtml" />
+    <Content Include="Views\Shop\Timeslot.cshtml" />
+    <Content Include="Views\Shop\PaymentHistory.cshtml" />
+    <Content Include="Views\Reservation\HolidayCalendar.cshtml" />
+    <Content Include="Views\Shop\PaymentHistoryPrint.cshtml" />
+    <Content Include="Views\Shop\PaymentHistoryPDF.cshtml" />
+    <Content Include="Views\Invoice\Invoicing.cshtml" />
+    <Content Include="Views\Invoice\Forinvoicing.cshtml" />
+    <Content Include="Views\Invoice\InvoiceGenerated.cshtml" />
+    <Content Include="Views\Invoice\OpenInvoices.cshtml" />
+    <Content Include="Views\Invoice\ClosedInvoices.cshtml" />
+    <Content Include="Views\Invoice\Reports.cshtml" />
+    <Content Include="Views\Invoice\Invoice.cshtml" />
+    <Content Include="Views\Product\Product.cshtml" />
+    <Content Include="Views\Product\AddOnProduct.cshtml" />
+    <Content Include="Views\Invoice\Invoice1.cshtml" />
+    <Content Include="Views\PDF\InvoicePrint.cshtml" />
+    <Content Include="Views\Invoice\InvoiceAddOnProduct.cshtml" />
+    <Content Include="Views\Invoice\InvoiceAddOnProductAdd.cshtml" />
+    <Content Include="Views\Invoice\InvoiceReservationList.cshtml" />
+    <Content Include="Views\Invoice\InvoiceServicesList.cshtml" />
+    <Content Include="Views\Invoice\CreateManualInvoice.cshtml" />
+    <Content Include="Views\ClickGo\CLICKANDGO.cshtml" />
+    <Content Include="Views\ClickGo\Aboutus.cshtml" />
+    <Content Include="Views\Translation\GetDataofSubHeading.cshtml" />
+    <Content Include="Views\Translation\GetSubHeading.cshtml" />
+    <Content Include="Views\Translation\Index.cshtml" />
+    <Content Include="Views\Translation\SubEdit.cshtml" />
+    <Content Include="Views\Doctor\DunamicNoteSection.cshtml" />
+    <Content Include="Views\Doctor\Notes.cshtml" />
+    <Content Include="Views\PDF\NotesDisplay.cshtml" />
+    <Content Include="Views\Shared\_Message.cshtml" />
+    <Content Include="Views\Shared\_LoderPage.cshtml" />
+    <Content Include="Views\Doctor\DisplayNotes.cshtml" />
+    <Content Include="Views\Shared\_LangValidation.cshtml" />
+    <Content Include="Views\ClickGo\Impressum.cshtml" />
+    <Content Include="Views\Invoice\Monthly_Report.cshtml" />
+    <Content Include="Views\Invoice\Yearly_Report.cshtml" />
+    <Content Include="Views\Invoice\GeneralInvoice.cshtml" />
+    <Content Include="Views\PDF\GI_Customer.cshtml" />
+    <Content Include="Views\PDF\HI_Customer.cshtml" />
+    <Content Include="Views\PDF\HI_Copy.cshtml" />
+    <Content Include="Views\Common\Image.cshtml" />
+    <Content Include="Views\Customer\Import.cshtml" />
+    <Content Include="Views\Customer\DynamicImport.cshtml" />
+    <Content Include="Views\Customer\ShowReport.cshtml" />
+    <Content Include="Views\Invoice\PartialPaymentPopup.cshtml" />
+    <Content Include="Views\Invoice\PaymentHistory.cshtml" />
+    <Content Include="Views\Employee\WeekScheduleDyn.cshtml" />
+    <Content Include="Views\PDF\Therapists_print.cshtml" />
+    <Content Include="Views\Doctor\Therapistsnotes.cshtml" />
+    <Content Include="Views\PDF\Therapists1_print.cshtml" />
+    <Content Include="Views\Doctor\TCMnote.cshtml" />
+    <Content Include="Views\Product\SettlementText.cshtml" />
+    <Content Include="Views\Product\getAssignedSettlementText.cshtml" />
+    <Content Include="Views\Invoice\InvoiceSettlementTextList.cshtml" />
+    <Content Include="Views\Customer\Anamnese.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="LandingUpload\" />
+    <Folder Include="MarketingUpload\" />
+    <Folder Include="Views\API\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>8625</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:9257/</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:9257/</IISAppRootUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

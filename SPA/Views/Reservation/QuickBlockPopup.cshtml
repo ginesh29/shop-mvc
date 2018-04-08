@@ -1,0 +1,82 @@
+﻿
+@{
+    Layout = null;
+    SPA.Models.quickBlockSlot BlockQuery = new SPA.Models.quickBlockSlot();
+    BlockQuery = Model;
+    long UserId = ViewBag.UserId;
+    List<SPA.Models.LanguageLabelDetails> Language = ViewBag.Language;
+    SPA.Models.EditQuickBlockDetails EditDetails = new SPA.Models.EditQuickBlockDetails();
+    EditDetails = ViewBag.ReservationInfo;
+}
+@*<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+    </head>
+    <body>*@
+<form id="frmQuickBlocker" action="/Reservation/AddQuickBlockDetails" method="post" enctype="multipart/form-data" autocomplete="off">
+    <div class="Quickblocker_popup">
+        <input type="hidden" id="BlockUserId" name="BlockUserId" value="@UserId" />
+        <input type="hidden" id="ViewStatus" name="ViewStatus" value="@(BlockQuery.ViewStatus!= null?BlockQuery.ViewStatus:"Day")" />
+        <div class="row form-group">
+            <div class="col-lg-8 col-md-8">
+                <label class="form-label spa-label1">@Language.Where(c=>c.Order_id==1).Select(c=>c.Value).FirstOrDefault()@*Date*@</label>
+            </div>
+            <div class="col-lg-16 col-md-16 p-relative">
+                <input type="text" class="form-control spa-text-box  spa-text-box2 required " id="BlockDatePicker" name="BlockDatePicker" placeholder="@Language.Where(c=>c.Order_id==1).Select(c=>c.Value).FirstOrDefault()" value="@EditDetails.BookingDate">
+            </div>
+        </div>
+        
+        <input type="hidden" id="ReservationId" name="ReservationId" value="@EditDetails.ReservationId" />
+        <div id="QuickBlockTimePicker">
+            @Html.Action("QuickBlock", "Reservation", new { BlockQuery = BlockQuery,EditDetails= EditDetails})
+        </div>
+        <div class="row form-group">
+            <div class="col-lg-8 col-md-8">
+                <label class="form-label spa-label1">@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault() @*Comment*@</label>
+            </div>
+            <div class="col-lg-16 col-md-16">
+                <input type="text" class="form-control spa-text-box  spa-text-box2" id="ShortLeaveComment" name="ShortLeaveComment" placeholder="@Language.Where(c=>c.Order_id==5).Select(c=>c.Value).FirstOrDefault()" value="@EditDetails.ShortLeaveComment">
+            </div>
+        </div>
+        <div class="text-right">
+            <input type="button" value="@Language.Where(c=>c.Order_id==4).Select(c=>c.Value).FirstOrDefault()" onclick="AddQuickBlock()" class="btn btn-green margin-bottom5" id="SaveQuickBlock" />
+        </div>
+    </div>
+</form>
+<script>
+    var date = new Date();
+    date.setDate(date.getDate() - 1);
+    $('#BlockDatePicker').datetimepicker({
+        format: 'YYYY/MM/DD',
+        minDate: date
+    });
+    $("#ShortLeaveComment").keypress(function (event) {
+        var inputValue = event.which;
+        // allow letters and whitespaces only.
+        if (!(inputValue >= 65 && inputValue <= 122) && (inputValue != 32 && inputValue != 0) && !(inputValue >47 && inputValue <58)) {
+            event.preventDefault();
+        }
+    });
+    $('#BlockDatePicker').on("dp.change", function (e) {
+        var minDate = new Date();
+        minDate.setDate(minDate.getDate() - 1);
+        $('#BlockDatePicker').data("DateTimePicker").minDate(minDate);
+        $('#BlockDatePicker').data("DateTimePicker").format('YYYY/MM/DD');
+        $.ajax({
+            url: "/Reservation/QuickBlock?UserId=" +@UserId + "&StartDate=" + e.date.format("YYYY-MM-DD"),
+            type: 'POST',
+            async: true,
+            success: function (Block) {
+                $("#QuickBlockTimePicker").html("").html(Block);
+                
+            },
+        });
+    });
+
+</script>
+@*</body>
+    </html>*@

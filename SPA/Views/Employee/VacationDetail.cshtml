@@ -1,0 +1,62 @@
+﻿@model IEnumerable<SPA.SPA_LeaveMaster>
+@{
+    ViewBag.Title = "VacationDetail";
+    Layout = null;
+    List<Language_Label_Detail> Language = new List<Language_Label_Detail>();
+    Language = ViewBag.Language;
+}
+<div class="table-responsive">
+    <table class="table margin-top15 fixed-popover">
+        <thead>
+            <tr>
+                <th class="col-lg-4 col-md-4 col-sm-5 text-center">@Language.Where(c => c.Order_id == 34).Select(c => c.Value).FirstOrDefault()@*FROM*@</th>
+                <th class="text-center col-lg-4 col-md-4 col-sm-5">@Language.Where(c => c.Order_id == 35).Select(c => c.Value).FirstOrDefault()@*TO*@</th>
+                <th class="text-center col-lg-12 col-md-12 col-sm-8">@Language.Where(c => c.Order_id == 36).Select(c => c.Value).FirstOrDefault()@*VACATION NAME*@</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.dataCount != 0 && ViewBag.dataCount != null)
+            {
+                foreach (var item in Model)
+                {
+                    string start = DateTime.Parse(item.StartDate.ToString()).ToString("dd/MM/yyyy");
+                    string End = DateTime.Parse(item.EndDate.ToString()).ToString("dd/MM/yyyy");
+                    <tr>
+                        <td class="spa-label1 col-lg-4 col-md-4 col-sm-5 text-center">@start@*20.10.15*@</td>
+                        <td class="spa-label1 col-lg-4 col-md-4 col-sm-5 text-center">@End@*20.10.15*@</td>
+                        <td class="spa-label1 col-lg-12 col-md-12 col-sm-8 text-center">@item.HolidayDesc @*Spring Vacation*@</td>
+                        <td class="text-center col-lg-4 col-md-4 col-sm-6"><a onclick="EditLeave(@item.LeaveId)"><i class="fa fa-pencil-square-o spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 58).Select(c => c.Value).FirstOrDefault()"></i></a><a onclick="DeleteLeave(@item.LeaveId,@item.UserId)"><i class="fa fa-trash spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 53).Select(c => c.Value).FirstOrDefault()"></i></a></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr class="text-center">
+                    <td colspan="4" class="no-product">
+                        <span>
+                            <img src="~/images/vacation.png" alt="" class="margin-bottom10" />
+                        </span>
+                        <div>
+                            <p class="text-center title-grey padding-bottom20">@Language.Where(c => c.Order_id == 38).Select(c => c.Value).FirstOrDefault()@*No Vacation*@</p>
+                            <input type="button" id="AddVacationEmployee" class="btn btn-green margin-top20 AddVacation" value="@Language.Where(c => c.Order_id == 37).Select(c => c.Value).FirstOrDefault()" /> @*Add Vacation*@
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(".AddProduct").click(function () {
+        $(".add-vacation-block").slideToggle();
+
+    });
+    $("#AddVacationEmployee").click(function () {
+        $(".add-vacation-block").slideToggle();
+    });
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    });
+</script>

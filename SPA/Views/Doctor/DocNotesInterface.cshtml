@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "DocNotesInterface";
+    var catgDetails = (List<CCTSP_CategoryDetails>)(ViewBag.MedicationList);
+}
+
+<div class="form-content">
+    <div class="row">
+        <form>
+            <div class="col-lg-12">
+                <table id="MedicineInput" align="left">
+                    @foreach (var item in catgDetails)
+                    {
+                        <tr>
+                            <td class="@item.CatgTypeId">@item.CatgDesc</td>
+                            <td><input type="checkbox" id="@item.CatgTypeId"/></td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div class="col-lg-12">
+                <table id="MedicineInput_Display"></table>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $("input").click(function () {
+        var FindTable = $(this).parent().closest('table').prop("id");
+        var DisplayTable = FindTable + "_Display";
+        var Id = $(this).prop("id");
+        if ($(this).prop("checked")) {
+            var Length = $("#" + DisplayTable + " tr").length;
+            var Content = $("." + Id).html();
+            if (Length == 0) {$("#"+DisplayTable).html("<tr><td id='" + Id + "'>" + Content + "</td></tr>")}
+            else {$("#" + DisplayTable + " tr").last().after("<tr><td id='" + Id + "'>" + Content + "</td></tr>");}
+        }
+        else { $("#" + DisplayTable + " #" + Id).remove(); }
+        
+    });
+</script>
+
+
+
+
+

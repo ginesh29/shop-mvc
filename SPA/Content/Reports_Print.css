@@ -1,0 +1,43 @@
+﻿@media print and (color) {
+   * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+   }
+}
+@media print {
+    /*GeneralInvoice css start*/
+    .general_Invoice{margin:0 !important;padding:5px !important;}
+    .Month_RepBold {font-size: 12px !important;}
+    .Month_Repregular {font-size: 12px !important;}
+    .mRop_heading h4 {font-size: 20px !important;}
+    .Month_report {margin: 0 !important;padding: 5px 10px !important;}
+    .year_report{margin: 0 !important;padding: 5px 10px !important;}
+    .reservation_det tbody tr td {padding: 3px 10px !important;}
+    .yeartable_heading {padding:5px 10px !important;font-weight:normal !important;}
+    .Monthtable_heading{padding:5px 10px !important;font-weight:normal !important;}
+    .Report_printBreak{page-break-inside:avoid;}
+    .Details_section h4 {padding:5px 10px !important;}
+    .footer_sign{margin:20px 0 !important;}
+      .Back_button{display:none !important;}
+    .Report_disaplyNone{display:none;}
+     .width_GI70{width:71% !important;} .width_GI20{width:21% !important;}
+    .table_heading{background-color:transparent !important}
+    /*General Invoice Bottom css*/
+    .mRop_heading h4{color:#000 !important}
+    .monthRep_footer,.free_text{border-color:#000 !important}
+    .GI_pageHT {height: 1060px !important;position:relative !important;}
+    .GI_footer{width:97% !important;}
+      @-moz-document url-prefix() {
+         .GI_pageHT {height: 1045px !important;position:relative !important;}
+          @page {
+                size: A4;
+               margin:0mm !important;
+            }
+    }
+ 
+
+}
+    @page {
+          size: A4;
+         margin:6mm 6mm 0mm 6mm;
+     }

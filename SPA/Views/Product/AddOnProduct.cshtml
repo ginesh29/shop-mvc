@@ -1,0 +1,341 @@
+﻿
+@{
+    Layout = null;
+    ViewBag.Title = "AddOnProduct";
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.LanguageInfo;
+    List<SPA.Models.AddonProduct> ProductList = new List<SPA.Models.AddonProduct>();
+    ProductList = Model;
+    string Currency = ViewBag.Currency;
+    List<SPA.Models.InsuranceList> InsuranceList = new List<SPA.Models.InsuranceList>();
+    InsuranceList = ViewBag.InsuranceList;
+    List<SPA.Models.CatgDetails> VatList = new List<SPA.Models.CatgDetails>();
+    VatList = ViewBag.Vat;
+}
+@if (Session["Message"].ToString() == "AlreadyExistProduct")
+{
+    <script>
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()</p>");
+        $('#welcome').modal("show");
+    </script>
+    Session["Message"] = "";
+}
+@if (ViewBag.CheckInvoice == true)
+{
+    <style>
+        .HideInvoice {
+            display: none;
+        }
+    </style>
+}
+else
+{
+    <script>
+        $("#frmAddOnProduct").submit(function () {
+            if ($("#SelectedAddOnPInsurance").val() == "") {
+                $("#AddOnInsuranceDropDown").val("");
+                return false;
+            }
+        });
+    </script>
+}
+<div class="product-catalog border0">
+    <div class="margin-top15">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-11"></div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-13 margin-bottom10 text-right">
+            <a class="title-green16 GroupTextTouch margin0" id="add_addOnproduct"><i class="fa fa-plus-square margin-right5"></i>@*Add Product*@ @Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()</a>
+        </div>
+        <div class="clearfix"></div>
+        <div class="choose-your-product margin-top15 p-relative border-top-grey">
+            <div class="add-vacation-block ProductGroupText res-margin-top" id="addonProdcut_box">
+                <form id="frmAddOnProduct" action="/Product/AddOnProduct" method="post">
+                    <input type="hidden" id="AddOnProductId" name="AddOnProductId" />
+                    <div>
+                        <ul>
+                            <li class="row">
+                                <div class="col-lg-10 col-md-10 col-sm-10 form-group">
+                                    <label class="form-label spa-label1">@*Product Name*@ @Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()</label>
+                                    <input type="text" id="ProductName" name="ProductName" class="form-control required spa-text-box spa-text-box2" placeholder="@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()">@*Product Name*@
+                                </div>
+                                <div class="col-lg-7 col-md-7 col-sm-7 form-group">
+                                    <label class="form-label  spa-label1">@*Buying Price*@ @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()</label>
+                                    <input type="text" id="Buying_Price" name="Buying_Price" maxlength="7" max="9999.99" class="form-control required number spa-text-box spa-text-box2" placeholder="@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()">@*Buying Price*@
+                                </div>
+                                <div class="col-lg-7 col-md-7 col-sm-7 form-group">
+                                    <label class="form-label  spa-label1">@*Selling Price*@ @Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()</label>
+                                    <input type="text" id="Selling_Price" name="Selling_Price" maxlength="7" max="9999.99" class="form-control required number spa-text-box spa-text-box2" placeholder="@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()">@*Selling Price*@
+                                </div>
+                            </li>
+                            @*<li class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8 form-group">
+                                    <label class="form-label  spa-label1">@*Quantity*@ @*@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()</label>
+                                        <input type="text" id="Quantity" name="Quantity" maxlength="5" class="form-control required number spa-text-box spa-text-box2" placeholder="@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()">
+                                    </div>
+                                </li>*@
+                                    <li class="row">
+                                        <div class="col-lg-10 col-md-10 col-sm-10 form-group">
+                                            <label class="form-label  spa-label1"> @*Manufacturer*@ @Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()</label>
+                                            <input type="text" id="Manufacturer" name="Manufacturer" class="form-control required  spa-text-box spa-text-box2" placeholder="@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()">@*Manufacturer*@
+                                        </div>
+                                        <div class="col-lg-7 col-md-7 col-sm-7 form-group">
+                                            <label class="form-label  spa-label1">@*dosage*@ @Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()</label>
+                                            <input type="text" id="Dozes" name="Dozes" class="form-control required  spa-text-box spa-text-box2" placeholder="@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()">@*dosage*@
+                                        </div>
+                                        <div class="col-lg-7 col-md-7 col-sm-7 form-group">
+                                            <label class="form-label  spa-label1">@*VAT*@ @Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()</label>
+                                            <div class="dropdown spa-dropdown">
+                                                <a class="dropdown-toggle spa-text-box form-control spa-dropdown-box VatTextDisplay dropmenuEllips spa-text-box2" data-toggle="dropdown" style="line-height:15px;">
+                                                    @if (VatList.Count > 0)
+                                                    {
+                                                        @VatList.Select(c => c.CatgDesc).FirstOrDefault()
+                                                    }
+                                                    <span class="caret"></span>
+                                                </a>
+                                                <ul class="dropdown-menu VatText">
+                                                    @if (VatList.Count > 0)
+                                                    {
+                                                        foreach (var item in VatList)
+                                                        {
+                                                            <li><a class="dropmenuEllips" id="@item.CatgDesc">@item.CatgDesc</a></li>
+                                                        }
+                                                        <input type="hidden" value="@VatList.Select(c=>c.CatgDesc).FirstOrDefault()" name="SelectedVat" id="AddSelectedVat" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="hidden" value="" name="SelectedVat" id="AddSelectedVat" />
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="row HideInvoice">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                            @if (InsuranceList.Count > 0)
+                                            {
+                                                <label class="form-label spa-label1">@*Settlement Text*@ @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</label>
+                                                <div class="dropdown spa-dropdown">
+                                                    <input class="dropdown-toggle spa-text-box form-control spa-dropdown-box dropmenuEllips spa-text-box2 AddOnPInsuranceDisplay @(ViewBag.CheckInvoice==true?"":"required")" placeholder="@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()" data-toggle="dropdown" style="line-height:15px;" type="text" id="AddOnInsuranceDropDown" value="@InsuranceList.Select(c => c.Insurance).FirstOrDefault()"  autocomplete="off"/>
+                                                    <ul class="dropdown-menu AddOnPinsuranceUl">
+                                                        @if (InsuranceList.Count > 0)
+                                                        {
+                                                            foreach (var item in InsuranceList)
+                                                            {
+                                                                <li>
+                                                                    <a class="dropmenuEllips Product_insuranceDrop" id="@item.InsuranceId" DSKey="@item.DefaultStatus">
+                                                                        <p>@item.Tarif_Number</p>  <span>@item.Settlement_Number</span>  @item.Insurance
+                                                                    </a>
+                                                                </li>
+                                                            }
+                                                        }
+                                                        @if (InsuranceList.Count > 0)
+                                                        {
+                                                            <input type="hidden" value="@InsuranceList.Select(c=>c.InsuranceId).FirstOrDefault()" name="SelectedAddOnPInsurance" id="SelectedAddOnPInsurance" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="hidden" value="" name="SelectedAddOnPInsurance" id="SelectedAddOnPInsurance" />
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            }
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 form-group display-none" id="AddOn_CustomSettlementText">
+                                            <label class="form-label spa-label1">@*Custom text*@ @Language.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault()</label>
+                                            <input type="text" class="form-control spa-text-box spa-text-box2 @(ViewBag.CheckInvoice==true?"":"required")" id="AddOn_C_Settlement_Text" name="AddOn_C_Settlement_Text" placeholder="@Language.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault()">
+                                        </div>
+                                    </li>
+
+                                    <li class="row">
+                                        <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24 form-group">
+                                            <label class="form-label spa-label1">@*Product Description*@ @Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()</label>
+                                            <textarea type="text" id="ProductDesc" name="ProductDesc" class="form-control spa-text-box text-box spa-text-box2" placeholder="@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()"></textarea>@*Product Description*@
+                                        </div>
+                                    </li>
+                                    <li class="row">
+                                        <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24 form-group text-right">
+                                            <input type="submit" class="btn btn-green btn-small width100" value="@Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()">@*Save*@
+                                            <input type="button" class="btn btn-black btn-small width100" value="@Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()" id="CancelAddOnProduct">@*Cancel*@
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="product-catalog-box add-vacation-table product-catalog-table min-width-table padding0 table-responsive">
+                        <div class="Responsive_productscroll">
+                            <table class="table table-striped margin-top15 grouping-detail-table">
+                                <thead>
+                                    <tr>
+                                        <th>@*No*@ @Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()</th>
+                                        <th>@*Product Name*@ @Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()</th>
+                                        <th>@*Buying Price*@ @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()</th>
+                                        <th>@*Selling Price*@ @Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()</th>
+                                        @*<th> Qty  Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()</th>*@
+                                        <th>@*Product Description*@ @Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()</th>
+                                        <th>@*Manufacturer*@ @Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()</th>
+                                        <th>@*Dosage*@ @Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()</th>
+                                        @if (InsuranceList.Count > 0)
+                                        {
+                                            <th class="HideInvoice">@*Insurance Text*@ @Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault()</th>
+                                        }
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (ProductList.Count > 0)
+                                    {
+                                        foreach (var Item in ProductList)
+                                        {
+                                            var Index = @ProductList.IndexOf(Item) + 1;
+                                            <tr>
+                                                <td class="width5per">
+                                                    <ul class="up-down-block pull-left">
+                                                        @*<li><a class="sprite_u_d up-img RemoveActivate"></a></li>*@
+                                                        <li><a href="#">@Index</a></li>
+                                                        @*<li><a class="sprite_u_d down-img RemoveActivate"></a></li>*@
+                                                    </ul>
+                                                </td>
+                                                <td class="spa-label1 width15per">
+                                                    @Item.ProductName
+                                                </td>
+                                                <td class="spa-label1 width10per">
+                                                    @Currency @Item.Buying_Price
+                                                </td>
+                                                <td class="spa-label1 width10per">
+                                                    @Currency @Item.Selling_Price
+                                                </td>
+                                                @*<td class="spa-label1 width5per">
+                                                        @Item.Quantity
+                                                    </td>*@
+                                                <td class="spa-label1 width10per">
+                                                    <a href="#" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Item.ProductDesc" data-original-title="" title="">
+                                                        <i class="fa fa-info-circle spa-icon1"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="spa-label1 width10per">
+                                                    @Item.Manufacturer
+                                                </td>
+                                                <td class="spa-label1 width10per">
+                                                    @Item.Dozes
+                                                </td>
+                                                @if (InsuranceList.Count > 0)
+                                                {
+                                                    <td class="spa-label1 width15per HideInvoice">
+                                                        @Item.insurance
+                                                    </td>
+                                                }
+                                                <td class="text-center width10per">
+                                                    <a onclick="EditAddOnProduct(@Item.AddOnProductId);"><i class="fa fa-pencil-square-o spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault()" data-original-title="" title=""></i></a>@*Edit*@
+                                                    <a onclick="DeleteAddOnProduct(@Item.AddOnProductId);"><i class="fa fa-trash spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 17).Select(c => c.Value).FirstOrDefault()" data-original-title="" title=""></i></a>@*Delete*@
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td class="spa-label1 Nodata text-center margin-top10" colspan="9">
+                                                <img src="~/images/basket.png" />
+                                                <div>@*No Data Found*@ @Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault()</div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $("#add_addOnproduct,#CancelAddOnProduct").click(function () {
+                $("#AddOnProductId").val("");
+                $("#frmAddOnProduct")[0].reset();
+                $("#frmAddOnProduct").validate().resetForm();
+                $("#addonProdcut_box").slideToggle();
+                //var DefaultInsurance = $(".AddOnPinsuranceUl li a").html();
+                //$(".AddOnPInsuranceDisplay").html(DefaultInsurance + '<span class="caret"></span>');
+                $("#SelectedAddOnPInsurance").val("")
+                $("#AddOnInsuranceDropDown").val("");
+                $("#AddOn_CustomSettlementText").addClass("display-none");
+                $("#AddOn_C_Settlement_Text").val("")
+                $(".VatTextDisplay").html($(".VatText li a:first").text() + '<span class="caret"></span>');
+                $("#AddSelectedVat").val($(".VatText li a:first").attr("id"));
+            });
+            $("#frmAddOnProduct").validate();
+            $(function () {
+                $('[data-toggle="popover"]').popover()
+            });
+            function DeleteAddOnProduct(AddOnProductId) {
+                $(".loader").show();
+                $.post("/Product/GetDataOfLanguage?Text='Do You want to delete Product?'&id=6", function (data) {
+                    $(".loader").hide();
+                    var confirmDelete = confirm(data);
+                    if (confirmDelete) {
+                        $(".loader").show();
+                        $.post("/Product/DeleteAddOnProduct?AddOnProductId=" + AddOnProductId, function () {
+                            //window.location.href = "/Product/Product#AddOnProduct";
+                            RedirectToTab("AddOnProduct");
+                            $(".loader").hide();
+                        });
+                    }
+                });
+            }
+            $('.AddOnPinsuranceUl li a,.VatText li a').click(function () {
+                var selText = $.trim($(this).text());
+                var id = $(this).prop("id");
+                if ($(this).parents(".VatText").length > 0) {
+                    selText = $(this).html();
+                    $("#AddSelectedVat").val(id);
+                    $(".VatTextDisplay").html(selText + '<span class="caret"></span>');
+                }
+                else {
+                    var Key = $(this).attr("DSKey");
+                    ShowHideCustomSettlementTextBox(Key, "AddOn_CustomSettlementText", "", "AddOn_C_Settlement_Text");
+                    $("#SelectedAddOnPInsurance").val(id);
+                    $("#AddOnInsuranceDropDown").val($.trim(selText));
+                }
+
+            });
+            function EditAddOnProduct(AddOnProductId) {
+                window.scrollTo(0, 0);
+                $(".loader").show();
+                $(".add-vacation-block").slideDown();
+                $.ajax({
+                    url: "/Product/EditAddOnProductDetail?AddOnProductId=" + AddOnProductId,
+                    cache: false,
+                    dataType: "json",
+                    success: function (Product) {
+                        $("#AddOnProductId").val(Product.AddOnProductId);
+                        $("#ProductName").val(Product.ProductName);
+                        $("#Buying_Price").val(Product.Buying_Price);
+                        $("#Selling_Price").val(Product.Selling_Price);
+                        $("#Quantity").val(Product.Quantity);
+                        $("#ProductDesc").val(Product.ProductDesc);
+                        $("#Manufacturer").val(Product.Manufacturer);
+                        $("#Dozes").val(Product.Dozes);
+                        ShowHideCustomSettlementTextBox(Product.DefaultStatus, "AddOn_CustomSettlementText", Product.AddOn_C_Settlement_Text, "AddOn_C_Settlement_Text");
+                        if (Product.SelectedAddOnPInsurance > 0) {
+                            $("#AddOnInsuranceDropDown").val(Product.Tarif_Number + "  " + Product.Settlement_Number + "  " + Product.insurance);
+                            $("#SelectedAddOnPInsurance").val($.trim(Product.SelectedAddOnPInsurance));
+                        }
+                        else {
+                            $("#SelectedAddOnPInsurance").val("");
+                            $("#AddOnInsuranceDropDown").val("");
+                        }
+
+                        if (Product.SelectedVat == "0") {
+                            Product.SelectedVat = "0.0";
+                        }
+                        if (Product.SelectedVat != "" && Product.SelectedVat != null) {
+                            $("#AddSelectedVat").val(Product.SelectedVat);
+                            $(".VatTextDisplay").html(Product.SelectedVat + '<span class="caret"></span>');
+                        }
+                        $(".loader").hide();
+                    },
+                    error: function (request, status, error) { alert(status + ", " + error); }
+                });
+            }
+            SearchInSelectedList("#AddOnInsuranceDropDown");
+        </script>

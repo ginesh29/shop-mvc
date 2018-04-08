@@ -1,0 +1,31 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form id="DynamicSectionForm" action="/Doctor/AddDynamicNoteSection" method="post">
+    <div class="col-lg-16 col-lg-offset-4 col-md-16 col-md-offset-4 col-sm-16 col-sm-offset-4 margin-top30">
+        <div class="row form-group">
+            <div class="col-lg-8 col-md-8 col-sm-8  text-right">
+                <label class="font20">CategoryName</label>
+            </div>
+            <div class="col-lg-16 col-md-16 col-sm-16">
+                <input type="text" name="CategoryName" id="CategoryName" class="form-control spa-text-box required  spa-text-box2" placeholder="Category Name">
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-lg-8 col-md-8 col-sm-8  text-right">
+                <label class="font20">Key Name</label>
+            </div>
+            <div class="col-lg-16 col-md-16 col-sm-16">
+                <input type="text" name="KeyName" id="KeyName" class="form-control spa-text-box required  spa-text-box2" maxlength="19" placeholder="Key Name">
+            </div>
+        </div>
+        <div class="form-group margin-top20 text-right">
+            <input type="submit" class="btn btn-green" value="Save" />
+        </div>
+    </div>  
+</form>
+<script>
+    $("#DynamicSectionForm").validate();
+</script>

@@ -1,0 +1,618 @@
+﻿
+@{
+    Layout = null;
+    int? isView = ViewBag.isView;
+    List<SPA.Models.GeneralInvoice> genInvoice = Model;
+    List<SPA.Models.LanguageLabelDetails> LanguageList = new List<SPA.Models.LanguageLabelDetails>();
+    LanguageList = ViewBag.LanguageInfo;
+    var Language = LanguageList.Where(c => c.Page_Name == "Invoice_Page").ToList();
+    var GLanguage = LanguageList.Where(c => c.Page_Name == "General_Invoice").ToList();
+    ViewBag.Title = GLanguage.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault();
+    List<SPA.Models.AddOnProductList> AddOnProductList = new List<SPA.Models.AddOnProductList>();
+    AddOnProductList = ViewBag.AddOnProductList;
+    List<SPA.Models.InvoiceServicesList> ServicesList = new List<SPA.Models.InvoiceServicesList>();
+    ServicesList = ViewBag.ServicesList;
+    SPA.Models.ShopMasterDetail ShopInfo = new SPA.Models.ShopMasterDetail();
+    ShopInfo = ViewBag.ShopInfo;
+    var LngLocal = ViewBag.LngLocal;
+    DateTime InvoiceDate = genInvoice.Select(c => c.InvoiceDate).FirstOrDefault() != null ? genInvoice.Select(c => c.InvoiceDate).FirstOrDefault().Value : DateTime.Now;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    <style>
+        .Background_Invoice {
+            background-color: #f2f3f5;
+        }
+
+        .general_Invoice {
+            margin: 2% 10%;
+            background-color: #fff;
+            padding: 10px 20px;
+        }
+
+        .mRop_heading h4 {
+            font-size: 24px;
+            font-family: 'Arial';
+            color: #84b002 !important;
+            font-weight: bold;
+        }
+
+        .address_box {
+            border: 1px solid #ddd;
+            padding: 10px 20px;
+        }
+
+        .Month_RepBold {
+            color: #2a2a2a;
+            font-size: 14px;
+            font-family: 'Arial';
+            font-weight: bold;
+        }
+
+        .width200 {
+            width: 200px;
+        }
+
+        .details_invoice h4 {
+            padding: 10px 20px;
+            background-color: #f3f3f3 !important;
+            color: #292929;
+            font-family: 'Arial';
+            font-size: 20px;
+        }
+
+        .Generalinvoice_table h4 {
+            color: #292929;
+            font-family: 'Arial';
+            font-size: 20px;
+        }
+
+        .details_invoice {
+            display: inline-block;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+            .details_invoice table tbody tr td {
+                padding: 2px 15px;
+            }
+
+        .Month_Repregular {
+            color: #000;
+            font-size: 14px;
+            font-family: 'Arial';
+        }
+
+        .Rep_logo {
+            height: 110px;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto;
+        }
+
+            .Rep_logo img {
+                margin: auto;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                max-height: 100%;
+                max-width: 100%;
+                position: absolute;
+            }
+
+        .table_heading {
+            padding: 10px;
+            background-color: #f3f3f3 !important;
+        }
+
+        .Generalinvoice_table table thead tr th, .Generalinvoice_table table tbody tr td {
+            padding: 3px 10px;
+        }
+
+        .Generalinvoice_table table thead tr th {
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .free_text {
+            margin-top: 20px;
+        }
+
+            .free_text textarea {
+                padding: 10px;
+                border-radius: 5px;
+            }
+
+        .foooter_border {
+            border-bottom: 0 !important;
+            border-top: 2px solid #2a2a2a;
+        }
+
+        .width100 {
+            width: 100px;
+        }
+
+        .Generalinvoice_table .spa-text-box {
+            height: 25px;
+            padding: 0 5px;
+            width: 50px;
+        }
+
+        .Back_button {
+            text-align: right;
+        }
+
+        .back {
+            color: #84b002;
+            word-break: break-word;
+            font-size: 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+    @if (ViewBag.ServiceTabAccess == false)
+    {
+        <style>
+            .HideaddServiceBtn {
+                display: none;
+            }
+        </style>
+    }
+    @if (ViewBag.ReservationTabAccess == false)
+    {
+        <style>
+            .HideaddReservationBtn {
+                display: none;
+            }
+        </style>
+    }
+</head>
+<body class="Background_Invoice">
+    @Html.Partial("_LoderPage", ShopInfo.SchlStudentStrength != null ? ShopInfo.SchlStudentStrength : 0)
+    <div class="Back_button" style="margin: 2% 10%;">
+        @*Back*@
+        <a id="BACKBTN" class="back"><i class="fa fa-reply-all" style="margin-right:5px;font-size: 18px;"></i>@GLanguage.Where(c => c.Order_id == 25).Select(c => c.Value).FirstOrDefault()</a>
+    </div>
+    <div class="general_Invoice">
+        <div class="mRop_heading">
+            @*General Invoice*@
+            <h4>@GLanguage.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()</h4>
+        </div>
+        <form id="frmAddManualInvoice" name="frmAddManualInvoice" action="/Invoice/AddManualInvoice" method="post">
+            @*Start:All Hidden Fields*@
+            <input type="hidden" id="InvoiceId" name="InvoiceId" value="@genInvoice.Select(c=>c.InvoiceId).FirstOrDefault()" />
+            <input type="hidden" id="PatientId" name="PatientId" value="@genInvoice.Select(c=>c.PatientId).FirstOrDefault()" />
+            <input type="hidden" id="EmpId" name="EmpId" value="@genInvoice.Select(c=>c.EmpId).FirstOrDefault()" />
+            <input type="hidden" id="UrlStatus" name="UrlStatus" value="@genInvoice.Select(c=>c.URL).FirstOrDefault()" />
+            <input type="hidden" name="InvoiceStatus" id="InvoiceStatus" value="GI" />
+            <input type="hidden" id="Invoice_Service" name="Invoice_Service" value="@genInvoice.Select(c=>c.Invoice_Service).FirstOrDefault()" />
+            @*END:All Hidden Fields*@
+            <div style="display: inline-block;width: 100%;margin: 20px 0;">
+                <div style="width: 78.5%;float: left;margin-right: 10px;min-height: 132px;" class="address_box">
+                    <table class="address_table" style="width:100%;">
+                        <thead>
+                            <tr>
+                                @*Adress Field*@
+                                @*<th style="padding-bottom: 10px;" class="Month_RepBold">@GLanguage.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()</th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="Month_Repregular width200">@genInvoice.Select(c => c.ShopName).FirstOrDefault()</td>
+                            </tr>
+                            <tr>
+                                <td class="Month_Repregular width200">@genInvoice.Select(c => c.street).FirstOrDefault()  @genInvoice.Select(c => c.StreetNumber).FirstOrDefault()</td>
+                            </tr>
+                            <tr>
+                                <td class="Month_Repregular width200">@genInvoice.Select(c => c.ShopZipcode).FirstOrDefault()  @genInvoice.Select(c => c.ShopCity).FirstOrDefault()</td>
+                            </tr>
+                            <tr>
+                                <td class="Month_Repregular width200">@genInvoice.Select(c => c.Original_Website).FirstOrDefault()</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="width:20%;float:left;" class="address_box">
+                    <div class="Rep_logo">
+                        <img src="@genInvoice.Select(c=>c.ShopImage).FirstOrDefault()">
+                    </div>
+                </div>
+            </div>
+            <div class="details_invoice">
+                <table style="width:100%;">
+                    <tbody>
+                        <tr>
+                            @*Person*@
+                            <td class="Month_RepBold width200">@GLanguage.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</td>
+                            <td class="Month_Repregular">@genInvoice.Select(c => c.Cust_FirstName).FirstOrDefault() @genInvoice.Select(c => c.Cust_LastName).FirstOrDefault()</td>
+                            @*Title*@
+                            <td class="Month_Repregular" style="width:30%;">@genInvoice.Select(c => c.Cust_Title).FirstOrDefault()</td>
+                        </tr>
+                        <tr>
+                            @*Birth date*@
+                            <td class="Month_RepBold width200">@GLanguage.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()</td>
+                            <td class="Month_Repregular">@(genInvoice.Select(c => c.DOB).FirstOrDefault() != null ? (genInvoice.Select(c => c.DOB).FirstOrDefault() != new DateTime(0001, 01, 01) ? string.Format("{0:dd.MM.yyyy}", genInvoice.Select(c => c.DOB).FirstOrDefault()) : "") : "")</td>
+                            @*First name, Last Name*@
+                            <td class="Month_Repregular" style="width:30%;">@genInvoice.Select(c => c.Cust_FirstName).FirstOrDefault() , @genInvoice.Select(c => c.Cust_LastName).FirstOrDefault()</td>
+                        </tr>
+                        <tr>
+                            @*Therapeut*@
+                            <td class="Month_RepBold width200">@GLanguage.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()</td>
+                            <td class="Month_Repregular">@genInvoice.Select(c => c.EmpFName).FirstOrDefault() @genInvoice.Select(c => c.EmpLName).FirstOrDefault()</td>
+                            @*Street Street Number*@
+                            <td class="Month_Repregular" style="width:30%;">@genInvoice.Select(c => c.Cust_Street).FirstOrDefault() @genInvoice.Select(c => c.Cust_StreetNumber).FirstOrDefault()</td>
+                        </tr>
+                        <tr>
+                            @*Invoice number*@
+                            <td class="Month_RepBold width200">@GLanguage.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()</td>
+                            <td class="Month_Repregular">@genInvoice.Select(c => c.InvoiceId).FirstOrDefault()</td>
+                            @*pin code & City Number*@
+                            <td class="Month_Repregular" style="width:30%;">@genInvoice.Select(c => c.Cust_Pincode).FirstOrDefault() @genInvoice.Select(c => c.Cust_City).FirstOrDefault()</td>
+                        </tr>
+                        <tr>
+                            @*<td class="Month_RepBold width200">Due Date</td>
+                                <td class="Month_Repregular"></td>*@
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="Generalinvoice_table" style="margin-top:20px;">
+                <div style="display: inline-block;width: 100%" class="table_heading">
+                    <div style="width: 60%;float: left;">
+                        @*Invoice*@
+                        <h4 style="font-size:20px;">@GLanguage.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()</h4>
+                    </div>
+                    <div style="width: 40%;float: left;">
+                        <p class="Month_Repregular">@genInvoice.Select(c => c.Cust_City).FirstOrDefault()<span style="margin-left:5px;">@(genInvoice.Select(c => c.InvoiceDate).FirstOrDefault() != null ? genInvoice.Select(c => c.InvoiceDate).FirstOrDefault().Value.ToString("dd.MM.yyyy") : "")</span></p>
+                    </div>
+                </div>
+                <table style="width:100%;" id="tblCalProductDuration">
+                    <thead>
+                        <tr>
+                            <th class="Report_disaplyNone"></th>
+                            @*Date*@
+                            <th class="Month_RepBold" style="text-align:left;">@GLanguage.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault() </th>
+                            @*Treatment / Service*@
+                            <th class="Month_RepBold" style="text-align:left;">@GLanguage.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()</th>
+                            @*Duration*@
+                            <th class="Month_RepBold" style="text-align:center;">@GLanguage.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()</th>
+                            @*Qty*@
+                            <th class="Month_RepBold" style="text-align:center;">@GLanguage.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()</th>
+                            @*Price*@
+                            <th class="Month_RepBold" style="text-align:center;">@GLanguage.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()</th>
+                            @*VAT*@
+                            <th class="Month_RepBold" style="text-align:center;">@GLanguage.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()</th>
+                            @*Amount*@
+                            <th class="Month_RepBold" style="text-align:right;">@GLanguage.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()</th>
+                        </tr>
+                    </thead>
+                    <tbody id="CalProductDuration">
+                        @foreach (var id in genInvoice.Where(c => c.Invoice_Detail_Id != null).Select(c => c.Invoice_Detail_Id).Distinct().ToList())
+                        {
+                            var item = genInvoice.Where(c => c.Invoice_Detail_Id == id).FirstOrDefault();
+                            <tr>
+                                <input type="hidden" id="PReservationid" name="PReservationid" value="@(item.ReservationId!= null?item.ReservationId:0)" />
+                                <input type="hidden" id="AddOnProductId" name="AddOnProductId" value="@item.Add_On_Pid" />
+                                <input type="hidden" id="AddOnQuantity" name="AddOnQuantity" value="@item.Quantity" />
+                                <input type="hidden" id="AddOnDate" name="AddOnDate" value="@item.BookingDate" />
+                                <input type="hidden" id="RealAmount" name="RealAmount" value="@item.TotalPricewithvat" />
+                                @if (item.ReservationId == 0 || item.ReservationId == null)
+                                {
+                                    <input type="hidden" id="PDuaration" name="PDuaration" value="0" />
+                                }
+                                <td class="Report_disaplyNone" style="width:6%;text-align:left;">
+                                    <a class="font16 colorBlack"><i class="fa fa-minus-square" aria-hidden="true"></i></a>
+                                    <a class="font16 colorGreen HideaddReservationBtn"><i class="fa fa-plus-square AddIReservation" aria-hidden="true"></i></a>
+                                </td>
+                                <td class="Month_Repregular" style="text-align:left;">@(item.BookingDate != null ? item.BookingDate.Value.ToString("dd.MM.yyyy") : "")</td>
+                                <td class="Month_Repregular" style="text-align:left;">@item.ProductName</td>
+                                <td class="Month_Repregular" style="text-align:center;">
+                                    <input type="text" name="PDuaration" id="PDuaration" maxlength="4" @(item.ReservationId == null ? "disabled" : "" ) class="spa-text-box ProductDuration required digits Report_disaplyNone" Rate="@item.Rate" value="@item.Duration" vat="@item.VAT" />
+                                    @*<span class="Dur_text">@item.Duration min</span>*@
+                                </td>
+                                <td class="Month_Repregular" style="text-align:center;">@item.Quantity</td>
+                                <td class="Month_Repregular" style="text-align:center;">@String.Format("{0:0.00}", item.Rate)</td>
+                                <td class="Month_Repregular" style="text-align:center;">@String.Format("{0:0.00}", item.VAT) @*@item.VAT.Value.ToString("0.00")*@</td>
+                                <td class="Month_Repregular" style="text-align:right;">@String.Format("{0:0.00}", item.TotalPricewithvat) @*@item.TotalPricewithvat.Value.ToString("0.00")*@</td>
+                            </tr>
+                        }
+                        <tr class="TrTotal @(genInvoice.Where(c => c.Invoice_Detail_Id != null).Select(c => c.Invoice_Detail_Id).Distinct().Count()==0?" display-none":"")" id="TrTotal">
+                            @*Total*@
+                            <td class="Report_disaplyNone foooter_border" style="width:5%;"></td>
+                            <td class="Month_RepBold foooter_border" colspan="6">@GLanguage.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault()</td>
+                            <td id="TotalAmount" class="Month_RepBold foooter_border" style="text-align:right;">@String.Format("{0:0.00}", genInvoice.Select(c => c.TotalPricewithvat).Sum()) @*@genInvoice.Select(c => c.TotalPricewithvat).Sum().Value.ToString("0.00")*@</td>
+                        </tr>
+                        <tr id="NoDataIProduct" class="Report_disaplyNone @(genInvoice.Where(c => c.Invoice_Detail_Id != null).Select(c => c.Invoice_Detail_Id).Distinct().Count()>0?" display-none":"")">
+                            <td class="font16 Nodata text-center" colspan="8">
+                                @if (ViewBag.ReservationTabAccess == false)
+                                {
+                                    <img src="~/images/basket.png" />
+                                }
+                                else
+                                {
+                                    <img src="~/images/add.png" id="NoDataImg" class="cursorPoint" />
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="free_text Report_printBreak">
+                @*Free text field*@
+                <textarea style="width:100%;" rows="3" id="txtAreaGInvoice" name="txtAreaGInvoice" maxlength="400" placeholder="@GLanguage.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault()" class="Month_Repregular">@genInvoice.Select(c => c.txtAreaGInvoice).FirstOrDefault()</textarea>
+            </div>
+        </form>
+
+        @if (AddOnProductList.Count > 0)
+            {
+            <div class="Add_product Report_disaplyNone">
+                <div class="col-lg-24 col-md-24 col-sm-24 margin-bottom20">
+                    @*want to add a product manually?*@
+                    <a class="title-green16 GroupTextTouch margin0" id="Add_productBOX">
+                        <i class="fa fa-plus-square margin-right5"></i>
+                        @GLanguage.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault()
+                    </a>
+                </div>
+                <div class="clearfix"></div>
+                <div class="product-catalog-table display-none" id="Add_product">
+                    @Html.Action("InvoiceAddOnProduct", "Invoice", new { AddOnProductList = AddOnProductList, Currency = genInvoice.Select(c => c.Currency).FirstOrDefault(), Language = Language, IStatus = "GI", InvoiceDate = InvoiceDate })
+                </div>
+            </div>
+        }
+        @if (ServicesList.Count > 0)
+            {
+            <div class="Add_Services Report_disaplyNone HideaddServiceBtn">
+                <div class="col-lg-24 col-md-24 col-sm-24 margin-bottom20">
+                    @*want to add a Services manually?*@
+                    <a class="title-green16 GroupTextTouch margin0" id="Add_ServiceBOX">
+                        <i class="fa fa-plus-square margin-right5"></i>
+                        @GLanguage.Where(c => c.Order_id == 17).Select(c => c.Value).FirstOrDefault()
+                    </a>
+                </div>
+                <div class="clearfix"></div>
+                <div class="product-catalog-table display-none" id="Addservices">
+                    @Html.Action("InvoiceServicesList", "Invoice", new { ServicesList = ServicesList, Currency = genInvoice.Select(c => c.Currency).FirstOrDefault(), Language = Language, CustomerId = genInvoice.Select(c => c.PatientId).FirstOrDefault(), IStatus = "GI", InvoiceDate = InvoiceDate })
+                </div>
+            </div>
+        }
+        <div class="form-group text-right margin-top20 Report_disaplyNone">
+            @*Submit*@
+            <input type="submit" id="AddInvoice" class="btn btn-green margin-right5 margin-bottom10" value="@GLanguage.Where(c => c.Order_id == 23).Select(c => c.Value).FirstOrDefault()">
+            @*Save & Pay*@
+            <input type="submit" id="PayAndCloseInvoice" class="btn btn-green margin-right5 margin-bottom10" value="@GLanguage.Where(c => c.Order_id == 29).Select(c => c.Value).FirstOrDefault()">
+            @*Save & Print*@
+            <input type="submit" class="btn btn-green margin-right5 margin-bottom10 @(genInvoice.Select(c=>c.Invoice_Service).FirstOrDefault() !="1"?"":"display-none")" id="SaveAndPrint" value="@GLanguage.Where(c => c.Order_id == 30).Select(c => c.Value).FirstOrDefault()">
+            @*Cancel*@
+            <input type="reset" id="CancelManualInvoice" class="btn btn-black margin-bottom10" value="@GLanguage.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault()">
+        </div>
+    </div>
+    <!-- Welcome modal start-->
+    <div class="welcome-modal">
+        <div id="welcome" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body margin-bottom30" id="WelcomeAlert">
+                        <h1 class="text-center margin-bottom30">WELCOME BY <span>CLICK-AND-GO!</span></h1>
+                        <p class="title15 text-center margin-bottom30">Thanks for using our product!</p>
+                        <p class="title-italic text-center">We wish you lots of success today!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Welcome modal End-->
+    @*Reservation popup*@
+    <div class="modal fade invoice_reservationPopup" id="Reservation_popup">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        @*Reservation*@ @Language.Where(c => c.Order_id == 77).Select(c => c.Value).FirstOrDefault()
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h5>
+                </div>
+                <div class="modal-body" id="AddReservationPopup">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade PaymentRec_payment" id="CloseandPay">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        @*Payment Received*@ @Language.Where(c => c.Order_id == 105).Select(c => c.Value).FirstOrDefault()
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h5>
+                </div>
+                <div class="modal-body" id="ShowPartialPaymentPopup">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/Invoice.js"></script>
+    <script>
+        $("#Add_productBOX,#Add_ServiceBOX").click(function () {
+            if ($(this).closest("#Add_productBOX").length > 0)
+                $("#Add_product").slideToggle();
+            else
+                $("#Addservices").slideToggle();
+        });
+
+        TotalSum();
+        function TotalSum() {
+            var Sum = 0;
+            var AmountList = $("#CalProductDuration #RealAmount").map(function () {
+                Sum = Sum + parseFloat(this.value);
+                return Sum.toFixed(2);
+            }).get();
+            $("#TotalAmount").html(Sum.toFixed(2));
+        }
+        $("body").delegate("#CalProductDuration .ProductDuration", "keypress", function (event) {           
+            var inputValue = event.which;
+            if (!(inputValue != 46)) {
+                event.preventDefault();
+            }
+        });
+        $("body").delegate("#CalProductDuration .ProductDuration", "keyup", function () {
+            var Duration = $(this).val();
+            var CloseTr = $(this).closest("tr");
+            var Rate = $(this).attr("Rate");
+            var Quantity = Duration / 5;
+            CloseTr.find("td:eq(4)").html(Quantity.toFixed(2));
+            var Total = Rate * Quantity;
+            var VatAmount = $(this).attr("vat") * Total / 100;
+            CloseTr.find("td:last").html((Total + VatAmount).toFixed(2));
+            $(this).parents("tr").find("#RealAmount").val((Total + VatAmount).toFixed(2));
+            TotalSum();
+            //var FinalTotal = 0;
+            //$("#CalProductDuration tr").map(function () { debugger; FinalTotal = FinalTotal + parseFloat($.trim($(this).find("td:last").html())) });
+            //$("#TotalAmount,#TotalVatAmount").val("" + FinalTotal + "");
+        });
+
+        $("body").delegate("#CalProductDuration .fa-minus-square", "click", function () {
+            $(this).closest("tr").remove();
+            if ($("#CalProductDuration tr").not("#NoDataIProduct,#TrTotal").length == 0) {
+                $("#NoDataIProduct").removeClass("display-none");
+                $("#TrTotal").addClass("display-none");
+            }
+            else {
+                $("#NoDataIProduct").addClass("display-none");
+                $("#TrTotal").removeClass("display-none");
+            }
+            TotalSum();
+        });
+
+        $("body").delegate("#tblCalProductDuration .AddIReservation,#NoDataIProduct img", "click", function () {
+            var EmpId = $("#EmpId").val();
+            var CustomerId = $("#PatientId").val();
+            var InvoiceId = $("#InvoiceId").val();
+            var ReservationList = $("#CalProductDuration tr #PReservationid ").map(function () { return this.value; }).get();
+            $.ajax({
+                url: "/Invoice/InvoiceReservationList?ReservationList=" + ReservationList + "&CustomerId=" + CustomerId + "&EmpId=" + EmpId + "&InvoiceId=" + InvoiceId + "&LangId=@ShopInfo.Lang_id" + "&Istatus=GI&InvoiceDate=@string.Format("{0:yyyy-MM-dd HH:mm:ss}",InvoiceDate)",
+                beforeSend: function () {
+                    $(".loader").show();
+                },
+                type: 'POST',
+                async: true,
+                success: function (data) {
+                    if (data != null) {
+                        $("#AddReservationPopup").html(data);
+                        $('#Reservation_popup').modal('show');
+                    }
+                    $(".loader").hide();
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+            return false;
+        });
+        $("#Cancel_Services").click(function () {
+            $("#Addservices").slideUp();
+        });
+        $("#Cancel_Addon").click(function () {
+            $("#Add_product").slideUp();
+        });
+        @*$('#Add_OnDate,#services_add').datetimepicker({
+            format: 'YYYY/MM/DD',
+            @*minDate: '@ShopInfo.CreateDate.Value.ToString("yyyy/MM/dd")',
+            locale: '@LngLocal'
+        });*@
+        CommonDatePicker('#Add_OnDate,#services_add', '@LngLocal',false,false,false);
+        $('#CloseandPay').on('hidden.bs.modal', function () {
+            $("#CloseandPay #Invoice_Id,#Pay_Date").val("");
+            $("input[type='checkbox']").prop("checked", false);
+            var Msg = "@Url" + "_CIP";
+            window.location.href = "/Invoice/PayAndClosedInvoice?InvoiceId=@genInvoice.Select(c=>c.InvoiceId).FirstOrDefault()&Invoice_Service=@genInvoice.Select(c=>c.Invoice_Service).FirstOrDefault()&Url=@genInvoice.Select(c=>c.URL).FirstOrDefault()&Msg=" + Msg + "&FullPayment=0";
+        });
+        $("#AddInvoice,#PayAndCloseInvoice,#SaveAndPrint").click(function () {
+            $('.loader').show();
+            var Status = "CI"
+            if ($(this).closest("#PayAndCloseInvoice").length > 0)
+                Status = "DCMP";
+            if ($(this).closest("#SaveAndPrint").length > 0)
+                Status = "CIP";
+            var addprodvalidation = $("#frmAddManualInvoice").validate().form();
+            if (addprodvalidation != false) {
+                if ($("#CalProductDuration tr").not("#NoDataIProduct,#TrTotal").length > 0) {
+                    if ($("#CalProductDuration tr").not("#NoDataIProduct,#TrTotal").length <= 15) {
+                        $('.loader').show();
+                        var form = $("#frmAddManualInvoice");
+                        var url = "/Invoice/AddManualInvoice?Status=" + Status;
+                        var formData = new FormData($("#frmAddManualInvoice")[0]);
+                        $.ajax({
+                            url: url,
+                            beforeSend: function () {
+                                $(".loader").show();
+                            },
+                            type: 'POST',
+                            data: formData,
+                            async: true,
+                            success: function (data) {
+                                if (Status == "DCMP")
+                                    OpenPartialpopup(@genInvoice.Select(c=>c.InvoiceId).FirstOrDefault(), @Language.Select(c => c.Lang_id).FirstOrDefault(), '@LngLocal', '@string.Format("{0:yyyy-MM-dd HH:mm:ss}", ShopInfo.CreateDate)','@genInvoice.Select(c => c.URL).FirstOrDefault()','@genInvoice.Select(c=>c.Invoice_Service).FirstOrDefault()');
+                                else if(Status == "CIP"){
+                                    window.location.href = "/Invoice/SaveAndPrintInvoice?Invoice_Service=@genInvoice.Select(c => c.Invoice_Service).FirstOrDefault()&InvoiceId=@genInvoice.Select(c=>c.InvoiceId).FirstOrDefault()&Url=@genInvoice.Select(c => c.URL).FirstOrDefault()";
+                                }
+                                else {
+                                    if ("@genInvoice.Select(c=>c.URL).FirstOrDefault()" == "openlistview"||"@genInvoice.Select(c=>c.URL).FirstOrDefault()" == "calendarmonth" ||"@genInvoice.Select(c=>c.URL).FirstOrDefault()" == "Appclosed")
+                                        window.location.href = "/Reservation/Reservation#@genInvoice.Select(c => c.URL).FirstOrDefault()";
+                                    else
+                                        window.location.href = "/Invoice/Invoicing#@genInvoice.Select(c=>c.URL).FirstOrDefault()";
+                                }
+
+                            },
+                            error: function (request, status, error) { $(".loader").hide(); },
+                            cache: false,
+                            contentType: false,
+                            processData: false
+                        });
+
+                    }
+                    else {
+                        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO!</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 101).Select(c => c.Value).FirstOrDefault()</p>");
+                        $('#welcome').modal("show");
+                        $(".loader").hide();
+                    }
+
+                }
+                else {
+                    //var Message = "Please Select Reservation or Add On Product";
+                    $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO!</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 81).Select(c => c.Value).FirstOrDefault()</p>");
+                    $('#welcome').modal("show");
+                    $(".loader").hide();
+                }
+            }
+            else {
+                window.scrollTo(0, 0);
+                $(".loader").hide();
+            }
+
+        });
+        $("#CancelManualInvoice,#BACKBTN").click(function () {
+            if ("@genInvoice.Select(c=>c.URL).FirstOrDefault()" == "openlistview"||"@genInvoice.Select(c=>c.URL).FirstOrDefault()" == "calendarmonth" ||"@genInvoice.Select(c=>c.URL).FirstOrDefault()" == "Appclosed")
+                window.location.href = "/Reservation/Reservation#@genInvoice.Select(c => c.URL).FirstOrDefault()";
+            else
+                window.location.href = "/Invoice/Invoicing#@genInvoice.Select(c=>c.URL).FirstOrDefault()";
+        });
+        
+
+    </script>
+</body>
+</html>

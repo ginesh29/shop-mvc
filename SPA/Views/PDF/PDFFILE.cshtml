@@ -1,0 +1,165 @@
+﻿
+@{
+    Layout = null;
+    CCTSP_User UserInfo = ViewBag.ShopInfo;
+}
+<html>
+<body style="font-family:Calibri">
+    <div style="padding:30px 40px">
+        <div style="padding:50px 15px;border-radius:4px;position:relative;">
+            <div style="border:2px solid #669900;"></div>
+            <h3 style="position:absolute;margin-top:-15px;background:#f2f2f2;left:90px;padding:0 10px;color:#3a3a3a;font-size:22px;">ACCOUNT</h3>
+            <div style="margin:50px 100px;">
+                <div style="width:100%">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">Name</td>
+                                <td style="text-align:center;color:#3a3a3a;font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;">:</td>
+                                <td style="color:#787878;font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;">@UserInfo.FirstName @UserInfo.LastName</td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">Mobile</td>
+                                <td style="font-size:18px;text-align:center;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">:</td>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#787878;">@UserInfo.PhoneNo</td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">Email</td>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;text-align:center">:</td>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#787878;">@UserInfo.EmailId</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <div style="border:2px solid #669900;"></div>
+            <h3 style="position:absolute;margin-top:-15px;background:#f2f2f2;left:90px;padding:0 10px;color:#3a3a3a;font-size:22px;">PERSONAL</h3>
+            <div style="margin:50px 100px;">
+                <div>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">Supplier / Shop Name</td>
+                                <td style="text-align:center;color:#3a3a3a;font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;">:</td>
+                                <td style="color:#787878;font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;">@UserInfo.CCTSP_SchoolMaster.SchlName</td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">Shop Owner First Name</td>
+                                <td style="font-size:18px;text-align:center;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">:</td>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#787878;">@UserInfo.FirstName</td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">Shop Owner Last Name</td>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;text-align:center">:</td>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#787878;">@UserInfo.LastName</td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">Mobile</td>
+                                <td style="text-align:center;color:#3a3a3a;font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;">:</td>
+                                <td style="color:#787878;font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;">@UserInfo.PhoneNo</td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">Email</td>
+                                <td style="font-size:18px;text-align:center;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">:</td>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#787878;">@UserInfo.EmailId</td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">Country</td>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;text-align:center">:</td>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#787878;">@UserInfo.Country</td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">City</td>
+                                <td style="text-align:center;color:#3a3a3a;font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;">:</td>
+                                <td style="color:#787878;font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;">@UserInfo.City</td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">Zip Code</td>
+                                <td style="font-size:18px;text-align:center;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">:</td>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#787878;">@UserInfo.Pincode</td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">Address</td>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;text-align:center">:</td>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#787878;">@UserInfo.Address1</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div style="border:2px solid #669900;"></div>
+            <h3 style="position:absolute;margin-top:-15px;background:#f2f2f2;left:90px;padding:0 10px;color:#3a3a3a;font-size:22px;">LOCATION</h3>
+            <div style="margin:50px 100px;">
+                <div>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">Country</td>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;text-align:center">:</td>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#787878;">@UserInfo.CCTSP_SchoolMaster.Schcountry</td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">City</td>
+                                <td style="text-align:center;color:#3a3a3a;font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;">:</td>
+                                <td style="color:#787878;font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;">@UserInfo.CCTSP_SchoolMaster.SchlCity</td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">Zip Code</td>
+                                <td style="font-size:18px;text-align:center;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">:</td>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#787878;">@UserInfo.CCTSP_SchoolMaster.SchPin</td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">Address</td>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;text-align:center">:</td>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#787878;">@UserInfo.CCTSP_SchoolMaster.SchlAddress</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div style="border:2px solid #669900;"></div>
+            <h3 style="position:absolute;margin-top:-15px;background:#f2f2f2;left:90px;padding:0 10px;color:#3a3a3a;font-size:22px;">VARIOUS</h3>
+            <div style="margin:50px 100px;">
+                <div>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">Language</td>
+                                <td style="text-align:center;color:#3a3a3a;font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;">:</td>
+                                <td style="color:#787878;font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;">@UserInfo.CCTSP_SchoolMaster.Language_Master.Lang_Name</td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">I want a link on my shop website</td>
+                                <td style="font-size:18px;text-align:center;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">:</td>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#787878;"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <div style="border:2px solid #669900;"></div>
+            <h3 style="position:absolute;margin-top:-15px;background:#f2f2f2;left:90px;padding:0 10px;color:#3a3a3a;font-size:22px;">TERMS AND CONDITIONS</h3>
+            <div style="margin:50px 100px;">
+                <div>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td style="font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;color:#3a3a3a;">Terms and Condition Acceptance Date</td>
+                                <td style="text-align:center;color:#3a3a3a;font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;">:</td>
+                                <td style="color:#787878;font-size:18px;padding-bottom:20px;min-width:50px;font-weight:bold;">@UserInfo.CCTSP_SchoolMaster.CreatedOn</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

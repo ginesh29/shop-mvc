@@ -1,0 +1,114 @@
+﻿@model SPA.CCTSP_User
+@{
+    Layout = null;
+    List<Language_Label_Detail> Language = new List<Language_Label_Detail>();
+    CCTSP_SchoolMaster SchoolInfo = new CCTSP_SchoolMaster();
+    SchoolInfo = ViewBag.SchoolInfo;
+    var LngLocal = ViewBag.LngLocal;
+    Language = ViewBag.Language;
+    var LanguageBack = ViewBag.LanguageBack;
+    List<SPA.Models.CatgDropDownList> DropdownList = new List<SPA.Models.CatgDropDownList>();
+    DropdownList = ViewBag.DropDownList;
+}
+<div class="col-lg-11 col-lg-offset-1 col-md-12 col-sm-12 login-form">
+    <h1 class="italic-title">@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()@*Sign up*@</h1>
+    @using (Html.BeginForm("RegistrationAdd", "Login", FormMethod.Post, new { @id = "ClientsignUpForm" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="alert alert-danger" style="display: none"></div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="col-lg-5 col-md-5 col-sm-6">
+                <div class="form-group">
+                    @Html.Label(@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault(), htmlAttributes: new { @class = "form-label spa-label" })
+                    <div class="dropdown spa-dropdown">
+                        @Html.DropDownListFor(c => c.Gender, new SelectList(DropdownList.Where(c => c.CatgName == "Title").ToList(), "CatgDesc", "CatgDesc", null), new { @class = "dropdown-toggle spa-dropdown-box form-control dropdown-toggle" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-19 col-md-19 col-sm-18">
+                <div class="form-group">
+                    @Html.Label(@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault() + " * ", htmlAttributes: new { @class = "form-label spa-label" })
+                    @Html.EditorFor(c => c.FirstName, new
+               {
+                   htmlAttributes = new
+                   {
+                       @class = "form-control spa-text-box required alpha",
+                       @placeholder = @Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()@*"Enter your first name"*@ }
+               })
+                    @Html.ValidationMessageFor(c => c.FirstName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label(@Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault(), htmlAttributes: new { @class = "form-label spa-label" })
+            @Html.EditorFor(c => c.LastName, new
+       {
+           htmlAttributes = new
+           {
+               @class = "form-control spa-text-box ",
+               @placeholder = @Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault() @*"Enter your family name"*@ }
+       })
+            @Html.ValidationMessageFor(c => c.LastName, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.Label(@Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault() + " *", htmlAttributes: new { @class = "form-label spa-label" })
+            @Html.EditorFor(c => c.PhoneNo, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control spa-text-box required digits",
+                           @placeholder = @Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault() @*"Enter your mobile number"*@,
+                           @minlength = "10",
+                           @maxlength = "10"
+                       }
+                   })
+            @Html.ValidationMessageFor(c => c.PhoneNo, "", new { @class = "text-danger" })
+        </div>
+                    <div class="form-group">
+                        @Html.Label(@Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault() + " *", htmlAttributes: new { @class = "form-label spa-label" })
+                        @Html.EditorFor(c => c.EmailId, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control spa-text-box required email ",
+                           @placeholder = @Language.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault() @*"Enter your Email-ID"*@ }
+                   })
+                        @Html.ValidationMessageFor(c => c.EmailId, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label(@Language.Where(c => c.Order_id == 17).Select(c => c.Value).FirstOrDefault() + " *", htmlAttributes: new { @class = "form-label spa-label" })
+                        @Html.EditorFor(c => c.Password, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control spa-text-box required",
+                           @placeholder = @Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault() @*"Enter your password"*@,
+                           Type = "password",
+                           @minlength = "6",
+                       }
+                   })
+                        @Html.ValidationMessageFor(c => c.Password, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label(@Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault() + " *", htmlAttributes: new { @class = "form-label spa-label" })
+                        @Html.Editor("ConfirmPassword", new{htmlAttributes = new{@class = "form-control spa-text-box",@placeholder = @Language.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault()@*"Re-enter your password"*@,Type = "password",equalto = "#Password"}})
+                        @Html.ValidationMessage("ConfirmPassword", "", new { @class = "text-danger" })
+
+                    </div>
+                    <div class="form-group p-relative">
+                        @Html.Label(@Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault(), htmlAttributes: new { @class = "form-label spa-label" })
+                        <input type="text" class="form-control spa-text-box date" placeholder="@Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault()" id="DOB" name="DOB" />
+                        @Html.ValidationMessageFor(c => c.DOB, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-green full-width" id="btnLogin" value="@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()" />  @*Submit*@
+                    </div>
+    }
+</div>
+<script>
+    $(document).ready(function () {
+        $("#ClientsignUpForm").validate();
+    });
+    Dob("#DOB", '@LngLocal',true,true,false);
+</script>

@@ -1,0 +1,119 @@
+﻿@{
+    Layout = null;
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.Language;
+    var shopInfo = ((SPA.Models.shopMaster)Model);
+}
+
+<div class="Overflow_Resp">
+    <div class="Customer_import">
+        @using (Ajax.BeginForm("ImportCustomer", "Customer", new AjaxOptions { HttpMethod = "POST", LoadingElementId = "loader", OnSuccess = "UploadExcel" }, new { @id = "ImportExcel" }))
+        {
+            <input type="hidden" name="ExcelUrl" id="ExcelUrl" />
+            <div style="display:table;width:100%;">
+                <div class="Import_step Import_height" id="ImportHeight">
+                    <ul class="Step_excel">
+                        <li>
+                            @*Step 1*@
+                            <h4>@Language.Where(c=>c.Order_id==1).Select(c=>c.Value).FirstOrDefault()</h4>
+                            @*Download the excel sheet to Import*@
+                            <p> @Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()</p>
+                            @*Download Excel Template*@
+                            <a href="~/images/Col_@(shopInfo.LangId).xlsx" class="btn Excel_btn"><span><i class="fa fa-file-excel-o margin-right5" aria-hidden="true"></i></span>@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</a>
+                        </li>
+                        <li>
+                            @*Step 2*@
+                            <h4> @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()</h4>
+                            @*Upload the downloaded excelsheet or other excel sheet to import*@
+                            <p> @Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()</p>
+                            <div id="Import_cust" class="dropzone dropzone_info dz-clickable" name="dZUpload">
+                            </div>
+                        </li>
+                        <li>
+                            @*Import*@
+                            <input type="submit" disabled class="btn btn-green margin-right5 margin-bottom10" value="@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        }
+        <div class="row Main_box" id="ShowReport">
+
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+
+<script>
+    /*Import To Excel*/
+    function UploadExcel(response) {
+        if (response != null) {
+            if (response.ISERROR) {
+                // Keep Error popup
+                swal({
+                    text: response.Message,
+                    title: 'CLICK-AND-GO',
+                    type: 'error',
+                    showConfirmButton: false,
+                    showCloseButton: true
+                })
+            }
+            else {
+                $.ajax({
+                    beforeSend: function () {
+                        if (!$(".loader").is(":visible"))
+                            $(".loader").show();
+                        if ($("#ShowReport").is(":visible"))
+                            $("#ShowReport").slideUp('slow');
+                    },
+                    url: response.Data,
+                    type: 'GET',
+                    async: true,
+                    success: function (Blocking) {
+                        $("#ShowReport").html(Blocking);
+                        if ($("#ShowReport").not(":visible"))
+                            $("#ShowReport").slideDown('slow')
+
+                    },
+                    complete: function () {
+                        $(".loader").hide();
+                    },
+                    cache: false,
+                });
+            }
+        }
+    }
+    $(function () {
+ var DropzoneData= $("#Import_cust").dropzone({
+            url: "@Url.Action("UploadExcel", "Customer")",
+            maxFiles: 5,
+            addRemoveLinks: true,
+            acceptedFiles: 'text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            maxFilesize: 5,
+            success: function (file, response) {
+                var imgName = response;
+                $("#ExcelUrl").val(imgName);
+                file.previewElement.classList.add("dz-success");
+                if ($.trim(imgName) != "" && $.trim(imgName) != null) {
+                    $("#ImportExcel input[type='submit']").removeAttr("disabled");
+                }
+
+            },
+            removedfile: function (file) {
+                $.post("/Doctor/RemoveImage?file=" + file.name, function (data) {
+                    $("#ImportExcel input[type='submit']").attr("disabled", "disabled");
+                    //$("#ShowReport").html("").unbind();
+                    RemoveAllHeights();
+                    $(document).find(file.previewElement).remove();
+                });
+            },
+            error: function (file, response) {
+                file.previewElement.classList.add("dz-error");
+            }
+        });
+        Dropzone.options.uploadDemo = {
+            paramName: "file"// Must match the name of the HttpPostedFileBase argument that the Upload action expects.
+        };
+    });
+    //$("#error_table").tableHeadFixer({ "left": 1 });
+</script>

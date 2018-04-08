@@ -1,0 +1,133 @@
+﻿@using System.Configuration
+@{
+    Layout = null;
+    List<Language_Label_Detail> Language = ViewBag.Language;
+    var item = ViewBag.Data;
+    SPA.Models.getAccess getAccess = ViewBag.Access;
+}
+@if (item != null)
+{
+    if (item.ItenName == "Default")
+    {
+        <td class="spa-label1">@Language.Where(c => c.English_Label == item.CCTSP_CategoryDetails.CatgDesc).Select(c => c.Value).FirstOrDefault() (ST)</td>
+    }
+    else
+    {
+        <td class="spa-label1">@Language.Where(c => c.English_Label == item.CCTSP_CategoryDetails.CatgDesc).Select(c => c.Value).FirstOrDefault()</td>
+    }
+    string Display = "";
+    if (item.CCTSP_CategoryDetails.CatgId == 120)
+    {
+        Display = "Email";
+    }
+    if (item.CCTSP_CategoryDetails.CatgId == 121)
+    {
+        Display = "SMS";
+    }
+
+    <td class="spa-label1 text-center">@Display</td>
+        <td class="spa-label1">
+            @item.SectionDesc
+        </td>
+
+
+
+                <td class="spa-label1 text-center">
+
+                    <div class="onoffswitch DivTextActive">
+
+                        @if (item.Group == null || item.Group == "")
+                        {
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="@item.SolutionId" checked>
+                            <label class="onoffswitch-label round" for="@item.SolutionId">
+                                <span class="onoffswitch-inner">@Language.Where(c => c.Order_id==40).Select(c => c.Value).FirstOrDefault()</span>
+                                <span class="onoffswitch-switch">@Language.Where(c => c.Order_id == 41).Select(c => c.Value).FirstOrDefault()</span>
+                            </label>
+                        }
+                        else
+                        {
+
+                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="@item.SolutionId">
+                            <label class="onoffswitch-label round" for="@item.SolutionId">
+                                <span class="onoffswitch-inner">@Language.Where(c => c.Order_id == 40).Select(c => c.Value).FirstOrDefault()</span>
+                                <span class="onoffswitch-switch">@Language.Where(c => c.Order_id == 41).Select(c => c.Value).FirstOrDefault()</span>
+                            </label>
+                        }
+
+                    </div>
+                </td>
+
+                if (item.ItenName == "Default")
+                {
+                    <td></td>
+                }
+                else
+                {
+                    <td class="text-center">
+                        @if (((getAccess.update != "N" && (getAccess.FlowStatus == "2" || getAccess.FlowStatus == "3")) || (getAccess.FlowStatus == "1")))
+                        {
+                            <a onclick="EditText(@item.SolutionId);"><i class="fa fa-pencil-square-o spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 30).Select(c => c.Value).FirstOrDefault()" data-original-title="" title=""></i></a>@*Delete*@
+                        }
+                        @if (((getAccess.Delete != "N" && (getAccess.FlowStatus == "2" || getAccess.FlowStatus == "3")) || (getAccess.FlowStatus == "1")))
+                        {
+                            <a onclick="DeleteText(@item.SolutionId);"><i class="fa fa-trash spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 31).Select(c => c.Value).FirstOrDefault()" data-original-title="" title=""></i></a>@*Delete*@
+                        }
+                    </td>
+
+                }
+}
+
+
+<script>
+    $(".DivTextActive input").click(function () {
+        $(".loader").show();
+        var Id = $(this).attr("id");
+        var De = "D";
+
+        if ($(this).prop("checked")) {
+           
+            $.post("/Shop/DeactivateText?SolutionId=" + Id, function (data)
+            {
+                var soultionIdlist = data.split("~");
+                for (i = 0; i < soultionIdlist.length; i++)
+                {
+                    var ab=soultionIdlist[i];
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Shop/ActiveText',
+                        async: false,
+                        traditional: true,
+                        data: { SoultionIdList: ab },
+                        success: function (SkillDot) {
+                            $("#SkillDataspa #tr_" + ab).html(SkillDot);
+                            
+                        },
+                        error: function (args) {
+                            alert("Error");
+                        }
+                    })
+
+                }
+                $(".loader").hide();
+               
+            });
+           
+           
+        }
+        else
+        {
+            $.post("/Shop/DeactivateText?SolutionId=" + Id + "&status=" + De, function ( data)
+            {
+                $(".loader").hide();
+            });
+        }
+    });
+
+
+</script>
+
+
+
+
+
+

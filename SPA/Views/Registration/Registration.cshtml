@@ -1,0 +1,279 @@
+﻿@model  SPA.Models.Registration
+@using System.Configuration;
+@{
+    Layout = null;
+    List<Language_NewShop> Language = ViewBag.Language;
+    int LanguageId = ViewBag.LangId;
+    List<spatime_zone> CountryList = ViewBag.countrylist;
+    List<SPA.Models.LanguageLabelDetails> LangNameList = ViewBag.LangNameList;
+}
+@Styles.Render("~/Contents/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/clickscript")
+@if (LanguageId > 1)
+{
+    @Html.Partial("_LangValidation", "/Scripts/messages_" + LangNameList.Where(c => c.Lang_id == LanguageId).Select(c => c.English_Label).FirstOrDefault().ToLower() + ".js");
+}
+@*@if (LanguageId == 2)
+{
+    <script type="text/javascript" src="~/Scripts/messages_de.js"></script>}
+@if (LanguageId == 3)
+{
+    <script type="text/javascript" src="~/Scripts/messages_fr.js"></script>}*@
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMSFX8VQlWkX6sUZPN9bKh5aF7lpS9Lwc&libraries=places&sensor=false"></script>
+<script type="text/javascript" src="~/Scripts/Location.js"></script>
+<title>@*Registration*@ @Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 53).Select(c => c.Value).FirstOrDefault()</title>
+<body style="background:#fff;">
+    <div class="container">
+        <div class="bg-grey border-radius5">
+            <div class="login-main">
+                @Html.Partial("_Progressbar", Language.Where(c => c.Page_Name == "Registration_Page").ToList())
+                <div class="personal-block">
+                    <h5>
+                        @*PERSONAL*@ @Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 35).Select(c => c.Value).FirstOrDefault())
+                        <a href="@(LanguageId>0?"/Registration/Login?lang="+LanguageId:"/Registration/Login")" class="back-btn"><i class="fa fa-reply-all"></i>@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 30).Select(c => c.Value).FirstOrDefault()) </a>@*back*@
+                    </h5>
+                </div>
+                <div class="personal-main">
+                    <div class="col-lg-14 col-lg-offset-5 col-md-20 col-md-offset-2 col-sm-22 col-sm-offset-2 col-xs-22 col-xs-offset-1">
+                        <form name="Registr" id="Registr" action="/Registration/Registration" method="post">
+                            @*<input type="hidden" id="State_hidden" name="State_hidden" value="@Model.State_hidden" valueId="@Model.State" />
+                                <input type="hidden" id="City_hidden" name="City_hidden" value="@Model.City_hidden" valueId="@Model.City" />*@
+                            @*@if (CountryList.Where(c => c.name_country == "INDIA").Count() > 0)
+                                {
+                                    <input type="hidden" id="Country_hidden" name="Country_hidden" value="@(Model.Country_hidden != null?Model.Country_hidden:"INDIA")" valueId="@(Model.Country != null?Model.Country:Convert.ToString(CountryList.Where(c=>c.name_country=="INDIA").Select(c=>c.geonameid).FirstOrDefault()))" />
+                                }
+                                else
+                                {
+                                    <input type="hidden" id="Country_hidden" name="Country_hidden" value="@(Model.Country_hidden != null?Model.Country_hidden:"SWITZERLAND")" valueId="@(Model.Country != null?Model.Country:Convert.ToString(CountryList.Where(c=>c.name_country=="SWITZERLAND").Select(c=>c.geonameid).FirstOrDefault()))" />
+                                }*@
+
+                            <div class="row form-group">
+                                <div class="col-lg-12 col-md-12 col-sm-12 personal-detail">
+                                        <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 8).Select(c => c.Value).FirstOrDefault())*@*SUPPLIER/SHOP NAME*@</label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 p0 reg-margint15">
+                                        @*<input class="form-control registration-input-box" type="text">*@
+                                        @Html.EditorFor(c => c.shopname, new { htmlAttributes = new { @class = "login-input-box form-control required" } })
+                                </div>
+                            </div>
+                            <input type="hidden" value="@LanguageId" name="Langid" id="Langid" />
+                            <div class="row form-group">
+                                <div class="col-lg-12 col-md-12 col-sm-12 personal-detail">
+                                        <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 3).Select(c => c.Value).FirstOrDefault()) *@*TITLE*@</label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 p0 reg-margint15">
+                                        @*<input class="form-control registration-input-box" type="text">*@
+                                        @Html.DropDownListFor(c => c.Title, (SelectList)(ViewBag.Client), new { @class = "login-input-box form-control required" })
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-12 col-md-12 col-sm-12 personal-detail">
+                                        <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 9).Select(c => c.Value).FirstOrDefault()) *@*SHOP OWNER FIRST NAME*@</label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 p0 reg-margint15">
+                                        @*<input class="form-control registration-input-box" type="text">*@
+                                        @Html.EditorFor(c => c.FirstName, new { htmlAttributes = new { @class = "login-input-box form-control required" } })
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-12 col-md-12 col-sm-12 personal-detail">
+                                        <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 10).Select(c => c.Value).FirstOrDefault())*@*SHOP OWNER FAMILY NAME*@</label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 p0 reg-margint15">
+                                        @*<input class="form-control registration-input-box" type="text">*@
+                                        @Html.EditorFor(c => c.FamilyName, new { htmlAttributes = new { @class = "login-input-box form-control required" } })
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-12 col-md-12 col-sm-12 personal-detail">
+                                        <label class="form-label"> @Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 1).Select(c => c.Value).FirstOrDefault()) *@*MOBILE NUMBER*@</label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 p0 reg-margint15">
+                                        @*<input class="form-control registration-input-box" type="text">*@
+                                        @Html.EditorFor(c => c.phoneno, new { htmlAttributes = new { @class = "login-input-box form-control required digits" } })
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-12 col-md-12 col-sm-12 personal-detail">
+                                        <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 2).Select(c => c.Value).FirstOrDefault()) *@*EMAIL ADDRESS*@</label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 p0 reg-margint15">
+                                        @*<input class="form-control registration-input-box" type="text">*@
+                                        @Html.EditorFor(c => c.emailid, new { htmlAttributes = new { @class = "login-input-box form-control required email" } })
+                                </div>
+                            </div>
+
+                            @*Start Auto Location*@
+                            <div class="row form-group">
+                                <div class="col-lg-12 col-md-12 col-sm-12 personal-detail">
+                                        <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 11).Select(c => c.Value).FirstOrDefault()) @*Country*@ </label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 p0 reg-margint15">
+                                        @*@Html.EditorFor(c => c.Country_hidden, new { htmlAttributes = new { @class = "login-input-box form-control required" } })*@
+                                        @if (CountryList.Where(c => c.name_country == "INDIA").Count() > 0)
+                                        {
+                                            @Html.DropDownListFor(c => c.Country_hidden, new SelectList(CountryList, "name_country", "name_country", "INDIA"), new { @class = "login-input-box form-control required" })
+                                        }
+                                        else
+                                        {
+                                            @Html.DropDownListFor(c => c.Country_hidden, new SelectList(CountryList, "name_country", "name_country", "SWITZERLAND"), new { @class = "login-input-box form-control required" })
+                                        }
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-12 col-md-12 col-sm-12 personal-detail">
+                                        <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 43).Select(c => c.Value).FirstOrDefault())</label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 p0 reg-margint15">
+                                        @Html.EditorFor(c => c.State_hidden, new { htmlAttributes = new { @class = "login-input-box form-control required" } })
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-12 col-md-12 col-sm-12 personal-detail">
+                                        <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 12).Select(c => c.Value).FirstOrDefault())</label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 p0 reg-margint15">
+                                        @Html.EditorFor(c => c.City_hidden, new { htmlAttributes = new { @class = "login-input-box form-control required" } })
+                                </div>
+                            </div>
+
+                            @*End Auto Location
+
+                                @*Start Drop Down Location*@
+                            @*<div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 personal-detail">
+                                        <div>
+                                            <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 11).Select(c => c.Value).FirstOrDefault()) </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 p0 reg-margint15">
+                                        <div class="form-group">
+                                            @if (CountryList.Where(c => c.name_country == "INDIA").Count() > 0)
+                                            {
+                                                @Html.DropDownListFor(c => c.Country, new SelectList(ViewBag.countrylist, "geonameid", "name_country", (Model.Country != null ? Model.Country : Convert.ToString(CountryList.Where(c => c.name_country == "INDIA").Select(c => c.geonameid).FirstOrDefault()))), new { @class = "login-input-box form-control required", @onchange = "GetLocationData(this.value,'State',2,'Country');" })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownListFor(c => c.Country, new SelectList(ViewBag.countrylist, "geonameid", "name_country", (Model.Country != null ? Model.Country : Convert.ToString(CountryList.Where(c => c.name_country == "SWITZERLAND").Select(c => c.geonameid).FirstOrDefault()))), new { @class = "login-input-box form-control required", @onchange = "GetLocationData(this.value,'State',2,'Country');" })
+                                            }
+                                        </div>
+                                    </div>
+                                </div>*@
+                            @*<div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 personal-detail">
+                                        <div>
+                                            <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 43).Select(c => c.Value).FirstOrDefault()) </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 p0 reg-margint15">
+                                        <div class="form-group">
+                                            @Html.DropDownListFor(c => c.State, new SelectList(""), new { @class = "login-input-box form-control required", @onchange = "GetLocationData(this.value,'City',3,'State');" })
+                                        </div>
+                                    </div>
+                                </div>*@
+                            @*<div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 personal-detail">
+                                        <div>
+                                            <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 12).Select(c => c.Value).FirstOrDefault())</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 p0 reg-margint15">
+                                        <div class="form-group">
+
+                                            @Html.DropDownListFor(c => c.City, new SelectList(""), new { @class = "login-input-box form-control required",@onchange= "SetHidden('City','')" })
+                                        </div>
+                                    </div>
+                                </div>*@
+                            @*End Drop down Location*@
+
+
+
+                            <div class="row form-group">
+                                <div class="col-lg-12 col-md-12 col-sm-12 personal-detail">
+                                        <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 13).Select(c => c.Value).FirstOrDefault()) *@*ZIP CODE*@</label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 p0 reg-margint15">
+                                        @*<input class="form-control registration-input-box" type="text">*@
+                                        @Html.EditorFor(c => c.Zipcode, new { htmlAttributes = new { @class = "login-input-box form-control required digits", @maxlength = "8" } })
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-12 col-md-12 col-sm-12 personal-detail">
+                                    <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 59).Select(c => c.Value).FirstOrDefault()) @*ZIP CODE*@</label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 p0 reg-margint15">
+                                    @*<input class="form-control registration-input-box" type="text">*@
+                                    @Html.EditorFor(c => c.ZsrNo, new { htmlAttributes = new { @class = "login-input-box form-control", @maxlength = "7",@minlength="7"} })
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-12 col-md-12 col-sm-12 personal-detail">
+                                        <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 14).Select(c => c.Value).FirstOrDefault())*@*ADDRESS*@</label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 p0 reg-margint15">
+                                        @*<input class="form-control registration-input-box" type="text">*@
+                                        @*@Html.TextAreaFor(c => c.Address, new { htmlAttributes = new { @class = "login-input-box form-control required full-width", @rows = 3 } })*@
+                                        @Html.TextAreaFor(c => c.Address, new { @class = "login-input-box form-control required full-width", @rows = 2 })
+                                </div>
+                            </div>
+
+                            <div class="text-center mt30">
+                                <input type="submit" class="continue-btn green-btn" value="@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 29).Select(c => c.Value).FirstOrDefault())" />@*NEXt*@
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    $("#Registr").validate();
+    $('#Login').addClass('login-detail active');
+    $('#Registration').addClass('login-detail');
+    $('#Registration a').addClass('active');
+    // GetLocationData($("#Country option:selected").val(), "State", 2, 'Country');
+    //AutocompleteAddress("State_hidden");
+    //AutocompleteAddress("City_hidden");
+    //function AutocompleteAddress(Id) {
+    //    var input = document.getElementById(Id);
+    //    var autocomplete = new google.maps.places.Autocomplete(input);
+    //    google.maps.event.addListener(autocomplete, 'place_changed', function (input) {
+    //        var place = autocomplete.getPlace();
+    //        $("#State_hidden").val(place.name);
+    //    })
+
+    //}
+    var Stateinput = document.getElementById('State_hidden');
+    var Stateautocomplete = new google.maps.places.Autocomplete(Stateinput);
+    google.maps.event.addListener(Stateautocomplete, 'place_changed', function (Stateinput) {
+        var place = Stateautocomplete.getPlace();      
+        $("#State_hidden").val(place.name);
+    })
+    var Cityinput = document.getElementById('City_hidden');
+    var Cityautocomplete = new google.maps.places.Autocomplete(Cityinput, { types: ['(cities)'] });
+    google.maps.event.addListener(Cityautocomplete, 'place_changed', function (Cityinput) {
+        var place = Cityautocomplete.getPlace();
+        $("#City_hidden").val(place.name);
+    })
+</script>
+@if (ViewBag.LangId == 1)
+{
+    <script>
+        $("#LangChange #English a").addClass("activeShop");
+    </script>
+}
+@if (ViewBag.LangId == 2)
+{
+    <script>
+        $("#LangChange #German a").addClass("activeShop");
+    </script>
+}
+@if (ViewBag.LangId == 3)
+{
+    <script>
+        $("#LangChange #French a").addClass("activeShop");
+    </script>
+}

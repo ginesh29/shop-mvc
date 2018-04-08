@@ -1,0 +1,38 @@
+﻿
+@{
+    Layout = null;
+    SPA.Models.EmployeeJsonModel EmpDetails = new SPA.Models.EmployeeJsonModel();
+    EmpDetails = Model;
+}
+<tr>
+        <td>
+            <span class="employee-user-circle user-circle-img">
+                <img id="UserImage" src="@EmpDetails.EmpImage" onerror="this.onerror=null;this.src='/images/defaultuser.png';" alt="">
+            </span>
+        </td>
+        <td>
+            <span class="spa-label1">@EmpDetails.EmpLName</span>
+            <span class="spa-label1 margin-left5">@EmpDetails.EmpFName</span>
+        </td>
+        <td>
+            @if (EmpDetails.EmpEmail != null)
+            {
+                <span class="spa-label1"><i class="fa fa-envelope spa-icon1"></i>@EmpDetails.EmpEmail</span>
+            }
+           
+        </td>
+        <td>
+            @if (EmpDetails.EmpNumber != null)
+            {
+                <span class="spa-label1"><i class="fa fa-phone spa-icon1"></i>@EmpDetails.EmpNumber</span>
+            }          
+        </td>
+        <td>
+            @*<a>
+                <i class="fa fa-pencil-square-o spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Edit" data-original-title="" title=""></i>
+            </a>*@
+            <a id="@EmpDetails.EmpId">
+                <i class="fa fa-trash spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Delete" data-original-title="" title=""></i>
+            </a>
+        </td>
+    </tr>

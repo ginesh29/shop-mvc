@@ -1,0 +1,184 @@
+﻿@{
+    ViewBag.Title = "DoctorInvoice";
+    Layout = null;
+}
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/bootstrap")
+
+<div class="doctor-invoice">
+    <h4 class="Hedertxt">Invoice</h4>
+    <div class="invoiceHeder bg_green margin-top10">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8">
+                <label>First Name:</label>
+                <span>Albert</span>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8">
+                <label>Last Name:</label>
+                <span>Walters</span>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8">
+                <label>Age:</label>
+                <span>26</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8">
+                <label>Invoice No. :</label>
+                <span>ABC456</span>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8">
+                <label>Dilivery Date :</label>
+                <span>14.09.2016</span>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8">
+                <label>Contact :</label>
+                <span>9998899988</span>
+            </div>
+        </div>
+    </div>
+    <div class="invoice-border">
+        <div class="paddingWhiteBox bg_white">
+            <div class="invoice-table">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>Sr. No.</td>
+                                <td>Service</td>
+                                <td>Base Price (Rs.)</td>
+                                <td>Tariff Price (Rs.)</td>
+                                <td>Bill Amount (Rs.)</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>General Treatment</td>
+                                <td>8140</td>
+                                <td>8140</td>
+                                <td>8140</td>
+                                <td class="p-relative">
+                                    <span class="doctor-delete">
+                                        <i class="fa fa-trash" data-trigger="hover"></i>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Vacination - B</td>
+                                <td>8140</td>
+                                <td>8140</td>
+                                <td>8140</td>
+                                <td class="p-relative">
+                                    <span class="doctor-delete">
+                                        <i class="fa fa-trash" data-trigger="hover"></i>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="invoiceTxt">
+             
+                <div class="col-lg-7 col-md-7 col-sm-24">
+                    <div class="input-group">
+                        
+                            <input type="text" class="form-control spa-text-box dropdown-toggle" aria-label="" placeholder="Enter Service" data-toggle="dropdown">
+                            <span class="input-group-addon"><a href="">+</a></span>
+                        
+                        <ul class="dropdown-menu">
+                            <li>A</li>
+                            <li>B</li>
+                            <li>C</li>
+                            <li>D</li>
+                            <li>E</li>
+                            <li>F</li>
+                            <li>G</li>
+                            <li>H</li>
+                            <li>I</li>
+                        </ul>
+                    </div>
+                </div>
+                </div>
+            </div>
+        <div class="invoicepayment overflowhidden">
+            <div class="col-lg-24 col-md-24 col-sm-24 text-right">
+                <label class="font24">Total :</label>
+                <span class="font24">840</span>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-24">
+                <img src="~/images/secure_payment_icon.png" />
+            </div>
+            <div class="col-lg-14 col-md-14 col-sm-24 margin-top10">
+                <div class="dropdown spa-dropdown">
+                    <select class="dropdown-toggle spa-dropdown-box form-control dropdown-toggle valid">
+                        
+                        <option>Choose Payment Type</option>
+                     
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-24 text-right margin-top10">
+                <button class="save-btn bg-close-btn" type="button">Pay</button>
+            </div>
+        </div>
+        <div class="padding30 bg_white">
+            <h4>Payment History</h4>
+            <div class="invoice-table margin-top10">
+                <div class="table-responsive tablebottom">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>Sr. No.</td>
+                                <td>Payment Date</td>
+                                <td>Paid Amount</td>
+                                <td>Discount Amount</td>
+                                <td>Bill Amount (Rs.)</td>
+                               </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>19.09.2016</td>
+                                <td>8140</td>
+                                <td>8140</td>
+                                <td>8140</td>
+                                
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>19.09.2016</td>
+                                <td>8140</td>
+                                <td>8140</td>
+                                <td>8140</td>
+
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>19.09.2016</td>
+                                <td>8140</td>
+                                <td>8140</td>
+                                <td>8140</td>
+
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>19.09.2016</td>
+                                <td>8140</td>
+                                <td>8140</td>
+                                <td>8140</td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,79 @@
+﻿@using System.Configuration;
+@{
+    List<Language_NewShop> Language = ViewBag.Language;
+    Language = Language.Where(c => c.Page_Name == "Layout_Header_Two").ToList();
+    int LanguageId = ViewBag.LangId;
+    int status = ViewBag.status;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="description" content="Make Your Personal Website as sale your service online with online Reservation functionality">
+    <meta name="keywords" content="Online Booking,SPA,Doctor Service,HealthCare,SPA in Delhi,SPA in Noida,Doctors in Delhi,Doctors in Noida">
+    <meta name="author" content="christoph glathard">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @if (ViewBag.Title != null){<title>@ViewBag.Title</title>}
+    else{<title>Page</title>}
+    @Styles.Render("~/Contents/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/clickscript")
+    @*@if (LanguageId == 2){<script type="text/javascript" src="~/Scripts/messages_de.js"></script>}
+    @if (LanguageId == 3){<script type="text/javascript" src="~/Scripts/messages_fr.js"></script>}*@
+</head>
+<body>
+    <!--Header Start-->
+    <div class="swp-header bg1">
+        <div class="lock-img">
+            <img src="~/Images/click/login123.png">
+        </div>
+        <div class="container">
+            <div class="row">
+                <a href="@(LanguageId>0?"/Index?lang="+LanguageId:"/Index")" class="logo pull-left">
+                <h3 class="logotitle">@Html.Raw(Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()) </h3>
+                <p class="logo-text">@Html.Raw(Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault())</p></a>@*"/images/logo.png"*@
+                <ul class="text-uppercase swp-lang mt25" id="LangChange">
+                    @if (status == 2)
+                    {
+                        <li id="German"><a href="?Lang=2">de</a></li>
+                        <li id="French"><a href="?Lang=3">fr</a></li>
+                        <li id="English"><a href="?Lang=1">en</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--End Header-->
+    <!--Navigation Start-->
+    <div class="container">
+        <div class="row">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav" id="Menu-page">
+                            <li id="HOMEPAGE" class="active"><a name="/Index" style="cursor:pointer" @*href="@Url.Action("Index","Home")"*@>@Html.Raw(Language.Where(c => c.Page_Name == "Layout_Header_Two" && c.Order_id == 1).Select(c => c.Value).FirstOrDefault())@*HOME*@<span class="sr-only">(current)</span></a></li>
+                            <li id="SMARTWAREPLUS"><a name="/SMARTWAREPLUS" style="cursor:pointer" @*href="@Url.Action("SMARTWAREPLUS","Home")"*@>@Html.Raw(Language.Where(c => c.Page_Name == "Layout_Header_Two" && c.Order_id == 2).Select(c => c.Value).FirstOrDefault())@*SMARTWAREPLUS*@</a></li>
+                            <li id="ABOUT"><a name="/About" style="cursor:pointer" @*href="@Url.Action("About","Home")"*@>@Html.Raw(Language.Where(c => c.Page_Name == "Layout_Header_Two" && c.Order_id == 3).Select(c => c.Value).FirstOrDefault())@*ABOUT*@</a></li>
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </div>
+                <!-- /.container-fluid -->
+            </nav>
+            <!--End Navigation-->
+        </div>
+    </div>
+    @RenderBody()
+    @RenderSection("scripts", required: false)
+
+
+</body>
+</html>
+

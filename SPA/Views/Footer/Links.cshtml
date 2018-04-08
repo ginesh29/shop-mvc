@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "Links";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<ol class="spa-breadcrumbs breadcrumb">
+    @*<li><a href="#" class="active">Home</a></li>
+    <li><a href="#">Links</a></li>*@
+</ol>
+<div class="form-content">
+    <div class="employee-blank">
+        <h1 class="italic-title">
+            Links
+            <span class="pull-right">
+                <a href="@Url.Action("","")" class="title-green16"><i class="fa fa-reply-all margin-right5"></i>Back</a>
+            </span>
+        </h1>
+        <p class="spa-label"><span><i class="fa fa-asterisk margin-right5 calendar"></i></span>CLICK-AND-GO.ch</p>
+        <p class="spa-label"><span><i class="fa fa-asterisk spa-icon1 margin-right5 calendar"></i></span>B&M Technique</p>
+        <p class="spa-label"><span><i class="fa fa-asterisk margin-right5 calendar"></i></span>Massage & Therapie Matthias Glatthard</p>
+    </div>
+</div>
+@Html.Partial("_Footer")

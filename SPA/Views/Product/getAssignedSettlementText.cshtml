@@ -1,0 +1,34 @@
+﻿@{
+    List<SPA.Models.settlementTxt> settleTxt = Model;
+    int index = 1;
+    List<SPA.Models.LanguageLabelDetails> Language = ViewBag.Language;
+}
+@foreach (var AssignedTxt in settleTxt)
+{
+    <tr id="@AssignedTxt.Health_Assign_id" insuranceId="@AssignedTxt.Insurance_Id">
+        <td class="spa-label1 width5per">@index</td>
+        <td class="spa-label1">@AssignedTxt.Tarif_Number</td>
+        <td class="spa-label1">@AssignedTxt.Settlement_Number</td>
+        <td class="spa-label1">@AssignedTxt.Settlement_text</td>
+        <td class="width10per">
+            <input type="number" min="0" max="9999" maxlength="4" class="form-control spa-text-box Duration" value="@AssignedTxt.Duration" />
+        </td>
+        <td class="width10per">
+            <input type="number" min="0" max="9999" maxlength="4" class="form-control spa-text-box Amount" value="@AssignedTxt.Amount" />
+        </td>
+        <td class="text-center width20per">
+            @*Update*@
+            <input type="button" class="btn btn-green btn-small width100 update-single" value="@(Language.Where(c=>c.Order_id==8).Select(c=>c.Value).FirstOrDefault())" onclick="UpdateSettlement($(this).parent('td').parent('tr'),'@Language.Where(c=>c.Order_id==15).Select(c=>c.Value).FirstOrDefault()','@Language.Where(c=>c.Order_id==16).Select(c=>c.Value).FirstOrDefault()');">
+            @*Delete*@
+            <input type="button" class="btn btn-black btn-small width100" value="@(Language.Where(c=>c.Order_id==9).Select(c=>c.Value).FirstOrDefault())" onclick="DeleteSettlement($(this).parent('td').parent('tr'),'@Language.Where(c=>c.Order_id==17).Select(c=>c.Value).FirstOrDefault()','@Language.Where(c=>c.Order_id==18).Select(c=>c.Value).FirstOrDefault()');">
+        </td>
+    </tr>
+    index = index + 1;
+}
+<tr @(settleTxt.Count == 0 ? "" : "Hidden")>
+    <td class="spa-label1 Nodata text-center margin-top10" colspan="7">
+        <img src="~/images/basket.png" />
+        @*No Data Found*@
+        <div>@(Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault())</div>
+    </td>
+</tr>

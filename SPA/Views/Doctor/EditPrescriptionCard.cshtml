@@ -1,0 +1,422 @@
+﻿@{
+    ViewBag.Title = "EditPrescriptionCard";
+    Layout = null;
+    var PrescriptionDetails = (List<CCTSP_CategoryDetails>)(ViewBag.MedicationList);
+    var PrePatientdetail = (SPA.Models.DoctorPagesDisplay)(ViewBag.PatientData);
+    int Count = ViewBag.Count;
+    List<SPA.Models.SpecialInsertForDoctor> AdviceList = new List<SPA.Models.SpecialInsertForDoctor>();
+    if (Count > 0)
+    {
+        AdviceList = (List<SPA.Models.SpecialInsertForDoctor>)Session["Advice"];
+    }
+    List<Language_Label_Detail> Language = ViewBag.doctorPageLang;
+    var Gender = ViewBag.Gender;
+}
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/bootstrap")
+<!--doctor popup-->
+<div class="doctor-popup">
+    <form id="PatientPricriptionDetails" method="post" action="/Doctor/AddDoctorNotes">
+        <div class="row form-group">
+            <div class="col-lg-24 col-md-24 col-sm-24 text-right"><a href="/Reservation/Reservation#openlistview" class="title-green16"><i class="fa fa-reply-all margin-right5"></i>@*Back To List*@ @Language.Where(c => c.Order_id == 30).Select(c => c.Value).FirstOrDefault()</a></div>
+        </div>
+        <div id="printSection" class="display-none">
+
+        </div>
+        <div class="doctor-detail-block">
+
+            <div class="patient-desc-block">
+                <div class="row">
+                    <input type="hidden" value="@PrePatientdetail.UserId" name="Userid" id="Userid" />
+                    <input type="hidden" value="@PrePatientdetail.EmpSchDetailsId" name="BookingId" id="BookingId" />
+                    <input type="hidden" value="2" name="Diff" id="Diff" />
+                    <div class="col-lg-12 col-md-12 col-sm-24 disTable form-group">
+                        <div class="patient-detail bg_green">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <label>
+                                        <span class="font-bold">@*Family Name*@ @Language.Where(c => c.Order_id == 31).Select(c => c.Value).FirstOrDefault():</span>
+                                        <span>@PrePatientdetail.LastName</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <label>
+                                        <span class="font-bold">@*First Name*@ @Language.Where(c => c.Order_id == 32).Select(c => c.Value).FirstOrDefault() :</span>
+                                        <span>@PrePatientdetail.FirstName</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-24 col-md-24 col-sm-24 border-top-white">
+                                    <label>
+                                        <span class="font-bold">@*Doctor Name*@ @Language.Where(c => c.Order_id == 33).Select(c => c.Value).FirstOrDefault() :</span>
+                                        <span>@PrePatientdetail.EmpFirstName</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        <div class="bg_green form-group">
+                            <div class="patient-detail">
+                                <label class="text-center">
+                                    <span class="font-bold">@*Gender*@ @Language.Where(c => c.Order_id == 34).Select(c => c.Value).FirstOrDefault() :</span>
+                                    @if (Gender == "Male")
+                                    { <span>@Language.Where(c => c.Order_id == 52).Select(c => c.Value).FirstOrDefault()</span>
+                                    }
+                                    else
+                                    { <span>@Language.Where(c => c.Order_id == 53).Select(c => c.Value).FirstOrDefault()</span>
+                                    }
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        <div class="bg_green form-group">
+                            <div class="patient-detail">
+                                <label class="text-center">
+                                    <span class="font-bold">@*Birthday*@ @Language.Where(c => c.Order_id == 35).Select(c => c.Value).FirstOrDefault() :</span>
+                                    <span>@PrePatientdetail.DOB.ToString("dd.MM.yyyy")</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        <div class="bg_green form-group">
+                            <div class="patient-detail">
+                                <label class="text-center">
+                                    <span class="font-bold">@*Date*@ @Language.Where(c => c.Order_id == 48).Select(c => c.Value).FirstOrDefault():</span>
+                                    <span>06.08.2016</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 form-group">
+                        <div class="doct-pre-img text-center">
+                            @if (!string.IsNullOrEmpty(PrePatientdetail.ShopImg))
+                            { <img src="@PrePatientdetail.ShopImg">
+                            }
+                            else
+                            { <img src="~/images/prescription-img.png">
+                            }
+                        </div>
+                    </div>
+                </div>
+                <!--Allergies-->
+                <div class="patient-main">
+                    <h5>@*Allergies*@ @Language.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault():</h5>
+                    <div class="main-grey-border">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="padding30">
+                                    <div class="border-green border-radius2">
+                                        <div class="p-relative">
+                                            <textarea class="form-control spa-text-box resizeNone txt-area-scroll" id="textareaAllergies" name="textareaAllergies" placeholder="@Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="padding30 bg-light-grey">
+                                    <div class="border-green margin-bottom30 p-relative" id="AllergiesFind_Border">
+                                        <div class="patient-complaint-list padding20">
+                                            <input type="text" class="form-control doctor-text-box" placeholder="@Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault()">
+                                            <a class="plus-icon" id="AllergiesAdd"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                                        </div>
+                                        <div class="">
+                                            <h4 class="list-title">@*Select Allergies*@ @Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault()</h4>
+                                            <ul class="disc-list" id="AllergiesFind">
+                                                @foreach (var Allergies in PrescriptionDetails.Where(c => c.CatgId == 136).OrderByDescending(c => c.CatgTypeId))
+                                                {
+                                                    <li>
+                                                        <a class="doctor-checkbox">
+                                                            <input name="Prescription_@Allergies.CatgTypeId" id="@Allergies.CatgTypeId" type="checkbox">
+                                                            <label for="@Allergies.CatgTypeId" class="">@Allergies.CatgDesc</label>
+                                                            @*<span class="doctor-edit"><i class="fa fa-pencil-square-o"></i></span>*@
+                                                            <span class="doctor-delete"><i class="fa fa-trash" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 38).Select(c => c.Value).FirstOrDefault()" data-original-title="" title=""></i></span>
+                                                        </a>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="border-green bg-white">
+                                        <ul class="medicine-list padding20 medicine-scroll" id="AllergiesFind_Display"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Allergies-->
+                <!--Diagnosis block-->
+                <div class="patient-main">
+                    <h5>@*Diagnosis*@ @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault():</h5>
+                    <div class="border-grey2 margin-bottom30">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="padding30">
+                                    <div class="border-green border-radius2">
+                                        <div class="p-relative">
+                                            <textarea class="form-control spa-text-box resizeNone txt-area-scroll" id="textareaPreMedicine" name="textareaPreMedicine" placeholder="@Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="bg-light-grey padding30">
+                                    <div class="border-green margin-bottom20" id="PreDiagnosisFind_Border">
+                                        <div class="patient-complaint-list padding20">
+                                            <input type="text" class="form-control doctor-text-box" placeholder="@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()">
+                                            <a class="plus-icon" id="PreDiagnosisAdd"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                                        </div>
+                                        <div class="">
+                                            <h4 class="list-title">@*Select Diagnosis*@ @Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()</h4>
+                                            <ul class="disc-list" id="PreDiagnosisFind">
+                                                @foreach (var PreDiagnosis in PrescriptionDetails.Where(c => c.CatgId == 137).OrderByDescending(c => c.CatgTypeId))
+                                                {
+                                                    <li>
+                                                        <a class="doctor-checkbox">
+                                                            <input name="Prescription_@PreDiagnosis.CatgTypeId" id="@PreDiagnosis.CatgTypeId" type="checkbox">
+                                                            <label for="@PreDiagnosis.CatgTypeId" class="">@PreDiagnosis.CatgDesc</label>
+                                                            @*<span class="doctor-edit"><i class="fa fa-pencil-square-o"></i></span>*@
+                                                            <span class="doctor-delete"><i class="fa fa-trash" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 38).Select(c => c.Value).FirstOrDefault()" data-original-title="" title=""></i></span>
+                                                        </a>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="border-green bg-white">
+                                        <ul class="medicine-list padding20 medicine-scroll height180" id="PreDiagnosisFind_Display"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Diagnosis block-->
+                <!--Advise block-->
+                <div class="patient-main">
+                    <div class="row">
+                        <div class="col-lg-24 col-md-24 col-sm-24">
+                            <h5>@*Advise*@ @Language.Where(c => c.Order_id == 23).Select(c => c.Value).FirstOrDefault() :</h5>
+                            <div class="border-green2px"></div>
+                            <div class="border-dark-grey margin-bottom30">
+                                <div class="MedicamentsPopup" id="MedicamentsPopup">
+                                    <div class="col-lg-24 col-md-24 col-sm-24 text-right margin-bottom10 border-bottom-grey">
+                                        @*<a class="grey-color font16 cursorPoint medicamentsToggle"><i class="fa fa-plus" aria-hidden="true"></i></a>*@
+                                        <a class="title-green16 GroupTextTouch medicamentsToggle" id="AddAdviceToggle">
+                                            <i class="fa fa-plus-square margin-right5"></i>
+                                            @*Add*@ @Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()
+                                        </a>
+                                    </div>
+
+                                    <div class="col-lg-24 col-md-24 col-sm-24 padding30-60 dis display-none borderBottoomGreen" id="OpenAddAdvice">
+                                        <div class="form-group row">
+                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                                <label class="form-label spa-label-bold">@*Text*@ @Language.Where(c => c.Order_id == 47).Select(c => c.Value).FirstOrDefault()</label>
+                                            </div>
+                                            <div class="col-lg-20 col-md-20 col-sm-20">
+                                                <input class="form-control spa-text-box  text-box single-line valid" id="txtAddMedicine" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                                <label class="form-label spa-label-bold">@*Text Type*@ @Language.Where(c => c.Order_id == 39).Select(c => c.Value).FirstOrDefault()</label>
+                                            </div>
+                                            <div class="col-lg-20 col-md-20 col-sm-20">
+                                                <div class="col-lg-8 col-md-8 col-sm-8 spa-radio">
+                                                    <input id="AddMedicine" type="radio" name="Medicine" checked="checked">
+                                                    <label for="AddMedicine" class="form-label spa-label1 margin-top8"> @*Medicine*@ @Language.Where(c => c.Order_id == 47).Select(c => c.Value).FirstOrDefault()</label>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-sm-8 spa-radio">
+                                                    <input id="AddWhenToTake" type="radio" name="Medicine">
+                                                    <label for="AddWhenToTake" class="form-label spa-label1 margin-top8">@*Takes*@ @Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault()</label>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-sm-8 spa-radio">
+                                                    <input id="AddNoOfTimes" type="radio" name="Medicine">
+                                                    <label for="AddNoOfTimes" class="form-label spa-label1 margin-top8">@*When*@ @Language.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault()</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-24 col-md-24 col-sm-24 text-right margin-top15">
+                                                <span id="MediValMessage" class="doctorValid"></span>
+                                                <button class="save-btn bg-close-btn" id="AddAdvice" type="button">@*Save*@ @Language.Where(c => c.Order_id == 43).Select(c => c.Value).FirstOrDefault()</button>
+                                                <button class="save-btn bg-close-btn" id="cancelAdvice" type="button">@*Cancel*@ @Language.Where(c => c.Order_id == 44).Select(c => c.Value).FirstOrDefault()</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="padding30-60 p-relative overflowhidden">
+                                    <div class="row margin-bottom30">
+                                        <div class="col-lg-22 col-lg-offset-1 col-md-22 col-md-offset-1 col-sm-22 col-sm-offset-1">
+                                            <div class="col-lg-8 col-md-8 col-8">
+                                                <h4 class="font14 txtRobotoMedium margin-bottom10">@*Select Medicine*@ @Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()</h4>
+                                                <div class="medicine-dropdown">
+                                                    <div class="dropdown">
+                                                        <a class="dropdown-toggle form-control select-medicine SelectedMedicinePre" data-toggle="dropdown" aria-expanded="false">
+                                                            @PrescriptionDetails.Where(c => c.ActiveStatus == "A" && c.CatgId == 130).OrderByDescending(c => c.CatgTypeId).Select(c => c.CatgDesc).FirstOrDefault()
+                                                            <span class="caret"></span>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropMedicinePre" id="MedicineListPre">
+                                                            @foreach (var Medicine in PrescriptionDetails.Where(c => c.CatgId == 130).OrderByDescending(c => c.CatgTypeId))
+                                                            {
+                                                                <li><a id="@Medicine.CatgTypeId">@Medicine.CatgDesc</a></li>
+                                                            }
+                                                        </ul>
+                                                        @if (PrescriptionDetails.Count > 0)
+                                                        {
+                                                            <input type="hidden" value="@PrescriptionDetails.Where(c=>c.CatgId == 130 && c.ActiveStatus=="A").OrderByDescending(c => c.CatgTypeId).Select(c=>c.CatgTypeId).FirstOrDefault()" name="SelectedMedicinePre" id="SelectedMedicinePre" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="hidden" value="" name="SelectedMedicinePre" id="SelectedMedicinePre" />
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-8">
+                                                <h4 class="font14 txtRobotoMedium margin-bottom10">@*Takes*@ @Language.Where(c => c.Order_id == 45).Select(c => c.Value).FirstOrDefault()</h4>
+                                                <div class="medicine-dropdown">
+                                                    <div class="dropdown" id="TakesMediListPre">
+                                                        <a class="dropdown-toggle form-control select-medicine SelectedNumOfTimetakePre" data-toggle="dropdown" aria-expanded="false">
+                                                            @PrescriptionDetails.Where(c => c.CatgId == 134 && c.ActiveStatus == "A").OrderByDescending(c => c.CatgTypeId).Select(c => c.CatgDesc).FirstOrDefault() <span class="caret"></span>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropNumOfTimetakePre">
+                                                            @foreach (var NumOfTimetake in PrescriptionDetails.Where(c => c.CatgId == 134).OrderByDescending(c => c.CatgTypeId))
+                                                            {
+                                                                <li><a id="@NumOfTimetake.CatgTypeId">@NumOfTimetake.CatgDesc</a></li>
+                                                            }
+                                                        </ul>
+                                                        @if (PrescriptionDetails.Count > 0)
+                                                        {
+                                                            <input type="hidden" value="@PrescriptionDetails.Where(c=>c.CatgId==134 && c.ActiveStatus=="A").OrderByDescending(c => c.CatgTypeId).Select(c=>c.CatgTypeId).FirstOrDefault()" name="SelectedNumOfTimetakePre" id="SelectedNumOfTimetakePre" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="hidden" value="" name="SelectedNumOfTimetakePre" id="SelectedNumOfTimetakePre" />
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-8">
+                                                <h4 class="font14 txtRobotoMedium margin-bottom10">@*When*@ @Language.Where(c => c.Order_id == 46).Select(c => c.Value).FirstOrDefault()</h4>
+                                                <div class="medicine-dropdown">
+                                                    <div class="dropdown">
+                                                        <a class="dropdown-toggle form-control select-medicine SelectedWhenToTakePre" data-toggle="dropdown" aria-expanded="false">
+                                                            @PrescriptionDetails.Where(c => c.CatgId == 133 && c.ActiveStatus == "A").OrderByDescending(c => c.CatgTypeId).Select(c => c.CatgDesc).FirstOrDefault()<span class="caret"></span>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropWhenToTakePre" id="WhenDispListPre">
+                                                            @foreach (var WhenToTake in PrescriptionDetails.Where(c => c.CatgId == 133).OrderByDescending(c => c.CatgTypeId))
+                                                            {
+                                                                <li><a id="@WhenToTake.CatgTypeId">@WhenToTake.CatgDesc</a></li>
+                                                            }
+                                                        </ul>
+                                                        @if (PrescriptionDetails.Count > 0)
+                                                        {
+                                                            <input type="hidden" value="@PrescriptionDetails.Where(c=>c.CatgId==133 && c.ActiveStatus=="A").OrderByDescending(c => c.CatgTypeId).Select(c=>c.CatgTypeId).FirstOrDefault()" name="SelectedWhenToTakePre" id="SelectedWhenToTakePre" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="hidden" value="" name="SelectedWhenToTakePre" id="SelectedWhenToTakePre" />
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-22 col-lg-offset-1 col-md-22 col-md-offset-1 col-sm-22 col-sm-offset-1">
+                                        <div class="border-green border-radius2 margin-bottom20 medicaments-remark">
+                                            <textarea class="form-control spa-text-box resizeNone txt-area-scroll" id="textAdvice" name="textAdvice" placeholder="@Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()"></textarea>
+                                        </div>
+                                        <div class="text-right margin-bottom30 margin-top15">
+                                            <span id="statusAdvice" class="doctorValid"></span>
+                                            <button class="save-btn bg-close-btn" onclick="AddDoctorAdvice();" type="button">@*Add*@ @Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="medicine-detail-list margin-bottom10">
+                                    <ul id="AdviceDisplay">
+                                        @if (Count > 0)
+                                        {
+                                            foreach (var item in AdviceList.OrderByDescending(c => c.SpId))
+                                            {
+                                                <li>
+                                                    <div class="col-lg-21 col-md-21 col-sm-21 col-xs-21">@item.catgDesc</div>
+                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a id="@item.SpId"><i class="fa fa-trash spa-icon1 sure-span" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 38).Select(c => c.Value).FirstOrDefault()" data-original-title="" title=""></i><span class="pull-left display-none color-blue">Sure ?</span></a></div>
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                                <div class="padding30 bg-light-white medicaments-block">
+                                    <div class="p-relative form-group border-green border-radius2">
+                                        <textarea class="form-control spa-text-box resizeNone txt-area-scroll" id="textareaAdvise" name="textareaAdvise" placeholder="@Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Advise block-->
+                <!--FollowUp block-->
+                <div class="patient-main">
+                    <h5>@*Follow Up*@ @Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault() :</h5>
+                    <div class="row form-group">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="border-dark-grey">
+                                <div class="bg-light-white padding20">
+                                    <div class="p-relative border-green advise-height">
+                                        <textarea class="form-control spa-text-box resizeNone txt-area-scroll" id="textareaFollowUp" name="textareaFollowUp" placeholder="@Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="border-dark-grey">
+                                <ul class="doctor-presc-detail">
+                                    <li>
+                                        <label class="doc-sign">@*Signature Doctor*@ @Language.Where(c => c.Order_id == 25).Select(c => c.Value).FirstOrDefault():</label>
+                                    </li>
+                                    <li>
+                                        <label>@*Name Doctor*@ @Language.Where(c => c.Order_id == 26).Select(c => c.Value).FirstOrDefault(): </label>
+                                        <label class="margin-left10">@PrePatientdetail.EmpFirstName @PrePatientdetail.EmpLastName</label>
+                                    </li>
+                                    <li>
+                                        <label>@*Place &amp; date*@ @Language.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault(): </label>
+                                        <label class="margin-left10">@PrePatientdetail.Address, 06.08.2016</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <button class="save-btn bg-close-btn" onclick="SavePrescription('PatientPricriptionDetails','SaveAndPrint',@PrePatientdetail.EmpSchDetailsId,null);" type="button">@*Save & Print*@ @Language.Where(c => c.Order_id == 28).Select(c => c.Value).FirstOrDefault()</button>
+                    @if (PrePatientdetail.EmailId != "" && PrePatientdetail.EmailId != null)
+                    {
+                        <button class="save-btn bg-close-btn" onclick="SavePrescription('PatientPricriptionDetails','SaveMailAndPrint',@PrePatientdetail.EmpSchDetailsId,'@PrePatientdetail.EmailId');" type="button">@*Save, Mail & Print*@ @Language.Where(c => c.Order_id == 29).Select(c => c.Value).FirstOrDefault()</button>
+                    }
+                </div>
+                <!--FollowUp block-->
+            </div>
+        </div>
+    </form>
+</div>
+<div class="loader" id="loader" style="display:none;">
+    <img src="~/images/Doctor_Loader3.gif" />
+</div>
+<!--doctor popup-->
+<script>
+    AddSelectedCatg();
+    SelectedCheckbox();
+    FillDropDown();
+    DelDoctorPreDetails();
+    DeleteSelectedItem();
+    ToolTip();
+    Medication();
+    if(@Count >0)
+    {
+        EditDoctorNotes(@PrePatientdetail.EmpSchDetailsId,2);
+    }
+</script>

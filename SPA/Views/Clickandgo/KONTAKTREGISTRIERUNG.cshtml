@@ -1,0 +1,238 @@
+﻿@{
+    ViewBag.Title = "KONTAKTREGISTRIERUNG";
+    List<Language_NewShop> Language = ViewBag.Language;
+    Language = Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE").ToList();
+    var LangId = Language.Select(c => c.Lang_id).FirstOrDefault();
+}
+@if (Session["Message"].ToString() == "Done")
+{
+    <script>
+        $.post("/Translation/AlertMsg?id=1&LangId=" + @LangId, function (data1) {
+            $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">" + data1 + "</p>");
+            $('#welcome').modal("show");
+        });
+        Session["Message"]="";
+    </script>
+}
+@if (Session["Message"].ToString() == "Error")
+{
+    <script>
+        $.post("/Translation/AlertMsg?id=2&LangId=" + @LangId, function (failure) {
+            $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">" + failure + "</p>");
+            $('#welcome').modal("show");
+        });
+    </script>
+    Session["Message"] = "";
+}
+
+<div class="bg3 swp-adv Contact">
+    <div class="container">
+        <form name="ContactForm" id="ContactForm" action="/Home/Contact" method="post">
+            <div class="row">
+                <div class="col-lg-23 col-lg-offset-1 col-md-24">
+                    <div class="font-s18">
+                        <h4 class="f-family32 font-s18">@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 1).Select(c => c.Value).FirstOrDefault())@*Sie wollen dass wir mit Ihnen Kontakt aufnehmen?*@</h4>
+                        <p class="f-family3 font-s18">@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 2).Select(c => c.Value).FirstOrDefault())@*Bitte melden Sie sich via untenstehendem Formular, wir werden Sie umgehend kontaktieren*@</p>
+                    </div>
+
+                    <h4 class="font-s18 margintop20 f-family32">@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 3).Select(c => c.Value).FirstOrDefault())@*Kontaktformular*@</h4>
+                    <ul class="row">
+                        <li class="col-lg-11 col-md-11">
+                            <div class="form-group">
+                                <input class="form-control Shop-textBox required" id="BusinessName" name="BusinessName" type="text" placeholder="@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 4).Select(c => c.Value).FirstOrDefault())" />
+                            </div>
+                            <div class="form-group">
+                                <ul class="row">
+                                    <li class="col-lg-6">
+                                        @Html.DropDownList("TitlePublic", (SelectList)(ViewBag.Client), Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 27).Select(c => c.Value).FirstOrDefault(), new { @class = "required form-control Shop-textBox", @id = "TitleContact" })
+                                    </li>
+                                    <li class="col-lg-18">
+                                        <input class="form-control Shop-textBox required" id="FirstName" name="FirstName" type="text" placeholder="@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 5).Select(c => c.Value).FirstOrDefault())">
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="form-group">
+                                <input class=" form-control Shop-textBox required" id="LastName" name="LastName" type="text" placeholder="@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 6).Select(c => c.Value).FirstOrDefault())">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control Shop-textBox required email" id="EmailId" name="EmailId" type="text" placeholder="@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 7).Select(c => c.Value).FirstOrDefault())">
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control Shop-textBox" id="Message" name="Message" placeholder="@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 8).Select(c => c.Value).FirstOrDefault())"></textarea>
+                            </div>
+                            <input type="hidden" value="@ViewBag.LangId" name="Languages" id="Languages" />
+                        </li>
+                        <li class="col-lg-11 col-lg-offset-1 col-md-11 col-md-offset-1">
+                            <div class="row">
+                                <div class="col-lg-18 col-md-18 col-sm-18 error-labl">
+                                    <div class="form-group">
+                                        <input class="form-control required text-box Shop-textBox required" id="Road" name="Road" type="text" placeholder="@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 9).Select(c => c.Value).FirstOrDefault())">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control required text-box Shop-textBox required" id="Near" name="Near" type="text" placeholder="@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 10).Select(c => c.Value).FirstOrDefault())">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-5 col-md-5 col-sm-5">
+                                    <div class="form-group">
+                                        <input class="form-control required text-box Shop-textBox required number" maxlength="8" id="Zipcode" name="Zipcode" type="text" placeholder="@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 11).Select(c => c.Value).FirstOrDefault())">
+                                    </div>
+                                </div>
+                                <div class="col-lg-19 col-md-19 col-sm-19">
+                                    <div class="form-group">
+                                        <input class="form-control required text-box Shop-textBox required" id="City" name="City" type="text" placeholder="@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 12).Select(c => c.Value).FirstOrDefault())">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control required text-box Shop-textBox required number" id="Mobile" name="Mobile" type="text" placeholder="@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 13).Select(c => c.Value).FirstOrDefault())">
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="border-above">
+                <input type="submit" class="btn margintop20 btn-green font-s16 width160" value="@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 14).Select(c => c.Value).FirstOrDefault())" />
+
+            </div>
+        </form>
+        @*<a href="/Registration/Login?lang=@LanguageId">
+                <div class="border-above">
+                    <input type="button" class="btn margintop20 btn-green font-s16 f-family1 width160" value="Registration" />
+                </div>
+            </a>*@
+        <div style="display:none">
+            <form name="Registration" id="Registration" action="/Home/Registration" method="post">
+                <div class="row">
+                    <div class="col-lg-23 col-lg-offset-1 col-md-24">
+                        <h4 class="font-s20 f-family32 mb5">@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 15).Select(c => c.Value).FirstOrDefault())@*Sie wollen sich bei uns registrieren?*@</h4>
+                        <p class="f-family3 font-s18 mb15">@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 16).Select(c => c.Value).FirstOrDefault())@*Vielen Dank dass Sie sich für uns entschieden haben, bitte folgen Sie den Registrierungsanweisungen.*@</p>
+                        <p class="font-s20 f-family32 color6 mb5">@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 17).Select(c => c.Value).FirstOrDefault())@*Registration*@</p>
+                        <p class="f-family3 font-s16 color6 mb5"><span class="starRed1"></span>@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 18).Select(c => c.Value).FirstOrDefault())@*Required Field*@</p>
+                        <div class="col-lg-16 col-md-16">
+                            <input type="hidden" value="@ViewBag.LangId" name="Languages" id="Languages" />
+                            <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8">
+                                    <label class="f-family2 font-s14 color7 starRed">@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 19).Select(c => c.Value).FirstOrDefault())@*Name*@</label>
+
+                                </div>
+                                <div class="col-lg-16 col-md-16 col-sm-16">
+                                    <div class="form-group">
+                                        <input class="form-control Shop-textBox " id="NameReg" name="NameReg" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8">
+                                    <label class="f-family2 font-s14 color7 starRed">@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 20).Select(c => c.Value).FirstOrDefault())@*Username*@</label>
+
+                                </div>
+                                <div class="col-lg-16 col-md-16 col-sm-16">
+                                    <div class="form-group">
+                                        <input class="form-control Shop-textBox " id="UsernameReg" name="UsernameReg" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8">
+                                    <label class="f-family2 font-s14 color7 starRed">@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 21).Select(c => c.Value).FirstOrDefault())@*Password*@</label>
+                                </div>
+                                <div class="col-lg-16 col-md-16 col-sm-16">
+                                    <div class="form-group">
+                                        <input class="form-control Shop-textBox " id="PasswordReg" name="PasswordReg" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8">
+                                    <label class="f-family2 font-s14 color7 starRed">@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 22).Select(c => c.Value).FirstOrDefault())@*Confirm Password*@</label>
+
+                                </div>
+                                <div class="col-lg-16 col-md-16 col-sm-16">
+                                    <div class="form-group">
+                                        <input class="form-control Shop-textBox " id="ConfirmPasswordReg" name="ConfirmPasswordReg" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8">
+                                    <label class="f-family2 font-s14 color7 starRed">@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 23).Select(c => c.Value).FirstOrDefault())@*Email Address*@</label>
+
+                                </div>
+                                <div class="col-lg-16 col-md-16 col-sm-16">
+                                    <div class="form-group">
+                                        <input class="form-control Shop-textBox " id="EmailReg" name="EmailReg" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8">
+                                    <label class="f-family2 font-s14 color7 starRed">@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 24).Select(c => c.Value).FirstOrDefault())@*Confirm Email Address*@</label>
+
+                                </div>
+                                <div class="col-lg-16 col-md-16 col-sm-16">
+                                    <div class="form-group">
+                                        <input class="form-control Shop-textBox " id="ConfirmEmailReg" name="ConfirmEmailReg" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8">
+                                    <label class="f-family2 font-s14 color7 starRed">@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 25).Select(c => c.Value).FirstOrDefault())@*Captcha*@</label>
+
+                                </div>
+                                <div class="col-lg-16 col-md-16 col-sm-16">
+                                    <div class="form-group">
+                                        <div class="captcha">
+                                            @*@Html.Captcha(4)*@
+                                        </div>
+                                        @*<input class="form-control Shop-textBox " id="captcha" name="captcha" type="text" />*@
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-24 col-md-24 border-above">
+                            <a href="#" class="btn margintop20 btn-green font-s16 f-family32 width160" id="RegBtn">@Html.Raw(Language.Where(c => c.Page_Name == "CONTACT_REGIST_PAGE" && c.Order_id == 26).Select(c => c.Value).FirstOrDefault())@*Registrieren*@</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@if (ViewBag.LangId == 1)
+{
+    <script>
+        $("#LangChange #English a").addClass("activeShop");
+    </script>
+}
+@if (ViewBag.LangId == 2)
+{
+    <script>
+        $("#LangChange #German a").addClass("activeShop");
+    </script>
+}
+@if (ViewBag.LangId == 3)
+{
+    <script>
+        $("#LangChange #French a").addClass("activeShop");
+    </script>
+}
+@Html.Partial("_ClickFooter", ((List<Language_NewShop>)ViewBag.Language).Where(c => c.Page_Name == "Layout_Footer").ToList())
+
+<script>
+    $("#ContactForm").validate();
+    $("#Menu-page li").removeClass("active");
+    $("#KONK").addClass("active");
+    $(".captcha").html($(".captcha").html().replace('Input symbols', ''));
+    $(".captcha a").addClass("refresh");
+    $(".captcha a").html('<span class="glyphicon glyphicon-refresh"></span><span class="glyphicon glyphicon-volume-up"></span><span class="glyphicon glyphicon-question-sign"></span>');
+
+</script>
+

@@ -1,0 +1,250 @@
+﻿
+@{
+    //ViewBag.Title = "DisplayNotes";
+    Layout = null;
+    List<SPA.Models.DoctorPagesDisplay> NoteSectionList = new List<SPA.Models.DoctorPagesDisplay>();
+    NoteSectionList = Model;
+    string Today = NoteSectionList.Select(c => c.BookingDate).FirstOrDefault();
+    //bool IsPrintStatus = ViewBag.Status;
+    long ReservationId = 0;
+    var LangList = (List<SPA.Models.LanguageLabelDetails>)(ViewBag.Language);
+    var SectionList = LangList.Where(c => c.Page_Name == "Therapist_Notes").ToList();
+    var Language = LangList.Where(c => c.Page_Name == "Therapist_Notes_Default").ToList();
+    ViewBag.Title = Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault();
+    //string DStatus = ViewBag.Display;
+    var LogoImg = ViewBag.Logo;
+}
+<title>@ViewBag.Title</title>
+<style>
+    .display_view{padding: 0 25px 20px 25px;}
+    .display-none{display:none;}
+    .doct-pre-img img {height: 45px;}
+    .New_section_block {background: #fff;padding: 0;box-shadow: none;border: none;margin-top: 30px;}
+    .New_section_block h5 {display: table;padding-bottom: 4px;border-bottom: 1px solid #686868;color: #686868;font-size: 18px;margin-top: 15px;margin-bottom: 15px;}
+    .doctor-presc-detail {background: #fff;padding:10px;width:100%;display:inline-block;}
+    .doctor-presc-detail table tbody tr td {border-top: 0;padding: 3px 12px;font-size: 14px;color: #686868;font-family: 'robotomedium';font-weight: normal;}
+     .border-dark-grey {border: 1px solid #ababab;}
+     .minHeigth70 {min-height: 70px;}
+     .list-text {color: #7c7c7c;font-size: 16px;line-height: 28px;list-style-type: none;}
+     .doctor-presc-detailInline li {display: inline;padding-right: 5%;word-break:break-all;}
+     .padding20 {padding: 20px;}
+</style>
+<div class="display_view">
+    <div class="Note_display">
+        <div class="Note_displayBox">
+            <div style="text-align:center" class="Print_block">
+                <h4 class="card-heading" style="padding-bottom:20px;"> @*OPD Prescription card*@ @Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()</h4>
+            </div>
+            @if (NoteSectionList.Count > 0)
+            {
+                var UserInfo = NoteSectionList.FirstOrDefault();
+                ReservationId = UserInfo.EmpSchDetailsId.Value;
+                var FollowUp = NoteSectionList.Where(c => c.SectionType == "follow").FirstOrDefault();
+                <!--Print View Page-->
+                <div class="clearfix"></div>
+                <div class="display-none printborder-dark-grey pageBreak disaplyNone_pdf" style="overflow:hidden;">
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 printHeaderTable">
+                        <table class="table" style="width:auto">
+                            <tbody>
+                                <tr class="font-bold">
+                                    <td>@*Family Name*@ @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td>:</td>
+                                    <td>@*Divya*@ @UserInfo.LastName</td>
+                                </tr>
+                                <tr class="font-bold">
+                                    <td>@*First Name*@ @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td>:</td>
+                                    <td>@*Patel*@ @UserInfo.FirstName</td>
+                                </tr>
+                                <tr class="font-bold">
+                                    <td>@*Doctor Name*@ @Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td>:</td>
+                                    <td>@*Patel*@ @UserInfo.EmpFirstName @UserInfo.EmpLastName</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 printHeaderTable">
+                        <table class="table" style="width:auto">
+                            <tbody>
+                                <tr class="font-bold">
+                                    <td>@*Gender*@ @Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td>:</td>
+                                    <td>@*Female*@ @UserInfo.Title</td>
+                                </tr>
+                                <tr class="font-bold">
+                                    <td>@*BirthDay*@ @Language.Where(c => c.Order_id == 34).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td>:</td>
+                                    <td>@(UserInfo.DOB.ToString("dd.MM.yyyy") != "01.01.0001" ? UserInfo.DOB.ToString("dd.MM.yyyy") : "")</td>
+                                </tr>
+                                <tr class="font-bold">
+                                    <td>@*Age*@ @Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td>:</td>
+                                    <td>@*25 Years*@ @(UserInfo.Age > 0 ? Convert.ToString(UserInfo.Age) : Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()) @(UserInfo.Age > 0 ? Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault() : "")</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div class="doct-pre-img text-center margin-top10">
+                            <img src="@LogoImg" onerror="this.onerror = null; this.src = '/images/prescription-img.png';" alt="">
+                        </div>
+                    </div>
+                </div>
+                <!--Print View Page End-->
+                <!--Prescription block-->
+                <div class="">
+                    @foreach (var Item in NoteSectionList.Where(c => c.flg != 1).Select(c => c.SectionCatgId).Distinct().ToList())
+                    {
+                        var CatgInfo = NoteSectionList.Where(c => c.SectionCatgId == Item).ToList();
+                        <div class="New_section_block pageBreak">
+                            <h5>@*New section*@ @SectionList.Where(c => c.English_Label == "Catg_Label" && c.Label_Name == Convert.ToString(Item)).Select(c => c.Value).FirstOrDefault()</h5>
+                            <div class="doctor-presc-detail border-dark-grey minHeigth70" style="width:100%;">
+                                <ul class="list-text doctor-presc-detailInline">
+                                    @foreach (var Catg in CatgInfo)
+                                    {
+                                        <li>@Catg.CatgDesc</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                    @if (FollowUp != null)
+                    {
+                        <div class="New_section_block margin_Top20" style="width:100%;display:inline-block;margin-top:20px;">
+                            <div class="padding20 doctor-presc-detail border-dark-grey minHeigth70">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td>@*Follow up*@ @SectionList.Where(c => c.English_Label == "Catg_Label" && c.Label_Name == Convert.ToString(FollowUp.SectionCatgId)).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td>:</td>
+                                            <td>@*10 Days*@ @FollowUp.CatgDesc</td>
+                                        </tr>
+                                        <tr>
+                                            <td>@*Signature Doctor*@ @Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td>:</td>
+                                            <td class="">............................................................</td>
+                                        </tr>
+                                        <tr>
+                                            <td>@*Name Doctor*@ @Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td>:</td>
+                                            <td>@*Patel*@ @UserInfo.EmpFirstName @UserInfo.EmpLastName</td>
+                                        </tr>
+                                        <tr>
+                                            <td>@*Place & date*@ @Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td>:</td>
+                                            <td>
+                                                @UserInfo.Address, @Today
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }               
+                </div>
+                    <!--Prescription block-->
+            }
+        </div>
+    </div>
+    @*<div class="display-none printborder-dark-grey pageBreak" style="overflow:hidden;">
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 printHeaderTable">
+            <table class="table" style="width:auto">
+                <tbody>
+                    <tr class="font-bold">
+                        <td>Family Name</td>
+                        <td>:</td>
+                        <td>Divya</td>
+                    </tr>
+                    <tr class="font-bold">
+                        <td>First Name</td>
+                        <td>:</td>
+                        <td>Patel</td>
+                    </tr>
+                    <tr class="font-bold">
+                        <td>Doctor Name</td>
+                        <td>:</td>
+                        <td>Patel</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 printHeaderTable">
+            <table class="table" style="width:auto">
+                <tbody>
+                    <tr class="font-bold">
+                        <td>Gender</td>
+                        <td>:</td>
+                        <td>Female</td>
+                    </tr>
+                    <tr class="font-bold">
+                        <td>Age</td>
+                        <td>:</td>
+                        <td>25 Years</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="doct-pre-img text-center margin-top10">
+                <img src="~/images/prescription-img.png">
+            </div>
+        </div>
+    </div>
+    <div class="">
+            <div class="New_section_block pageBreak">
+                <h5>New section</h5>
+                <div class="doctor-presc-detail border-dark-grey minHeigth70" style="width:100%;">
+                    <ul class="list-text doctor-presc-detailInline">
+                       <li>aaa</li>
+                        <li>bbb</li>
+                        <li>ccc</li>
+                        <li>dddd</li>
+                    </ul>
+                </div>
+            </div>
+        <div class="New_section_block pageBreak">
+            <h5>New section</h5>
+            <div class="doctor-presc-detail border-dark-grey minHeigth70" style="width:100%;">
+                <ul class="list-text doctor-presc-detailInline">
+                    <li>aaa</li>
+                    <li>bbb</li>
+                    <li>ccc</li>
+                    <li>dddd</li>
+                </ul>
+            </div>
+        </div>
+        <div class="New_section_block" style="width:100%;display:inline-block;">
+            <div class="padding20 doctor-presc-detail border-dark-grey minHeigth70">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>Follow up</td>
+                            <td>:</td>
+                            <td>10 Days</td>
+                        </tr>
+                        <tr>
+                            <td>Signature Doctor</td>
+                            <td>:</td>
+                            <td class="">............................................................</td>
+                        </tr>
+                        <tr>
+                            <td>Name Docto</td>
+                            <td>:</td>
+                            <td>Patel</td>
+                        </tr>
+                        <tr>
+                            <td>Place & date</td>
+                            <td>:</td>
+                            <td>
+                                Near Vadsar Bridge 25.01.2017
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>*@
+</div>
+
+

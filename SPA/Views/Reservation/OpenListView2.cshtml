@@ -1,0 +1,75 @@
+﻿@using System.Configuration
+@{
+    ViewBag.Title = "OpenListView";
+    Layout = null;
+    string currency = ViewBag.currency;
+    int DoctorPagStatus = 0;
+    if (ViewBag.DoctorPage != null && ViewBag.DoctorPage != 0)
+    {
+        DoctorPagStatus = ViewBag.DoctorPage;
+    }
+    int schlId = Convert.ToInt32(ConfigurationManager.AppSettings["ApplicationVariable"]);
+    cctspDatabaseEntities22 SPA = new cctspDatabaseEntities22();
+    List<Language_Label_Detail> Language = new List<Language_Label_Detail>();
+    int LanguageId = SPA.CCTSP_SchoolMaster.Where(c => c.ActiveStatus == "A" && c.SchlId == schlId).Select(c => c.Lang_id).FirstOrDefault().Value;
+    Language = SPA.Language_Label_Detail.Where(c => c.Page_Name == "Reservation_Open_List" && c.Lang_id == LanguageId).ToList();
+    string TabStatus = ViewBag.status;
+}
+
+<div class="assign-product">
+    <div class="margin-top15 user-details res-margin-btm">
+        
+    </div>
+    <div class="clearfix"></div>
+    <div class="choose-your-product table-responsive pending-approval-table padding0" id="fixColumnHead">
+        <table class="table table-striped openListViewtable" id="openListViewtable">
+            <thead>
+                <tr>
+                    <th>@Language.Where(c => c.Order_id == 17).Select(c => c.Value).FirstOrDefault()@*NO*@</th>
+                    <th>@Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()@*FAMILY NAME*@</th>
+                    <th>@Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()@*FIRST NAME*@</th>
+                    <th>@Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault()@*SERVICEBOOKED*@</th>
+                    <th>@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()@*EMPLOYEE*@</th>
+                    <th>@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()@*DATE*@</th>
+                    <th>@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()@*START*@</th>
+                    <th>@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()@*END*@</th>
+                    <th>@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()@*DURATION*@</th>
+                    <th>@currency</th>
+                    <th id="EditAppointment">@Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault()@*Edit*@</th>
+                    @if (DoctorPagStatus == 3)
+                    {
+                        <th id="DoctorPrescription">Prescription</th>
+                    }
+                    @if (DoctorPagStatus == 1)
+                    {
+                        <th id="Doctornotes">Doctor Note</th>
+                        <th id="Prescription">Prescription</th>
+                    }
+                    <th id="AppointmentClosed">@Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()@*AP CLOSED?*@</th>
+                    <th id="AppointmentDecline">@Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()@*DECLINE?*@</th>
+                    @*<th id="AppointmentReturn">@Language.Where(c => c.Order_id == 23).Select(c => c.Value).FirstOrDefault()</th>*@
+                    <th>@Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault()@*source*@</th>
+                    <th id="OpenListComment">@Language.Where(c => c.Order_id == 25).Select(c => c.Value).FirstOrDefault()@*COMMENT*@</th>
+                    <th>@Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault()@*CREATED DATE*@</th>
+                </tr>
+            </thead>
+            <tbody id="ListOpenViewBody">
+                @Html.Action("PendingForListViewDetail", "Reservation", new { Status = TabStatus })
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $('.OpenDropMenuList li a').click(function () {
+        $(".loader").show();
+        var selText = $(this).prop('id');
+        var TextDisplay = $.trim($(this).html());
+        $.post("/Reservation/PendingForListViewDetail?Status=" + selText + "", function (data) {
+            $("#ListOpenViewBody").html(data);
+            $(".DropListViewDet").html(TextDisplay + '<span class="caret"></span>');
+            $(".loader").hide();
+        });
+    });
+</script>
+
+

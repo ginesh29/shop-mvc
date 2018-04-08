@@ -1,0 +1,356 @@
+﻿@{
+    Layout = null;
+    List<SPA.Models.LanguageLabelDetails>
+    Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.Language;
+    ViewBag.Title = Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault();
+    List<SPA.Models.InvoiceReport> Report = new List<SPA.Models.InvoiceReport>();
+    Report = Model;
+    DateTime MinDate = new DateTime();
+    DateTime MaxDate = new DateTime();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Reports_Print.css" rel="stylesheet" />
+    <style>
+        .backgound_year {
+            background-color: #f2f3f5;
+        }
+
+        .year_report {
+            margin: 2% 10%;
+            background-color: #fff;
+            padding: 10px 20px;
+            overflow: hidden;
+        }
+
+        .yRop_heading h4 {
+            font-size: 24px;
+            font-family: 'robotobold';
+            color: #84b002 !important;
+        }
+
+        .address_box {
+            border: 1px solid #ddd;
+            padding: 10px 20px;
+        }
+
+        .Month_RepBold {
+            color: #2a2a2a;
+            font-size: 14px;
+            font-family: 'robotobold';
+        }
+
+        .Month_Repregular {
+            color: #000;
+            font-size: 14px;
+            font-family: 'robotoregular';
+        }
+
+        .Rep_logo {
+            height: 110px;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto;
+        }
+
+            .Rep_logo img {
+                margin: auto;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                max-height: 100%;
+                max-width: 100%;
+                position: absolute;
+            }
+
+        .Details_section h4 {
+            padding: 10px 20px;
+            background-color: #f3f3f3 !important;
+            color: #292929;
+            font-family: 'robotoregular';
+            font-size: 20px;
+        }
+
+        .reservation_det tbody tr td {
+            padding: 3px 20px;
+        }
+
+        .width200 {
+            width: 200px;
+        }
+
+        .foooter_border {
+            border-bottom: 0 !important;
+            border-top: 2px solid #000;
+        }
+
+        .monthRep_footer {
+            border: 1px solid #84b002;
+            padding: 10px 20px;
+        }
+
+        .footer_sign {
+            color: #2a2a2a;
+            margin: 35px 0;
+            padding-top: 5px;
+            border-top: 2px dashed #d0d0d0;
+            width: 85%;
+            font-size: 14px;
+        }
+
+        .yeartable_heading {
+            color: #000;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .Back_button {
+            margin: 2% 10% 0 10%;
+            text-align: right;
+        }
+
+        .back {
+            color: #84b002;
+            word-break: break-word;
+            font-size: 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .header_border {
+            border-bottom: 2px solid #000;
+        }
+    </style>
+</head>
+<body class="backgound_year">
+    <div class="Back_button">
+        <a href="/Invoice/Invoicing#Reports" class="back"><i class="fa fa-reply-all" style="margin-right:5px;font-size: 18px;"></i>Back</a>
+    </div>
+    <div class="year_report">
+        <div class="yRop_heading">
+            <h4>@*Annual report / form for fiduciary*@ @Language.Where(c => c.Order_id == 17).Select(c => c.Value).FirstOrDefault()</h4>
+        </div>
+        <div style="display: inline-block;width: 100%;margin: 20px 0;">
+            <div style="width: 78.5%;float: left;margin-right: 10px;min-height:132px;" class="address_box">
+                <table class="address_table" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th style="padding-bottom: 10px;" class="Month_RepBold">@*Adress Field*@ @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="Month_Repregular">@Report.Select(c => c.ShopName).FirstOrDefault()</td>
+                        </tr>
+                        <tr>
+                            <td class="Month_Repregular">@Report.Select(c => c.ShopStreet).FirstOrDefault() @Report.Select(c => c.ShopStreetNumber).FirstOrDefault()</td>
+                        </tr>
+                        <tr>
+                            <td class="Month_Repregular">@Report.Select(c => c.ShopZipcode).FirstOrDefault() @Report.Select(c => c.ShopCity).FirstOrDefault()</td>
+                        </tr>
+                        <tr>
+                            <td class="Month_Repregular">@(!string.IsNullOrEmpty(Report.Select(c => c.ShopWebsite).FirstOrDefault()) ? @Report.Select(c => c.ShopWebsite).FirstOrDefault() : @Report.Select(c => c.ShopUrl).FirstOrDefault())</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div style="width:20%;float:left;" class="address_box">
+                <div class="Rep_logo">
+                    <img src="@Report.Select(c=>c.ShopImage).FirstOrDefault()" onerror="this.onerror = null; this.src = '';" alt="">
+                </div>
+            </div>
+        </div>
+        @if (Report.Count > 0)
+        {
+            var Currency = Report.Select(c => c.Currency).FirstOrDefault();
+            MinDate = new DateTime(Report.Select(c => c.year).FirstOrDefault().Value, 1, 1);
+            MaxDate = new DateTime(Report.Select(c => c.year).FirstOrDefault().Value, 12, DateTime.DaysInMonth(Report.Select(c => c.year).FirstOrDefault().Value, 12));
+            <div class="Details_section">
+                <h4>@*Reservationen*@ @Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault() @*Year*@ @Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault() - @Report.Select(c => c.year).FirstOrDefault().Value</h4>
+                <div class="reservation_det" style="">
+                    <table style="width:100%;">
+                        <tbody>
+                            <tr>
+                                <td class="Month_Repregular width200">@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()</td>
+                                <td class="Month_Repregular">@(MinDate.ToString("dd.MM.yyyy")) @*bis*@ @Language.Where(c => c.Order_id == 23).Select(c => c.Value).FirstOrDefault() @(MaxDate.ToString("dd.MM.yyyy"))</td>
+                            </tr>
+                            <tr>
+                                <td class="Month_Repregular width200">@*Number of services*@ @Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()</td>
+                                <td class="Month_Repregular">@Report.Where(c => c.Addon != 2).Count()</td>
+                            </tr>
+                            @*<tr>
+                                <td class="Month_Repregular width200">@*Number of products @Language.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault()</td>
+                                <td class="Month_Repregular">@Report.Where(c => c.Addon == 1).Count()</td>
+                            </tr>*@
+                            <tr>
+                                <td class="Month_Repregular width200">@*Total amount*@ @Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()</td>
+                                <td class="Month_Repregular">@Report.Select(c => c.TotalWithVAT).Sum().Value.ToString("0.00") @Currency</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="Details_section" style="margin-top:25px;">
+                <h4>@*Summary (productwise)*@ @Language.Where(c => c.Order_id == 25).Select(c => c.Value).FirstOrDefault()</h4>
+                <div class="reservation_det" style="margin: 10px 0;">
+                    @*<p class="yeartable_heading"></p>*@
+                    <table style="width:100%">
+                        <tbody>
+                            <tr>
+                                <td class="Month_Repregular header_border">@*Product wise*@ @Language.Where(c => c.Order_id == 26).Select(c => c.Value).FirstOrDefault()</td>
+                                <td class="Month_Repregular header_border">@*Qty*@ @Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()</td>
+                                <td class="Month_Repregular header_border">@*Amount*@ @Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault() (@Currency)</td>
+                            </tr>
+                            @foreach (var Item in Report.Where(c => c.Addon != 2 && c.BookingDate != null).Select(c => c.Invoice_SettlementText).Distinct().ToList())
+                            {
+                                var Productinfo = Report.Where(c => c.Invoice_SettlementText == Item && c.Addon != 2).ToList();
+                                <tr>
+                                    <td class="Month_Repregular">@*Consulting*@ @(Productinfo.Select(c => c.Invoice_SettlementText).FirstOrDefault()!= null? Productinfo.Select(c => c.Invoice_SettlementText).FirstOrDefault(): Productinfo.Select(c => c.ServiceName).FirstOrDefault())</td>
+                                    <td class="Month_Repregular">@*5*@ @Productinfo.Where(c=>c.Addon!=2).Count()</td>
+                                    <td class="Month_Repregular">@*750.00*@ @Productinfo.Select(c => c.Amount).Sum()</td>
+                                </tr>
+                            }
+                            <tr>
+                                <td colspan="2" class="Month_RepBold foooter_border">@*Total amount*@ @Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()</td>
+                                <td class="Month_RepBold foooter_border">@*750.00*@ @Report.Where(c => c.Addon !=2).Select(c => c.Amount).ToList().Sum()</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="Details_section display-none" style="margin-top:25px;">
+                <h4>@*Summary (productwise)*@ @Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()</h4>
+                <div class="reservation_det" style="margin: 10px 0;">
+                    @*<p class="yeartable_heading"></p>*@
+                    <table style="width:100%">
+                        <tbody>
+                            <tr>
+                                <td class="Month_Repregular header_border">@*Product wise*@ @Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()</td>
+                                <td class="Month_Repregular header_border">@*Qty*@ @Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()</td>
+                                <td class="Month_Repregular header_border">@*Amount*@ @Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault() (@Currency)</td>
+                            </tr>
+                            @foreach (var Item in Report.Where(c => c.BookingDate != null && c.Addon == 1).Select(c => c.ProductId).Distinct().ToList())
+                            {
+                                var Productinfo = Report.Where(c => c.ProductId == Item && c.Addon == 1).ToList();
+                                <tr>
+                                    <td class="Month_Repregular">@*Consulting*@ @Productinfo.FirstOrDefault().ServiceName</td>
+                                    <td class="Month_Repregular">@*5*@ @Productinfo.Select(c => c.ReservationId).Count()</td>
+                                    <td class="Month_Repregular">@*750.00*@ @Productinfo.Select(c => c.Amount).Sum()</td>
+                                </tr>
+                            }
+                            <tr>
+                                <td colspan="2" class="Month_RepBold foooter_border">@*Total amount*@ @Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()</td>
+                                <td class="Month_RepBold foooter_border">@*750.00*@ @Report.Where(c => c.Addon == 1).Select(c => c.Amount).Sum() </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="Details_section" style="margin-top:25px;">
+                <h4>@*Monthly & annual total*@ @Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()</h4>
+                <div class="reservation_det">
+                    <table style="width:100%">
+                        <tbody>
+                            <tr>
+                                @*Month*@
+                                <td class="Month_RepBold header_border">@Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()</td>
+                                @*Number of service*@
+                                <td class="Month_RepBold header_border" style="text-align:center;">@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()</td>
+                                @*Amount of Service*@
+                                <td class="Month_RepBold header_border" style="text-align:right;">@Language.Where(c => c.Order_id == 29).Select(c => c.Value).FirstOrDefault() (@Currency) </td>
+                                @*Number of products*@
+                                @*<td class="Month_RepBold header_border" style="text-align:center;">@Language.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault()</td>*@
+                                @*Amount of Product*@
+                                @*<td class="Month_RepBold header_border" style="text-align:right;">@Language.Where(c => c.Order_id == 30).Select(c => c.Value).FirstOrDefault() (@Currency)</td>*@
+                                @*Total Amount*@
+                                <td class="Month_RepBold header_border" style="text-align:right;">@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault() (@Currency)</td>
+                            </tr>
+                            @for (DateTime dt = MinDate; dt <= MaxDate; dt = dt.AddMonths(1))
+                            {
+                                var MonthInfo = Report.Where(c => c.Month_Name == dt.ToString("MMMM")).ToList();
+                                <tr>
+                                    <td class="Month_Repregular">@dt.ToString("MMMM", new System.Globalization.CultureInfo(Language.Select(c => c.languageCulture).FirstOrDefault()))</td>
+                                    <td class="Month_Repregular" style="text-align:center;">@MonthInfo.Where(c => c.Addon != 2).Count()</td>
+                                    <td class="Month_Repregular" style="text-align:right;">@MonthInfo.Where(c => c.Addon != 2).Select(c => c.Amount).Sum().Value.ToString("0.00")</td>
+                                    @*<td class="Month_Repregular" style="text-align:center;">@MonthInfo.Where(c => c.Addon == 1).Count()</td>
+                                    <td class="Month_Repregular" style="text-align:right;">@MonthInfo.Where(c => c.Addon == 1).Select(c => c.Amount).Sum().Value.ToString("0.00")</td>*@
+                                    <td class="Month_Repregular" style="text-align:right;">@MonthInfo.Select(c => c.Amount).Sum().Value.ToString("0.00")</td>
+                                </tr>
+                            }
+                            @*Total*@
+                            <tr>
+                                @*Total*@
+                                <td class="Month_RepBold foooter_border">@Language.Where(c => c.Order_id == 32).Select(c => c.Value).FirstOrDefault()</td>
+                                @*No of service*@
+                                <td class="Month_RepBold foooter_border" style="text-align:center;">@Report.Where(c => c.Addon != 2).Count()</td>
+                                @*Amount of Service*@
+                                <td class="Month_RepBold foooter_border" style="text-align:right;">@Report.Where(c => c.Addon != 2).Select(c => c.Amount).Sum().Value.ToString("0.00")</td>
+                                @*@*No of Product
+                                <td class="Month_RepBold foooter_border" style="text-align:center;">@Report.Where(c => c.Addon == 1).Count()</td>
+                                @*Amount of product
+                                <td class="Month_RepBold foooter_border" style="text-align:right;">@Report.Where(c => c.Addon == 1).Select(c => c.Amount).Sum().Value.ToString("0.00") </td>*@
+                                @*Total Amount*@
+                                <td class="Month_RepBold foooter_border" style="text-align:right;">@Report.Select(c => c.Amount).Sum().Value.ToString("0.00")</td>
+                            </tr>
+                            @*VAT*@
+                            <tr>
+                                <td colspan="3" class="Month_Repregular">@Language.Where(c => c.Order_id == 28).Select(c => c.Value).FirstOrDefault()</td>
+                                <td class="Month_Repregular" style="text-align:right;">@*750.00*@ @Report.Select(c => c.VAT).Sum()</td>
+                            </tr>
+                            @*Total amount*@
+                            <tr>
+                                <td colspan="3" class="Month_RepBold foooter_border"> @Language.Where(c => c.Order_id == 31).Select(c => c.Value).FirstOrDefault()</td>
+                                <td class="Month_RepBold foooter_border" style="text-align:right;">@*750.00*@ @Report.Select(c => c.TotalWithVAT).Sum()</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        <div class="monthRep_footer Report_printBreak" style="margin-top:20px;">
+            <table style="width:100%;margin-bottom: 30px;">
+                <tbody>
+                    <tr>
+                        <td class="Month_RepBold width200" style="padding-bottom:15px;" colspan="4">@*Signatur*@ @Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault()</td>
+                    </tr>
+                    <tr>
+                        <td class="Month_Repregular">@Report.Select(c => c.ShopName).FirstOrDefault()</td>
+                    </tr>
+                    <tr>
+                        <td class="Month_Repregular">@Report.Select(c => c.ShopStreet).FirstOrDefault() @Report.Select(c => c.ShopStreetNumber).FirstOrDefault()</td>
+                    </tr>
+                    <tr>
+                        <td class="Month_Repregular">@Report.Select(c => c.ShopZipcode).FirstOrDefault() @Report.Select(c => c.ShopCity).FirstOrDefault()</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="width:100%;display:inline-block;">
+                <div style="width:25%;float:left;">
+                    <h4 class="footer_sign">@*Place & Date*@ @Language.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault()</h4>
+                </div>
+                <div style="width:25%;float:left;">
+                    <h4 class="footer_sign">@Report.Select(c => c.Title).FirstOrDefault() @Report.Select(c => c.Owner_FName).FirstOrDefault() @Report.Select(c => c.Owner_LName).FirstOrDefault()</h4>
+                </div>
+            </div>
+            <table style="width:100%;">
+                <tbody>
+                    <tr>
+                        <td class="Month_Repregular">@(!string.IsNullOrEmpty(Report.Select(c => c.ShopWebsite).FirstOrDefault()) ? Report.Select(c => c.ShopWebsite).FirstOrDefault() : Report.Select(c => c.ShopUrl).FirstOrDefault())</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

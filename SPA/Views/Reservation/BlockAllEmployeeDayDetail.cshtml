@@ -1,0 +1,99 @@
+﻿@{
+    Layout = null;
+    List<SPA.Models.WeekDayBlockDetail> Employeeinfo = new List<SPA.Models.WeekDayBlockDetail>();
+    Employeeinfo = ViewBag.Employeeinfo;
+    List<long> UserIds = new List<long>();
+    UserIds = ViewBag.UserIds;
+    string SetId = "";
+    var BasicInfo = Employeeinfo.Count > 0 ? Employeeinfo.FirstOrDefault() : new SPA.Models.WeekDayBlockDetail();
+    TimeSpan interval = new TimeSpan();
+}
+    @if (Employeeinfo.Count > 0)
+    {
+        if (!Employeeinfo.Select(c => c.SlotDue).FirstOrDefault().ToLower().Contains("half") && !Employeeinfo.Select(c => c.SlotDue).FirstOrDefault().ToLower().Contains("day"))
+        {
+            if (Employeeinfo.Select(c => c.SlotDue).Distinct().ToList().Count == 1)
+            {
+                int Inter = Convert.ToInt16(Employeeinfo.Where(c => (c.SlotDue.Contains("Minutes") || c.SlotDue.Contains("Minute"))).Select(c => c.SlotDue).FirstOrDefault().Replace(" Minutes", "").Replace(" Minute", ""));
+                interval = new TimeSpan(0, Inter, 0);
+            }
+            else
+            {
+                interval = new TimeSpan(0, 5, 0);
+            }
+        }
+    }
+
+}
+@for (TimeSpan Time = Employeeinfo.Select(c => c.MinTime).Min(); Time < Employeeinfo.Select(c => c.MaxTime).Max(); Time = Time.Add(interval))
+{
+    <tr class="@interval.Minutes">
+        <td colspan="2" class="line-bottom">@Time.ToString().Remove(Time.ToString().Length - 3)</td>
+        @foreach (var EmployeesCnt in Employeeinfo.Select(c => c.UserId).Distinct().OrderBy(c => c).ToList())
+        {
+            SetId = Time.ToString().Remove(Time.ToString().Length - 3) + "~" + EmployeesCnt;
+            <td id="@SetId"></td>
+
+        }
+    </tr>
+}
+<script>
+    $("#DayCalBodyTag tr td").click(function () {
+        var ClickEvent = $(this);
+        if (ClickEvent.hasClass("Available") || ClickEvent.hasClass("BookedSlotes") || ClickEvent.hasClass("Temporary") || ClickEvent.hasClass("ApCloseBlock")) {
+            $(".loader").show();
+            var DateTime = $(this).prop("id").split('~')[0];
+            var EmpUsreId = $(this).prop("id").split('~')[1];
+            @*if ((("@BasicInfo.insertAccess" != "N" && ("@BasicInfo.FlowStatus" == "2" || "@BasicInfo.FlowStatus" == "3")) || ("@BasicInfo.FlowStatus" == "1"))) {*@
+                $.post("/Reservation/CheckReservation?EmpUserId=" + EmpUsreId + "&Dates=" + DateTime, function (Resultpls) {
+                    if (ClickEvent.hasClass("Available")) {
+                        if (Resultpls == "yes") {
+                            var DtCurrent = new Date();
+                            var RestrictedDate = new Date();
+                            var SetedDate = new Date();
+                            SetedDate.setDate(DateTime.split('-')[0]); SetedDate.setMonth(parseInt(DateTime.split('-')[1]) - 1); SetedDate.setFullYear(parseInt(DateTime.split('-')[2])); SetedDate.setHours(parseInt(DateTime.split(' ')[1].split(':')[0])); SetedDate.setMinutes(parseInt(DateTime.split(' ')[1].split(':')[1])); SetedDate.setSeconds(0);
+                            if ('@ViewBag.AllowPastDate' == "False") {
+                                if (DtCurrent <= SetedDate) {
+                                    GetBooking(DateTime, EmpUsreId, "Day", "All");
+                                }
+                                else {
+                                    if (DtCurrent > SetedDate) {
+                                        var Text = "ShopMaster!";
+                                        $.post("/Product/GetDataOfLanguage?Text=" + Text + "&id=50", function (data1) {
+                                            $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">" + data1 + "</p>");
+                                            $('#welcome').modal("show");
+                                            $(".loader").hide();
+                                        });
+
+                                    }
+                                }
+                            }
+                            else
+                                GetBooking(DateTime, EmpUsreId, "Day", "All");
+                        }
+
+                    }
+                    else {
+                        var ClassList = ClickEvent.prop("class").split(' ');
+                        var ReserId = 0;
+                        for (i = 0; i < ClassList.length; i++) {
+                            if (ClassList[i].toString().indexOf("Id-") != -1) {
+                                ReserId = ClassList[i].replace('Id-', '');
+                                GetBookingDetails(ReserId);
+                            }
+                        }
+                        $(".loader").hide();
+                    }
+                });
+            //}
+            //else {
+            //    $.post("/Product/GetDataOfLanguage?Text=You have no Access&id=73", function (data) {
+            //        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO!</span></h1><p class=\"title15 text-center margin-bottom30\">" + data + "</p>");
+            //        $('#welcome').modal("show");
+            //        $(".loader").hide();
+            //    });
+            //}
+        }
+    });
+    $("#DayHeadFix").tableHeadFixer({ "left": 1 });
+</script>

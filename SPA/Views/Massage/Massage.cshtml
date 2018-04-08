@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "Massage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="spa-breadcrumbs breadcrumb">
+    @*<li><a href="#" class="active">Home</a></li>
+    <li><a href="#">Massage</a></li>*@
+</ol>
+<div class="form-content">
+    <div class="employee-blank">
+        <h1 class="italic-title">Massagen</h1>
+        <div class="spa-home-tab massage-tab">
+            <ul id="myTab" class="nav nav-tabs">
+                <li class="active"><a href="#oilmassage" data-toggle="tab">Oil massage</a></li>
+                <li><a href="#medmassage" data-toggle="tab">Medical massage</a></li>
+                <li><a href="#hotstone" data-toggle="tab">Hot Stone Massage</a></li>
+                <li><a href="#lymphdrainage" data-toggle="tab">LYMPHDRAINAGE</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="oilmassage">
+                    @Html.Action("OilMassage", "Massage")
+                </div>
+                <div class="tab-pane fade" id="medmassage">
+                    @Html.Action("Med_Massage", "Massage")
+                </div>
+                <div class="tab-pane fade" id="hotstone">
+                    @Html.Action("HotStone", "Massage")
+                </div>
+                <div class="tab-pane fade" id="lymphdrainage">
+                    @Html.Action("Lymphdrainage", "Massage")
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+@Html.Partial("_Footer")

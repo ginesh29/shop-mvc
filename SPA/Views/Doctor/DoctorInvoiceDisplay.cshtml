@@ -1,0 +1,150 @@
+﻿
+@{
+    ViewBag.Title = ViewBag.Title;
+    Layout = null;
+    SPA.Models.DoctorPagesDisplay DoctorInvoiceDisplay = new SPA.Models.DoctorPagesDisplay();
+    DoctorInvoiceDisplay = Model;
+    List<Language_Label_Detail> Language = new List<Language_Label_Detail>();
+    Language = ViewBag.language;
+}
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/bootstrap")
+<title>@ViewBag.Title</title>
+<div class="invoiceDisplay" id="invoiceDisplay">
+    <div class="bg-light-grey padding30">
+        <div class="row col-lg-24 col-md-24 col-sm-24 text-right printDisply-non">
+
+            <i class="fa fa-print print-icon-Invoice " aria-hidden="true" id="PrintDisplay"></i>
+        </div>
+        <div class="row padding0-10">
+            <div class="Hedertxt">
+                @Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault() @*Invoice*@
+                <div class="pull-right invoice-img">
+                    <img src="@DoctorInvoiceDisplay.ShopImg" onerror="this.onerror = null; this.src = '/images/prescription-img.png';" alt="" />
+                </div>
+            </div>
+        </div>
+        <div class="invoice-details row margin-top15">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault() @*Customer No.*@</td>
+                                <td>@DoctorInvoiceDisplay.UserId</td>
+                            </tr>
+                            <tr>
+                                <td>@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault() @*Patient Name*@</td>
+                                <td>@DoctorInvoiceDisplay.FirstName @DoctorInvoiceDisplay.LastName</td>
+                            </tr>
+                            <tr>
+                                <td>@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault() @*Age*@</td>
+                                <td>@(DoctorInvoiceDisplay.Age > 0 ? Convert.ToString(DoctorInvoiceDisplay.Age) : Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()) @(DoctorInvoiceDisplay.Age > 0 ? "Years" : "")</td>
+                            </tr>
+                            <tr>
+                                <td>@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault() @*Gender*@</td>
+                                <td>@DoctorInvoiceDisplay.Gender</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault() @*Bill Date*@</td>
+                                <td>@DoctorInvoiceDisplay.created_on</td>
+                            </tr>
+                            <tr>
+                                <td>@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault() @*Bill No.*@</td>
+                                <td>@DoctorInvoiceDisplay.EmpSchDetailsId</td>
+                            </tr>
+                            <tr>
+                                <td>@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault() @*Age*@</td>
+                                <td>@(DoctorInvoiceDisplay.Age > 0 ? Convert.ToString(DoctorInvoiceDisplay.Age) : @Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()) @(DoctorInvoiceDisplay.Age > 0 ? "Years" : "")</td>
+                            </tr>
+                            <tr>
+                                <td>@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault() @*Referred By*@</td>
+                                <td>Dr. @DoctorInvoiceDisplay.EmpFirstName @DoctorInvoiceDisplay.EmpLastName</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row Bill-detail margin-top15">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td></td>
+                            <td>@Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault() @*Service*@</td>
+                            <td>@Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault() @*Tariff price(Rs.)*@</td>
+                            <td>@Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault() @*Bill Amount(Rs.)*@</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Language.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault() @*Treatment*@</td>
+                            <td>@DoctorInvoiceDisplay.Productname</td>
+                            <td>@DoctorInvoiceDisplay.Product_Price</td>
+                            <td>@DoctorInvoiceDisplay.Product_Price</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="FontBold">@Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault() @*Total*@</td>
+                            <td>@DoctorInvoiceDisplay.Product_Price</td>
+                        </tr>
+                        @*<tr>
+                                <td colspan="4" class="FontBold">
+                                    Amount in words: Rupees seven thousand three hundred twenty-six only
+                                </td>
+                            </tr>*@
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row Bill-footer  margin-top15">
+            <div class="col-lg-16 col-md-16 col-sm-16 margin-bottom10">
+                <div class="Invoicegreen-txt text-center">
+                    <h4>@*Sum of  Rs.*@ @Language.Where(c => c.Order_id == 17).Select(c => c.Value).FirstOrDefault()  @DoctorInvoiceDisplay.Product_Price @*received with thanks from*@ @Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault()  @DoctorInvoiceDisplay.FirstName  </h4>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 text-right printDisply-non">
+                <button class="save-btn bg-close-btn" id="printInvoice" type="button">@Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault() @*Print & Close*@</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div id="ABC" style="display:none;"></div>
+<script>
+    //$("#printInvoice,#PrintDisplay").click(function () {
+    //    window.print();
+    //    if ($(this).prop("id") == "printInvoice")
+    //        window.close();
+    //});
+    window.print();
+    var ChkisChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
+    if (ChkisChrome) {
+        //window.location.href = "/Reservation/Reservation#openlistview";
+    }
+    window.onafterprint = function () {
+        window.location.href = "/Reservation/Reservation#@ViewBag.Url";
+    }
+    @*window.print();
+    function alertFunc() {
+        if (!$("#ABC").is(":visible")) {
+            $("#ABC").show();
+            window.location.href ="/Reservation/Reservation#"+@ViewBag.Url;
+        }
+        window.onafterprint = function () {
+            $("#ABC").hide();
+        }
+    }
+    setInterval(alertFunc, 3000);*@
+</script>

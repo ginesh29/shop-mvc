@@ -1,0 +1,186 @@
+﻿@{
+    Layout = null;
+    int index = 0;
+    List<Language_Label_Detail> Language = ViewBag.LangcusList;
+    List<Language_Label_Detail> Monthlist = ViewBag.LangMonth;
+    List<SPA.Models.CustomerTabInfo> CustomerList = new List<SPA.Models.CustomerTabInfo>();
+    CustomerList = ViewBag.CustomerInfo;
+    int? ActiveSorting = ViewBag.Sorting;
+    var ActiveOrderby = ViewBag.OrderBy;
+    long ShopId = ViewBag.ShopId;
+    if (ViewBag.AcesofNewCust == new SPA.Models.getAccess()) { ViewBag.AcesofNewCust = null; }
+}
+@if (ViewBag.CheckReservationTabAccess == false)
+{
+    <style>
+        .HideaddReservationBtn {
+            display: none;
+        }
+    </style>
+}
+<div class="assign-product user-details">
+    <div class="row customer-searchTXT">
+        <div class="col-lg-19 col-md-19 col-sm-17 col-xs-24">
+            <h2 class="title-green16 cursor-default margin-top15">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()@*CUSTOMER LIST*@ <span class="badge user-count margin-left5">@CustomerList.Count</span></h2>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-24">
+            <input class="form-control spa-text-box required text-box single-line margin-top10" type="text" id="CustomerSearch" placeholder="@Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault()">@*Search Customer*@
+        </div>
+    </div>
+    <div class="choose-your-product table-responsive margin-top10 pending-approval-table padding0" id="fixColumnHead">
+        <table class="table table-striped CustomerListViewtable" id="fixWeek">
+            <thead>
+                <tr>
+                    <th class="RemovePosition">@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()@*NO*@</th>
+                    <th>
+                        @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()@*TITLE*@
+                        <span class="sorting_arrow">
+                            <i class="fa fa-long-arrow-up" id="AsceList_Gender" aria-hidden="true" onclick="SortingCustomerList('Gender', 0)"></i>
+                            <i class="fa fa-long-arrow-down" id="DescList_Gender" aria-hidden="true" onclick="SortingCustomerList('Gender', 1)"></i>
+                        </span>
+                    </th>
+                    <th>
+                        @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()@*FAMILY NAME*@
+                        <span class="sorting_arrow">
+                            <i class="fa fa-long-arrow-up" id="AsceList_LastName" aria-hidden="true" onclick="SortingCustomerList('LastName', 0)"></i>
+                            <i class="fa fa-long-arrow-down" id="DescList_LastName" aria-hidden="true" onclick="SortingCustomerList('LastName', 1)"></i>
+                        </span>
+                    </th>
+                    <th>
+                        @Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()
+                        @*FIRST NAME*@
+                        <span class="sorting_arrow">
+                            <i class="fa fa-long-arrow-up" id="AsceList_Firstname" aria-hidden="true" onclick="SortingCustomerList('Firstname', 0)"></i>
+                            <i class="fa fa-long-arrow-down" id="DescList_Firstname" aria-hidden="true" onclick="SortingCustomerList('Firstname', 1)"></i>
+                        </span>
+                    </th>
+                    <th>
+                        @Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()@*MOBILE NO*@
+                        <span class="sorting_arrow">
+                            <i class="fa fa-long-arrow-up" id="AsceList_Phoneno" aria-hidden="true" onclick="SortingCustomerList('Phoneno', 0)"></i>
+                            <i class="fa fa-long-arrow-down" id="DescList_Phoneno" aria-hidden="true" onclick="SortingCustomerList('Phoneno', 1)"></i>
+                        </span>
+                    </th>
+                    <th>@Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()@*phone number*@</th>
+                    <th>@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()@*EMAIL*@</th>
+                    <th>@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()@*LAST VISIT*@</th>
+                    <th>@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()@*EMPLOYEE*@</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (CustomerList.Count > 0)
+                {
+                    foreach (var item in CustomerList)
+                    {
+                        index = index + 1;
+                        <tr>
+                            <td class="spa-label1 RemovePosition">@index</td>
+                            <td class="spa-label1 customerPointer" @(ShopId == item.SchId ? "onclick=EditCustomerDetail('" + item.UserId + "')" : "")>@item.Gender@*Mr.*@</td>
+                            <td class="spa-label1 customerPointer" @(ShopId == item.SchId ? "onclick=EditCustomerDetail('" + item.UserId + "')" : "")>@item.LastName@*Patel*@</td>
+                            <td class="spa-label1 customerPointer" @(ShopId == item.SchId ? "onclick=EditCustomerDetail('" + item.UserId + "')" : "")>@item.Firstname@*JigneshKumar*@</td>
+                            <td class="spa-label1 customerPointer" @(ShopId == item.SchId ? "onclick=EditCustomerDetail('" + item.UserId + "')" : "")>@item.Phoneno@*9016262365*@</td>
+                            <td class="spa-label1 customerPointer" @(ShopId == item.SchId ? "onclick=EditCustomerDetail('" + item.UserId + "')" : "")>@item.LandLineNumber@*9016262365*@</td>
+                            <td class="spa-label1 customerPointer" @(ShopId == item.SchId ? "onclick=EditCustomerDetail('" + item.UserId + "')" : "")>@item.Emailid@*jignesh@bcssarl.com*@</td>
+                            @{
+                                string LastVisited = "";
+                                if (item.LastVisited != null)
+                                {
+
+                                    var monthname = item.LastVisited.Value.ToString("MMMM");
+                                    var MonthLanguagechange = Monthlist.Where(c => c.English_Label == monthname).Select(c => c.Value).FirstOrDefault();
+                                    LastVisited = item.LastVisited.Value.ToString("dd MMMM, yyyy hh:mm").Replace(monthname, MonthLanguagechange);
+                                }
+                            }
+                            <td class="spa-label1 customerPointer" @(ShopId == item.SchId ? "onclick=EditCustomerDetail('" + item.UserId + "')" : "")>
+                                @if ((item.ActiveStatus != null ? item.ActiveStatus.Trim() : "") == "C")
+                                {
+                                    @LastVisited
+                                }
+                            </td>
+                            <td class="spa-label1 customerPointer" @(ShopId == item.SchId ? "onclick=EditCustomerDetail('" + item.UserId + "')" : "")>
+                                @if ((item.ActiveStatus != null ? item.ActiveStatus.Trim() : "") == "C")
+                                {
+                                    @item.EmpfirstName
+                                }
+                            </td>
+                            <td style="text-align:left;">
+                                @if (((item.UpdateAccess != "N" && (item.FlowStatus == "2" || item.FlowStatus == "3")) || (item.FlowStatus == "1")) && ViewBag.AcesofNewCust != null)
+                                {
+                                    <a onclick="EditCustomerDetail(@item.UserId);"><i class="fa fa-pencil-square-o spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault()" data-original-title="" title=""></i></a>
+                                }
+                                @if (ShopId == item.SchId)
+                                {
+                                    if ((item.DeleteAccess != "N" && (item.FlowStatus == "2" || item.FlowStatus == "3")) || (item.FlowStatus == "1"))
+                                    {
+                                        <a onclick="CustomerDelete(@item.UserId);"> <i class="fa fa-trash spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault()" data-original-title="" title=""></i></a>
+                                    }
+                                }
+                                @if ((item.insertAccess != "N" && (item.FlowStatus == "2" || item.FlowStatus == "3")) || (item.FlowStatus == "1"))
+                                {
+                                    <a href="/BookOrder/OrderList?id=@item.UserId&Status=DC" class="HideaddReservationBtn"><i class="fa fa-plus spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 17).Select(c => c.Value).FirstOrDefault()" data-original-title="" title=""></i></a>
+                                }
+                            </td>
+                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td class="font16 Nodata" colspan="9">
+                                            <img src="~/images/Customer.png" />
+                                            <div>@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault() @*No Customer Available*@</div>
+
+                                        </td>
+                                    </tr>
+
+                                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@if (!string.IsNullOrEmpty(ActiveOrderby) && ActiveSorting != null)
+{
+    <script>
+        $("#fixWeek th i").removeClass("display-none");
+        if (@ActiveSorting.Value == 1)
+            $("[id=DescList_@ActiveOrderby]").addClass("display-none");
+        else
+            $("[id=AsceList_@ActiveOrderby]").addClass("display-none");
+    </script>
+}
+<script>
+    $(document).ready(function () {
+        $("#fixWeek").tableHeadFixer({ "left": 1 });
+        $("#fixTable").tableHeadFixer({ 'z-index': 50 });
+    });
+    searchInPage("CustomerSearch","fixWeek",1,5);
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    });
+    $("#fixWeek thead .fa-long-arrow-down,#fixWeek thead .fa-long-arrow-up").click(function () {
+        var Table = $(this).closest("table");
+        var Index = $(this).parents("th").index() + 1;
+        var Column = Table.find("tr td:nth-child(" + Index + ")").map(function () { return $(this).html() }).get();
+        if ($(this).hasClass("fa-long-arrow-up")) {
+            Column = Column.sort().reverse();
+            $(this).addClass("display-none").parent("th").find(".fa-long-arrow-down").removeClass("display-none");
+        }
+        if ($(this).hasClass("fa-long-arrow-down")) {
+            Column = Column.sort();
+            $(this).addClass("display-none").parent("th").find(".fa-long-arrow-up").removeClass("display-none");
+        }
+        var TROW = Table.find("> tbody > tr");
+        $.each(Column, function (key, value) {
+            var Parenting = TROW.find("td:contains('" + value + "')").parent();
+            Parenting.clone().addClass("Sort").insertBefore(Table.find("tbody tr").first());
+            Table.find("tbody tr").first().find("td:first").html(key + 1);
+            Parenting.remove();
+        });
+    });
+    function SortingCustomerList(OrderBy, Sorting) {
+        $(".loader").show();
+        var url = "/Customer/ListView?OrderBy=" + OrderBy + "&Sorting=" + Sorting;
+        CommonSorting(url, "listview")
+    }
+</script>

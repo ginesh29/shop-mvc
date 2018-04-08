@@ -1,0 +1,105 @@
+﻿@{
+
+    Layout = "~/Views/Shared/_Employee_layout.cshtml";
+    List<Language_Label_Detail> Language = ViewBag.Language;
+    ViewBag.Title = ViewBag.Title;
+    List<SPA.Models.AccessSubMenu> SubMenu = new List<SPA.Models.AccessSubMenu>();
+    SubMenu = ViewBag.SubMenu;
+    var Active = "active";
+    var DivActive = "in active";
+
+}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+@if (Session["Result"].ToString() == "BookedError")
+{
+    <script>
+        var Text = "ShopMaster!";
+        $.post("/Product/GetDataOfLanguage?Text=" + Text + "&id=46", function (data1) {
+            $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">" + data1 + "</p>");
+            $('#welcome').modal("show");
+        });
+    </script>
+    Session["Result"] = "";
+}
+@if (Session["CustomerValidationMsg"].ToString() == "Yes")
+{
+    <script>
+        $.post("/Product/GetDataOfLanguage?Text=You are Already Registered!&id=32", function (data1) {
+            $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">" + data1 + "</p>");
+            $('#welcome').modal("show");
+        })
+    </script>
+    Session["CustomerValidationMsg"] = "";
+}
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMSFX8VQlWkX6sUZPN9bKh5aF7lpS9Lwc&libraries=places"></script>
+<ol class="spa-breadcrumbs breadcrumb">
+    @*<li><a href="#" class="active">Home</a></li>
+        <li><a href="#">Customer</a></li>*@
+</ol>
+
+<div class="form-content">
+    <div class="employee-blank">
+        <h1 class="italic-title">
+            @Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault() @*Customer*@
+            <span class="pull-right">
+                @*<a href="@Url.Action("","")" class="title-green16"><i class="fa fa-reply-all margin-right5"></i>Back</a>*@
+            </span>
+        </h1>
+        <div class="spa-home-tab">
+            <ul id="myTab" class="nav nav-tabs">
+                @foreach (var Item in SubMenu.OrderBy(c=>c.SubId).ToList())
+                {
+                    <li class="@Active" id="@Item.SubTabId"><a href="#@Item.SubLink" onclick="CommonTabDetails('@Item.TabLink','#@Item.SubLink');" data-toggle="tab">@Item.SubTabName</a></li>
+                    Active = "";
+                }
+                @*<li class="active" id="ListViewLI"><a href="#listview" onclick="GetCustomerTabDetails($(this).attr('href').toString());" data-toggle="tab">@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()</a></li>*@@*List View*@
+                @*<li id="NewCustomerLI"><a href="#newcustomer" onclick="GetCustomerTabDetails($(this).attr('href').toString());" data-toggle="tab">@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</a></li>*@@*New Customer*@
+                @*<li id="BlackListLI"><a href="#blacklist" onclick="GetCustomerTabDetails($(this).attr('href').toString());" data-toggle="tab">@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()</a></li>*@@*Black List*@
+                @*<li id="TopTenCustomer"><a href="#toptencustomer" onclick="GetCustomerTabDetails($(this).attr('href').toString());" data-toggle="tab">@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()</a></li>*@@*Top Ten Customer*@
+            </ul>
+            @Html.Hidden("checkToEditOrNot")
+            <div id="myTabContent" class="tab-content responsive">
+                @foreach (var Item in SubMenu.OrderBy(c => c.SubId).ToList())
+                {
+                    <div class="tab-pane fade @DivActive" id="@Item.SubLink">
+                        @if (DivActive!="")
+                        {
+                            @Html.Action(Item.Link)
+                        }                     
+                    </div>
+                    DivActive = "";
+                }
+                @*<div class="tab-pane fade" id="newcustomer">*@
+                    @*@Html.Action("NewCustomer", "Customer")*@
+                @*</div>*@
+                @*<div class="tab-pane fade" id="blacklist">*@
+                    @*@Html.Action("BlackList", "Customer")*@
+                @*</div>*@
+                @*<div class="tab-pane fade" id="toptencustomer">*@
+                    @*@Html.Action("TopTenCustomer", "Customer")*@
+                @*</div>*@
+                @*<div class="tab-pane fade" id="calendarmonth">
+                    </div>*@
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+
+<script>
+    $("#CustomerMainMenu").addClass("active");
+   
+    //if (window.location.toString().indexOf('#') != -1) {
+    //    var ab = window.location.hash.substr(1);
+    //    $('#myTab a[href="#' + ab + '"]').tab('show');
+    //    if ($(window).width() < 768)
+    //        ab = ab + "-collapse";
+    //}
+    if (window.location.toString().indexOf('#') != -1) {
+        hashFunForTab("1");
+    }
+ 
+</script>

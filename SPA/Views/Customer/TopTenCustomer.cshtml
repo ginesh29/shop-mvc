@@ -1,0 +1,115 @@
+﻿@{
+    Layout = null;
+    string currency = ViewBag.currency;
+    int index = 1;
+    List<Language_Label_Detail> Languagefall = new List<Language_Label_Detail>();
+    Languagefall = ViewBag.Language;
+    var Language = Languagefall.Where(c => c.Page_Name == "Customer_Top_Ten").ToList();
+    var Monthlist = Languagefall.Where(c => c.Page_Name == "Small_calander").ToList();
+    List<SPA.Models.CustomerTabInfo> TopTenCustomerList = new List<SPA.Models.CustomerTabInfo>();
+    TopTenCustomerList = ViewBag.UserInfo;
+    int? ActiveSorting = ViewBag.Sorting;
+    var ActiveOrderby = ViewBag.OrderBy;
+}
+
+<div class="assign-product user-details">
+    <h2 class="title-green16 margin-top15">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()@*Top Ten Customer*@</h2>
+    <div class="choose-your-product table-responsive margin-top15 pending-approval-table padding0" id="fixColumnHead">
+        <table class="table table-striped" id="CustomerTopTentable">
+            <thead>
+                <tr>
+                    <th>@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()@*NO*@</th>
+                    <th>
+                        @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()@*TITLE*@
+                        <span class="sorting_arrow">
+                            <i class="fa fa-long-arrow-up" aria-hidden="true" id="AsceTopTen_Gender" onclick="SortingTopTenCustomerList('Gender', 0)"></i>
+                            <i class="fa fa-long-arrow-down" aria-hidden="true" id="DescTopTen_Gender" onclick="SortingTopTenCustomerList('Gender', 1)"></i>
+                        </span>
+                    </th>
+                    <th>@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()@*FAMILY NAME*@
+                        <span class="sorting_arrow">
+                            <i class="fa fa-long-arrow-up" aria-hidden="true" id="AsceTopTen_LastName" onclick="SortingTopTenCustomerList('LastName', 0)"></i>
+                            <i class="fa fa-long-arrow-down" aria-hidden="true" id="DescTopTen_LastName" onclick="SortingTopTenCustomerList('LastName', 1)"></i>
+                        </span>
+                    </th>
+                    <th>
+                        @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()@*FIRST NAME*@
+                        <span class="sorting_arrow">
+                            <i class="fa fa-long-arrow-up" aria-hidden="true" id="AsceTopTen_Firstname" onclick="SortingTopTenCustomerList('Firstname', 0)"></i>
+                            <i class="fa fa-long-arrow-down" aria-hidden="true" id="DescTopTen_Firstname" onclick="SortingTopTenCustomerList('Firstname', 1)"></i>
+                        </span>
+                    </th>
+                    <th>
+                        @Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()@*MOBILE NO*@
+                        <span class="sorting_arrow">
+                            <i class="fa fa-long-arrow-up" aria-hidden="true" id="AsceTopTen_Phoneno" onclick="SortingTopTenCustomerList('Phoneno', 0)"></i>
+                            <i class="fa fa-long-arrow-down" aria-hidden="true" id="DescTopTen_Phoneno" onclick="SortingTopTenCustomerList('Phoneno', 1)"></i>
+                        </span>
+                    </th>
+                    <th>@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()@*EMAIL*@</th>
+                    <th>@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()@*Last Visited*@</th>
+                    <th>@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()@*Total Revenue*@</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (TopTenCustomerList.Count > 0)
+                {
+                    foreach (var item in TopTenCustomerList)
+                    {
+                        <tr>
+                            <td class="spa-label1">@index</td>
+                            <td class="spa-label1">@item.Gender</td>
+                            <td class="spa-label1">@item.LastName</td>
+                            <td class="spa-label1">@item.Firstname</td>
+                            <td class="spa-label1">@item.Phoneno</td>
+                            <td class="spa-label1">@item.Emailid</td>
+                            @{
+
+                                string ToptenCustomerDate = "";
+                                if (item.LastVisited != null)
+                                {
+                                    var monthname = item.LastVisited.Value.ToString("MMMM");
+                                    var MonthLanguagechange = Monthlist.Where(c => c.English_Label == monthname).Select(c => c.Value).FirstOrDefault();
+                                    ToptenCustomerDate = item.LastVisited.Value.ToString("dd MMMM, yyyy hh:mm").Replace(monthname, MonthLanguagechange);
+                                }
+                            }
+                            <td class="spa-label1">@ToptenCustomerDate</td>
+                            <td class="spa-label1">@item.Revenue @currency</td>
+                           </tr>
+
+                                        index = index + 1;
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td class="spa-label1 Nodata" colspan="8">
+                                            <img src="~/images/Customer.png" />
+                                            <div>@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()@*No Top Ten Customer*@ </div>
+                                        </td>
+                                    </tr>
+                                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@if (!string.IsNullOrEmpty(ActiveOrderby) && ActiveSorting != null)
+{
+    <script>
+        $("#CustomerTopTentable th i").removeClass("display-none");
+        if (@ActiveSorting.Value == 1)
+            $("[id=DescTopTen_@ActiveOrderby]").addClass("display-none");
+        else
+            $("[id=AsceTopTen_@ActiveOrderby]").addClass("display-none");
+    </script>
+}
+<script>
+    $(document).ready(function () {
+        $("#CustomerTopTentable").tableHeadFixer({ "left": 1 });
+    });
+    function SortingTopTenCustomerList(OrderBy, Sorting) {
+        $(".loader").show();
+        var url = "/Customer/TopTenCustomer?OrderBy=" + OrderBy + "&Sorting=" + Sorting;
+        CommonSorting(url, "TopTenCustomer")
+    }
+</script>

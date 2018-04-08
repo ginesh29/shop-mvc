@@ -1,0 +1,288 @@
+﻿
+@{
+    ViewBag.Title = "Therapists_print";
+    Layout = null;
+}
+
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/bootstrap")
+<html>
+<head>
+    @*<meta name="viewport" content="width=device-width, initial-scale=1.0">*@
+    <title>@ViewBag.Title</title>
+    <style>
+        .display-none {display: none;}
+        .Note_display {padding: 10px 50px;background: #fff;margin-top: 20px;}
+        .Note_displayBox {background-color: #f2f2f2;border-radius: 2px;padding: 30px;margin-top: 0;}
+        .print-icon {font-size: 30px;padding-right: 35px;color: #84b002;cursor: pointer;}
+        .card-heading {color: #494949;font-size: 26px;font-family: 'robotomedium';}
+        .width50Per {width: 50%;float: left;}
+        .disTable {display: table;}
+        .patient-detail {height: 45px;vertical-align: middle;padding: 2px 6px;display: table-cell;}
+        .bg_green {background-color: #84b002;}
+        .border-bottom-white {border-bottom: 1px solid #fff;}
+        .width10Per {width: 10%;float: left;}
+        .padding_left20 {margin-left: 15px;}
+        .displayBlock {display: block;}
+        .txtCenter {text-align: center;}
+        .doct-pre-img img {height: 45px;}
+        .width100Per {width: 100%;}
+        .patient-desc-block {background: #f2f2f2;padding: 0;box-shadow: none;border: none;margin-top: 30px;}
+        .patient-desc-block h5 {color: #84b002;font-size: 16px;margin:0;border-bottom:0;}
+        .minHeigth70 {min-height: 70px !important;}
+        .border-dark-grey {border: 1px solid #ababab;}
+        .doctor-presc-detail {background: #fff;padding: 10px;width: 100%;display: inline-block;}
+        .list-text {color: #7c7c7c;font-size: 16px;line-height: 28px;list-style-type: none;}
+        .padding20 {padding: 20px;}
+        .doctor-presc-detailInline li {display: inline-block;padding-right: 5%;word-break: break-all;overflow-wrap: break-word;}
+        .patient-detail label {font-size: 14px;color: #fff;font-weight: normal;margin-bottom: 0;}
+        .doctor-presc-detail table tbody tr td {border-top: 0;padding: 3px 12px;font-size: 14px;color: #686868;font-family: 'robotomedium';font-weight: normal;}
+        .TN_printBox{width:100%;background-color:#fff;}
+      .TN_printBox tbody tr td{border:1px solid #ababab;color: #7c7c7c;padding: 15px 10px;}
+      .TN_printBox thead tr th{padding: 10px;background-color: #f7f7f7;border: 1px solid #ccc;}
+    </style>
+    @*<style>
+            .pageBreak {
+                page-break-inside: avoid;
+            }
+
+            .Note_display {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            .disaplyNone_pdf {
+                display: none;
+            }
+
+            .width10Per {
+                width: 10% !important;
+                float: left;
+            }
+
+            .padding_left20 {
+                margin-left: 10px !important;
+            }
+
+            .patient-desc-block {
+                margin-top: 50px !important;
+                display: block !important;
+            }
+
+            body {
+                -webkit-font-smoothing: antialiased;
+                font-size: 100%;
+                font-family: 'Roboto',sans-serif;
+                font-weight: 400;
+                color: #4c4c4c;
+                background-color: #f2f2f2;
+                max-width: 100%;
+                overflow-x: hidden;
+            }
+
+            .doctor-presc-detail {
+                padding: 0 !important;
+            }
+        </style>*@
+
+</head>
+<body class="margin-0">
+    <div class="Note_display">
+        <div class="row form-group disaplyNone_pdf printDisply-non">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <i class="fa fa-print print-icon" aria-hidden="true"></i>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 text-right"><a class="title-green16"><i class="fa fa-reply-all margin-right5"></i>Back To List</a></div>
+        </div>
+        <div class="Note_displayBox">
+            <div style="text-align:center">
+                <h4 class="card-heading" style="padding-bottom:20px;">Therapists Note</h4>
+            </div>
+
+            <!--Preivew View Page-->
+            <div class="printDisply-non">
+                <div style="overflow:hidden">
+                    <div class="width50Per disTable">
+                        <div class="patient-detail bg_green">
+                            <div class="width50Per border-bottom-white">
+                                <label>
+                                    <span class="font-bold" style="font-weight:700;">Family Name</span>
+                                    <span>Patel</span>
+                                </label>
+                            </div>
+                            <div class="width50Per border-bottom-white">
+                                <label>
+                                    <span class="font-bold" style="font-weight:700;">First Name</span>
+                                    <span>Divya</span>
+                                </label>
+                            </div>
+                            <div class="width100Per">
+                                <label>
+                                    <span class="font-bold" style="font-weight:700;">Doctor Name</span>
+                                    <span>Patel Dhara</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="width10Per padding_left20 bg_green">
+                        <div class="patient-detail">
+                            <label class="txtCenter displayBlock">
+                                <span class="font-bold" style="font-weight:700;">Gender</span>
+                                Female
+                            </label>
+                        </div>
+                    </div>
+                    <div class="width10Per padding_left20 bg_green">
+                        <div class="patient-detail">
+                            <label class="txtCenter displayBlock">
+                                <span class="font-bold" style="font-weight:700;">Age</span>
+                                25 Year
+                            </label>
+                        </div>
+                    </div>
+                    <div class="width10Per padding_left20 bg_green">
+                        <div class="patient-detail">
+                            <label class="txtCenter displayBlock">
+                                <span class="font-bold" style="font-weight:700;">Date</span>
+                                25-10-2017
+                            </label>
+                        </div>
+                    </div>
+                    <div class="width10Per padding_left20">
+                        <div class="txtCenter doct-pre-img">
+                            <img src="/images/prescription-img.png">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Preivew View Page End-->
+            <!--Print View Page-->
+            <div class="clearfix"></div>
+            <div class="display-none printborder-dark-grey pageBreak disaplyNone_pdf" style="overflow:hidden;">
+                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 printHeaderTable">
+                    <table class="table" style="width:auto">
+                        <tbody>
+                            <tr class="font-bold">
+                                <td>Family Name</td>
+                                <td>:</td>
+                                <td>Divya</td>
+                            </tr>
+                            <tr class="font-bold">
+                                <td>First Name</td>
+                                <td>:</td>
+                                <td>Patel</td>
+                            </tr>
+                            <tr class="font-bold">
+                                <td>Doctor Name</td>
+                                <td>:</td>
+                                <td>Patel</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 printHeaderTable">
+                    <table class="table" style="width:auto">
+                        <tbody>
+                            <tr class="font-bold">
+                                <td>Gender</td>
+                                <td>:</td>
+                                <td>Female</td>
+                            </tr>
+                            <tr class="font-bold">
+                                <td>Age</td>
+                                <td>:</td>
+                                <td>25 Years</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <div class="doct-pre-img text-center margin-top10">
+                        <img src="/images/prescription-img.png">
+                    </div>
+                </div>
+            </div>
+            <!--Print View Page End-->
+            <!--Prescription block-->
+            <div class="Tnotes_print">
+                <div class="patient-desc-block pageBreak">
+                    <table class="TN_printBox">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>10.02.2015</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="width:20%;"><h5>Motif(s) de consultation</h5></td>
+                                <td style="width:80%;">
+                                    <div style="width:100%;">
+                                        <ul class="list-text doctor-presc-detailInline">
+                                            <li>aaaa</li>
+                                            <li>bbbb</li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:20%;"><h5>Motif(s) de consultation</h5></td>
+                                <td style="width:80%;">
+                                    <div style="width:100%;">
+                                        <ul class="list-text doctor-presc-detailInline">
+                                            <li>hgfhs@@</li>
+                                            <li>ffdsf</li>
+                                            <li>hgfhs@@</li>
+                                            <li>hgfhs@@</li>
+                                            <li>hgfhs@@</li>
+                                            <li>ffdsf</li>
+                                            <li>ffdsf</li>
+                                            <li>ffdsf</li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:20%;"><h5>Evolution depuis ttt précédent</h5></td>
+                                <td style="width:80%;">
+                                    <div style="width:100%;">
+                                        <ul class="list-text doctor-presc-detailInline">
+                                            <li>aaaa</li>
+                                            <li>bbbb</li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:20%;"><h5>Fatigue/Sommeil</h5></td>
+                                <td style="width:80%;">
+                                    <div style="width:100%;">
+                                        <ul class="list-text doctor-presc-detailInline">
+                                            <li>aaaa</li>
+                                            <li>bbbb</li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:20%;"><h5>T° (crainte froid/chaleur)</h5></td>
+                                <td style="width:80%;">
+                                    <div style="width:100%;">
+                                        <ul class="list-text doctor-presc-detailInline">
+                                            <li>aaaa</li>
+                                            <li>bbbb</li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--Prescription block-->
+
+        </div>
+    </div>
+</body>
+</html>

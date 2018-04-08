@@ -1,0 +1,128 @@
+﻿@{
+    Layout = null;
+    List<SPA.Models.AddOnProductList> AddOnProductList = new List<SPA.Models.AddOnProductList>();
+    AddOnProductList = Model;
+    string Currency = ViewBag.Currency;
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.Language;
+    var Istatus = ViewBag.IStatus;
+}
+<form id="frmIAddOnProduct" name="frmIAddOnProduct" action="/Invoice/InvoiceAddOnProductAdd" method="post">
+    <table class="table margin-top15 grouping-detail-table">
+        <thead>
+            <tr>
+                <th style="width:5%">@*No*@ @Language.Where(c => c.Order_id == 53).Select(c => c.Value).FirstOrDefault()</th>
+                <th style="width:5%"></th>
+                <th style="text-align:left;width:20%">@*Product*@ @Language.Where(c => c.Order_id == 54).Select(c => c.Value).FirstOrDefault()</th>
+                @*Manufacturer*@
+                <th style="text-align:left;width:15%">@Language.Where(c => c.Order_id == 106).Select(c => c.Value).FirstOrDefault()</th>
+                @*Qty*@
+                <th style="width:10%">@Language.Where(c => c.Order_id == 49).Select(c => c.Value).FirstOrDefault()</th>
+                @*Dozes*@
+                <th style="width:10%">@Language.Where(c => c.Order_id == 107).Select(c => c.Value).FirstOrDefault() </th>
+                @*Rate*@
+                <th style="width:10%">@Language.Where(c => c.Order_id == 47).Select(c => c.Value).FirstOrDefault()</th>
+                @*Amount*@
+                <th style="text-align:right;width:10%">@Language.Where(c => c.Order_id == 51).Select(c => c.Value).FirstOrDefault()</th>   
+                @*Date*@        
+                <th style="width:15%;">@Language.Where(c => c.Order_id == 45).Select(c => c.Value).FirstOrDefault()</th>
+                @*Time*@
+                @*<th>@Language.Where(c => c.Order_id == 55).Select(c => c.Value).FirstOrDefault()</th>*@
+            </tr>
+        </thead>
+        <tbody id="CalAddOnProduct">
+            @foreach (var item in AddOnProductList)
+            {
+                var Index = AddOnProductList.IndexOf(item) + 1;
+                var SetDetail = item.Settlement_Number != null && item.Settlement_Number != 0 ? Convert.ToString(item.Settlement_Number) : item.Settlement_text;
+                <tr>
+                    <td class="spa-label1">@Index</td>
+                    <td class="width5per">
+                        <span class="spa-checkbox checkbox margin0 float_left">
+                            <input value="@item.AddOnProductId" name="IAddOnProductId" id="@item.AddOnProductId" type="checkbox">
+                            <label for="@item.AddOnProductId" class="form-label spa-label1"></label>
+                        </span>
+                    </td>
+                    <td class="spa-label1" style="text-align:left;">@item.ProductName</td>
+                    <input type="hidden" id="ProductName" value="@item.ProductName" />
+                    <input type="hidden" id="Tarif_Number" value="@item.Tarif_Number" />
+                    <input type="hidden" id="Settlement_Number" value="@SetDetail" />
+                    <input type="hidden" id="Settlement_text" value="@(item.ProductName + ", " + item.Manufacturer + ", " + item.Dozes)" />
+                    <input type="hidden" id="Rate" value="@String.Format("{0:0.00}",item.Selling_Price)" />
+                    <input type="hidden" id="vat" value="@item.vat" />
+                    <input type="hidden" id="InvoiceDate" value="@ViewBag.InvoiceDate" />
+                    <td class="spa-label1" style="text-align:left;">@item.Manufacturer</td>
+                    <td class="spa-label1">
+                        <input type="text" id="Add_OnQuantity" class="form-control spa-text-box spa-text-box2 AddOnProduct required digits" Rate="@String.Format("{0:0.00}",item.Selling_Price)" value="1" maxlength="4">
+                        @Html.ValidationMessage("Add_OnQuantity")
+                    </td>
+                    <td class="spa-label1">@item.Dozes</td>
+                    <td class="spa-label1">@String.Format("{0:0.00}",item.Selling_Price)</td>
+                    <td class="spa-label1" style="text-align:right">@String.Format("{0:0.00}", item.Selling_Price)</td>
+                    <td class="width15per position_rel"><input type = "text" id="Add_OnDate" class="form-control spa-text-box spa-text-box2" placeholder="@Language.Where(c => c.Order_id == 45).Select(c => c.Value).FirstOrDefault()" style="width:100px;" value="">@Html.ValidationMessage("Add_OnDate")</td>
+                    @*<td class="width15per position_rel"><input type="text" id="Add_OnTime" class="form-control spa-text-box spa-text-box2 required" placeholder="@Language.Where(c => c.Order_id == 55).Select(c => c.Value).FirstOrDefault()" value="">@Html.ValidationMessage("Add_OnTime")</td>*@
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="margin-top20 text-right margin-bottom20">
+        <input type="button" class="btn btn-green btn-small margin-right5 width100" value="@Language.Where(c => c.Order_id == 56).Select(c => c.Value).FirstOrDefault()" id="Save_Addon">@*Add*@
+        <input type="button" class="btn btn-black btn-small margin-right10 width100" value="@Language.Where(c => c.Order_id == 57).Select(c => c.Value).FirstOrDefault()" id="Cancel_Addon">@*Cancel*@
+    </div>
+</form>
+
+<script>      
+    $("#CalAddOnProduct .AddOnProduct").keyup(function () {
+        var Quantity = $(this).val();
+        var CloseTr = $(this).closest("tr");
+        var Rate = $(this).attr("Rate");
+        CloseTr.find("td:eq(7)").html('@Currency'+" "+Rate * Quantity);
+    });
+    $("#Cancel_Addon").click(function () {
+        $("#Add_product").slideUp();
+    });
+    $("#CalAddOnProduct tr input[type='checkbox']").change(function () {
+        if ($(this).is(":checked")) {
+            $(this).parents("tr:first").find("input:not([type='checkbox'])").map(function () { $(this).attr("name", $(this).attr("id")) });
+        }
+        else {
+            $(this).parents("tr:first").find("input:not([type='checkbox'])").removeAttr("name");
+        }
+    });
+    $("body").delegate("#Save_Addon", "click", function () {
+        var addprodvalidation = $("#frmIAddOnProduct").validate().form();
+        if (addprodvalidation != false) {
+            if ($("#CalAddOnProduct tr input[type='checkbox']:checked").length > 0) {
+                $('.loader').show();
+                var form = $("#frmIAddOnProduct");
+                var url = "/Invoice/InvoiceAddOnProductAdd?Status=AddOnProduct&Istatus=@Istatus";
+                var formData = form.serialize();
+                $.post(url, formData, function (data) {
+                    if (data != null) {                      
+                        $("#CalAddOnProduct tr input[type='checkbox']").attr("checked", false).change();
+                        if ("@Istatus" == "GI")
+                            $("#CalProductDuration #TrTotal").before(data);
+                        else
+                            $("#CalProductDuration tr:last").after(data);
+                        if ($("#CalProductDuration tr").not("#NoDataIProduct,#TrTotal").length == 0) {
+                            $("#NoDataIProduct").removeClass("display-none");
+                            $("#TrTotal").addClass("display-none");
+                        }
+                        else {
+                            $("#NoDataIProduct").addClass("display-none");
+                            $("#TrTotal").removeClass("display-none");
+                        }
+                        TotalSum();
+                        $("#Add_product").slideUp();
+                    }
+                    $(".loader").hide();
+                });
+            }
+            else {
+               // var Message = "Please Select Add On Product";
+                $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO!</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 80).Select(c => c.Value).FirstOrDefault()</p>");
+                $('#welcome').modal("show");
+            }
+        }
+    });
+</script>

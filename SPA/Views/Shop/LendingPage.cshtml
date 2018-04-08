@@ -1,0 +1,783 @@
+﻿@using System.IO;
+@{
+    ViewBag.Title = "LendingPage";
+    Layout = null;
+    SPA.Models.LandingDetails Model = new SPA.Models.LandingDetails();
+    List<CCTSP_ColorMaster> ColorData = ViewBag.colordata;
+    if (ViewBag.lendingDetails != null)
+    { Model = ViewBag.lendingDetails; }
+    List<SPA.Models.LendingWeekScheduleDetails> LendingScheduleList = new List<SPA.Models.LendingWeekScheduleDetails>();
+    LendingScheduleList = ViewBag.LendingList;
+    List<SPA.Models.LanguageNewShop> Language = new List<SPA.Models.LanguageNewShop>();
+    Language = ViewBag.Language;
+    List<SPA.Models.LendingWeekScheduleDetails> WeekDetails = new List<SPA.Models.LendingWeekScheduleDetails>();
+    WeekDetails = ViewBag.WeekDetails;
+    var Closed = Language.Where(c => c.Order_id == 41).FirstOrDefault();
+    var StatusClosed = Closed.Value;
+    var EnLabelStatusClosed = Closed.English_Label;
+}
+@*<link href="~/Content/cropper.css" rel="stylesheet" />
+<link href="~/Content/Cropper_main.css" rel="stylesheet" />
+<script src="~/Scripts/cropper.js"></script>
+<script src="~/Scripts/Cropper_main.js"></script>*@
+@*<link href="~/Content/jquery.Jcrop.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.Jcrop.js"></script>*@
+    @*<style>
+
+         #preview-pane {
+            position: absolute;
+            right: -160px;
+            z-index: 1;
+            display: block;
+            border: 1px #000 solid;
+        }
+
+            #preview-pane .preview-container {
+                overflow: hidden;
+                width: 100px; /* ToDo - size of the crop window*/
+                height: 100px; /* ToDo - size of the crop window*/
+            }
+    </style>*@
+<div class="lendingPage">
+    <div class="HomeImg border-right-grey animated fadeIn" style="width:50%;" id="mySidenav">
+        <div class="HomeimgScroll" id="ShopHome">
+            @*@Html.Action("Home", "Home")*@
+        </div>
+    </div>
+    <form id="AddpreviewData" action="/Shop/AddLendingPageDetails" method="post" enctype="multipart/form-data">
+
+        <div class="p-relative" id="main" style="margin-left:50%;">
+            <div class="preview" id="open"><span><i class="fa fa-chevron-left" aria-hidden="true"></i></span></div>
+
+            <div class="height535AUTO margin-left25">
+                <div class="lending_content">
+                    <h4 class="title-green16 margin-top10 cursorPoint" id="heading">
+                        <span><i class="fa fa-minus-circle" aria-hidden="true"></i></span>
+                        @*Heading*@
+                        @Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()
+                    </h4>
+                    <div class="Lending-border" id="headingOpen">
+                        <div class="form-group row">
+                            <input type="hidden" id="LendSchid" name="LendSchid" value="@Model.Schid" />
+
+                            <div class="col-lg-14 col-md-24 col-sm-24">
+                                <div class="col-lg-10 col-md-12 col-sm-12">
+                                    <label class="form-label spa-label1">@*Logo*@ @Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()</label>
+                                    <div class="logo-img">
+                                        <span><img id="Logoimg" src="@(Model.Logo != null ? Model.Logo : "")" alt=""></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-14 col-md-12 col-sm-12 margin-top50">
+                                    <a class="file-input-wrapper btn btn-browse">
+                                        <span>@*Browse*@ @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</span>
+                                        <input type="file" title="Browse" class="btn-primary" id="Logoimg_Name" name="Logoimg_Name" onchange="setPreviewHomePageImage(this, 'Logoimg');">
+                                        <input type="hidden" id="Hidden_Logoimg" name="Hidden_Logoimg" value="@(Model.Logo != null ? Model.Logo : "")" />
+                                    </a>
+                                    <input type="button" class="btn btn-browse @(Model.Logo != null ? "" : "display-none")" value="@Language.Where(c => c.Order_id == 30).Select(c => c.Value).FirstOrDefault()" style="" id="Logoimg_Delete" onclick="DeletePreviewPicture('Logoimg');">
+                                    <span id="Logoimg_error" class="doctorValid"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-12 col-md-24 col-sm-24">
+                                <label class="form-label spa-label1">@*Logo text*@ @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()</label>
+                                <input type="text" class="form-control spa-text-box  spa-text-box2" id="Logotext" name="Logotext" placeholder="Logo text" maxlength="25" value="@Model.Logotext">
+                            </div>
+                            <div class="col-lg-12 col-md-24 col-sm-24">
+                                <label class="form-label spa-label1">@*Shop Name*@ @Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()</label>
+                                <input type="text" class="form-control spa-text-box spa-text-box2" id="ShopName" name="ShopName" placeholder="@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()" value="@Model.ShopName">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-12 col-md-24 col-sm-24">
+                                <label class="form-label spa-label1"> @*Logo Color*@ @Language.Where(c => c.Order_id == 42).Select(c => c.Value).FirstOrDefault() </label>
+                                <ul class="color-selection" id="PreviewColorSelection">
+                                    <li><a class="darkGreen"></a></li>
+                                    <li><a class="darkRed "></a></li>
+                                    <li><a class="grey"></a></li>
+                                    <li><a class="darkBlue"></a></li>
+                                    <li><a class="green"></a></li>
+                                    <li><a class="skyBlue color-active"></a></li>
+                                </ul>
+                            </div>
+                            <input type="hidden" id="LogoTextColor" name="LogoTextColor" value="skyBlue" />
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-16 col-md-24 col-sm-24">
+                                <label class="form-label spa-label1">@Language.Where(c => c.Order_id == 43).Select(c => c.Value).FirstOrDefault()@*COLOR SELECTION*@</label>
+                                <ul class="color-selection" id="back-color">
+                                    @foreach (var item in ColorData)
+                                    {
+                                        <li><a class="@item.Color_Class" id="@item.Color_Id"></a></li>
+                                    }
+                                </ul>
+                                <span class="error" id="ColorError"></span>
+                                <input type="hidden" name="ColorSelection" id="ColorSelection" value="@Model.Color_Id" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lending_content">
+                    <h4 class="title-green16  cursorPoint margin-top10">
+                        <span><i class="fa fa-minus-circle" aria-hidden="true"></i></span>
+                        @*Image*@ @Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()
+                    </h4>
+                    <div class="Lending-border">
+                        <div class="form-group row">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <label class="form-label spa-label1">@*Image1*@ @Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()</label>
+                                    <div class="logo-img lending_homeimg">
+                                        <span><img id="FirstImg" src="@(Model.Shopimg1 != null ? Model.Shopimg1 : "")" alt=""></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 margin-top50">
+                                    <a class="file-input-wrapper btn btn-browse">
+                                        <span>@*Browse*@ @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</span>
+                                        <input type="file" title="Browse" class="btn-primary" id="FirstImg_Name" name="FirstImg_Name" onchange="setPreviewHomePageImage(this, 'FirstImg');">
+                                        <input type="hidden" id="Hidden_FirstImg" name="Hidden_FirstImg" value="@(Model.Shopimg1 != null ? Model.Shopimg1 : "")" />
+                                    </a>
+                                    <input type="button" class="btn btn-browse @(Model.Shopimg1 != null ? "" : "display-none")" id="FirstImg_Delete" value="@Language.Where(c => c.Order_id == 30).Select(c => c.Value).FirstOrDefault()" style="" onclick="DeletePreviewPicture('FirstImg');">
+                                    <span id="FirstImg_error" class="doctorValid"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <label class="form-label spa-label1">@*Image2*@ @Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()</label>
+                                    <div class="logo-img lending_homeimg">
+                                        <span><img id="SecondImg" src="@(Model.Shopimg2 != null ? Model.Shopimg2 : "")" alt=""></span>
+                                    </div>
+                                </div>
+                                <input type="hidden" value="">
+                                <div class="col-lg-12 col-md-12 col-sm-12 margin-top50">
+                                    <a class="file-input-wrapper btn btn-browse">
+                                        <span>@*Browse*@ @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</span>
+                                        <input type="file" title="Browse" class="btn-primary" id="SecondImg_Name" name="SecondImg_Name" onchange="setPreviewHomePageImage(this, 'SecondImg');">
+                                        <input type="hidden" id="Hidden_SecondImg" name="Hidden_SecondImg" value="@(Model.Shopimg2 != null ? Model.Shopimg2 : "")" />
+                                    </a>
+                                    <input type="button" class="btn btn-browse @(Model.Shopimg2 != null ? "" : "display-none")" id="SecondImg_Delete" value="@Language.Where(c => c.Order_id == 30).Select(c => c.Value).FirstOrDefault()" style="" onclick="DeletePreviewPicture('SecondImg');">
+                                    <span id="SecondImg_error" class="doctorValid"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <label class="form-label spa-label1">@*Image3*@ @Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()</label>
+                                    <div class="logo-img lending_homeimg">
+                                        <span><img id="ThirdImg" src="@(Model.Shopimg3 != null ? Model.Shopimg3 : "")" alt=""></span>
+                                    </div>
+                                </div>
+                                <input type="hidden" value="">
+                                <div class="col-lg-12 col-md-12 col-sm-12 margin-top50">
+                                    <a class="file-input-wrapper btn btn-browse">
+                                        <span>@*Browse*@ @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</span>
+                                        <input type="file" title="Browse" class="btn-primary" id="ThirdImg_Name" name="ThirdImg_Name" onchange="setPreviewHomePageImage(this, 'ThirdImg');">
+                                        <input type="hidden" id="Hidden_ThirdImg" name="Hidden_ThirdImg" value="@(Model.Shopimg3 != null ? Model.Shopimg3 : "")" />
+                                    </a>
+                                    <input type="button" class="btn btn-browse @(Model.Shopimg3 != null ? "" : "display-none")" value="@Language.Where(c => c.Order_id == 30).Select(c => c.Value).FirstOrDefault()" style="" id="ThirdImg_Delete" onclick="DeletePreviewPicture('ThirdImg');">
+                                    <span id="ThirdImg_error" class="doctorValid"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <label class="form-label spa-label1">@*Image4*@ @Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()</label>
+                                    <div class="logo-img lending_homeimg">
+                                        <span><img id="FourthImg" src="@(Model.Shopimg4 != null ? Model.Shopimg4 : "")" alt=""></span>
+                                    </div>
+                                </div>
+                                <input type="hidden" value="">
+                                <div class="col-lg-12 col-md-12 col-sm-12 margin-top50">
+                                    <a class="file-input-wrapper btn btn-browse">
+                                        <span>@*Browse*@ @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</span>
+                                        <input type="file" title="Browse" class="btn-primary" id="FourthImg_Name" name="FourthImg_Name" onchange="setPreviewHomePageImage(this, 'FourthImg');">
+                                        <input type="hidden" id="Hidden_FourthImg" name="Hidden_FourthImg" value="@(Model.Shopimg4 != null ? Model.Shopimg4 : "")" />
+                                    </a>
+                                    <input type="button" class="btn btn-browse @(Model.Shopimg4 != null ? "" : "display-none")" value="@Language.Where(c => c.Order_id == 30).Select(c => c.Value).FirstOrDefault()" style="" id="FourthImg_Delete" onclick="DeletePreviewPicture('FourthImg');">
+                                    <span id="FourthImg_error" class="doctorValid"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="lending_content">
+                    <h4 class="title-green16 cursorPoint margin-top10">
+                        <span><i class="fa fa-minus-circle" aria-hidden="true"></i></span>
+                        @*Image Content*@ @Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()
+                    </h4>
+                    <div class="Lending-border">
+                        <div class="form-group row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <span class="spa-checkbox checkbox gender_Checkbox">
+                                    <input type="checkbox" id="ChkRequired" name="ChkRequired" checked="checked">
+                                    <label for="ChkRequired" class="form-label spa-label1">
+                                        @*Text Required*@ @Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()
+                                    </label>
+                                </span>
+                            </div>
+                        </div>
+                        <div id="textRequired">
+                            <div class="form-group row">
+                                <div class="col-lg-12 col-md-24 col-sm-24">
+                                    <label class="form-label spa-label1">@*Text1*@ @Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()</label>
+                                    <input type="text" class="form-control spa-text-box spa-text-box2 required" id="FImgText" name="FImgText" maxlength="35" placeholder="@Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()" value="@Model.Field1">
+                                </div>
+                                <div class="col-lg-12 col-md-24 col-sm-24">
+                                    <label class="form-label spa-label1">@*Text2*@ @Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()</label>
+                                    <input type="text" class="form-control spa-text-box spa-text-box2 required" id="SImgText" name="SImgText" maxlength="35" placeholder="@Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()" value="@Model.Field2">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12 col-md-24 col-sm-24">
+                                    <label class="form-label spa-label1">@*Text3*@ @Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault()</label>
+                                    <input type="text" class="form-control spa-text-box  spa-text-box2 required" id="TImgText" name="TImgText" maxlength="35" placeholder="@Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault()" value="@Model.Field3">
+                                </div>
+                                <div class="col-lg-12 col-md-24 col-sm-24">
+                                    <label class="form-label spa-label1">@*Text4*@ @Language.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault()</label>
+                                    <input type="text" class="form-control spa-text-box  spa-text-box2 required" id="FHImgText" name="FHImgText" maxlength="35" placeholder="@Language.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault()" value="@Model.Field4">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lending_content">
+                    <h4 class="title-green16 cursorPoint margin-top10">
+                        <span><i class="fa fa-minus-circle" aria-hidden="true"></i></span>
+                        @*Address*@ @Language.Where(c => c.Order_id == 17).Select(c => c.Value).FirstOrDefault()
+                    </h4>
+                    <div class="Lending-border">
+                        <div class="form-group row">
+                            <div class="col-lg-10 col-md-24 col-sm-24">
+                                <label class="form-label spa-label1">@*LendingAddress*@ @Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault()</label>
+                                <input type="text" class="form-control spa-text-box  spa-text-box2" id="LendingAddress" name="LendingAddress" placeholder="@Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault()" value="@Model.Address">
+                            </div>
+                            <div class="col-lg-6 col-md-24 col-sm-24">
+                                <label class="form-label spa-label1">@*Zipcode*@ @Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()</label>
+                                <input type="text" class="form-control spa-text-box  number spa-text-box2" id="Zipcode" name="Zipcode" placeholder="@Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()" value="@Model.ZipCode" maxlength="8">
+                            </div>
+                            <div class="col-lg-8 col-md-24 col-sm-24">
+                                <label class="form-label spa-label1">@*ShopCity*@ @Language.Where(c => c.Order_id == 40).Select(c => c.Value).FirstOrDefault()</label>
+                                <input type="text" class="form-control spa-text-box  spa-text-box2" id="ShopCity" name="ShopCity" placeholder="@Language.Where(c => c.Order_id == 40).Select(c => c.Value).FirstOrDefault()" value="@Model.ShopCity">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-12 col-md-24 col-sm-24">
+                                <label class="form-label spa-label1">@*Email*@ @Language.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault()</label>
+                                <input type="text" class="form-control spa-text-box  email spa-text-box2" id="LendingEmail" name="LendingEmail" placeholder="@Language.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault()" value="@Model.Email_id">
+
+                            </div>
+                            <div class="col-lg-12 col-md-24 col-sm-24">
+                                <label class="form-label spa-label1">@*PhoneNumber*@ @Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault()</label>
+                                <input type="text" class="form-control spa-text-box  spa-text-box2 number" id="PhoneNumber" name="PhoneNumber" maxlength="15" placeholder="@Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault()" value="@Model.PhoneNo">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <input type="hidden" id="LendingObject" name="LendingObject" value="@ViewBag.SerialzeLendingList" />
+                <div class="lending_content">
+                    <h4 class="title-green16 cursorPoint margin-top10">
+                        <span><i class="fa fa-minus-circle" aria-hidden="true"></i></span>
+                        @*Week Schedule*@
+                        @Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault()
+                    </h4>
+                    <div class="Lending-border">
+                        <div class="form-group row">
+                            <div class="col-lg-4 col-md-10 col-sm-10">
+                                <label class="form-label spa-label1" style="line-height:27px;">@*FromDay*@ @Language.Where(c => c.Order_id == 23).Select(c => c.Value).FirstOrDefault()</label>
+                            </div>
+                            <div class="col-lg-10 col-md-14 col-sm-14">
+
+                                @*<input type="text" class="form-control spa-text-box required spa-text-box2" id="FromDay" name="FromDay" placeholder="Text" value="@Model.FromDay">*@
+                                @*@Html.DropDownList("FromDay", new SelectList(ViewBag.WeekDay, "CatgTypeId", "CatgDesc", Model.FromDay), new { @class = "login-input-box form-control required", @id = "FromDay" })*@
+                                <div class="dropdown spa-dropdown leading-dropdown">
+                                    <a class="dropdown-toggle spa-text-box form-control spa-dropdown-box  dropmenuEllips" id="DisplayLendingDropDown" data-toggle="dropdown">
+                                        @if (WeekDetails.Count > 0)
+                                        {
+                                            @*@DaysList.Select(c => c.CatgDesc).FirstOrDefault()*@
+                                            @WeekDetails.Select(c => c.Day).FirstOrDefault()
+                                        }
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" id="LendingDayText">
+                                        @if (WeekDetails.Count > 0)
+                                        {
+                                            foreach (var item in WeekDetails)
+                                            {
+                                                <li>
+                                                    <a class="dropmenuEllips" id="@item.CatgTypeId">
+                                                        @item.Day
+                                                    </a>
+                                                </li>
+                                            }
+                                        }
+                                        @if (WeekDetails.Count > 0)
+                                        {
+                                            <input type="hidden" value="@WeekDetails.Select(c => c.CatgTypeId).FirstOrDefault()" name="SelectedLendingDay" id="SelectedLendingDay" />
+                                        }
+                                        else
+                                        {
+                                            <input type="hidden" value="" name="SelectedLendingDay" id="SelectedLendingDay" />
+                                        }
+                                        @*@Html.Hidden("SelectedEvent")*@
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group row">
+
+                            <div class="col-lg-2 col-md-24 col-sm-24">
+                                <label class="form-label spa-label1">AM</label>
+                                <div class="spa-checkbox checkbox Week_checkbox">
+                                    <input type="checkbox" id="Check_Am">
+                                    <label for="Check_Am" class="form-label spa-label1"></label>
+                                </div>
+                            </div>
+                            <div class="col-lg-11 col-md-24 col-sm-24">
+                                <label class="form-label spa-label1">@*ShopStartTime*@ @Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault()</label>
+                                <input type="text" class="form-control spa-text-box  spa-text-box2 " id="ShopStartTime" name="ShopStartTime" placeholder="@Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault()" value="">
+                            </div>
+                            <div class="col-lg-11 col-md-24 col-sm-24">
+                                <label class="form-label spa-label1">@*ShopEndTime*@ @Language.Where(c => c.Order_id == 25).Select(c => c.Value).FirstOrDefault()</label>
+                                <input type="text" class="form-control spa-text-box  spa-text-box2 " id="ShopEndTime" name="ShopEndTime" placeholder="@Language.Where(c => c.Order_id == 25).Select(c => c.Value).FirstOrDefault()" value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-2 col-md-24 col-sm-24">
+                                <label class="form-label spa-label1">PM</label>
+                                <div class="spa-checkbox checkbox Week_checkbox">
+                                    <input type="checkbox" id="Check_Pm">
+                                    <label for="Check_Pm" class="form-label spa-label1"></label>
+                                </div>
+                            </div>
+                            <div class="col-lg-11 col-md-24 col-sm-24">
+                                <label class="form-label spa-label1">@*ShopStartTime*@ @Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault()</label>
+                                <input type="text" class="form-control spa-text-box  spa-text-box2 " id="ShopIStartTime" name="ShopIStartTime" placeholder="@Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault()" value="">
+                            </div>
+                            <div class="col-lg-11 col-md-24 col-sm-24">
+                                <label class="form-label spa-label1">@*ShopEndTime*@ @Language.Where(c => c.Order_id == 25).Select(c => c.Value).FirstOrDefault()</label>
+                                <input type="text" class="form-control spa-text-box  spa-text-box2 " id="ShopIEndTime" name="ShopIEndTime" placeholder="@Language.Where(c => c.Order_id == 25).Select(c => c.Value).FirstOrDefault()" value="">
+                            </div>
+                        </div>
+                        <div class="form-group text-right margin-top10">
+                            <span id="statusLendingSchedule" class="doctorValid"></span>
+                            <input type="button" class="btn btn-green margin-right5 margin-bottom10" id="AddLendingDay" value="@Language.Where(c => c.Order_id == 31).Select(c => c.Value).FirstOrDefault()">  @*Add*@
+                        </div>
+                        <div class="table-responsive laending-Table">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>@*DAY*@ @Language.Where(c => c.Order_id == 26).Select(c => c.Value).FirstOrDefault()</th>
+                                        <th>@*TIME*@ @Language.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault()</th>
+                                        <th>@*TIME*@ @Language.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault()</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="LendingWeekScheduleDetails">
+                                    @foreach (var item in WeekDetails)
+                                    {
+                                        <tr id="Week_@item.CatgTypeId">
+                                            <td class="spa-label1 text-center">@item.Day </td>
+                                            <td class="spa-label1 text-center">@(item.Catgdesc != null && item.Catgdesc != EnLabelStatusClosed ? item.Catgdesc : StatusClosed)</td>
+                                            <td class="spa-label1 text-center">@(item.Gender != null && item.Gender != EnLabelStatusClosed ? item.Gender : StatusClosed)</td>
+                                            <td>
+                                                <a id="@item.CatgTypeId"> <i class="fa fa-times spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 30).Select(c => c.Value).FirstOrDefault()" data-original-title="" title=""></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group text-center margin-top20">
+                    <input type="button" class="btn btn-green margin-right5 margin-bottom10" onclick="previewHomePage();" value="@Language.Where(c => c.Order_id == 28).Select(c => c.Value).FirstOrDefault()">
+                    <input type="submit" class="btn btn-green margin-right5 margin-bottom10" value="@Language.Where(c => c.Order_id == 29).Select(c => c.Value).FirstOrDefault()">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!--Image crop Popup-->
+@*<div class="modal fade ImageCrop_popup" id="image_crop" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">
+                      Image Crop
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <section id="" class="hidden">
+                        <img src="#" id="" alt="" />
+                        <div id="preview-pane">
+                            <div class="preview-container">
+                                <img src="#" class="jcrop-preview" alt="Preview" />
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-green">Crop</button>
+                    <button type="button" class="btn btn-black" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+@*<div class="modal fade ImageCrop_popup" id="image_crop" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">
+                      Image Crop
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-15 col-md-18 col-sm-16">
+                            <div class="img-container">
+                                <img id="image" src="~/images/docot1.jpg" alt="Picture">
+                            </div>
+                        </div>
+                        <div class="col-lg-9 col-md-6 col-sm-8">
+                            <div class="docs-preview clearfix">
+                                <div class="img-preview preview-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-green">Crop</button>
+                    <button type="button" class="btn btn-black" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+<script>
+    //$('#image_crop').modal('show');
+    $.ajax({
+        url: "/Home/Home?status=no",
+        type: 'GET',
+        async: false,
+        success: function (Blocking) {
+            $("#ShopHome").html(Blocking);
+        },
+        error:function()
+        {
+        },
+        cache: false,
+    });
+    $("#AddpreviewData").validate();
+    function setPreviewHomePageImage(input, id) {
+        var fileExtension = ["jpg", "jpeg", "png", "gif"];
+        if ($.inArray($("#" + id + "_Name").val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+            $("#" + id + "_error").text("Only '.jpeg','.jpg','.png','.gif' formats are allowed.").fadeIn().delay(2000).fadeOut();
+        }
+        else {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#' + id).attr('src', e.target.result);
+                    $("#" + id + "_Delete").show();
+                    $("#Hidden_" + id).val(input.files[0]);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    }
+    $('#LendingDayText li a').click(function () {
+        var selText = $(this).html();
+        var id = $(this).prop("id");
+        $("#SelectedLendingDay").val(id);
+        $("#DisplayLendingDropDown").html(selText + '<span class="caret"></span>');
+    });
+    $("#ShopStartTime,#ShopEndTime,#ShopIStartTime,#ShopIEndTime").datetimepicker({
+        stepping: 5,
+        format: 'HH:mm'
+    });
+    function DeletePreviewPicture(Id) {
+        $("#" + Id + "_Name").val('');
+        document.getElementById(Id).src = "";
+        $("#" + Id + "_Delete").hide();
+        $("#Hidden_" + Id).val('');
+    }
+    $("#PreviewColorSelection li a").click(function () {
+        var Selectcolor = $(this);
+        $("#PreviewColorSelection li a").removeClass("color-active");
+        Selectcolor.addClass("color-active");
+        var ColorSelection = $.trim(Selectcolor.prop("class").replace("color-active", ""));
+        $("#LogoTextColor").val(ColorSelection);
+    });
+    $("#back-color li a").click(function () {
+        var Sel = $(this);
+        $("#back-color li a").removeClass("color-active");
+        Sel.addClass("color-active");
+        var ColorSelection = $.trim(Sel.prop("id"));
+        $("#ColorSelection").val(ColorSelection);
+        if ($.trim($("#ColorError").html()) != "") { $("#ColorError").html("");}
+    })
+
+    function previewHomePage() {
+        if ($("#Hidden_Logoimg").val() != "") {
+            $("#Spalogo").removeClass("display-none");
+            $("#HLogoImage").prop("src", $("#Logoimg").prop("src"));
+        }
+        else
+            $("#Spalogo").addClass("display-none");
+        var ClassName=$("#back-color li .color-active").prop("class").replace("color-active","");
+        $("#PreviewColor").removeAttr("class").addClass(ClassName);
+        if ($("#ShopName").val() != "")
+            $("#HomeShopName").html($("#ShopName").val());
+        if ($("#FirstImg_Name").val() != "")
+            $("#HomeFirstimg").prop("src", $("#FirstImg").prop("src"));
+        if ($("#SecondImg_Name").val() != "")
+            $("#HomeSecondimg").prop("src", $("#SecondImg").prop("src"));
+        if ($("#ThirdImg_Name").val() != "")
+            $("#HomeThirdimg").prop("src", $("#ThirdImg").prop("src"));
+        if ($("#FourthImg_Name").val() != "")
+            $("#HomeFourthimg").prop("src", $("#FourthImg").prop("src"));
+        if ($("#LendingAddress").val() != "")
+            $("#FooterAddress").html($("#LendingAddress").val());
+        if ($("#Zipcode").val() != "" || $("#Zipcode").val() != "")
+            $("#FooterZipCode").html($("#Zipcode").val());
+        if ($("#ShopCity").val() != "")
+            $("#FooterShopCity").html($("#ShopCity").val());
+        if ($("#LendingEmail").val() != "")
+            $("#FooterEmailId").html($("#LendingEmail").val());
+        if ($("#PhoneNumber").val() != "")
+            $("#FooterPhoneNo").html($("#PhoneNumber").val());
+        if ($("#Logotext").val() != "") {
+            $("#HLogotext").html($("#Logotext").val());
+            var TextColor = $("#LogoTextColor").val().replace("color-active", "");
+            var textColor1 = ($.trim(TextColor) + "-text");
+            var ab = $("#HLogotext").prop("class").split(' ');
+            var className = "";
+            $.each(ab, function (key, value) { if (!(value.indexOf("-text") > -1)) { className = className + " " + value; } });
+            className = className + " " + textColor1;
+            $("#HLogotext").removeAttr("class").addClass(className);
+        }
+        if ($("#LendingObject").val() != "") {
+            $("#MainWeekSchedule").html("");
+            var JsonArray = jQuery.parseJSON($("#LendingObject").val());
+            $.each(JsonArray, function (key) {
+                var FDesc = JsonArray[key].Catgdesc != null && JsonArray[key].Catgdesc != "@EnLabelStatusClosed" ? JsonArray[key].Catgdesc : "@StatusClosed";
+                var SDesc = JsonArray[key].Gender != null && JsonArray[key].Gender != "@EnLabelStatusClosed" ? JsonArray[key].Gender : "@StatusClosed";
+                var DisplayHtml = "<tr><td><i class='fa fa-clock-o footer-icon' aria-hidden='true'></i><span>" + JsonArray[key].Day + "</span></td><td>" + FDesc + "</td> <td>" + SDesc + "</td></tr> ";
+                if ($("#MainWeekSchedule tr").length == 0)
+                    $("#MainWeekSchedule").html(DisplayHtml);
+                else
+                    $("#MainWeekSchedule tr").last().after(DisplayHtml);
+            });
+        }
+        else
+            $("#MainWeekSchedule").html("");
+        if ($("#ChkRequired").prop("checked")) {
+            $("#MainHome .mask").removeClass("display-none");
+            if ($("#FImgText").val() != "")
+                $("#firstImgText").html($("#FImgText").val());
+            if ($("#SImgText").val() != "")
+                $("#secondImgText").html($("#SImgText").val());
+            if ($("#TImgText").val() != "")
+                $("#thirdImgText").html($("#TImgText").val());
+            if ($("#FHImgText").val() != "")
+                $("#fourthImgText").html($("#FHImgText").val());
+        }
+        else
+            $("#MainHome .mask").addClass("display-none");
+
+    }
+    $('#ChkRequired').change(function () {
+        $('#textRequired').fadeToggle();
+    });
+    $("#ShopStartTime").on("dp.change", function (e) {
+        $("#ShopEndTime").val("").data("DateTimePicker").minDate(e.date.format("HH:mm"));
+        $("#ShopIStartTime").val("").data("DateTimePicker").minDate(e.date.format("HH:mm"));
+        $("#ShopIEndTime").val("").data("DateTimePicker").minDate(e.date.format("HH:mm"));
+    });
+    $("#ShopEndTime").on("dp.change", function (e) {
+        $("#ShopIStartTime").val("").data("DateTimePicker").minDate(e.date.format("HH:mm"));
+        $("#ShopIEndTime").val("").data("DateTimePicker").minDate(e.date.format("HH:mm"));
+    });
+    $("#ShopIStartTime").on("dp.change", function (e) {
+        $("#ShopIEndTime").val("").data("DateTimePicker").minDate(e.date.format("HH:mm"));
+    });
+    $("#AddLendingDay").click(function () {
+        var Status = "CheckYES";
+        if ($("#Check_Am").prop("checked") == true || $("#Check_Pm").prop("checked") == true) {
+            if ($("#Check_Am").prop("checked") == true && $("#Check_Pm").prop("checked") == true) {
+                if ($("#ShopStartTime").val() == "" || $("#ShopIStartTime").val() == "") {
+                    $("#statusLendingSchedule").text("Please Fill Start and End Time").fadeIn().delay(2000).fadeOut();
+                    Status = "CheckNO";
+                }
+                if (($("#ShopStartTime").val() > $("#ShopEndTime").val()) || ($("#ShopEndTime").val() > $("#ShopIStartTime").val()) || ($("#ShopIStartTime").val() > $("#ShopIEndTime").val())) {
+                    $("#statusLendingSchedule").text("Start time should be smaller then End time").fadeIn().delay(2000).fadeOut();
+                    Status = "CheckNO";
+                }
+            }
+            if ($("#Check_Am").prop("checked") == true && $("#Check_Pm").prop("checked") == false) {
+                if ($("#ShopStartTime").val() > $("#ShopEndTime").val()) {
+                    $("#statusLendingSchedule").text("Start time should be smaller then End time").fadeIn().delay(2000).fadeOut();
+                    Status = "CheckNO";
+                }
+                if ($("#ShopStartTime").val() == "" || $("#ShopEndTime").val() == "") {
+                    $("#statusLendingSchedule").text("Please Fill Start and End Time").fadeIn().delay(2000).fadeOut();
+                    Status = "CheckNO";
+                }
+            }
+            if ($("#Check_Pm").prop("checked") == true && $("#Check_Am").prop("checked") == false) {
+                if ($("#ShopIStartTime").val() > $("#ShopIEndTime").val()) {
+                    $("#statusLendingSchedule").text("Start time should be smaller then End time").fadeIn().delay(2000).fadeOut();
+                    Status = "CheckNO";
+                }
+                if ($("#ShopIStartTime").val() == "" || $("#ShopIEndTime").val() == "") {
+                    $("#statusLendingSchedule").text("Please Fill Start and End Time").fadeIn().delay(2000).fadeOut();
+                    Status = "CheckNO";
+                }
+            }
+        }
+        if (Status == "CheckYES") {
+            var JsonArray = [];
+            if ($("#LendingObject").val() != "")
+                JsonArray = jQuery.parseJSON($("#LendingObject").val());
+            var ID = $("#SelectedLendingDay").val();
+            var Content = "@EnLabelStatusClosed";
+            var RContent="@StatusClosed";
+            var RIContent="@StatusClosed";
+            var IContent = "@EnLabelStatusClosed";
+            if ($("#Check_Am").prop("checked") == true) {
+                Content = $("#ShopStartTime").val() + " - " + $("#ShopEndTime").val();
+                IContent = "@EnLabelStatusClosed";
+                RContent=$("#ShopStartTime").val() + " - " + $("#ShopEndTime").val();
+                RIContent="@StatusClosed";
+            }
+            if ($("#Check_Pm").prop("checked") == true) {
+                IContent = $("#ShopIStartTime").val() + " - " + $("#ShopIEndTime").val();
+                Content = "@EnLabelStatusClosed";
+                RContent="@StatusClosed";
+                RIContent= $("#ShopIStartTime").val() + " - " + $("#ShopIEndTime").val();
+            }
+            if ($("#Check_Am").prop("checked") == true && $("#Check_Pm").prop("checked") == true) {
+                Content = $("#ShopStartTime").val() + " - " + $("#ShopEndTime").val();
+                IContent = $("#ShopIStartTime").val() + " - " + $("#ShopIEndTime").val();
+                RContent=$("#ShopStartTime").val() + " - " + $("#ShopEndTime").val();
+                RIContent= $("#ShopIStartTime").val() + " - " + $("#ShopIEndTime").val();
+            }
+            var Days = $("#LendingDayText #" + $("#SelectedLendingDay").val()).html();
+            var Status = "Yes";
+            JsonArray = $.grep(JsonArray, function (item, index) {
+                return item.CatgTypeId != ID
+            });
+            var JsonString = { CatgTypeId: ID, Catgdesc: Content, Day: Days, Gender: IContent };
+            JsonArray.push(JsonString);
+            $("#Week_" + ID).find("td:eq(1)").html(RContent);
+            $("#Week_" + ID).find("td:eq(2)").html(RIContent);
+            $("#LendingObject").val(JSON.stringify(JsonArray));
+        }
+
+    });
+
+    $("body").delegate("#LendingWeekScheduleDetails tr a", "click", function () {
+        var CatgTypeId = $(this).prop("id");
+        $("#Week_" + CatgTypeId).find("td:eq(1)").html("@StatusClosed");
+        $("#Week_" + CatgTypeId).find("td:eq(2)").html("@StatusClosed");
+        var TempJsonArray = [];
+        var JsonArray = JSON.parse($("#LendingObject").val());
+        JsonArray = $.grep(JsonArray, function (item, index) { return item.CatgTypeId != CatgTypeId });
+        var Days = $("#LendingDayText #" + CatgTypeId).html();
+        var JsonString = { CatgTypeId: CatgTypeId, Catgdesc: "@EnLabelStatusClosed", Day: Days, Gender: "@EnLabelStatusClosed" };
+        JsonArray.push(JsonString);
+        if (JsonArray.length == 0)
+            $("#LendingObject").val("");
+        else
+            $("#LendingObject").val(JSON.stringify(JsonArray));
+    });
+    $(".lending_content h4").click(function () {
+        var Current = $(this);
+        var ParentDiv = Current.parent(".lending_content");
+        if (Current.find('i').hasClass('fa-plus-circle') == true) {
+            Current.find('i').removeClass('fa-plus-circle').addClass('fa-minus-circle');
+        } else {
+            Current.find('i').removeClass('fa-minus-circle').addClass('fa-plus-circle');
+        }
+        ParentDiv.children("div").fadeToggle();
+    });
+    if ($(window).width() <= 767) {
+        $("#mySidenav").removeAttr("style");
+        $("#mySidenav").css("width", "100%");
+        $("#main").removeAttr("style");
+        $("#main").css("margin-top", "500px");
+        $("#open span").find("i").removeClass("fa-chevron-left").addClass("fa-chevron-up");
+    }
+    $("#open").click(function () {
+        if ($(window).width() > 767) {
+            if ($("#mySidenav:hidden").length > 0) {
+                $("#mySidenav").css("width", "50%").show();
+                $("#main").css("marginLeft", "50%");
+                $("#open span").find("i").removeClass("fa-chevron-right").addClass("fa-chevron-left");
+            }
+            else {
+                $("#mySidenav").removeAttr("style").hide();
+                $("#main").removeAttr("style");
+                $("#open span").find("i").removeClass("fa-chevron-left").addClass("fa-chevron-right");
+            }
+        }
+        else {
+            if ($("#mySidenav:hidden").length > 0) {
+                $("#mySidenav").removeAttr("style");
+                $("#mySidenav").css("width", "100%");
+                $("#main").removeAttr("style");
+                $("#main").css("margin-top", "500px");
+                $("#open span").find("i").removeClass("fa-chevron-down").addClass("fa-chevron-up");
+            }
+            else {
+                $("#mySidenav").removeAttr("style").hide();
+                $("#main").removeAttr("style");
+                $("#open span").find("i").removeClass("fa-chevron-up").addClass("fa-chevron-down");
+            }
+        }
+
+    })
+
+</script>
+@if (Model.Color_Id != null)
+{
+    <script>
+        $("#back-color #"+@Model.Color_Id).click();
+        $("#ColorSelection").val("@Model.Color_Id");
+    </script>
+}
+else
+{
+    <script>
+        $("#back-color #6").click();
+        $("#ColorSelection").val("6");
+    </script>
+}
+@if (Model.Logotext_Color != null)
+{
+    <script>
+        $(".@Model.Logotext_Color").click();
+    </script>
+}
+@if (Model.Field5 != null && Model.Field5 == "0")
+{
+    <script>
+        $("#ChkRequired").prop("checked", false);
+        $('#textRequired').fadeToggle();
+    </script>
+}

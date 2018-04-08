@@ -1,0 +1,147 @@
+﻿@model  SPA.Models.Registration
+@using System.Configuration;
+@{
+    Layout = null;
+    List<Language_NewShop> Language = ViewBag.Language;
+    int LanguageId = ViewBag.LangId;
+    List<SPA.Models.LanguageLabelDetails> LangNameList = ViewBag.LangNameList;
+}
+@Styles.Render("~/Contents/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/clickscript")
+@if (Session["Message"].ToString() == "Error")
+{
+    <script>
+        $.post("/Translation/AlertMsg?id=2&LangId=" + @LanguageId, function (failure) {
+            $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">" + failure + "</p>");
+            $('#welcome').modal("show");
+        });
+    </script>
+    Session["Message"] = "";
+}
+@if (Session["Message"].ToString() == "Error")
+{
+    <script>
+        $.post("/Translation/AlertMsg?id=2&LangId=" + @LanguageId, function (failure) {
+            $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">" + failure + "</p>");
+            $('#welcome').modal("show");
+        });
+    </script>
+    Session["Message"] = "";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@*Login*@ @Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 52).Select(c => c.Value).FirstOrDefault()</title>
+    @if (LanguageId > 1)
+    {
+        @Html.Partial("_LangValidation", "/Scripts/messages_" + LangNameList.Where(c => c.Lang_id == LanguageId).Select(c => c.English_Label).FirstOrDefault().ToLower() + ".js");
+    }
+    @*@if (LanguageId == 2)
+        {<script type="text/javascript" src="~/Scripts/messages_de.js"></script>}
+        @if (LanguageId == 3)
+        {<script type="text/javascript" src="~/Scripts/messages_fr.js"></script>}*@
+</head>
+<body style="background:#fff;">
+    <div class="container">
+        <div class="bg-grey border-radius5">
+            <form name="Login" id="Login" action="/Registration/Login" method="post">
+                <div class="login-main" id="LoginForm">
+                    @Html.Partial("_Progressbar", Language.Where(c => c.Page_Name == "Registration_Page").ToList())
+                    <div class="col-lg-4 col-lg-offset-18 col-md-24 col-sm-24">
+                        <a href="@(LanguageId>0?"/Registration/Welcome?lang="+LanguageId:"/Registration/Welcome")" class="back-btn"><i class="fa fa-reply-all"></i>@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 30).Select(c => c.Value).FirstOrDefault())@*Back*@</a>
+                    </div>
+                    <div class="main-form-content">
+                        <div class="form-group">
+                            <div class="col-lg-5 col-lg-offset-6  col-md-6 col-md-offset-6 col-sm-18 col-sm-offset-3">
+                                <label for="mobile number" class="">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 1).Select(c => c.Value).FirstOrDefault())*@*MOBILE NUMBER*@</label>
+                                @*<input type="text" class="login-input-box form-control" placeholder="8460840089">*@
+                                @Html.EditorFor(c => c.phoneno, new { htmlAttributes = new { @class = "login-input-box form-control required digits", @minlength = 10, @maxlength = 12 } })
+                            </div>
+                        </div>
+                        <input type="hidden" value="@LanguageId" name="Langid" id="Langid" />
+                        <div class="form-group">
+                            <div class="col-lg-12 col-lg-offset-6 col-md-12 col-md-offset-6 col-sm-18 col-sm-offset-3">
+                                <label for="mobile number" class="">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 2).Select(c => c.Value).FirstOrDefault())*@*EMAIL ADDRESS*@</label>
+                                @*<input type="email" class="login-input-box form-control" placeholder="rik.cool2710@gmail.com">*@
+                                @Html.EditorFor(c => c.emailid, new { htmlAttributes = new { @class = "login-input-box form-control required email error" } })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-2 col-lg-offset-6 col-md-4 col-md-offset-6 col-sm-18 col-sm-offset-3">
+                                <label for="mobile number" class="">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 3).Select(c => c.Value).FirstOrDefault())*@*TITLE*@</label>
+                                @*<a class="dropdown-toggle login-input-box form-control" data-toggle="dropdown" aria-expanded="true">
+                                        Mr<span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a>Mr</a></li>
+                                        <li><a>Mrs</a></li>
+                                        <li><a>Ms.</a></li>
+                                    </ul>*@
+                                @Html.DropDownListFor(c => c.Title, (SelectList)(ViewBag.Client), new { @class = "login-input-box form-control padding4 required" })
+                            </div>
+                            <div class="col-lg-5 col-lg-offset-0 col-md-4 col-md-offset-0 col-sm-18 col-sm-offset-3 responsive-mt15">
+                                <label for="mobile number required" class="">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 4).Select(c => c.Value).FirstOrDefault())@*FIRST NAME*@</label>
+                                @*<input type="text" class="login-input-box form-control" placeholder="RIKUL">*@
+                                @Html.EditorFor(c => c.FirstName, new { htmlAttributes = new { @class = "login-input-box form-control required" } })
+                            </div>
+                            <div class="col-lg-5 col-lg-offset-0 col-md-4 col-md-offset-0 col-sm-18 col-sm-offset-3 responsive-mt15">
+                                <label for="mobile number " class="">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 5).Select(c => c.Value).FirstOrDefault())@*FAMILY NAME*@</label>
+                                @*<input type="text" class="login-input-box form-control" placeholder="PRAJAPATI">*@
+                                @Html.EditorFor(c => c.FamilyName, new { htmlAttributes = new { @class = "login-input-box form-control required" } })
+                            </div>
+                        </div>
+                        <div class="form-group mb35">
+                            <div class="col-lg-6 col-lg-offset-6 col-md-6 col-md-offset-6 col-sm-18 col-sm-offset-3">
+                                <label for="mobile number" class="">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 6).Select(c => c.Value).FirstOrDefault()) *@*CHOOSE YOUR PASSWORD*@</label>
+                                @*<input type="password" class="login-input-box form-control">*@
+                                @Html.EditorFor(c => c.password, new { htmlAttributes = new { @class = "login-input-box form-control required ", @id = "Password", @minlength = 6, @maxlength = 20, Type = "password" } })
+                            </div>
+                            <div class="col-lg-6 col-lg-offset-0 col-md-6 col-md-offset-0 col-sm-18 col-sm-offset-3 responsive-mt15">
+                                <label for="mobile number" class="">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 7).Select(c => c.Value).FirstOrDefault()) *@*RETYPE YOUR PASSWORD*@</label>
+                                @*<input type="password" class="login-input-box form-control">*@
+                                @Html.EditorFor(c => c.ConfirmPassword, new { htmlAttributes = new { @class = "login-input-box form-control required", equalto = "#Password", Type = "password" } })
+                            </div>
+                        </div>
+                        <div class="form-group overflowhiddn">
+                            <div class="col-lg-12 col-lg-offset-6 col-md-12 col-md-offset-6 col-sm-18 col-sm-offset-3">
+                                <div class="border-top-white">
+                                    <label for="mobile number" class="pt10">*@*MANDATORY TO FILL OUT*@@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 36).Select(c => c.Value).FirstOrDefault())<br>(@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 37).Select(c => c.Value).FirstOrDefault())@*REQUIRED FOR CONFIRMATION*@)</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt30">
+                            <input type="submit" class="continue-btn green-btn" value="@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 29).Select(c => c.Value).FirstOrDefault())" />@*NEXt*@
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    $("#Login").validate();
+    $('#Login').addClass('login-detail');
+    $('#Login a').addClass('active');
+</script>
+@if (ViewBag.LangId == 1)
+{
+    <script>
+        $("#LangChange #English a").addClass("activeShop");
+    </script>
+}
+@if (ViewBag.LangId == 2)
+{
+    <script>
+        $("#LangChange #German a").addClass("activeShop");
+    </script>
+}
+@if (ViewBag.LangId == 3)
+{
+    <script>
+        $("#LangChange #French a").addClass("activeShop");
+    </script>
+}

@@ -1,0 +1,163 @@
+﻿@{
+    List<Language_Label_Detail> LanguageList = new List<Language_Label_Detail>();
+    LanguageList = ViewBag.Language;
+    var Language = LanguageList.Where(c => c.Page_Name == "Reservation_Tab").ToList();
+    ViewBag.Title = LanguageList.Where(c => c.Page_Name == "Title" && c.Order_id == 12).Select(c => c.Value).FirstOrDefault();
+    Layout = "~/Views/Shared/_Employee_Layout.cshtml";
+    string BookingApproval = "";
+    if (ViewBag.BookingApproval != null && ViewBag.BookingApproval != "")
+    {
+        BookingApproval = ViewBag.BookingApproval;
+    }
+    else
+    {
+        BookingApproval = "YES";
+    }
+    List<SPA.Models.AccessSubMenu> SubMenu = new List<SPA.Models.AccessSubMenu>();
+    SubMenu = ViewBag.SubMenu;
+    var Active = "active";
+    var DivActive = "in active";
+}
+<input type="hidden" id="ResLangIdDefault" value="@Language.FirstOrDefault().Language_Master.Currency_Symbol" />
+@if (Session["Message"].ToString() == "Success")
+{
+    <script>
+        var Text = "Welcome Back ShopMaster!";
+        $.post("/Product/GetDataOfLanguage?Text=" + Text + "&id=33", function (data1) {
+            $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">" + data1 + "</p>");
+            $('#welcome').modal("show");
+        });
+    </script>
+    Session["Message"] = "";
+}
+@if (Session["Result"].ToString() == "BookedError")
+{
+    <script>
+        var Text = "ShopMaster!";
+        $.post("/Product/GetDataOfLanguage?Text=" + Text + "&id=46", function (data1) {
+            $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">" + data1 + "</p>");
+            $('#welcome').modal("show");
+        });
+    </script>
+    Session["Result"] = "";
+}
+@if (Session["Result"].ToString() == "BookedSucessfully")
+{
+    <script>
+        var Text = "ShopMaster!";
+        $.post("/Product/GetDataOfLanguage?Text=" + Text + "&id=47", function (data1) {
+            $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">" + data1 + "</p>");
+            $('#welcome').modal("show");
+        });
+    </script>
+    Session["Result"] = "";
+}
+@if (Session["Result"].ToString() == "LeaveError")
+{
+    <script>
+        var Text = "ShopMaster!";
+        //$.post("/Product/GetDataOfLanguage?Text=" + Text + "&id=47", function (data1) {
+        //Your Leave Confirmation Is Unsuccessful
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\"> @Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()</p>");
+        $('#welcome').modal("show");
+        //});
+    </script>
+    Session["Result"] = "";
+}
+@if (Session["Result"].ToString() == "LeaveSucessfully")
+{
+    <script>
+        var Text = "ShopMaster!";
+        //$.post("/Product/GetDataOfLanguage?Text=" + Text + "&id=47", function (data1) {
+        //Your Leave Confirmation Is Successful
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\"> @Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()</p>");
+        $('#welcome').modal("show");
+        //});
+    </script>
+    Session["Result"] = "";
+}
+
+<ol class="spa-breadcrumbs breadcrumb">
+    @*<li><a href="#" class="active">Home</a></li>
+        <li><a href="#">Reservation</a></li>*@
+</ol>
+<div class="form-content">
+    <div class="employee-blank">
+        <h1 class="italic-title">
+            @Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()  @*Reservation*@
+            <span class="pull-right">
+                @*<a href="@Url.Action("","")" class="title-green16" hidden><i class="fa fa-reply-all margin-right5" hidden></i>Back</a>*@
+            </span>
+        </h1>
+        <div class="spa-home-tab spa-home-tab1">
+            <ul id="myTab" class="nav nav-tabs">
+                @foreach (var Item in SubMenu.OrderBy(c => c.SubId).ToList())
+                {
+
+                    if (Item.Condition != null)
+                    {
+                        if (Item.Condition == "BookingApproval" && Item.ConditionValue == BookingApproval)
+                        {
+
+                            <li class="@Active">
+                                <a href="#@Item.SubLink" onclick="CommonTabDetails('@Item.TabLink','#@Item.SubLink');" data-toggle="tab">@Item.SubTabName</a>
+                            </li>
+                            Active = "";
+
+                        }
+                    }
+                    else
+                    {
+                        <li class="@Active"><a href="#@Item.SubLink" onclick="CommonTabDetails('@Item.TabLink','#@Item.SubLink');" data-toggle="tab">@Item.SubTabName</a></li>
+                        Active = "";
+
+                    }
+
+                }
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                @foreach (var Item in SubMenu.OrderBy(c => c.SubId).ToList())
+                {
+                    if (Item.Condition != null)
+                    {
+                        if (Item.Condition == "BookingApproval" && Item.ConditionValue == BookingApproval)
+                        {
+                            <div class="tab-pane fade @DivActive" id="@Item.SubLink">
+                                @if (DivActive != "")
+                                {
+                                    <script>CommonTabDetails("@Item.TabLink", "#@Item.SubLink");</script>
+                                    DivActive = "";
+                                }
+
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="tab-pane fade @DivActive" id="@Item.SubLink">
+                            @if (DivActive != "")
+                            {
+                                <script>CommonTabDetails("@Item.TabLink", "#@Item.SubLink");</script>
+                                DivActive = "";
+                            }
+                        </div>
+                    }
+                }
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $("#ReservationMainMenu").addClass("active");
+    if (window.location.toString().indexOf('#') != -1) {
+        hashFunForTab("2");
+    }
+</script>
+
+
+

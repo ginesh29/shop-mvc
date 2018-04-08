@@ -1,0 +1,396 @@
+﻿@model IEnumerable<SPA.Models.DoctorPagesDisplay>
+@using System.Text.RegularExpressions;
+@{
+    ViewBag.Title = "DoctorPrescriptionsDisplay";
+    Layout = null;
+    var PrescriptionData = Model;
+    List<string> CatgPrintSetup = ViewBag.PrintPageSetUp;
+    List<Language_Label_Detail> Language = ViewBag.doctorPageLang;
+    var Gender = ViewBag.Gender;
+    var Image = ViewBag.Logo;
+}
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/bootstrap")
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="prescription-card-main doctor-display-main">
+        <div class="doctor-popup bg-light-grey padding30 border-radius2">
+            <div class="row">
+                <div class="col-lg-24 col-md-24 col-sm-24 text-right  printDisply-non margin-bottom10">
+                    <a href="/Customer/Customer" class="title-green16"><i class="fa fa-reply-all margin-right5"></i>@*Back To List*@ @Language.Where(c => c.Order_id == 30).Select(c => c.Value).FirstOrDefault()</a>
+                </div>
+            </div>
+
+            <div class="">
+                <!--Preivew View Page-->
+                <div class="row form-group printDisply-non margin-bottom50">
+                    <div class="col-lg-12 col-md-12 col-sm-12 disTable">
+                        <div class="patient-detail bg_green">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <label>
+                                        <span class="font-bold">@*Family Name*@ @Language.Where(c => c.Order_id == 31).Select(c => c.Value).FirstOrDefault():</span>
+                                        <span>@PrescriptionData.Where(c => c.LastName != null).Select(c => c.LastName).FirstOrDefault()</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <label>
+                                        <span class="font-bold">@*First Name*@ @Language.Where(c => c.Order_id == 32).Select(c => c.Value).FirstOrDefault():</span>
+                                        <span>@PrescriptionData.Where(c => c.FirstName != null).Select(c => c.FirstName).FirstOrDefault()</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-24 col-md-24 col-sm-24 border-top-white">
+                                    <label>
+                                        <span class="font-bold">@*Doctor Name*@ @Language.Where(c => c.Order_id == 33).Select(c => c.Value).FirstOrDefault():</span>
+                                        <span>@PrescriptionData.Where(c => c.EmpFirstName != null).Select(c => c.EmpFirstName).FirstOrDefault() @PrescriptionData.Where(c => c.EmpLastName != null).Select(c => c.EmpLastName).FirstOrDefault()</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        <div class="bg_green">
+                            <div class="patient-detail">
+                                <label class="text-center">
+                                    <span class="font-bold">@*Gender*@ @Language.Where(c => c.Order_id == 34).Select(c => c.Value).FirstOrDefault():</span>
+                                    <span>
+                                        @Gender
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        <div class="bg_green">
+                            <div class="patient-detail">
+                                <label class="text-center">
+                                    <span class="font-bold">@*Birthday*@ @Language.Where(c => c.Order_id == 35).Select(c => c.Value).FirstOrDefault():</span>
+                                    <span class="font-bold fontLable-size">@(PrescriptionData.Select(c => c.DOB).FirstOrDefault().ToString("dd.MM.yyyy") != "01.01.0001" ? PrescriptionData.Select(c => c.DOB).FirstOrDefault().ToString("dd.MM.yyyy") : "")</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        <div class="bg_green">
+                            <div class="patient-detail">
+                                <label class="text-center">
+                                    <span class="font-bold">@*Age*@ @Language.Where(c => c.Order_id == 56).Select(c => c.Value).FirstOrDefault():</span>
+                                    <span>@(PrescriptionData.Select(c => c.Age).FirstOrDefault() > 0 ? Convert.ToString(PrescriptionData.Select(c => c.Age).FirstOrDefault()) : Language.Where(c => c.Order_id == 57).Select(c => c.Value).FirstOrDefault())  @(PrescriptionData.Select(c => c.Age).FirstOrDefault() > 0 ? "Years" : "")</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        <div class="doct-pre-img text-center">
+                            <img src="@Image">
+                        </div>
+                    </div>
+                </div>
+                <!--Preivew View Page End-->
+                <!--Print View Page-->
+                <div class="display-none row form-group printborder-dark-grey pageBreak">
+
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                        <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24">
+                            <label>
+                                <span class="font-bold fontLable-size">@*Family Name*@ @Language.Where(c => c.Order_id == 31).Select(c => c.Value).FirstOrDefault():</span>
+                                <span class="font-bold fontLable-size">@PrescriptionData.Where(c => c.LastName != null).Select(c => c.LastName).FirstOrDefault()</span>
+                            </label>
+                        </div>
+                        <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24">
+                            <label>
+                                <span class="font-bold fontLable-size">@*First Name*@ @Language.Where(c => c.Order_id == 32).Select(c => c.Value).FirstOrDefault():</span>
+                                <span class="font-bold fontLable-size">@PrescriptionData.Where(c => c.FirstName != null).Select(c => c.FirstName).FirstOrDefault()</span>
+                            </label>
+                        </div>
+                        <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24">
+                            <label>
+                                <span class="font-bold fontLable-size">@*Doctor Name*@ @Language.Where(c => c.Order_id == 33).Select(c => c.Value).FirstOrDefault():</span>
+                                <span class="font-bold fontLable-size">@PrescriptionData.Where(c => c.EmpFirstName != null).Select(c => c.EmpFirstName).FirstOrDefault()@PrescriptionData.Where(c => c.EmpLastName != null).Select(c => c.EmpLastName).FirstOrDefault()</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                        <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24">
+                            <label class="text-center">
+                                <span class="font-bold fontLable-size">@*Gender*@ @Language.Where(c => c.Order_id == 34).Select(c => c.Value).FirstOrDefault():</span>
+                                @if (Gender == "Male")
+                                { <span>@Language.Where(c => c.Order_id == 52).Select(c => c.Value).FirstOrDefault()</span>
+                                }
+                                else
+                                { <span>@Language.Where(c => c.Order_id == 53).Select(c => c.Value).FirstOrDefault()</span>
+                                }
+                            </label>
+                        </div>
+                        <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24">
+                            <label class="text-center">
+                                <span class="font-bold fontLable-size">@*Birthday*@ @Language.Where(c => c.Order_id == 35).Select(c => c.Value).FirstOrDefault():</span>
+                                <span class="font-bold fontLable-size">@(PrescriptionData.Select(c => c.DOB).FirstOrDefault().ToString("dd.MM.yyyy") != "01.01.0001" ? PrescriptionData.Select(c => c.DOB).FirstOrDefault().ToString("dd.MM.yyyy") : "")</span>
+                            </label>
+                        </div>
+                        <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24">
+                            <label class="text-center">
+                                <span class="font-bold fontLable-size">@*Age*@ @Language.Where(c => c.Order_id == 56).Select(c => c.Value).FirstOrDefault():</span>
+                                <span class="font-bold fontLable-size">@PrescriptionData.Select(c => c.Age).FirstOrDefault() </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div class="doct-pre-img text-center margin-top15">
+                            @if (!string.IsNullOrEmpty(PrescriptionData.Select(c => c.ShopImg).FirstOrDefault()))
+                            {
+                                <img src="@PrescriptionData.Select(c => c.ShopImg).FirstOrDefault()">
+                            }
+                            else
+                            {
+                                <img src="~/images/prescription-img.png">
+                            }
+                        </div>
+                    </div>
+
+                </div>
+                <!--Print View Page End-->
+                <div class="doctorHeading">
+                    <div class="borderGreen"></div>
+                    <h3>@*Doctor Note*@ @Language.Where(c => c.Order_id == 59).Select(c => c.Value).FirstOrDefault()</h3>
+                </div>
+                <!--Prescription block-->
+                <div class="prescription-detail">
+                    <div class="patient-desc-block pageBreak">
+                        <h5>@*Patient*@ @Language.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault():</h5>
+                        <div class="border-dark-grey  doctor-presc-detail">
+                            <ul class="list-text doctor-presc-detailInline">
+                                @foreach (var item in PrescriptionData.Where(c => c.CatgId == 131 && c.CatgDesc != null && c.CatgDesc != "").ToList())
+                                {
+                                    <li>@Html.Raw(Regex.Replace(item.CatgDesc, "\r\n?|\n", "<br/>"))</li>
+                                }
+                                <li>@PrescriptionData.Select(c => c.comment).FirstOrDefault()</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="patient-desc-block pageBreak">
+                        <h5>@*Diagnosis*@ @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault():</h5>
+                        <div class="border-dark-grey  doctor-presc-detail">
+                            <ul class="row margin-bottom20 margin-top3">
+                                <li class="col-lg-6 col-md-12 col-sm-12 col-xs-24">
+                                    <label class="margin-right5 font14">@*Temp*@ @Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()</label>
+                                    <span class="input-line-bottom">@PrescriptionData.Where(c => c.CatgId == 140).Select(c => c.CatgDesc).FirstOrDefault()</span>
+                                </li>
+                                <li class="col-lg-6 col-md-12 col-sm-12 col-xs-24">
+                                    <label class="margin-right5 font14">@*Pulse*@ @Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()</label>
+                                    <span class="input-line-bottom">@PrescriptionData.Where(c => c.CatgId == 141).Select(c => c.CatgDesc).FirstOrDefault()</span>
+                                </li>
+                                <li class="col-lg-6 col-md-12 col-sm-12 col-xs-24">
+                                    <label class="margin-right5 font14">@*BP*@ @Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()</label>
+                                    <span class="input-line-bottom">@PrescriptionData.Where(c => c.CatgId == 142).Select(c => c.CatgDesc).FirstOrDefault()</span>
+                                </li>
+                                <li class="col-lg-6 col-md-12 col-sm-12 col-xs-24">
+                                    <label class="margin-right5 font14">@*Respiratory rate*@ @Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()</label>
+                                    <span class="input-line-bottom">@PrescriptionData.Where(c => c.CatgId == 143).Select(c => c.CatgDesc).FirstOrDefault()</span>
+                                </li>
+                            </ul>
+                            <ul class="list-text doctor-presc-detailInline">
+                                @foreach (var item in PrescriptionData.Where(c => c.CatgId == 132 && c.CatgDesc != null && c.CatgDesc != "").ToList())
+                                {
+                                    <li>@Html.Raw(Regex.Replace(item.CatgDesc, "\r\n?|\n", "<br/>"))</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="patient-desc-block  margin-bottom50">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 pageBreak">
+                                <h5>@*Medicaments*@ @Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault():</h5>
+                                <div class="border-dark-grey  doctor-presc-detail margin-bottom10 table-responsive">
+                                    @*<ol class="list-text" type="1">
+                                            @foreach (var item in PrescriptionData.Where(c => c.CatgId == 130 && c.CatgDesc != null).ToList())
+                                            {
+                                                <li>@Html.Raw(Regex.Replace(item.CatgDesc, "\r\n?|\n", "<br/>"))</li>
+                                            }
+                                        </ol>*@
+                                    <div class="width574">
+                                        <table class="table">
+                                            <tbody>
+                                                @{int CountMedi = 1;}
+                                                @foreach (var item in PrescriptionData.Where(c => c.CatgId == 130).OrderBy(c => c.status).ToList())
+                                                {
+                                                    <tr>
+                                                        @if (item.status.Trim() == "A")
+                                                        {
+                                                            <td class="word-break width5per">@CountMedi</td>
+                                                            <td class="word-break width25perc">@item.Medicine</td>
+                                                            <td class="word-break width15per">@item.HowManyTimes</td>
+                                                            <td class="word-break width25perc">@item.When</td>
+                                                            <td class="word-break width30per">@item.CatgDesc</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="width10per word-break">@CountMedi</td>
+                                                            <td class="width90per word-break" colspan="4">@item.CatgDesc</td>
+                                                        }
+                                                        @{CountMedi = CountMedi + 1;}
+                                                    </tr>
+                                                            }
+                                                @*<tr>
+                                                        <td class="width20per word-break">AAAA</td>
+                                                        <td class="width20per word-break">BBBB</td>
+                                                        <td class="width30per word-break">BBBBB</td>
+                                                        <td class="width30per word-break">DDDDDD</td>
+                                                    </tr>*@
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 pageBreak">
+                                <h5>@*Investigations*@ @Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault():</h5>
+                                <div class="border-dark-grey  doctor-presc-detail margin-bottom10">
+                                    <ul class="list-text doctor-presc-detailInline">
+                                        @foreach (var item in PrescriptionData.Where(c => c.CatgId == 135 && c.CatgDesc != null && c.CatgDesc != "").ToList())
+                                        {
+                                            <li>@Html.Raw(Regex.Replace(item.CatgDesc, "\r\n?|\n", "<br/>"))</li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            @*<div class="col-lg-6 col-md-6 col-sm-6 pageBreak">
+                                    <h5>@*Upload* @Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault():</h5>
+                                    <div class="border-dark-grey  doctor-presc-detail margin-bottom10">
+                                        <ul class="list-text">
+                                            <li>@*No Data Available@Language.Where(c => c.Order_id == 50).Select(c => c.Value).FirstOrDefault()</li>
+                                        </ul>
+                                    </div>
+                                </div>*@
+                        </div>
+                    </div>
+                    <div class="doctorHeading">
+                        <div class="borderGreen"></div>
+                        <h3>@*Prescription*@ @Language.Where(c => c.Order_id == 62).Select(c => c.Value).FirstOrDefault()</h3>
+                    </div>
+                    <div class="row form-group pageBreak">
+                        <div class="patient-desc-block pageBreak">
+                            <h5>@*Prescriptiopn Diagnosis*@ @Language.Where(c => c.Order_id == 54).Select(c => c.Value).FirstOrDefault()</h5>
+                            <div class="border-dark-grey  doctor-presc-detail">
+                                <ul class="list-text presc-desc doctor-presc-detailInline">
+                                    @foreach (var item in PrescriptionData.Where(c => (c.CatgId == 137 || c.CatgId == 132) && c.CatgTypeId != 0 && c.CatgDesc != null && c.CatgDesc != "").ToList())
+                                    {
+                                        <li>@Html.Raw(Regex.Replace(item.CatgDesc, "\r\n?|\n", "<br/>"))</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group pageBreak">
+                        <div class="patient-desc-block pageBreak">
+                            <h5>@*Advise*@@Language.Where(c => c.Order_id == 23).Select(c => c.Value).FirstOrDefault()</h5>
+                            <div class="border-dark-grey  doctor-presc-detail">
+                                @*<ol class="list-text presc-desc" type="1">
+                                        @foreach (var item in PrescriptionData.Where(c => c.CatgId==130 && c.Type==0 && c.CatgDesc != null).ToList())
+                                        {
+                                            <li>@Html.Raw(Regex.Replace(item.CatgDesc, "\r\n?|\n", "<br/>"))</li>
+                                        }
+                                    </ol>*@
+                                <div class="width1060">
+                                    <table class="table">
+                                        <tbody>
+                                            @{int CountAdvise = 1;}
+                                            @foreach (var item in PrescriptionData.Where(c => c.CatgId == 130 && c.status == "A").OrderBy(c => c.status).ToList())
+                                            {
+                                                <tr>
+                                                    @if (item.status.Trim() == "A")
+                                                    {
+                                                        <td class="width5per word-break">@CountAdvise</td>
+                                                        <td class="width25perc word-break">@item.Medicine</td>
+                                                        <td class="width15per word-break">@item.HowManyTimes</td>
+                                                        <td class="width25perc word-break">@item.When</td>
+                                                        <td class="width30per word-break">@item.CatgDesc</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="width10per word-break">@CountAdvise</td>
+                                                        <td class="width90per word-break" colspan="4">@item.CatgDesc</td>
+                                                    }
+                                                    @{CountAdvise = CountAdvise + 1;}
+                                                </tr>
+                                                        }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group pageBreak">
+                        <div class="patient-desc-block pageBreak">
+                            @*<h5>@*Follow up@Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault()</h5>*@
+                            <div class="row">
+                                @*<div class="col-lg-8 col-md-8 col-sm-8">
+                                        <div class="border-dark-grey  doctor-presc-detail">
+                                            <p class="presc-desc">
+                                                @if (!string.IsNullOrEmpty(PrescriptionData.Where(c => c.CatgId == 139).Select(c => c.CatgDesc).FirstOrDefault()))
+                                                {@Html.Raw(Regex.Replace(PrescriptionData.Where(c => c.CatgId == 139).Select(c => c.CatgDesc).FirstOrDefault(), "\r\n?|\n", "<br/>"))}
+                                            </p>
+                                        </div>
+                                    </div>*@
+                                <div class="col-lg-24 col-md-24 col-sm-24">
+                                    <div class="border-dark-grey  doctor-presc-detail table-responsive">
+                                        @*<ul class="doctor-presc-detail">
+                                                <li>
+                                                    <label>@Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault():</label>
+                                                    <label class="margin-left10">@PrescriptionData.Where(c => c.CatgId == 139).Select(c => c.CatgDesc).FirstOrDefault()</label>
+                                                </li>
+                                                <li>
+                                                    <label class="doc-sign">@*Signature Doctor @Language.Where(c => c.Order_id == 25).Select(c => c.Value).FirstOrDefault():</label>
+                                                </li>
+                                                <li>
+                                                    <label>@*Name Doctor @Language.Where(c => c.Order_id == 26).Select(c => c.Value).FirstOrDefault(): </label>
+                                                    <label class="margin-left10">@PrescriptionData.Where(c => c.EmpFirstName != null).Select(c => c.EmpFirstName).FirstOrDefault() @PrescriptionData.Where(c => c.EmpFirstName != null).Select(c => c.EmpLastName).FirstOrDefault()</label>
+                                                </li>
+                                                <li>
+                                                    <label>@*Place & date @Language.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault(): </label>
+                                                    <label class="margin-left10">@PrescriptionData.Select(c => c.Address).FirstOrDefault(), @PrescriptionData.Select(c => c.created_on).FirstOrDefault().ToString("dd.MM.yyyy")</label>
+                                                </li>
+                                            </ul>*@
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td>@*Follow up*@ @Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault()</td>
+                                                    <td>:</td>
+                                                    <td>@PrescriptionData.Where(c => c.CatgId == 139 && c.CatgDesc != null && c.CatgDesc != "").Select(c => c.CatgDesc).FirstOrDefault()</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>@*Signature Doctor*@ @Language.Where(c => c.Order_id == 25).Select(c => c.Value).FirstOrDefault()</td>
+                                                    <td>:</td>
+                                                    <td class="">............................................................</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>@*Name Doctor*@ @Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault()</td>
+                                                    <td>:</td>
+                                                    <td>@PrescriptionData.Where(c => c.EmpFirstName != null).Select(c => c.EmpFirstName).FirstOrDefault() @PrescriptionData.Where(c => c.EmpLastName != null).Select(c => c.EmpLastName).FirstOrDefault()</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>@*Place & date*@ @Language.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault()</td>
+                                                    <td>:</td>
+                                                    <td>
+                                                        @PrescriptionData.Select(c => c.Address).FirstOrDefault(),@PrescriptionData.Select(c => c.created_on).FirstOrDefault().Value.ToString("dd.MM.yyyy")
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!--Prescription block-->
+            </div>
+        </div>
+    </div>
+</body>
+</html>

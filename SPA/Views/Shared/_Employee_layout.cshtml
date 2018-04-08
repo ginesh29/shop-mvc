@@ -1,0 +1,172 @@
+﻿@using System.Configuration
+@using SPA.Common
+@{
+    int schlId = Convert.ToInt32(ConfigurationManager.AppSettings["ApplicationVariable"]);
+    cctspDatabaseEntities22 spa = new cctspDatabaseEntities22();
+    Function fu = new Function();
+    var link = System.Web.HttpContext.Current.Request.Url.Host;
+    schlId = Convert.ToInt32(fu.GetShopId(link));
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    var Website = spa.CCTSP_SchoolMaster.Where(c => c.SchlId == schlId && c.ActiveStatus == "A").Select(c => new SPA.Models.ShopMasterDetail
+    { Lang_id = c.Lang_id, SchlStudentStrength = c.SchlStudentStrength, Display_FreeCustomer = c.Display_FreeCustomer, Display_Invoice = c.Display_Invoice, Color_Id = c.Color_Id, Schlid = c.SchlId,Flow_Id=c.Flow_Id}).FirstOrDefault();
+    int LanguageId = Website.Lang_id.Value;
+    long FlowId = Website.Flow_Id != null ? Website.Flow_Id.Value : 0;
+    Language = spa.Language_Label_Detail.Where(c => c.Page_Name == "Admin_tab" && c.Lang_id == LanguageId).Select(c => new SPA.Models.LanguageLabelDetails { Lang_id = c.Lang_id, English_Label = c.English_Label, Order_id = c.Order_id, Page_Name = c.Page_Name, Value = c.Value, Label_Name = c.Label_Name }).ToList();
+    var LanguageAlert = spa.Language_Label_Detail.Where(c => c.Page_Name == "AlertMsg" && c.Order_id == 38 && c.Lang_id == LanguageId).Select(c => c.Value).FirstOrDefault();
+    string Colorclass = fu.Colorclass(Website.Color_Id);
+    var Tablist = fu.AccessMenu(LanguageId, Convert.ToInt32(Session["RoleId"].ToString()), "Admin_tab", FlowId);
+    var ConditionList = fu.LayoutCondition(Website);
+    var LangNameList = fu.LanguageNameList();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <title>@ViewBag.Title</title>
+    <link href='https://fonts.googleapis.com/css?family=Raleway:800,800italic' rel='stylesheet' type='text/css'>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    @if (LanguageId > 1)
+    {
+        @Html.Partial("_LangValidation", "/Scripts/messages_" + LangNameList.Where(c => c.Lang_id == LanguageId).Select(c => c.English_Label).FirstOrDefault().ToLower() + ".js");
+    }
+    @*@if (LanguageId == 2)
+        {
+            <script type="text/javascript" src="~/Scripts/messages_de.js"></script>
+        }
+        @if (LanguageId == 3)
+        {
+            <script type="text/javascript" src="~/Scripts/messages_fr.js"></script>
+        }
+        @if (LanguageId == 4)
+        {
+            <script type="text/javascript" src="~/Scripts/messages_it.js"></script>
+        }*@
+</head>
+@*<div class="alert alert-success spa-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Success!</strong> Indicates a successful or positive action.
+    </div>*@
+<body class="@Colorclass">
+    <div class="container-fluid @Colorclass">
+        <header>
+            <div class="header-top">
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-5">
+                        <a href="#" class="logo LogoAdmin">@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()</a>
+                    </div>
+                    <div class="col-lg-19 col-md-19 col-sm-19">
+                        <nav class="navbar navbar-default" style="margin-bottom:0;">
+                            <div class="container-fluid">
+                                <!-- Brand and toggle get grouped for better mobile display -->
+                                <div class="navbar-header">
+                                    <button type="button" id="btnMenu" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                        <span class="sr-only">Toggle navigation</span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                </div>
+                                <!-- Collect the nav links, forms, and other content for toggling -->
+                                <div class="collapse navbar-collapse Emplayout_menu" id="bs-example-navbar-collapse-1">
+                                    <ul class="nav navbar-nav">
+                                        @foreach (var Item in Tablist.OrderBy(c => c.MainTabId).ToList())
+                                        {
+                                            if (Item.Condition != null)
+                                            {
+                                                if (ConditionList.Where(c => c.Condition == Item.Condition && c.ConditionValue == Item.ConditionValue).FirstOrDefault() != null)
+                                                {
+                                                    <li id="@Item.TabId"><a href="@Item.Link">@Item.TabName</a></li>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <li id="@Item.TabId"><a href="@Item.Link">@Item.TabName</a></li>
+                                            }
+                                        }
+                                        @*<li id="ShopMainMenu"><a href="@Url.Action("Shop","Shop")">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()@*Shop</a></li>*@
+                                        @*@if (Website.SchlId == 273)
+                                            {
+                                                <li id="AccessRightMainMenu"><a href="@Url.Action("AccessRight","AccessRight")">Access Right</a></li>
+                                            }*@
+                                        @*<li id="ProductMainMenu"><a href="@Url.Action("Product_Catalog","Product")">@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()</a></li>
+                                            <li id="EmployeeMainMenu"><a href="@Url.Action("EmployeeMaster","Employee")" class="active">@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()</a></li>
+                                            <li id="CustomerMainMenu"><a href="@Url.Action("Customer","Customer")">@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</a></li>
+                                            <li id="ReservationMainMenu"><a href="@Url.Action("Reservation","Reservation")">@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()</a></li>
+                                        *@
+                                        @*@if (Website.SchlId == 273)
+                                            {
+                                                <li id="AccessRightMainMenu"><a href="@Url.Action("AccessRight","AccessRight")">Access Right</a></li>
+                                            }
+                                            @if (Website.Display_FreeCustomer == 1)
+                                            {
+                                                <li id="FreeCustomer"><a href="@Url.Action("FreeCustomerList","FreeCustomer")">Free Customer</a></li>
+                                            }*@
+                                        <li class="logoff">
+                                            <a href="/Employee/Logout" class="btn-browse Ellips" @*onclick="Logout();"*@>@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="alert-modal">
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg_green">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel"><span class="alert-icon"><i class="fa fa-exclamation-triangle spa-icon"></i></span>@*Alert Message*@@LanguageAlert!</h4>
+                        </div>
+                        <div class="modal-body" id="MsgAlert">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-green btn-small" data-dismiss="modal">@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()@*OK*@</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Welcome modal start-->
+        <div class="welcome-modal">
+            <div id="welcome" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title"></h4>
+                        </div>
+                        <div class="modal-body margin-bottom30 modal-ralative" id="WelcomeAlert">
+                            <h1 class="text-center margin-bottom30">WELCOME BY <span>CLICK-AND-GO!</span></h1>
+                            <p class="title15 text-center margin-bottom30">Thanks for using our product!</p>
+                            <p class="title-italic text-center">We wish you lots of success today!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Welcome modal End-->
+        @Html.Partial("_LoderPage", Website.SchlStudentStrength != null ? Website.SchlStudentStrength : 0)
+        @*<div class="loader" id="helloWorld" style="display:none;">
+            <img src="~/images/@(Website.SchlStudentStrength>=3?"Doctor_Loader3.gif":"SPALOADER.gif")" />
+        </div>*@
+        @RenderBody()
+    </div>
+    <script>
+        $("#btnMenu").click(function () {
+            if(!$(this).hasClass(".collapsed"))
+                $('.RemovePosition').removeAttr('style');
+        });
+    </script>
+</body>
+</html>
+
+@*@Scripts.Render("~/bundles/jquery")*@
+@RenderSection("scripts", required: false)

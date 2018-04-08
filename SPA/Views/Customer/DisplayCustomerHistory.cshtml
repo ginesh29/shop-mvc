@@ -1,0 +1,146 @@
+﻿@using System.Globalization;
+@{
+    Layout = null;
+    List<Language_Label_Detail> LanguageFull = new List<Language_Label_Detail>();
+    LanguageFull = ViewBag.LagCustomerHistory;
+    var Language = LanguageFull.Where(c => c.Page_Name.ToLower() == "customer_new_customer").ToList();
+    var Monthlist = LanguageFull.Where(c => c.Page_Name.ToLower() == "small_calander").ToList();
+    string Dyn = LanguageFull.Where(c => c.Order_id == 1 && c.Page_Name.ToLower() == "common").Select(c => c.Value).FirstOrDefault();
+    string Static = LanguageFull.Where(c => c.Order_id == 2 && c.Page_Name.ToLower() == "common").Select(c => c.Value).FirstOrDefault();
+    List<SPA.Models.PendingApproval> BookingInfo = new List<SPA.Models.PendingApproval>();
+    BookingInfo = ViewBag.DisplayCustomerHistory;
+    float ProdAmount = 0;
+}
+<div class="collapse">
+    <div class="black-list">
+        <span class="user-info1" id="TotalRevenue">@Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault() : @BookingInfo.Select(c => c.Amount).ToList().Sum() @BookingInfo.Select(c => c.currency).FirstOrDefault()</span>
+        <span class="user-info1" id="custSince">@Language.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault()@*CUSTOMER SINCE :*@ </span>
+        <span class="spa-checkbox checkbox black-list-chk">
+            <input name="BlackListValue" id="blackListValue" type="checkbox">
+            <label for="blackListValue" class="form-label spa-label-bold">@Language.Where(c => c.Order_id == 17).Select(c => c.Value).FirstOrDefault()@*BLACK LIST*@</label>
+        </span>
+    </div>
+    <div class="assign-product">
+
+        @*<h2 class="title-green16 margin-top15 cursor-default">@Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault()@*CUSTOMER HISTORY</h2>*@
+        <div class="choose-your-product table-responsive margin-top20">
+            <table class="table table-striped margin-top15">
+                <thead>
+                    <tr>
+                        <th class="text-center">@Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()@*Date & Time*@</th>
+                        <th class="text-center">@Language.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault()@*Product*@</th>
+                        <th class="text-center">@Language.Where(c => c.Order_id == 37).Select(c => c.Value).FirstOrDefault()@*EMPLOYEE NAME*@</th>
+                        <th class="text-center">@Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault()@*comment*@</th>
+                        <th class="text-center">@Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault()@*Price INR*@</th>
+                        @*checks whether to show prescription*@
+                        @if (BookingInfo.Count > 0)
+                    {
+                        if (BookingInfo.Select(c => c.SchlStudentStrength).FirstOrDefault() >= 3)
+                        {
+                                <th class="text-center">@Language.Where(c => c.Order_id == 67).Select(c => c.Value).FirstOrDefault() </th>
+                        }
+                    }
+                        <th class="text-center">@Language.Where(c => c.Order_id == 36).Select(c => c.Value).FirstOrDefault()@*online*@</th>
+                    </tr>
+                </thead>
+                <tbody id="">
+                    @if (BookingInfo.Count > 0)
+                {
+                    foreach (var HistoryData in BookingInfo)
+                    {
+                        string BookingDate = "";
+                        if (HistoryData.BookingDate != null)
+                        {
+                            var monthname = DateTime.Parse(HistoryData.BookingDate).ToString("MMMM");
+                            var MonthLanguagechange = Monthlist.Where(c => c.English_Label == monthname).Select(c => c.Value).FirstOrDefault();
+                            BookingDate = HistoryData.BookingDate.Replace(monthname, MonthLanguagechange);
+                        }
+                        ProdAmount = float.Parse(HistoryData.Amount.ToString());
+                            <tr>
+                                <td class="spa-label1 text-center">@BookingDate  @HistoryData.FromSlotMasterId@*24.03.2014; 09:00*@</td>
+                                <td class="spa-label1 text-center">@HistoryData.CatgDesc@*Massage 1 , Oill Massage*@</td>
+                                <td class="spa-label1 text-center">@HistoryData.EmpfirstName @HistoryData.EmpLastName@*employee name*@</td>
+                                <td class="spa-label1 text-center">
+                                    @if (!string.IsNullOrEmpty(HistoryData.comment))
+                                {
+                                        <a><i class="fa fa-info-circle spa-icon1 margin-right0" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@HistoryData.comment" data-original-title="" title=""></i></a>
+                                }
+                                </td>
+                                <td class="spa-label1 text-center">@ProdAmount</td>
+                                @*checks whether to show prescription*@
+                                @if (BookingInfo.Select(c => c.SchlStudentStrength).FirstOrDefault() >= 3)
+                            {
+                                    <td class="spa-label1 text-center">
+                                        @if (HistoryData.StMerge > 0)
+                                    {
+                                            <a href="/Doctor/DoctorPrescriptionsDisplay?Reservationid=@HistoryData.EmpSchDetailsId&diff=@BookingInfo.Select(c => c.SchlStudentStrength).FirstOrDefault()"><img src="~/images/file_hover.png"></a>
+                                    }
+                                    </td>
+                            }
+                                <td class="spa-label1 text-center">
+                                    @if (HistoryData.reg_status == "D")
+                                {
+                                        @Dyn
+                                }
+                                else
+                                {
+                                        @Static
+                                }
+                                </td>
+                            </tr>
+                    }
+                }
+                else
+                {
+                        <tr>
+                            <td class="spa-label1 text-center Nodata" colspan="6">
+                                <img src="~/images/No Data_2.png" />
+                                <div>@Language.Where(c => c.Order_id == 23).Select(c => c.Value).FirstOrDefault() @*No History Available*@</div>
+                            </td>
+                        </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    });
+    $("#blackListValue").click(function () {
+        $(".loader").show();
+        var UserId = $("#NWEditUserId").val();
+        if (UserId != "" && UserId != null) {
+            var status = "";
+            if ($("#blackListValue").prop("checked")) {
+                if (UserId != null && UserId != "") {
+                    $.post("/Customer/AddBlackList?UserId=" + UserId, function () {
+                        if ($(window).width() < 768)
+                            $("#blacklist-collapse").parent().find("a:first").click();
+                        else
+                            $("#BlackListLI a").click();
+                        BlackListShowData();
+                    });
+                }
+            }
+            else {
+                if (UserId != null && UserId != "") {
+                    $.post("/Customer/AddBlackList?UserId=" + UserId + "&status=A", function () {
+                        BlackListShowData();
+                    });
+                }
+                else {
+                    $("#blackListValue").attr("checked", false);
+                    $(".loader").hide();
+                }
+
+            }
+        }
+        else {
+            $("#blackListValue").attr("checked", false);
+            $(".loader").hide();
+
+        }
+    });
+</script>

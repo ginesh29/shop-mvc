@@ -1,0 +1,33 @@
+﻿@model SPA.CCTSP_CategoryDetails
+@{
+    ViewBag.Title = "AddWeek";
+}
+
+
+<div class="form-content" id="AddWeekDiv">
+    @using (Html.BeginForm("AddWeek", "Employee", FormMethod.Post, new { @class = "form-inline" }))
+    {
+        <div class="col-lg-16 col-lg-offset-4">
+        <h1 class="title14-border">Week Day Name</h1>
+                <div class="form-group">
+                    @Html.Label("Name", htmlAttributes: new { @class = "form-label spa-label" })
+                    @Html.TextBoxFor(c => c.CatgDesc, new { @class = "spa-text-box form-control required" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Short Name", htmlAttributes: new { @class = "form-label spa-label" })
+                    @Html.TextBoxFor(c => c.CatgType, new { @class = "spa-text-box form-control required" })
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="Add">
+                </div>
+        </div>
+
+    }
+
+    <div class="col-lg-16 col-lg-offset-4" id="WeekDetailDisplay">
+        @Html.Action("WeekDetail", "Employee")
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+

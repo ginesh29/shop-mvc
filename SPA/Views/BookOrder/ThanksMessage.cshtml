@@ -1,0 +1,52 @@
+﻿@{
+
+    Layout = "~/Views/Shared/_Employee_layout.cshtml";
+    List<Language_Label_Detail> LanguageList = new List<Language_Label_Detail>();
+    LanguageList = ViewBag.Language;
+    var Language = LanguageList.Where(c => c.Page_Name == "Booking_Done").ToList();
+    List <Language_Label_Detail> LanguageAlertBox = new List<Language_Label_Detail>();
+    LanguageAlertBox = ViewBag.LanguageAlertBox;
+    ViewBag.Title = LanguageList.Where(c => c.Page_Name == "Title" && c.Order_id == 6).Select(c => c.Value).FirstOrDefault();
+    var Status = ViewBag.Status;
+    }
+<ol class="spa-breadcrumbs breadcrumb">
+    @*<li><a href="#" class="active">Home</a></li>
+        <li><a href="#">Shop</a></li>*@
+</ol>
+<div class="form-content">
+    <div class="thanks-message text-center Re-thanks">
+        <h1 class="title36 margin-bottom30">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()@*THANK YOU, YOUR BOOKING WAS SUCCESFUL!*@</h1>
+        <h2 class="title-green16 margin-bottom30">@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()@*YOU WILL RECEIVE IN SHORT A CONFIRMATION PER EMAIL.*@</h2>
+        <hr />
+        
+        <p class="title15 text-center margin-bottom30">@LanguageAlertBox.Where(c => c.Order_id == 26).Select(c => c.Value).FirstOrDefault()</p>
+        <div class="text-center padding-top10">
+            <a href="/BookOrder/OrderList?id=@ViewBag.UserId&Status=@Status&Url=@ViewBag.Url" class="btn btn-green ">@LanguageAlertBox.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault()</a>
+            <a href="@(Status=="DO"?"/Reservation/Reservation#"+@ViewBag.Url: "/Customer/Customer")" class="btn btn-black">@LanguageAlertBox.Where(c => c.Order_id == 28).Select(c => c.Value).FirstOrDefault()</a>
+
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+@*<div class="alert-modal">
+    <div id="ConfirmationMsg" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            
+            <div class="modal-content">
+                <div class="modal-header bg_green">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title text-center title-green14">SmartShop</h4>
+                </div>
+                <div class="modal-body ">
+                    <p class="title15 text-center margin-bottom30">@LanguageAlertBox.Where(c => c.Order_id == 26).Select(c => c.Value).FirstOrDefault()</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="/BookOrder/OrderList?id=@ViewBag.UserId" class="btn btn-black">@LanguageAlertBox.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault()</a>
+                    <a href="/Customer/Customer" class="btn btn-green">@LanguageAlertBox.Where(c => c.Order_id == 28).Select(c => c.Value).FirstOrDefault()</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>*@

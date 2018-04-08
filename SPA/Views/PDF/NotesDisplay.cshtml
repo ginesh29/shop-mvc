@@ -1,0 +1,515 @@
+﻿@{
+
+    Layout = null;
+    List<SPA.Models.DoctorPagesDisplay> NoteSectionList = new List<SPA.Models.DoctorPagesDisplay>();
+    NoteSectionList = Model;
+    string Today = NoteSectionList.Select(c => c.BookingDate).FirstOrDefault();
+    bool IsPrintStatus = ViewBag.Status;
+    long ReservationId = 0;
+    var LangList = (List<SPA.Models.LanguageLabelDetails>)(ViewBag.Language);
+    var SectionList = LangList.Where(c => c.Page_Name == "Therapist_Notes").ToList();
+    var Language = LangList.Where(c => c.Page_Name == "Therapist_Notes_Default").ToList();
+    ViewBag.Title = Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault();
+    string DStatus = ViewBag.Display;
+    var LogoImg = ViewBag.Logo;
+    SPA.Models.getAccess Acceess = ViewBag.CheckAccessRight;
+    var ShopInfo = (SPA.Models.ShopMasterDetail)(ViewBag.ShopInfo);
+    var RedirectStatus = "2";
+    var Url = ViewBag.Url;
+    var AlertMsg = Language.Where(c => c.Order_id == 32).Select(c => c.Value).FirstOrDefault();
+    if (ViewBag.CheckPopupStatus == false)
+    {
+        AlertMsg = Language.Where(c => c.Order_id == 33).Select(c => c.Value).FirstOrDefault();
+    }
+}
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/bootstrap")
+<html>
+<head>
+    @*<meta name="viewport" content="width=device-width, initial-scale=1.0">*@
+    <title>@ViewBag.Title</title>
+    <style>
+        .display-none {
+            display: none;
+        }
+
+        .Note_display {
+            padding: 10px 50px;
+            background: #fff;
+            margin-top: 20px;
+        }
+
+        .Note_displayBox {
+            background-color: #f2f2f2;
+            border-radius: 2px;
+            padding: 30px;
+            margin-top: 0;
+        }
+
+        .print-icon {
+            font-size: 30px;
+            padding-right: 35px;
+            color: #84b002;
+            cursor: pointer;
+        }
+
+        .card-heading {
+            color: #494949;
+            font-size: 26px;
+            font-family: 'robotomedium';
+        }
+
+        .padding30 {
+            padding: 30px;
+        }
+
+        .width50Per {
+            width: 50%;
+            float: left;
+        }
+        .width40Per {
+            width: 42%;
+            float: left;
+        }
+
+        .disTable {
+            display: table;
+        }
+
+        .patient-detail {
+            height: 45px;
+            vertical-align: middle;
+            padding: 2px 6px;
+            display: table-cell;
+        }
+
+        .bg_green {
+            background-color: #84b002;
+        }
+
+        .border-bottom-white {
+            border-bottom: 1px solid #fff;
+        }
+
+        .width10Per {
+            width: 10%;
+            float: left;
+        }
+
+        .padding_left20 {
+            margin-left: 15px;
+        }
+
+        .displayBlock {
+            display: block;
+        }
+
+        .txtCenter {
+            text-align: center;
+        }
+
+        .doct-pre-img img {
+            height: 45px;
+        }
+
+        .width100Per {
+            width: 100%;
+        }
+
+        .patient-desc-block {
+            background: #f2f2f2;
+            padding: 0;
+            box-shadow: none;
+            border: none;
+            margin-top: 30px;
+        }
+
+            .patient-desc-block h5 {
+                display: table;
+                padding-bottom: 4px;
+                border-bottom: 1px solid #686868;
+                color: #686868;
+                margin-bottom: 20px;
+                font-size: 18px;
+                margin-top: 15px;
+                margin-bottom: 15px;
+            }
+
+        .minHeigth70 {
+            min-height: 70px !important;
+        }
+
+        .border-dark-grey {
+            border: 1px solid #ababab;
+        }
+
+        .doctor-presc-detail {
+            background: #fff;
+            padding: 10px;
+            width: 100%;
+            display: inline-block;
+        }
+
+        .list-text {
+            color: #7c7c7c;
+            font-size: 16px;
+            line-height: 28px;
+            list-style-type: none;
+        }
+
+        .padding20 {
+            padding: 20px;
+        }
+
+        .doctor-presc-detailInline li {
+            display: inline-block;
+            padding-right: 5%;
+            word-break: break-all;
+            overflow-wrap: break-word;
+        }
+
+        .patient-detail label {
+            font-size: 14px;
+            color: #fff;
+            font-weight: normal;
+            margin-bottom: 0;
+        }
+
+        .header-strip {
+            width: 100%;
+            padding: 8px 10px;
+        }
+
+            .header-strip label {
+                font-size: 15px;
+                color: #686868;
+            }
+
+                .header-strip label span {
+                    font-family: 'robotobold';
+                }
+
+        .HederGreen_box {
+            display: inline-block;
+            width: 100%;
+            position: relative;
+            padding: 0 10px;
+        }
+
+            .HederGreen_box::after {
+                content: "";
+                position: absolute;
+                bottom: -92%;
+                left: -6px;
+                width: 0;
+                height: 0;
+                border-left: 90px solid transparent;
+                border-right: 90px solid transparent;
+                border-top: 22px solid #84b001;
+            }
+        /*.NoteNew_header{width: 100%;margin-bottom: 20px;display: inline-block;border-top: 4px solid #618200;}
+         .NotesDisplay_img{border-radius: 100%;background-color: #fff;overflow:hidden;margin: 0 5px;text-align:center;}
+         .NotesDisplay_img img{border-radius: 100%;height: 35px;}
+        .HederGreen_box p {padding-left: 10px;font-size: 22px;color: #fff;font-family: 'robotobold';line-height: 30px;}
+        .dropmenuEllips {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;padding-right:5px;}*/
+        .doctor-presc-detail table tbody tr td {
+            border-top: 0;
+            padding: 3px 12px;
+            font-size: 14px;
+            color: #686868;
+            font-family: 'robotomedium';
+            font-weight: normal;
+        }
+        /*.Notes_datebox .Note_date{margin:10px 0 0 0;}*/
+    </style>
+    @if (!IsPrintStatus && DStatus != "D")
+    {    /*CSS for PDF*/
+        <style>
+            .pageBreak {
+                page-break-inside: avoid;
+            }
+
+            .Note_display {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            .disaplyNone_pdf {
+                display: none;
+            }
+
+            .width10Per {
+                width: 10% !important;
+                float: left;
+            }
+
+            .padding_left20 {
+                margin-left: 10px !important;
+            }
+
+            .patient-desc-block {
+                margin-top: 50px !important;
+                display: block !important;
+            }
+
+            body {
+                -webkit-font-smoothing: antialiased;
+                font-size: 100%;
+                font-family: 'Roboto',sans-serif;
+                font-weight: 400;
+                color: #4c4c4c;
+                background-color: #f2f2f2;
+                max-width: 100%;
+                overflow-x: hidden;
+            }
+
+            .doctor-presc-detail {
+                padding: 0 !important;
+            }
+            /*.Notes_datebox .Note_date{display:none !important;}*/
+        </style>
+    }
+</head>
+<body class="margin-0">
+    <div class="Note_display">
+        <div class="row form-group disaplyNone_pdf printDisply-non">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <i class="fa fa-print print-icon" aria-hidden="true" onclick="window.print()"></i>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 text-right"><a href="/Customer/Customer" class="title-green16"><i class="fa fa-reply-all margin-right5"></i>@*Back To List*@ @Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()</a></div>
+        </div>
+        <div class="Note_displayBox">
+            <div style="text-align:center">
+                <h4 class="card-heading" style="padding-bottom:20px;"> @*OPD Prescription card*@ @(SectionList.Where(c => c.Label_Name == Convert.ToString(ShopInfo.SchlStudentStrength)).Select(c => c.Value).FirstOrDefault() != null ? SectionList.Where(c => c.Label_Name == Convert.ToString(ShopInfo.SchlStudentStrength)).Select(c => c.Value).FirstOrDefault() : Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault())</h4>
+            </div>
+            @if (NoteSectionList.Count > 0)
+            {
+                var UserInfo = NoteSectionList.FirstOrDefault();
+                ReservationId = UserInfo.EmpSchDetailsId.Value;
+                var FollowUp = NoteSectionList.Where(c => c.SectionType == "follow").FirstOrDefault();
+                if (((Acceess.Insert != "N" && (Acceess.FlowStatus == "2" || Acceess.FlowStatus == "3")) || (Acceess.FlowStatus == "1")))
+                {
+                    RedirectStatus = "1";
+                }
+                <!--Preivew View Page-->
+                <div class="printDisply-non">
+                    <div style="overflow:hidden">
+                        <div class="width40Per disTable">
+                            <div class="patient-detail bg_green">
+                                <div class="width50Per border-bottom-white">
+                                    <label>
+                                        <span class="font-bold" style="font-weight:700;">@*Family Name*@ @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault():</span>
+                                        <span>@UserInfo.LastName</span>
+                                    </label>
+                                </div>
+                                <div class="width50Per border-bottom-white">
+                                    <label>
+                                        <span class="font-bold" style="font-weight:700;">@*First Name*@ @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault():</span>
+                                        <span>@UserInfo.FirstName</span>
+                                    </label>
+                                </div>
+                                <div class="width100Per">
+                                    <label>
+                                        <span class="font-bold" style="font-weight:700;">@*Doctor Name*@ @Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault():</span>
+                                        <span>@UserInfo.EmpFirstName @UserInfo.EmpLastName</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="width10Per padding_left20 bg_green">
+                            <div class="patient-detail">
+                                <label class="txtCenter displayBlock">
+                                    <span class="font-bold" style="font-weight:700;">@*Gender*@  @Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault():</span>
+                                    @UserInfo.Title
+                                </label>
+                            </div>
+                        </div>
+                        <div class="width10Per padding_left20 bg_green">
+                            <div class="patient-detail">
+                                <label class="txtCenter displayBlock">
+                                    <span class="font-bold" style="font-weight:700;">@*BirthDay*@ @Language.Where(c => c.Order_id == 34).Select(c => c.Value).FirstOrDefault() :</span>
+                                   @(UserInfo.DOB.ToString("dd.MM.yyyy") != "01.01.0001" ? UserInfo.DOB.ToString("dd.MM.yyyy") : "")
+                                </label>
+                            </div>
+                        </div>
+                        <div class="width10Per padding_left20 bg_green">
+                            <div class="patient-detail">
+                                <label class="txtCenter displayBlock">
+                                    <span class="font-bold" style="font-weight:700;">@*Age*@ @Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault() :</span>
+                                    @(UserInfo.Age > 0 ? Convert.ToString(UserInfo.Age) : Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()) @(UserInfo.Age > 0 ? @Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault() : "")
+                                </label>
+                            </div>
+                        </div>
+                        <div class="width10Per padding_left20 bg_green">
+                            <div class="patient-detail">
+                                <label class="txtCenter displayBlock">
+                                    <span class="font-bold" style="font-weight:700;">@*Date*@  @Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault():</span>
+                                    @Today
+                                </label>
+                            </div>
+                        </div>
+                        <div class="width10Per padding_left20">
+                            <div class="txtCenter doct-pre-img">
+                                <img src="@LogoImg" onerror="this.onerror = null; this.src = '/images/prescription-img.png';" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Preivew View Page End-->
+                <!--Print View Page-->
+                <div class="clearfix"></div>
+                <div class="display-none printborder-dark-grey pageBreak disaplyNone_pdf" style="overflow:hidden;">
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 printHeaderTable">
+                        <table class="table" style="width:auto">
+                            <tbody>
+                                <tr class="font-bold">
+                                    <td>@*Family Name*@ @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td>:</td>
+                                    <td>@*Divya*@ @UserInfo.LastName</td>
+                                </tr>
+                                <tr class="font-bold">
+                                    <td>@*First Name*@ @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td>:</td>
+                                    <td>@*Patel*@ @UserInfo.FirstName</td>
+                                </tr>
+                                <tr class="font-bold">
+                                    <td>@*Doctor Name*@ @Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td>:</td>
+                                    <td>@*Patel*@ @UserInfo.EmpFirstName @UserInfo.EmpLastName</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 printHeaderTable">
+                        <table class="table" style="width:auto">
+                            <tbody>
+                                <tr class="font-bold">
+                                    <td>@*Gender*@ @Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td>:</td>
+                                    <td>@*Female*@ @UserInfo.Title</td>
+                                </tr>
+                                <tr class="font-bold">
+                                    <td>@*BirthDay*@ @Language.Where(c => c.Order_id == 34).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td>:</td>
+                                    <td>@(UserInfo.DOB.ToString("dd.MM.yyyy") != "01.01.0001" ? UserInfo.DOB.ToString("dd.MM.yyyy") : "")</td>
+                                </tr>
+                                <tr class="font-bold">
+                                    <td>@*Age*@ @Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()</td>
+                                    <td>:</td>
+                                    <td>@*25 Years*@ @(UserInfo.Age > 0 ? Convert.ToString(UserInfo.Age) : Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()) @(UserInfo.Age > 0 ? Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault() : "")</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div class="doct-pre-img text-center margin-top10">
+                            <img src="@LogoImg" onerror="this.onerror = null; this.src = '/images/prescription-img.png';" alt="">
+                        </div>
+                    </div>
+                </div>
+                <!--Print View Page End-->
+                <!--Prescription block-->
+                <div class="">
+                    @*<div class="Note_printbox Notes_datebox">
+                            <div class="row Note_date">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <a class="OpenNote_print" href="">
+                                        <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                        10.02.2017
+                                    </a>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                                    <i class="fa fa-print print-icon" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        <div>*@
+                    @foreach (var Item in NoteSectionList.Where(c => c.flg != 1).Select(c => c.SectionCatgId).Distinct().ToList())
+                    {
+                        var CatgInfo = NoteSectionList.Where(c => c.SectionCatgId == Item).ToList();
+                        <div class="patient-desc-block pageBreak">
+                            <h5>@*New section*@ @SectionList.Where(c => c.English_Label == "Catg_Label" && c.Label_Name == Convert.ToString(Item)).Select(c => c.Value).FirstOrDefault()</h5>
+                            <div class="doctor-presc-detail border-dark-grey minHeigth70" style="width:100%;">
+                                <ul class="list-text doctor-presc-detailInline">
+                                    @foreach (var Catg in CatgInfo)
+                                    {
+                                        <li>@Catg.CatgDesc</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                    @if (FollowUp != null)
+                    {
+                        <div class="patient-desc-block" style="width:100%;display:inline-block;">
+                            <div class="padding20 doctor-presc-detail border-dark-grey minHeigth70">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td>@*Follow up*@ @SectionList.Where(c => c.English_Label == "Catg_Label" && c.Label_Name == Convert.ToString(FollowUp.SectionCatgId)).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td>:</td>
+                                            <td>@*10 Days*@ @FollowUp.CatgDesc</td>
+                                        </tr>
+                                        <tr>
+                                            <td>@*Signature Doctor*@ @Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td>:</td>
+                                            <td class="">............................................................</td>
+                                        </tr>
+                                        <tr>
+                                            <td>@*Name Doctor*@ @Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td>:</td>
+                                            <td>@*Patel*@ @UserInfo.EmpFirstName @UserInfo.EmpLastName</td>
+                                        </tr>
+                                        <tr>
+                                            <td>@*Place & date*@ @Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault()</td>
+                                            <td>:</td>
+                                            <td>
+                                                @UserInfo.Address, @Today
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+                </div>
+                    <!--Prescription block-->
+            }
+        </div>
+    </div>
+    <div class="modal fade disaplyNone_pdf" id="Print_PopUp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog confirmPopup" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" id="PrintPopupClose">&times;</button>
+                    <h4 class="">@*Confirmation Box*@ @Language.Where(c => c.Order_id == 23).Select(c => c.Value).FirstOrDefault()</h4>
+                </div>
+                <div class="modal-body title15" id="PrintBody">
+                </div>
+                <div class="modal-footer" id="PrintFooter">
+                    <div class="text-right margin-bottom10">
+                        <input type="button" class="btn btn-green" value="Yes">
+                        <input type="button" class="btn btn-grey" value="No">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+@if (IsPrintStatus && DStatus != "D")
+{
+    <script>
+        $(document).ready(function () {
+            window.print();
+            var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
+            if (isChrome) {
+               @*AppClose(@ReservationId,"@RedirectStatus"," @Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault()"," @Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault()",'@ViewBag.Url',"@AlertMsg","@ViewBag.CheckPopupStatus");*@
+            }
+            window.onafterprint = function () {
+                AppClose(@ReservationId,"@RedirectStatus"," @Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault()"," @Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault()",'@ViewBag.Url',"@AlertMsg","@ViewBag.CheckPopupStatus");
+            }
+        });
+
+    </script>
+}

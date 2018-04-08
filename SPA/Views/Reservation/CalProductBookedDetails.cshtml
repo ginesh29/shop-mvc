@@ -1,0 +1,138 @@
+﻿@using SPA.Models
+@{
+
+    Layout = "~/Views/Shared/_Employee_layout.cshtml";
+    List<ConfirmModel> BookedData = new List<ConfirmModel>();
+    BookedData = ViewBag.BookedDetail;
+    string currency = ViewBag.currency;
+    string DurationPre = "Min";
+    List<Language_Label_Detail> LanguageList = new List<Language_Label_Detail>();
+    LanguageList = ViewBag.Language;
+    var Language = LanguageList.Where(c => c.Page_Name == "Confirm_Booking").ToList();
+    ViewBag.Title = LanguageList.Where(c => c.Page_Name == "Title" && c.Order_id == 5).Select(c => c.Value).FirstOrDefault();
+    var LanguageBack = ViewBag.LanguageBack;
+    var Monthlist = LanguageList.Where(c => c.Page_Name == "Small_calander").ToList();
+    string LangBookingDate = "";
+    int ReservationId = ViewBag.ReservationId;
+}
+<div id="MainCalLastBooking">
+
+    <div class="form-content">
+        <div class="col-lg-24 col-md-24 col-sm-24 padding20 ">
+            <a href="/Reservation/CalChooseProduct?ReservationId=@ReservationId" class="title-green16 pull-right"><i class="fa fa-reply-all margin-right5"></i>@LanguageBack</a>
+        </div>
+        <div class="clearfix"></div>
+        @foreach (var EmpInfo in BookedData)
+            {
+            <div class="col-lg-3 col-md-3 col-sm-4 text-center circle-img-margin">
+                <div class="active spa-circle-img">
+                    @if (EmpInfo.Image == null || EmpInfo.Image == "")
+                {
+                        <img src="/images/defaultuser.png">
+                    }
+                    else
+                    {
+                        <img src="@EmpInfo.Image" onerror="this.onerror=null;this.src='/images/defaultuser.png';" alt="">
+                    }
+
+                </div>
+            </div>
+            <div class="col-lg-21 col-md-21 col-sm-20">
+                <div class="res-title-border">
+                    <h2 class="title14-border">@EmpInfo.FirstName @EmpInfo.LastName </h2>
+                    <div class="alert alert-danger" style="display: none"></div>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @foreach (var item in BookedData)
+                    {
+                        if (item.BookingDate != null)
+                        {
+                            var monthname = DateTime.Parse(item.BookingDate).ToString("MMMM");
+                            var MonthLanguagechange = Monthlist.Where(c => c.English_Label.ToLower() == monthname.ToLower()).Select(c => c.Value).FirstOrDefault();
+                            LangBookingDate = item.BookingDate.Replace(monthname, MonthLanguagechange);
+                        }
+                        <ul class="row">
+                            <li class="col-lg-5 col-md-5 col-sm-5 col-xs-15">
+                                <div class="form-group">
+                                    <input class="form-control spa-text-box text-box single-line text-center" name="BookingDate" readonly="readonly" type="text" value="@LangBookingDate">
+                                    @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                                </div>
+                            </li>
+                            <li class="col-lg-3 col-md-3 col-sm-4 col-xs-9">
+                                <div class="form-group">
+                                    @{
+                                        DateTime time = DateTime.Today.Add(DateTime.Parse(item.FromSlotMasterId.ToString()).TimeOfDay);
+                                        string displayTime = time.ToString("HH:mm");
+                                    }
+                                    <input class="form-control spa-text-box text-box single-line text-center" id="FromDate" name="FromDate" readonly="readonly" type="text" value="@displayTime">
+                                    @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                                </div>
+                            </li>
+                            <li class="col-lg-8 col-md-8 col-sm-5 col-xs-24">
+                                <div class="form-group">
+                                    <input class="form-control spa-text-box text-box single-line" id="Product" name="Product" readonly="readonly" type="text" value="@item.ProductName">
+                                    @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                                </div>
+                            </li>
+                            <li class="col-lg-3 col-md-3 col-sm-4 col-xs-9">
+                                <div class="form-group">
+                                    <input class="form-control spa-text-box text-box single-line text-center" data-val="true" data-val-number="The field Int64 must be a number." data-val-required="The Int64 field is required." id="Duration" name="Duration" readonly="readonly" type="text" value="@item.Duration @DurationPre">
+                                    @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                                </div>
+                            </li>
+                            <li class="col-lg-3 col-md-3 col-sm-4 col-xs-9">
+                                <div class="form-group">
+                                    <input class="form-control spa-text-box text-box single-line text-center" data-val="true" data-val-number="The field Int64 must be a number." data-val-required="The Int64 field is required." id="Price" name="Price" readonly="readonly" type="text" value="@float.Parse(item.Amount.ToString()) @currency">
+                                    @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                                </div>
+                            </li>
+                            <li class="col-lg-2 col-md-2 col-sm-2 col-xs-6 margin-top10 text-center ">
+                                <span><i class="fa fa-info-circle spa-icon margin-right5" data-toggle="popover" data-content="@item.Productdesc"></i> </span><a onclick="DeleteCalProductWhileBooking(@item.EmpSchDetailsId)"><i class="fa fa-trash spa-icon" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()" data-original-title="" title=""></i></a>
+                            </li>
+                        </ul>
+                                        }
+                </div>
+            </div>
+                                        }
+        @*i = i + 1;*@
+        <div class="confirm-total">
+            <div class="col-lg-16 col-lg-offset-1 col-md-16 col-sm-14 col-xs-14">
+                <p class="user-name">@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()@*TOTAL*@</p>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-5 col-xs-5">
+                <p class="user-name text-center">@BookedData.Select(c => c.Duration).Sum() @DurationPre</p>
+                @Html.Hidden("TotalDuration")
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-5 col-xs-5">
+                <p class="user-name">@float.Parse(@BookedData.Select(c => c.Amount).Sum().ToString()) @currency</p>
+            </div>
+        </div>
+        <div class="padding20">
+            <label class="spa-label1">@*Comments*@ @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault():</label>
+            <textarea id="Comments" class="form-control spa-text-box text-box" rows="4" cols="20" style="resize: none; white-space: pre-line"></textarea>
+        </div>
+        <div class="text-right padding20">
+            <input type="button" class="btn btn-green" onclick="CalBookOrder(@ReservationId)" id="BookConfirmBtn" value="@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()" />  @*book*@
+        </div>
+
+    </div>
+</div>
+<script>
+    $('[data-toggle="popover"]').popover({
+        placement: 'bottom',
+        trigger: 'hover'
+    });
+    $("#TotalDuration").val(@BookedData.Select(c=>c.Duration).Sum());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,201 @@
+﻿
+@{
+    Layout = null;
+    System.Globalization.CultureInfo enGB = new System.Globalization.CultureInfo("en-GB");
+    List<SPA.Models.LanguageLabelDetails> Language = ((List<SPA.Models.LanguageLabelDetails>)ViewBag.LanguageInfo).Where(c => c.Page_Name.Trim() == "General_Invoice").ToList();
+    List<SPA.Models.CatgDropDownList> CatgDropDown = ViewBag.VatDropDown;
+    var InvoiceList = ((List<SPA.Models.ManualInvoice>)Model);
+    bool Status = ViewBag.Status;
+    var Url = ViewBag.Url;
+    decimal Amount = ViewBag.Amount != null ? ViewBag.Amount : 0.00;
+    var Link = ViewBag.link;
+}
+<style>
+    .GI_pageHT {
+        height: 1280px;
+        position: relative;
+    }
+
+    .GI_footer {
+        position: absolute;
+        bottom: 20px;
+        width: 95%;
+    }
+</style>
+<link href="~/Content/Reports_Print.css" rel="stylesheet" />
+@if (InvoiceList.Count > 0)
+{
+    var Invoice = InvoiceList.FirstOrDefault();
+    <div class="general_Invoice GI_pageHT">
+        <div class="mRop_heading">
+            @*General Invoice*@
+            <h4 style="margin:0;">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()</h4>
+        </div>
+        <div style="display: inline-block;width: 100%;margin: 10px 0;">
+            <div style="float: left;margin-right: 5px;min-height: 120px;" class="address_box width_GI70">
+                <table class="address_table" style="width:100%;">
+                    <thead>
+                        <tr>
+                            @*Adress Field*@
+                            @*<th style="padding-bottom: 10px;text-align:left;" class="Month_RepBold">@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()</th>*@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="Month_Repregular width200">@Invoice.SchlName</td>
+                        </tr>
+                        <tr>
+                            <td class="Month_Repregular width200">@Invoice.Shopstreet @Invoice.ShopStreetNumber</td>
+                        </tr>
+                        <tr>
+                            <td class="Month_Repregular width200">@Invoice.ShopZipcode @Invoice.ShopCity</td>
+                        </tr>
+                        <tr>
+                            <td class="Month_Repregular width200">@Invoice.Original_Website</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="float:left;" class="address_box width_GI20">
+                <div class="Rep_logo">
+                    <img src="@Invoice.ShopImage">
+                </div>
+            </div>
+        </div>
+        <div class="details_invoice">
+            <table style="width:100%;">
+                <tbody>
+                    <tr>
+                        @*Person*@
+                        <td class="Month_RepBold width200">@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</td>
+                        <td class="Month_Repregular">@Invoice.Cust_FirstName @Invoice.Cust_LastName</td>
+                        @*Title*@
+                        <td class="Month_Repregular" style="width:30%;">@Invoice.Cust_Title</td>
+                    </tr>
+                    <tr>
+                        @*Birth date*@
+                        <td class="Month_RepBold width200">@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()</td>
+
+                        <td class="Month_Repregular">@(Invoice.DOB != null ? (Invoice.DOB != new DateTime(0001, 01, 01) ? string.Format("{0:dd.MM.yyyy}", Invoice.DOB) : "") : "")</td>
+                        @*First name, Last Name*@
+                        <td class="Month_Repregular" style="width:30%;">@Invoice.Cust_FirstName @Invoice.Cust_LastName</td>
+                    </tr>
+                    <tr>
+                        @*Therapeut*@
+                        <td class="Month_RepBold width200">@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()</td>
+                        <td class="Month_Repregular">@Invoice.EmpFName @Invoice.EmpLName</td>
+                        @*Street Street Number*@
+                        <td class="Month_Repregular" style="width:30%;">@Invoice.Cust_Street @Invoice.Cust_StreetNumber</td>
+                    </tr>
+                    <tr>
+                        @*Invoice number*@
+                        <td class="Month_RepBold width200">@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()</td>
+                        <td class="Month_Repregular">@Invoice.InvoiceNo</td>
+                        @*pin code & City Number*@
+                        <td class="Month_Repregular" style="width:30%;">@Invoice.Cust_Pincode @Invoice.Cust_City</td>
+                    </tr>
+                    <tr>
+                        @*Due Date*@
+                        <td class="Month_RepBold width200">@Language.Where(c => c.Order_id == 26).Select(c => c.Value).FirstOrDefault()</td>
+                        <td class="Month_Repregular">@(Invoice.InvoiceDate.HasValue ? string.Format("{0:dd.MM.yyyy}", Invoice.InvoiceDate.Value.AddDays(CatgDropDown.Select(c => c.OverDue).FirstOrDefault().Value)) : "")</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="Generalinvoice_table" style="margin-top:20px;">
+            <div style="overflow:hidden" class="table_heading">
+                <div style="width: 60%;float: left;">
+                    @*Invoice*@
+                    <h4 style="font-size:20px;margin:0;">@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()</h4>
+                </div>
+                <div style="width: 40%;float: left;">
+                    <p class="Month_Repregular" style="margin:0;line-height:24px;">@Invoice.Cust_City<span style="margin-left:5px;">@string.Format("{0:dd.MM.yyyy}", Invoice.InvoiceDate)</span></p>
+                </div>
+            </div>
+            <table style="width:100%;border-spacing: 0;">
+                <thead>
+                    <tr>
+                        @*Date*@
+                        <th class="Month_RepBold" style="text-align:left;">@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()</th>
+                        @*Treatment / Service*@
+                        <th class="Month_RepBold" style="text-align:left;">@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()</th>
+                        @*Duration*@
+                        <th class="Month_RepBold" style="text-align:center;">@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()</th>
+                        @*Qty*@
+                        <th class="Month_RepBold" style="text-align:center;">@Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()</th>
+                        @*Price*@
+                        <th class="Month_RepBold" style="text-align:center;">@Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()</th>
+                        @*VAT*@
+                        <th class="Month_RepBold" style="text-align:center;">@Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()</th>
+                        @*Amount*@
+                        <th class="Month_RepBold" style="text-align:right;">@Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var INVDETAIL in InvoiceList.Select(c => c.Invoice_Detail_Id).Distinct().ToList())
+                    {
+                        var item = InvoiceList.Where(c => c.Invoice_Detail_Id == INVDETAIL).FirstOrDefault();
+                        <tr>
+                            <td class="Month_Repregular" style="text-align:left;">@string.Format("{0:dd.MM.yyyy}", DateTime.Parse(item.BookingDate, enGB))</td>
+                            <td class="Month_Repregular" style="text-align:left;">@item.ProductName</td>
+                            <td class="Month_Repregular" style="text-align:center;">@item.Duration</td>
+                            <td class="Month_Repregular" style="text-align:center;">@item.Quantity</td>
+                            <td class="Month_Repregular" style="text-align:center;">@string.Format("{0:0.00}", item.Rate)</td>
+                            <td class="Month_Repregular" style="text-align:center;">@item.Print_Vat %</td>
+                            <td class="Month_Repregular" style="text-align:right;">@string.Format("{0:0.00}", item.TotalPricewithvat!=null?item.TotalPricewithvat:item.RealAmount)</td>
+                        </tr>
+                    }
+                    <tr>
+                        @*Total*@
+                        <td class="Month_RepBold foooter_border" colspan="6" style="text-align:left;">@Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault()</td>
+                        <td class="Month_RepBold foooter_border" style="text-align:right;">@string.Format("{0:0.00}", CatgDropDown.Where(c => c.Invoice_Id == Invoice.InvoiceNo).Select(c => decimal.Parse(c.TotalAmount)).Sum())</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      
+        <div class="GI_footer">
+            @if (!Invoice.txtAreaGInvoice.IsEmpty())
+            {
+                <div class="free_text Report_printBreak"><p style="margin:0;">@Invoice.txtAreaGInvoice</p></div>
+            }
+            <div class="monthRep_footer Report_printBreak" style="margin-top:20px;">
+                <div style="width:100%;display:inline-block;">
+                    @*<div style="width:25%;float:left;">
+                            @*Place &amp; Date
+                            <h4 class="footer_sign">@Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault()</h4>
+                        </div>*@
+                    <div>
+                        @*Signature*@
+                        <h4 class="Month_RepBold" style="margin:0 0 10px 0;">@Language.Where(c => c.Order_id == 28).Select(c => c.Value).FirstOrDefault()</h4>
+                    </div>
+                    <div>
+                        @*Kind regards*@
+                        <h4 class="Month_Repregular" style="margin:0;">@Language.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault(),</h4>
+                    </div>
+                    <div style="width:40%">
+                        <h4 class="footer_sign" style="width:70%;">@Invoice.Emp_Title @Invoice.EmpFName @Invoice.EmpLName</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="monthRep_footer Report_printBreak" style="margin-top:20px;">
+                <table style="width:100%;">
+                    <tbody>
+                        <tr>
+                            @*Bank details & payment terms*@
+                            <td class="Month_RepBold" style="padding-bottom:15px;" colspan="4">@Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()</td>
+                        </tr>
+                        <tr>
+                            @*Bank IBAN:*@
+                            <td class="Month_Repregular" style="width:10%;">@Language.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault()</td>
+                            <td class="Month_Repregular" style="width:40%;">@CatgDropDown.Select(c => c.Ibanno).FirstOrDefault()</td>
+                            @*due in X days*@
+                            <td class="Month_Repregular" style="width:50%;">@Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault().Replace("\"X\"", Convert.ToString(CatgDropDown.Select(c => c.OverDue).FirstOrDefault()))</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+

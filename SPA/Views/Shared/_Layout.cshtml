@@ -1,0 +1,236 @@
+﻿@using SPA.Common
+@using System.Linq
+@using System.Configuration
+@{
+    int schlId = Convert.ToInt32(ConfigurationManager.AppSettings["ApplicationVariable"]);
+    cctspDatabaseEntities22 SPA = new cctspDatabaseEntities22();
+    List<Language_Label_Detail> Language = new List<Language_Label_Detail>();
+    Function fu = new Function();
+    var link = System.Web.HttpContext.Current.Request.Url.Host;
+    SPA.Models.ShopMasterDetail Lendinigdata = SPA.CCTSP_LendingPageMaster.Where(c => (c.Original_Website == link || c.Azure_Website == link || c.Schid == schlId) && c.CCTSP_SchoolMaster.ActiveStatus == "A").Select(c => new SPA.Models.ShopMasterDetail
+    {
+        Logo = c.Logo,
+        Logotext_Color = c.Logotext_Color,
+        Logotext = c.Logotext,
+        SchlWebsite = c.CCTSP_SchoolMaster.SchlWebsite,
+        SchlStudentStrength = c.CCTSP_SchoolMaster.SchlStudentStrength,
+        Lang_id = c.CCTSP_SchoolMaster.Lang_id,
+        Color_Id = c.CCTSP_SchoolMaster.Color_Id,
+        colorclass = c.CCTSP_SchoolMaster.CCTSP_ColorMaster.Color_Class,
+        Flow_Id=c.CCTSP_SchoolMaster.Flow_Id
+    }).FirstOrDefault();
+    //Language according to user
+    var LanguageId = Lendinigdata.Lang_id;
+    List<Language_Label_Detail> LanguageDetails = SPA.Language_Label_Detail.Where(c => (c.Page_Name == "Layout_Client" || (c.Page_Name == "AlertMsg" && c.Order_id == 38)) && c.Lang_id == LanguageId).ToList();
+    Language = LanguageDetails.Where(c => c.Page_Name == "Layout_Client").ToList();
+    var LanguageAlert = LanguageDetails.Where(c => c.Page_Name == "AlertMsg").Select(c => c.Value).FirstOrDefault();
+    long Flow_Id = Lendinigdata.Flow_Id != null ? Lendinigdata.Flow_Id.Value : 0;
+    bool ReservationTabAccess = true;
+    if (Lendinigdata.Flow_Id > 1)
+    {
+        ReservationTabAccess = fu.CheckTabAccess("Reservation", Flow_Id);
+    }
+    string Colorclass = Lendinigdata.colorclass;
+    var LangNameList = fu.LanguageNameList();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="description" content="@link">
+    <meta name="keywords" content="@(Lendinigdata.Logotext != null ? Lendinigdata.Logotext : Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault())">
+    <title>@ViewBag.Title</title>
+    <link href='https://fonts.googleapis.com/css?family=Raleway:800,800italic' rel='stylesheet' type='text/css'>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    @if (LanguageId > 1)
+    {
+        @Html.Partial("_LangValidation", "/Scripts/messages_" + LangNameList.Where(c => c.Lang_id == LanguageId).Select(c => c.English_Label).FirstOrDefault().ToLower() + ".js");
+    }
+</head>
+<body class="@Colorclass">
+    <div class="container-fluid @Colorclass" id="PreviewColor">
+        <header>
+            <div class="header-top">
+                <div class="row">
+                    <!--Divya Design New Logo-->
+                    <div class="col-lg-14 col-md-14 col-sm-12">
+                        <div id="Spalogo" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 Spalogo  @(Lendinigdata.Logo == null ? "display-none": "")">
+                            <img id="HLogoImage" onerror="this.onerror = null; $(this).parent().addClass('display-none');" src="@(Lendinigdata.Logo != null ? Lendinigdata.Logo: "/images/WhatsApp-Image-2016-09-27-at-10.37.png")" />
+                        </div>
+                        <div class="col-lg-18 col-md-18 col-sm-18 col-xs-14 headerTop">
+                            <span id="HLogotext" class="logo LogoNew @(Lendinigdata.Logotext_Color != null ? Lendinigdata.Logotext_Color+"-text" : "")">@(Lendinigdata.Logotext != null ? Lendinigdata.Logotext : Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault())</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-12 header-top-right text-right">
+                        <div class="right-btn">
+                            <a href="javascript:void()" class="isdrag">
+                                <i class="fa fa-align-justify"></i>
+                            </a>
+                        </div>
+
+                        <div class="headertop-box">
+                            <ul class="list-unstyled headerbox-left">
+                                @if (Lendinigdata.SchlWebsite != null && Lendinigdata.SchlWebsite != "")
+                                {
+                                    if (Lendinigdata.SchlWebsite.Contains("http://"))
+                                    {
+                                        <li class=""><a href="@Lendinigdata.SchlWebsite" class="">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()</a></li>
+                                    }
+                                    else
+                                    {
+                                        string WebsiteUrl = "http://" + Lendinigdata.SchlWebsite;
+                                        <li class=""><a href="@WebsiteUrl" class="">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()</a></li>
+                                    }
+
+                                }
+                                else
+                                {
+                                    <li class=""><a href="@Url.Action("Home", "Home")" class="">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()</a></li>
+                                }
+                                @if (ReservationTabAccess == true)
+                                {
+                                    <li class=""><a href="@Url.Action("ChooseYourProduct", "Home",new {Head="a"})" class="">@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()</a></li>
+                                }                               
+                                @if (string.IsNullOrEmpty(Session["UserFirstName"].ToString()))
+                                {
+                                    <li class="headerbox-right headerSignIn">
+                                        <a href="@Url.Action("SignIn", "Login")" class="title-green14">@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    var ab = "";
+                                    if (Convert.ToInt32(Session["RoleId"].ToString()) > 0)
+                                    {
+                                        if (Session["UserGender"] == null)
+                                        {
+                                            Session["UserGender"] = "";
+                                        }
+                                        if (Session["UserFirstName"] == null)
+                                        {
+                                            Session["UserFirstName"] = "";
+                                        }
+                                        if (Convert.ToInt32(Session["RoleId"].ToString()) > 0)
+                                        {
+                                            ab = Session["UserGender"].ToString() + " " + Session["UserFirstName"].ToString();
+                                        }
+
+                                    }
+                                    <li class="headerbox-right headerSignUp">
+                                        @if (Convert.ToInt32(Session["RoleId"].ToString()) == 4)
+                                        {
+                                            <a href="@Url.Action("ChooseYourProduct", "Home")" class="title-green14 user_name">@ab</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@(fu.AccessRightRedirectLink(Convert.ToInt32(Session["RoleId"].ToString()),Flow_Id))" class="title-green14 user_name">@ab</a>
+                                        }
+                                        <a href="@Url.Action("Logout", "Employee")" class="btn btn-green">@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()@*LogOff*@</a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!--error Message Show-->
+        <div class="alert-modal">
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg_green">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel"><span class="alert-icon"><i class="fa fa-exclamation-triangle spa-icon"></i></span>@*Alert Message*@@LanguageAlert!</h4>
+                        </div>
+                        <div class="modal-body" id="MsgAlert">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-green btn-small" data-dismiss="modal">@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()@*OK*@</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Error Message End-->
+        <!-- Welcome modal start-->
+        <div class="welcome-modal">
+            <div id="welcome" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title"></h4>
+                        </div>
+                        <div class="modal-body margin-bottom30" id="WelcomeAlert">
+                            <h1 class="text-center margin-bottom30">WELCOME BY <span>CLICK-AND-GO!</span></h1>
+                            <p class="title15 text-center margin-bottom30">Thanks for using our product!</p>
+                            <p class="title-italic text-center">We wish you lots of success today!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Welcome modal End-->
+        <!-- Your Appointment is Cancel-->
+
+        <div class="alert-modal">
+            <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg_green">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel"><span class="alert-icon"><i class="fa fa-exclamation-triangle spa-icon"></i></span>@*Alert Message*@@LanguageAlert!</h4>
+                        </div>
+                        <div class="modal-body" id="DeleteAlert">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-green btn-small" data-dismiss="modal">@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()@*Ok*@</button>
+                            <button type="button" class="btn btn-green btn-small margin-left5" data-dismiss="modal">@Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()@*Cancel*@</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Confirmation Popup-->
+        @*<div class="modal fade" id="Modal-Common" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div  class="modal-dialog confirmPopup" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4>Alert Message</h4>
+                        </div>
+                        <div class="modal-body margin-top20">
+                          <h5>Are you Sure Want to Delete?</h5>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="text-right margin-bottom10">
+                                <input type="button" class="btn btn-green" value="Yes">
+                                <input type="button" class="btn btn-grey" value="No">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+        @Html.Partial("_LoderPage", Lendinigdata.SchlStudentStrength != null ? Lendinigdata.SchlStudentStrength : 0)
+        <section>
+            @RenderBody()
+        </section>
+    </div>
+
+
+
+    @RenderSection("scripts", required: false)
+    @*<script>
+            $('#confirm').modal("show");
+        </script>*@
+
+</body>
+</html>

@@ -1,0 +1,358 @@
+﻿@{
+    Layout = null;
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.Language;
+    SPA.Models.shopMaster ShopInfo = new SPA.Models.shopMaster();
+    ShopInfo = ViewBag.ShopInfo;
+    double LatiTude = ShopInfo.latitude != null ? ShopInfo.latitude.Value : 0;
+    double LongiTude = ShopInfo.longitude != null ? ShopInfo.longitude.Value : 0;
+    List<SPA.Models.CatgDropDownList> DropdownList = new List<SPA.Models.CatgDropDownList>();
+    DropdownList = ViewBag.DropDownList;
+}
+@if (ViewBag.CheckInvoice == true)
+{
+    <style>
+        .HideInvoice {
+            display: none;
+        }
+    </style>
+}
+@if (ViewBag.TextTabAccess == true)
+{
+    <style>
+        .HideInvoiceEmailTxt {
+            display: none;
+        }
+    </style>
+}
+<div class="create-employee-form shop-owner-setup">
+    <form id="EmployeeForm" action="/Shop/ShopAdd" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <div class="alert alert-danger" style="display: none"></div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24">
+                        @Html.Label(Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault() + " *", htmlAttributes: new { @class = "form-label spa-label-bold" })
+
+                        <input class="form-control spa-text-box required text-box single-line" id="SHOPNAME" name="SHOPNAME" type="text" value="@ShopInfo.SHOPNAME" placeholder="@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()">
+                        @*@Html.EditorFor(c=>c.SHOPNAME, new { htmlAttributes = new { @class = "form-control spa-text-box required" ,@value=ViewBag.DataShop.SchlName } })*@
+                        @Html.ValidationMessage("SHOPNAME", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24">
+                        @Html.Label(Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault() + " *", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                            @Html.DropDownList("TITLE", new SelectList(DropdownList.Where(c => c.CatgName == "Title").ToList(), "CatgDesc", "CatgDesc", ShopInfo.TITLE), new { @class = "spa-dropdown-box required form-control" })
+                        </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24">
+                            <label class="form-label spa-label-bold">@*Gender*@ @Language.Where(c => c.Order_id == 43).Select(c => c.Value).FirstOrDefault() *</label>
+                                @Html.DropDownList("GENDER", new SelectList(DropdownList.Where(c => c.CatgName == "New_Gender").ToList(), "CatgDesc", "CatgDesc", ShopInfo.GENDER), new { @class = "spa-dropdown-box required form-control" })
+                            </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                            @Html.Label(Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault() + " *", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                <input class="form-control spa-text-box required text-box single-line" id="OWNERNAME" name="OWNERNAME" type="text" value="@ShopInfo.OWNERNAME" placeholder="@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault() ">
+                                @*@Html.EditorFor(c=>c.OWNERNAME, new { htmlAttributes = new { @class = "form-control spa-text-box required" } })*@
+                                @Html.ValidationMessage("OWNERNAME", "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                            @Html.Label(Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault(), htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                <input class="form-control spa-text-box  text-box single-line" id="OWNERSURNAME" name="OWNERSURNAME" type="text" value="@ShopInfo.OWNERSURNAME" placeholder="@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()">
+                                @*@Html.EditorFor(c=>c.OWNERSURNAME, new { htmlAttributes = new { @class = "form-control spa-text-box required" } })*@
+                                @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                            @Html.Label(Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault() + " * ", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                <input class="form-control spa-text-box required text-box single-line number" id="MOBILENUMBER" name="MOBILENUMBER" maxlength=12 type="text" value="@ShopInfo.MOBILENUMBER" placeholder="@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()">
+                                @Html.ValidationMessage("MOBILENUMBER", "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                            @Html.Label(Language.Where(c => c.Order_id == 44).Select(c => c.Value).FirstOrDefault(), htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                <input class="form-control spa-text-box  text-box single-line number" id="LANDLINENUMBER" name="LANDLINENUMBER" maxlength=15 type="text" value="@ShopInfo.LANDLINENUMBER" placeholder="@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()">
+                                @Html.ValidationMessage("LANDLINENUMBER", "", new { @class = "text-danger" })
+                            </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24">
+                            @Html.Label(Language.Where(c => c.Order_id == 31).Select(c => c.Value).FirstOrDefault() + " * ", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                <input class="form-control spa-text-box required text-box single-line email" id="Email" name="Email" type="text" value="@ShopInfo.ShopEmail" placeholder="@Language.Where(c => c.Order_id == 32).Select(c => c.Value).FirstOrDefault()">@*Enter your Shop Email*@
+                                @Html.ValidationMessage("Email", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24">
+                            @Html.Label(Language.Where(c => c.Order_id == 33).Select(c => c.Value).FirstOrDefault() + " * ", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                <input class="form-control spa-text-box required text-box single-line email" id="ShopOwnerEmail" name="ShopOwnerEmail" type="text" value="@ShopInfo.OwnerEmail" placeholder="@Language.Where(c => c.Order_id == 34).Select(c => c.Value).FirstOrDefault()">@*Enter your Email*@
+                                @Html.ValidationMessage("ShopOwnerEmail", "", new { @class = "text-danger" })
+                            </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24">
+                        @Html.Label(Language.Where(c => c.Order_id == 61).Select(c => c.Value).FirstOrDefault(), htmlAttributes: new { @class = "form-label spa-label-bold" })
+                    </div>
+                    <div class="col-lg-20 col-md-20 col-sm-20">
+                            <input class="form-control spa-text-box  text-box single-line" id="Street" name="Street" type="text" value="@ShopInfo.street" placeholder="@Language.Where(c => c.Order_id == 61).Select(c => c.Value).FirstOrDefault()">
+                            @Html.ValidationMessage("Street", "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <input class="form-control spa-text-box  text-box single-line" id="StreetNumber" name="StreetNumber" type="text" value="@ShopInfo.streetNumber" placeholder="@Language.Where(c => c.Order_id == 63).Select(c => c.Value).FirstOrDefault()">
+                        @*@Html.EditorFor(c=>c.ADDRESS, new { htmlAttributes = new { @class = "form-control spa-text-box required" } })*@
+                        @Html.ValidationMessage("StreetNumber", "", new { @class = "text-danger" })
+                        </div>
+                @*Street Number*@
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                            @Html.Label(Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault() + " *", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                <input class="form-control spa-text-box required text-box single-line digits" id="ZIPCODE" name="ZIPCODE" type="text" value="@ShopInfo.ZIPCODE" placeholder="@Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()" maxlength="8">
+                                @*@Html.EditorFor(c=>c.ZIPCODE, new { htmlAttributes = new { @class = "form-control spa-text-box required" } })*@
+                                @Html.ValidationMessage("ZIPCODE", "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-20 col-md-20 col-sm-20">
+                            @Html.Label(Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault() + " * ", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                <input class="form-control spa-text-box required text-box single-line" id="CITY" name="CITY" type="text" value="@ShopInfo.CITY" placeholder="@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()">
+                                @*@Html.EditorFor(c=>c.CITY, new { htmlAttributes = new { @class = "form-control spa-text-box required" } })*@
+                                @Html.ValidationMessage("CITY", "", new { @class = "text-danger" })
+                            </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24">
+                            @Html.Label(Language.Where(c => c.Order_id == 45).Select(c => c.Value).FirstOrDefault() + " * ", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                               <input class="form-control spa-text-box required text-box single-line" id="State" name="State" type="text" value="@ShopInfo.State" placeholder="@Language.Where(c => c.Order_id == 49).Select(c => c.Value).FirstOrDefault()">
+                                @*@Html.EditorFor(c=>c.CITY, new { htmlAttributes = new { @class = "form-control spa-text-box required" } })*@
+                                @Html.ValidationMessage("State", "", new { @class = "text-danger" })
+                            </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24">
+                            <label class="form-label spa-label-bold">@(Language.Where(c => c.Order_id == 40).Select(c => c.Value).FirstOrDefault())</label>
+                            @*@Html.Label(Language.Where(c => c.Order_id == 40).Select(c => c.Value).FirstOrDefault() + " *", htmlAttributes: new { @class = "form-label spa-label-bold" })*@
+                                <input class="form-control spa-text-box text-box single-line" id="GLN_NO" name="GLN_NO" type="text" value="@ShopInfo.GLN_NO" placeholder="@Language.Where(c => c.Order_id == 56).Select(c => c.Value).FirstOrDefault()">
+                                @Html.ValidationMessage("GLN-No", "", new { @class = "text-danger" })
+                            </div>
+                </div>
+                <div class="form-group row HideInvoice">
+                    <div class="col-lg-24 col-md-24 col-sm-24">
+                        <div class="col-lg-8 col-md-8">
+                            @Html.Label(Language.Where(c => c.Order_id == 46).Select(c => c.Value).FirstOrDefault() + " *", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                        </div>
+                        <div class="col-lg-16 col-md-16">
+                            <div class="row form-group " id="divVat">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8 spa-radio">
+                                    <input id="VATYES" type="radio" name="VAT" value="YES">
+                                    <label for="VATYES" class="form-label spa-label1 margin-top8">@*Yes*@ @Language.Where(c => c.Order_id == 53).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-8 spa-radio">
+                                    <input id="VATNO" type="radio" name="VAT" value="NO" checked="checked">
+                                    <label for="VATNO" class="form-label spa-label1 margin-top8">@*No*@ @Language.Where(c => c.Order_id == 54).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24" id="ShowVatNumber">
+                        @Html.Label(Language.Where(c => c.Order_id == 47).Select(c => c.Value).FirstOrDefault() + " * ", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                        <input class="form-control spa-text-box required  text-box single-line" id="VATNUMBER" name="VATNUMBER" type="text" value="@ShopInfo.VATNUMBER" placeholder="@Language.Where(c => c.Order_id == 55).Select(c => c.Value).FirstOrDefault()">
+                        @Html.ValidationMessage("VATNUMBER", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-md-12">
+                <div class="row form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <label class="form-label spa-label-bold">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault() *</label>
+                        @*@Html.Label(@Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault() + " *", htmlAttributes: new { @class = "form-label spa-label-bold" })*@
+                            <input class="form-control spa-text-box required text-box single-line" id="MAINCATEGORY" name="MAINCATEGORY" disabled size="10" type="text" value="@ShopInfo.MAINCATEGORY" placeholder="@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()">
+                            @*@Html.EditorFor(c=>c.MAINCATEGORY, new { htmlAttributes = new { @class = "form-control spa-text-box required", @id = "PhoneNo", @size = 10} })*@
+                            @Html.ValidationMessage("MAINCATEGORY", "", new { @class = "text-danger" })
+                        </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        @Html.Label(Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault(), htmlAttributes: new { @class = "form-label spa-label-bold" })
+                        <input class="form-control spa-text-box  text-box single-line" id="SHOPTYPE" name="SHOPTYPE" type="text" disabled value="@ShopInfo.SHOPTYPE" placeholder="@Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault()">
+                        @*@Html.EditorFor(c=>c.SHOPTYPE, new { htmlAttributes = new { @class = "form-control spa-text-box required" } })*@
+                        @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24">
+                        @Html.Label(Language.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault().ToString(), htmlAttributes: new { @class = "form-label spa-label-bold" })
+                            <input class="form-control spa-text-box required text-box single-line remove-focus cursor-default" id="CUSTNO" name="CUSTNO" type="text" value="@ShopInfo.ShopId" placeholder="@Language.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault()" disabled>
+                            @*@Html.EditorFor(c=>c.CUSTOMERNO, new { htmlAttributes = new { @class = "form-control spa-text-box required" } })*@
+                            @Html.ValidationMessage("CUSTNO", "", new { @class = "text-danger" })
+                        <input type="hidden" name="CUSTOMERNO" id="CUSTOMERNO" value="@ShopInfo.ShopId">
+                        </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-7 col-md-10">
+                        <div class="user-circle-img">
+                            @if (!string.IsNullOrEmpty(ShopInfo.ImageLogo))
+                            {
+                                <span><img id="UserImageshop" src="@ShopInfo.ImageLogo" onerror="this.onerror=null;this.src='/images/shoplogo.png';" alt="" /></span>
+                            }
+                            else
+                            {
+                                <span><img id="UserImageshop" src="~/images/shoplogo.png" alt="" /></span>
+                            }
+                        </div>
+                    </div>
+                    <input id="TempImage" name="TempImage" type="hidden" value="@ShopInfo.ImageLogo" />
+                    <div class="col-lg-9 col-md-14 text-center">
+                        <a class="file-input-wrapper btn btn-browse">
+                            <span>@Language.Where(c => c.Order_id == 25).Select(c => c.Value).FirstOrDefault()</span>
+                            <input type="file" title="Browse" class="btn-primary" id="ImageLogo" name="ImageLogo" onchange="setImageShop(this);">
+                        </a>
+                        <input type="button" class="btn btn-browse" id="DeletePicShop" onclick="DeletePictureShop();" value="@Language.Where(c => c.Order_id == 26).Select(c => c.Value).FirstOrDefault()" style="display:none;" />
+                    </div>
+                </div>
+                
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24">
+                        @Html.Label(Language.Where(c => c.Order_id == 48).Select(c => c.Value).FirstOrDefault(), htmlAttributes: new { @class = "form-label spa-label-bold" })
+                            <input class="form-control spa-text-box required text-box single-line" disabled="disabled" id="Currency" name="Currency" type="text" value="@ShopInfo.Currency" placeholder="@Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault()">
+                            @*@Html.EditorFor(c=>c.BANKNAME, new { htmlAttributes = new { @class = "form-control spa-text-box required" } })*@
+                            @Html.ValidationMessage("Currency", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24">
+                        @Html.Label(Language.Where(c => c.Order_id == 17).Select(c => c.Value).FirstOrDefault(), htmlAttributes: new { @class = "form-label spa-label-bold" })
+                            <input class="form-control spa-text-box  text-box single-line" id="BANKNAME" name="BANKNAME" type="text" value="@ShopInfo.BANKNAME" placeholder="@Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault()">
+                            @*@Html.EditorFor(c=>c.BANKNAME, new { htmlAttributes = new { @class = "form-control spa-text-box required" } })*@
+                            @Html.ValidationMessage("BANKNAME", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24">
+                        @Html.Label(Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault(), htmlAttributes: new { @class = "form-label spa-label-bold" })
+                            <input class="form-control spa-text-box  text-box single-line" id="BANKACCOUNT" name="BANKACCOUNT" type="text" value="@ShopInfo.BANKACCOUNT" placeholder="@Language.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault()" maxlength="18" minlength="9">
+                            @*@Html.EditorFor(c=>c.BANKACCOUNT, new { htmlAttributes = new { @class = "form-control spa-text-box required" } })*@
+                            @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24">
+                        @Html.Label(Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault(), htmlAttributes: new { @class = "form-label spa-label-bold" })
+                            <input class="form-control spa-text-box  text-box single-line" id="IBANNO" name="IBANNO" type="text" value="@ShopInfo.IBANNO" placeholder="@Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault()" maxlength="34" minlength="5">
+                            @*@Html.EditorFor(c=>c.IBANNO, new { htmlAttributes = new { @class = "form-control spa-text-box required" } })*@
+                            @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                        </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        @Html.Label(Language.Where(c => c.Order_id == 59).Select(c => c.Value).FirstOrDefault() + " * ", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                            <input class="form-control spa-text-box digits text-box single-line required" id="PaymentDuration" name="PaymentDuration" type="text" value="@ShopInfo.PaymentDuration" placeholder="@Language.Where(c => c.Order_id == 60).Select(c => c.Value).FirstOrDefault()" max="365" maxlength="3">
+                            @*@Html.EditorFor(c=>c.IBANNO, new { htmlAttributes = new { @class = "form-control spa-text-box required" } })*@
+                            @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                        </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        @Html.Label(Language.Where(c => c.Order_id == 64).Select(c => c.Value).FirstOrDefault() + " * ", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                        <input class="form-control spa-text-box digits text-box single-line required" id="ExtendDuration" name="ExtendDuration" type="text" value="@ShopInfo.ExtendDuration" placeholder="@Language.Where(c => c.Order_id == 65).Select(c => c.Value).FirstOrDefault()" max="365" maxlength="3">
+                        @*@Html.EditorFor(c=>c.IBANNO, new { htmlAttributes = new { @class = "form-control spa-text-box required" } })*@
+                        @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                
+                
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24">
+                        <label class="form-label spa-label-bold">@*Shop Description*@ @Language.Where(c => c.Order_id == 38).Select(c => c.Value).FirstOrDefault()</label>
+                        <textarea id="ShopDesc" name="ShopDesc" class="form-control spa-text-box  text-box single-line" maxlength="1000" rows="3" placeholder="@Language.Where(c => c.Order_id == 58).Select(c => c.Value).FirstOrDefault()">@(ShopInfo.ShopDesc != null ? ShopInfo.ShopDesc.Replace("<br>", "\r\n") : "")</textarea>
+                    </div>
+                </div>
+                <div class="row form-group  @(ShopInfo.Display_Invoice==2?"":"display-none")">
+                    <div class="col-lg-24 col-md-24 col-sm-24">
+                        <label class="form-label spa-label-bold">@*Invoice FreeText*@ @Language.Where(c => c.Order_id == 66).Select(c => c.Value).FirstOrDefault()</label>
+                        <textarea id="Invoice_FreeText" name="Invoice_FreeText" maxlength="400" class="form-control spa-text-box  text-box single-line" rows="3" placeholder="@Language.Where(c => c.Order_id == 66).Select(c => c.Value).FirstOrDefault()">@ShopInfo.InvoiceFreeText</textarea>
+                </div>
+
+            </div>
+                <div class="row form-group HideInvoiceEmailTxt">
+                    <div class="col-lg-24 col-md-24 col-sm-24">
+                        <label class="form-label spa-label-bold">@*Invoice Email Text*@ @Language.Where(c => c.Order_id == 67).Select(c => c.Value).FirstOrDefault()</label>
+                        <textarea id="InvoiceEmailTxt" name="InvoiceEmailTxt" class="form-control spa-text-box required text-box single-line"  rows="3" placeholder="@Language.Where(c => c.Order_id == 67).Select(c => c.Value).FirstOrDefault()">@ShopInfo.InvoiceEmailTxt</textarea>
+                    </div>
+                </div>
+        </div>
+            <div class="clearfix"></div>
+            <div class="form-group text-center margin-top20">
+                <input type="submit" class="btn btn-green margin-right5" id="btnLogin" value="@Language.Where(c => c.Order_id == 23).Select(c => c.Value).FirstOrDefault()" @*onclick="SubmitEmployeeShop();"*@ />
+                @*<input type="button" class="btn btn-black" id="btnCreateCancelShop" value="Cancel"  />*@
+            </div>
+            </div>
+    </form>
+</div>
+<script>
+    $("#divVat input[type='radio']").click(function () {
+        if ($("#VATYES").prop("checked"))
+            $("#ShowVatNumber").show();
+        else
+            $("#ShowVatNumber").hide();
+    });
+    $("#EmployeeForm").validate();
+    var DataImgTemp = "@ShopInfo.ImageLogo";
+    if (DataImgTemp != "" && DataImgTemp != null) {
+        $("#DeletePicShop").show();
+    }
+    //AutocompleteDeatils("Location","place_changed",'(regions)');
+    //AutocompleteDeatils("State","place_changed",'(regions)');
+    //AutocompleteDeatils("CITY","place_changed",'(cities)');   
+    $('.ShopSetup li a').click(function () {
+        var selText = $(this).html();
+        $("#TITLE").val(selText.trim());
+        $(this).parents('.SPA-VacationDrop').find('.dropdown-toggle').html(selText + '<span class="caret"></span>');
+    });
+    @*function initialize() {
+        var myLatlng = new google.maps.LatLng(@LatiTude, @LongiTude);
+        var myOptions = {
+            zoom: 10,
+            center: myLatlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        map = new google.maps.Map(document.getElementById("map"), myOptions);
+        var marker = new google.maps.Marker({
+            position: myLatlng,
+            map: map,
+            title: "Fast marker",
+        });
+    }*@
+    @*$("#Latitude,#Longitude").blur(function(){
+        if($.isNumeric($("#Latitude").val()) && $.isNumeric($("#Longitude").val()) && ($("#Latitude").val()!='@LatiTude' || $("#Longitude").val()!='@LongiTude'))
+        {
+            initialize();
+        }
+    });*@
+
+</script>
+@if (LatiTude != null && LatiTude != 0 && LongiTude != null && LongiTude != 0)
+{
+    <script>
+        //initialize();
+    </script>
+}
+@if (ShopInfo.VAT != null)
+{
+    if (ShopInfo.VAT == "YES")
+    {
+        <script>
+            $("#VATYES").attr('Checked', true);
+            $("#ShowVatNumber").removeClass("display-none");
+        </script>
+    }
+    if (ShopInfo.VAT == "NO")
+    {
+        <script>
+            $("#VATNO").attr('Checked', true);
+            $("#ShowVatNumber").addClass("display-none");
+        </script>
+    }
+
+}

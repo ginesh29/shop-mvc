@@ -1,0 +1,558 @@
+﻿@{
+    Layout = null;
+    SPA.Models.ShopMasterDetail SchoolInfo = new SPA.Models.ShopMasterDetail();
+    SchoolInfo = ViewBag.SchoolInfo;
+    var LngLocal = ViewBag.LngLocal;
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.Language;
+    List<SPA.Models.CatgDropDownList> DropdownList = new List<SPA.Models.CatgDropDownList>();
+    DropdownList = ViewBag.DropDownList;
+    List<SPA.Models.CountryList> CountryList = new List<SPA.Models.CountryList>();
+    CountryList = ViewBag.countrylist;
+    int ShopDisplayInvoice = ViewBag.DisplayInvoice != null ? ViewBag.DisplayInvoice : 0;
+    SPA.Models.CustomerDisplay Info = new SPA.Models.CustomerDisplay();
+    Info = ViewBag.UserInfo;
+
+}
+@if (ViewBag.CheckInvoice == true)
+{
+    <style>
+        .HideInvoice {
+            display: none;
+        }
+    </style>
+}
+@if (Language.Where(c => c.checkId == 1).Count() > 0)
+{
+    <style>
+        .HideField {
+            display: none;
+        }
+    </style>
+}
+@if (ViewBag.CheckReservationTabAccess == false)
+{
+    <style>
+        .HideReservationDetail {
+            display: none;
+        }
+    </style>
+}
+<div class="new-customer border-green">
+    @*25/01/2018 Change Page*@
+    <h4 class="txtRobotoBold customer_heading">
+        <span class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Customer</span>
+        <a class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right" style="color:#fff;"><span><i class="fa fa-chevron-down" aria-hidden="true"></i></span></a>
+    </h4>
+    <div class="row bg-grey padding20 collapse">
+        <form id="ClientNewForm" action="/Customer/NewCustomerAdd" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <div class="alert alert-danger" style="display: none"></div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <input type="hidden" id="NWEditUserId" name="NWEditUserId" value="@Info.UserId" />
+            <input type="hidden" id="status" name="status" value="@Info.Status" />
+            @Html.Hidden("BackToWhichPage")
+            <div class="col-lg-12">
+                <div class="row form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 @(Language.Where(c => c.Order_id == 2).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                        @Html.Label(@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault() + " * "@*TITLE*@, htmlAttributes: new { @class = "form-label spa-label-bold " })
+                        @Html.DropDownList("NWTitle", new SelectList(DropdownList.Where(c => c.CatgName == "Title").ToList(), "CatgDesc", "CatgDesc", Info.Gender), new { @class = "spa-dropdown-box required Required_red form-control", @placeholder = @Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault() })
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12"></div>
+                </div>
+                <div class="row form-group  @(SchoolInfo.SchlStudentStrength>2 && SchoolInfo.country.ToLower()=="india"?"":"display-none") @(Language.Where(c => c.Order_id == 2).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                    <div class="col-lg-24 col-md-24 col-sm-24 ">
+                        <label class="form-label spa-label-bold ">@*Salutation*@ @Language.Where(c => c.Order_id == 42).Select(c => c.Value).FirstOrDefault()</label>
+                        @Html.DropDownList("NWSalutation", new SelectList(DropdownList.Where(c => c.CatgName == "Salutation").OrderBy(c => c.Group_OrderData).ToList(), "CatgDesc", "CatgDesc", Info.Salutation), new { @class = "spa-dropdown-box form-control", @placeholder = @Language.Where(c => c.Order_id == 42).Select(c => c.Value).FirstOrDefault() })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12  @(Language.Where(c => c.Order_id == 3).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                        @Html.Label(@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault() + " * "@*CUSTOMER NAME*@, htmlAttributes: new { @class = "form-label spa-label-bold" })
+                        @Html.Editor("NWFirstName", new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control spa-text-box required Required_red",
+                           @id = "NWFirstName",
+                           @maxlength = 30,
+                           @Value = Info.FirstName,
+                           @placeholder = @Language.Where(c => c.Order_id == 25).Select(c => c.Value).FirstOrDefault()
+                        @*"Enter customer name"*@
+                       }
+                   })
+                        @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 @(Language.Where(c => c.Order_id == 4).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                        @Html.Label(@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault() + " * "@*FAMILY NAME*@, htmlAttributes: new { @class = "form-label spa-label-bold" })
+                        @Html.Editor("NWLastName", new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control spa-text-box required Required_red",
+                           @id = "NWLastName",
+                           @maxlength = 30,
+                           @placeholder = @Language.Where(c => c.Order_id == 26).Select(c => c.Value).FirstOrDefault() @*"Enter customer family name"*@ ,
+                           @Value = Info.FamilyName
+                       }
+                   })
+                        @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24 @(Language.Where(c => c.Order_id == 45).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                        <label class="form-label spa-label-bold">@*Street*@ @Language.Where(c => c.Order_id == 45).Select(c => c.Value).FirstOrDefault()</label>
+                    </div>
+                    <div class="col-lg-20 col-md-20 col-sm-20">
+                        <input class="form-control spa-text-box text-box single-line Required_red" id="Street" name="Street" type="text" placeholder="@Language.Where(c => c.Order_id == 54).Select(c => c.Value).FirstOrDefault()" value="@Info.Street"> @*Street*@
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4  @(Language.Where(c => c.Order_id == 44).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                        <input id="Street_Number" name="Street_Number" class="form-control spa-text-box text-box single-line Required_red" type="text" placeholder="@Language.Where(c => c.Order_id == 53).Select(c => c.Value).FirstOrDefault()" value="@Info.StreetNumber">
+                    </div>
+
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-4 col-md-4 col-sm-4 @(Language.Where(c => c.Order_id == 6).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                        @Html.Label(@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()@*ZIP CODE*@, htmlAttributes: new { @class = "form-label spa-label-bold" })
+                        @Html.Editor("NWPostal", new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control spa-text-box digits Required_red",
+                           @id = "NWPostal",
+                           @maxlength = "8",
+                           @placeholder = @Language.Where(c => c.Order_id == 30).Select(c => c.Value).FirstOrDefault()@*"Enter customer zip code"*@,
+                           @Value = Info.CustPostalCode
+                       }
+                   })
+                        @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-20 col-md-20 col-sm-20 @(Language.Where(c => c.Order_id == 7).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                        @Html.Label(@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()@*CITY*@, htmlAttributes: new { @class = "form-label spa-label-bold" })
+                        @Html.Editor("NWCITY", new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control spa-text-box Required_red",
+                           @id = "NWCITY",
+                           @placeholder = @Language.Where(c => c.Order_id == 31).Select(c => c.Value).FirstOrDefault()@*"Enter customer city"*@,
+                           @Value = Info.City
+                       }
+                   })
+                        @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 @(Language.Where(c => c.Order_id == 46).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                        <label class="form-label spa-label-bold">@*State*@ @Language.Where(c => c.Order_id == 46).Select(c => c.Value).FirstOrDefault()</label>
+                        <input id="NWState" name="NWState" class="form-control spa-text-box text-box single-line" type="text" placeholder="@Language.Where(c => c.Order_id == 55).Select(c => c.Value).FirstOrDefault()" value="@Info.State">@*State*@
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 @(Language.Where(c => c.Order_id == 64).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                        <label class="form-label spa-label-bold">@*Country*@ @Language.Where(c => c.Order_id == 64).Select(c => c.Value).FirstOrDefault() *</label>
+                        @*@Html.DropDownList("NWCountry", new SelectList(CountryList, "Country", "Country", null), new { @class = "spa-dropdown-box required Required_red form-control", @placeholder = @Language.Where(c => c.Order_id == 65).Select(c => c.Value).FirstOrDefault() })*@
+                        <input id="NWCountry" name="NWCountry" class="form-control required Required_red spa-text-box text-box single-line" placeholder="@Language.Where(c => c.Order_id == 65).Select(c => c.Value).FirstOrDefault()" type="text" value="@Info.Country">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 @(Language.Where(c => c.Order_id == 1).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                        @Html.Label(@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault() @*MOBILE NUMBER*@, htmlAttributes: new { @class = "form-label spa-label-bold" })
+                        @Html.Editor("NwPhoneNo", new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control spa-text-box digits",
+                           @id = "NwPhoneNo",
+                           @minlength = 10,
+                           @maxlength = 12,
+                           @placeholder = @Language.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault()@*"Enter customer mobile number"*@,
+                           @Value = Info.PhoneNumber
+                       }
+                   })
+                        @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                        <span id="LandLineAndPhoneNumber" class="doctorValid display-none">@Language.Where(c => c.Order_id == 62).Select(c => c.Value).FirstOrDefault() @*Mobile number or Phone number is required.*@</span>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 @(Language.Where(c => c.Order_id == 38).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                        @Html.Label(@Language.Where(c => c.Order_id == 38).Select(c => c.Value).FirstOrDefault() @*MOBILE NUMBER*@, htmlAttributes: new { @class = "form-label spa-label-bold" })
+                        @Html.Editor("NwLandLineNo", new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control spa-text-box digits",
+                           @id = "NwLandLineNo",
+                           @maxlength = 16,
+                           @placeholder = @Language.Where(c => c.Order_id == 39).Select(c => c.Value).FirstOrDefault()@*"Enter customer mobile number"*@,
+                           @Value = Info.landlinenumber
+                       }
+                   })
+                        @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24 HideInvoice @(Language.Where(c => c.Order_id == 52).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                        <label class="form-label spa-label-bold">@Language.Where(c => c.Order_id == 52).Select(c => c.Value).FirstOrDefault()</label>
+                        <input class="form-control spa-text-box text-box single-line digits" id="InsuranceNumber" maxlength="20" name="InsuranceNumber" type="text" placeholder="@Language.Where(c => c.Order_id == 60).Select(c => c.Value).FirstOrDefault()" value="@Info.InsuranceNumber">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24 @(Language.Where(c => c.Order_id == 5).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                        @Html.Label(@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault() @*EMAIL*@, htmlAttributes: new { @class = "form-label spa-label-bold" })
+                        @Html.Editor("NWEmail", new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control spa-text-box email",
+                           @id = "NWEmail",
+                           @placeholder = @Language.Where(c => c.Order_id == 28).Select(c => c.Value).FirstOrDefault(),
+                           @Value = Info.Email
+                        @*"Enter customer email-id"*@ }
+                   })
+                        @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                        <span id="ErrorNWEmail" class="doctorValid display-none">@*Email is required.*@ @Language.Where(c => c.Order_id == 63).Select(c => c.Value).FirstOrDefault()</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="row form-group">
+                    <div class="col-lg-8 col-md-8 col-sm-8 @(Language.Where(c => c.Order_id == 43).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                        <label class="form-label spa-label-bold ">@*Gender*@ @Language.Where(c => c.Order_id == 43).Select(c => c.Value).FirstOrDefault() *</label>
+                        @Html.DropDownList("NWGender", new SelectList(DropdownList.Where(c => c.CatgName == "New_Gender").ToList(), "CatgDesc", "CatgDesc", Info.Title), new { @class = "spa-dropdown-box required Required_red form-control", @placeholder = @Language.Where(c => c.Order_id == 43).Select(c => c.Value).FirstOrDefault() })
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 @(Language.Where(c => c.Order_id == 24).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                        @Html.Label(@Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault(), htmlAttributes: new { @class = "form-label spa-label-bold" })
+                        <input type="text" class="form-control spa-text-box date Required_red" placeholder="@Language.Where(c => c.Order_id == 61).Select(c => c.Value).FirstOrDefault()" id="NWDOB" name="NWDOB" value="@Info.CustomerDOB" />
+                        @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 @(Language.Where(c => c.Order_id == 49).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                        <label class="form-label spa-label-bold">@*Unique Cutomer NO*@ @Language.Where(c => c.Order_id == 49).Select(c => c.Value).FirstOrDefault()</label>
+                        <input id="UniqueCust_No" name="UniqueCust_No" disabled="disabled" class="form-control spa-text-box text-box single-line" type="text" placeholder="@Language.Where(c => c.Order_id == 49).Select(c => c.Value).FirstOrDefault()" value="@Info.UserId">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24 HideInvoice @(Language.Where(c => c.Order_id == 50).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                        <label class="form-label spa-label-bold" for="Adresse">@*AHV-No.*@ @Language.Where(c => c.Order_id == 50).Select(c => c.Value).FirstOrDefault() </label>
+                        <input class="form-control spa-text-box text-box single-line" id="AHV_Number" name="AHV_Number" type="text" placeholder="@Language.Where(c => c.Order_id == 58).Select(c => c.Value).FirstOrDefault()" maxlength="16" value="@Info.AHV_Number">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24 HideInvoice @(Language.Where(c => c.Order_id == 51).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                        <label class="form-label spa-label-bold">@Language.Where(c => c.Order_id == 51).Select(c => c.Value).FirstOrDefault()</label>
+                        <input class="form-control spa-text-box text-box single-line digits" id="VEKA_Number" maxlength="20" name="VEKA_Number" type="text" placeholder="@Language.Where(c => c.Order_id == 59).Select(c => c.Value).FirstOrDefault()" value="@Info.VEKA_Number">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24 @(Language.Where(c => c.Order_id == 32).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                        @Html.Label(@Language.Where(c => c.Order_id == 32).Select(c => c.Value).FirstOrDefault() @*Password*@, htmlAttributes: new { @class = "form-label spa-label-bold" })
+                        @Html.Editor("NWPassword", new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control spa-text-box",
+                           @id = "NWPassword",
+                           Type = "password",
+                           @minlength = "6",
+                           @placeholder = @Language.Where(c => c.Order_id == 33).Select(c => c.Value).FirstOrDefault() @*"Enter your Password"*@,
+                           @Value = Info.Password == "BCS@1234" ? "" : Info.Password
+                       }
+                   })
+                        @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24 @(Language.Where(c => c.Order_id == 9).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                        @Html.Label(@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()@*CONFIRMATION ?*@, htmlAttributes: new { @class = "form-label spa-label-bold" })
+                        <div class="confirmation-chk">
+                            <span class="spa-checkbox checkbox">
+                                <input name="EmailConfirm" id="CustEmailConfirm" type="checkbox" checked="checked">
+                                <label for="CustEmailConfirm" class="form-label spa-label-bold">@Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()@*EMAIL*@</label>
+                            </span>
+                            @*<span class="spa-checkbox checkbox">
+                                    <input name="SmsConfirm" id="CustSmsConfirm" type="checkbox">
+                                    <label for="CustSmsConfirm" class="form-label spa-label-bold">@Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()@*SMS*</label>
+                                </span>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24 @(Language.Where(c => c.Order_id == 10).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                        @Html.Label(@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault() @*REMINDER ?*@, htmlAttributes: new { @class = "form-label spa-label-bold" })
+                        <div class="confirmation-chk">
+                            <span class="spa-checkbox checkbox">
+                                <input name="EmailRemain" id="CustEmailRemain" type="checkbox">
+                                <label for="CustEmailRemain" class="form-label spa-label-bold">@Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()@*Email*@</label>
+                            </span>
+                            <span class="spa-checkbox checkbox">
+                                <input name="SmsRemain" id="CustSmsRemain" type="checkbox" checked="checked">
+                                <label for="CustSmsRemain" class="form-label spa-label-bold">@Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()@*SMS*@</label>
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24 @(Language.Where(c => c.Order_id == 40).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                        @Html.Label(@Language.Where(c => c.Order_id == 40).Select(c => c.Value).FirstOrDefault() @*Invoice ?*@, htmlAttributes: new { @class = "form-label spa-label-bold" })
+                        <div class="confirmation-chk">
+                            <span class="spa-checkbox checkbox">
+                                <input name="EmailInvoice" id="EmailInvoice" type="checkbox" checked="checked">
+                                <label for="EmailInvoice" class="form-label spa-label-bold">@Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()@*Email*@</label>
+                            </span>
+                            <span class="spa-checkbox checkbox">
+                                <input name="PrintInvoice" id="PrintInvoice" type="checkbox" checked="checked">
+                                <label for="PrintInvoice" class="form-label spa-label-bold">@Language.Where(c => c.Order_id == 41).Select(c => c.Value).FirstOrDefault()@*Print*@</label>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-24 col-md-24 col-sm-24 HideInvoice @(Language.Where(c => c.Order_id == 68).Select(c => c.checkId).FirstOrDefault()==0?"HideField":"")">
+                        @*Display Invoice*@
+                        <label class="form-label spa-label-bold">@Language.Where(c => c.Order_id == 68).Select(c => c.Value).FirstOrDefault()</label>
+
+                        <div class="confirmation-chk">
+                            <span class="spa-radio margin-right5">
+                                @*Health Insurance Invoice*@
+                                <input id="HInvoice" type="radio" name="DisplayInvoice" value="1" @(ShopDisplayInvoice == 1 ? "checked" : "")>
+                                <label for="HInvoice" class="form-label spa-label-bold margin0"> @Language.Where(c => c.Order_id == 69).Select(c => c.Value).FirstOrDefault()</label>
+                            </span>
+                            <span class="spa-radio">
+                                @*General Invoice*@
+                                <input id="GInvoice" type="radio" name="DisplayInvoice" value="3" @(ShopDisplayInvoice == 3 ? "checked" : "")>
+                                <label for="GInvoice" class="form-label spa-label-bold margin0"> @Language.Where(c => c.Order_id == 70).Select(c => c.Value).FirstOrDefault()</label>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24 form-group margin-top20 text-right">
+                <input type="button" class="btn btn-green margin-right5 margin-bottom10" value="@Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()" onclick="CheckCustomerValidation();" />  @*Submit*@
+                <input type="reset" class="btn btn-black margin-bottom10" value="@Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()" id="Cancelnewcustomer" />  @*Cancel*@
+                <input type="button" class="btn btn-black margin-bottom10" value="@Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()" id="CancelnewcustomerBackToViewList" onclick="BackToList('A');" />@*Cancel*@
+                <input type="button" class="btn btn-black margin-bottom10" value="@Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()" id="CancelnewcustomerBackToBlackList" onclick="BackToList('L');" />@*Cancel*@
+            </div>
+        </form>
+    </div>
+</div>
+<div class="">
+    @Html.Action("Anamnese", "Customer", new { UserId = Info.UserId })
+</div>
+<div id="HistoryInfoCustomer" class="HideReservationDetail cusHistory border-green new-customer">
+    <h4 class="txtRobotoBold customer_heading">
+        <span class="col-lg-12 col-md-12 col-sm-12 col-xs-12">@Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault()@*CUSTOMER HISTORY*@</span>
+        <a class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right" style="color:#fff;"><span><i class="fa fa-chevron-down" aria-hidden="true"></i></span></a>
+    </h4>
+    @Html.Action("DisplayCustomerHistory", "Customer", new { UserId = Info.UserId })
+</div>
+@if (Info.UserId > 0)
+{
+    <script>
+        $("#CustEmailConfirm").prop("checked", false);
+        $("#CustEmailRemain").prop("checked", false);
+        $("#CustSmsConfirm").prop("checked", false);
+        $("#CustSmsRemain").prop("checked", false);
+        $("#EmailInvoice").prop("checked", false);
+        $("#PrintInvoice").prop("checked", false);
+        $("#GInvoice").prop("checked", false);
+        $("#HInvoice").prop("checked", false);
+    </script>
+}
+@if (Info.EmailService > 0)
+{
+    if (Info.EmailService == 1)
+    {
+        <script>
+            $("#CustEmailRemain").prop("checked", true);
+        </script>
+    }
+    if (Info.EmailService == 2)
+    {
+        <script>
+            $("#CustEmailRemain").prop("checked", true);
+            $("#CustEmailConfirm").prop("checked", true);
+        </script>
+    }
+    if (Info.EmailService == 3)
+    {
+        <script>
+            $("#CustEmailConfirm").prop("checked", true);
+        </script>
+    }
+}
+@if (Info.SMSService > 0)
+{
+    if (Info.SMSService == 1)
+    {
+        <script>
+            $("#CustSmsRemain").prop("checked", true);
+        </script>
+    }
+    if (Info.SMSService == 2)
+    {
+        <script>
+            $("#CustSmsRemain").prop("checked", true);
+            $("#CustSmsConfirm").prop("checked", true);
+        </script>
+    }
+    if (Info.SMSService == 3)
+    {
+        <script>
+            $("#CustSmsConfirm").prop("checked", true);
+        </script>
+    }
+}
+@if (!string.IsNullOrEmpty(Info.InvoiceService))
+{
+    if (Info.InvoiceService == "1")
+    {
+        <script>
+            $("#EmailInvoice").prop("checked", true);
+        </script>
+    }
+    if (Info.InvoiceService == "2")
+    {
+        <script>
+            $("#EmailInvoice").prop("checked", true);
+            $("#PrintInvoice").prop("checked", true);
+        </script>
+    }
+    if (Info.InvoiceService == "3")
+    {
+        <script>
+            $("#PrintInvoice").prop("checked", true);
+        </script>
+    }
+}
+@if (Info.DisplayInvoice == 3)
+{
+    <script>
+        $("#GInvoice").prop("checked", true);
+    </script>
+}
+else
+{
+    <script>
+        $("#HInvoice").prop("checked", true);
+    </script>
+}
+<script>
+    $(".new-customer a").click(function () {
+        $(this).find("i").toggleClass("fa-chevron-up fa-chevron-down").parents(".customer_heading").next().fadeToggle(500);
+    });
+    Dob("#NWDOB", '@LngLocal', true, true, false);
+    //AutocompleteDeatils("NWState", "place_changed", '(regions)');
+    //AutocompleteDeatils("NWCITY", "place_changed", '(cities)');
+
+    //$("#myTab li a").click(function () {
+    //    if ($("#NewCustomerLI li a,#NewCustomerLI-collapse a").html() != "New Customer") {
+    //        $.post("/Product/GetCommonLangauge?PageName=Customer_Tab&orderid=3", function (data) {
+    //            if ($(window).width() < 768)
+    //                $("#NewCustomerLI-collapse a").html(data);
+    //            else
+    //                $("#NewCustomerLI a").html(data);
+    //        });
+    //        $("#ClientNewForm").validate().resetForm();
+    //        $("#EmailConfirm").prop("checked", false);
+    //        $("#SmsConfirm").prop("checked", false);
+    //        $("#EmailRemain").prop("checked", false);
+    //        $("#SmsRemain").prop("checked", false);
+    //        $("#NWEditUserId").val("");
+    //        $("#blackListValue").prop("checked", false);
+    //        $.post("/Customer/DisplayCustomerHistory", function (data) {
+    //            $("#HistoryInfoCustomer").html(data);
+    //        });
+    //        //$("#NWPassword").val("bcs@1234");
+    //        $("#EmailConfirm").prop("checked", true);
+    //        $("#SmsRemain").prop("checked", true);
+    //    }
+    //})
+    var status = $("#status").val();
+    if ($("#NWEditUserId").val() != "") {
+        $("#EmailConfirm").prop("checked", true);
+        $("#SmsRemain").prop("checked", true);
+    }
+    if (status == "") {
+        $("#CancelnewcustomerBackToViewList").hide();
+        $("#CancelnewcustomerBackToBlackList").hide();
+    }
+    function CheckCustomerValidation() {
+        var Checkvalidation = $("#ClientNewForm").validate().form();
+        if (Checkvalidation != false) {
+            if (($('#NwPhoneNo').val() == '' && $('#NwLandLineNo').val() == '') || $('#NWEmail').val() == '') {
+
+                $.post("/Product/GetDataOfLanguage?Text='Do you want to skip validation ?'&id=42", function (data) {
+                    var CheckCustomerValidation = confirm(data);
+                    if (CheckCustomerValidation) {
+                        $('.loader').show();
+                        var form = $("#ClientNewForm");
+                        var url = form.attr("action");
+                        var formData = form.serialize();
+                        $.post(url, formData, function (data) {
+                            if (data != null) {
+                                window.location.href = "/Customer/Customer";
+                                $('.loader').hide();
+                            }
+                            $.ajax('/Customer/CustomerValidation');
+                        });
+                    }
+                    else {
+                        $('.loader').hide();
+                        window.scrollTo(0, 0);
+                        if ($("#NwPhoneNo").val() == "" && $("#NwLandLineNo").val() == "")
+                            $("#LandLineAndPhoneNumber").fadeIn().delay(2000).fadeOut();
+                        if ($("#NWEmail").val() == "")
+                            $("#ErrorNWEmail").fadeIn().delay(2000).fadeOut();
+
+                    }
+                });
+
+            }
+            else {
+                $('.loader').show();
+                var Checkvalidation = $('#ClientNewForm').validate({
+                    rules: {
+                        NwPhoneNo: {
+                            required: function (element) {
+                                return ($('#NwPhoneNo').val() == '' && $('#NwLandLineNo').val() == '');
+                            }
+                        },
+                        NWEmail: {
+                            required: function (element) {
+                                return ($('#NwPhoneNo').val() != '' && $('#NwPhoneNo').val() != null);
+                            }
+                        }
+                    },
+                    messages: {
+                        NwPhoneNo: {
+                            required: 'Mobile number or Phone number is required.'
+                        },
+
+                        NWEmails: {
+                            required: 'this field is required.'
+                        }
+
+                    }
+                }).form();
+                if (Checkvalidation != false) {
+                    var form = $("#ClientNewForm");
+                    var url = form.attr("action");
+                    var formData = form.serialize();
+                    $.post(url, formData, function (data) {
+                        if (data != null) {
+                            window.location.href = "/Customer/Customer";
+                            $('.loader').hide();
+                            $.ajax('/Customer/CustomerValidation');
+                        }
+                    });
+                }
+            }
+
+        }
+
+    }
+    $('.dropdown-menu li a').click(function () {
+        var selText = $(this).text();
+        $("#NWTitle").val(selText.trim());
+        $('.dropdown-menu li a').parents('.SPA-VacationDrop').find('.dropdown-toggle').html(selText + '<span class="caret"></span>');
+    });
+
+</script>

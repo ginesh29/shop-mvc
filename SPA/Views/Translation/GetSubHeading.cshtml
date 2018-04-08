@@ -1,0 +1,30 @@
+﻿
+@{
+    Layout = null;
+    List<Language_NewShop> ShopNew = new List<Language_NewShop>();
+    ShopNew = ViewBag.TranslationData;
+    var PageNameShop = ShopNew.Select(c => c.Page_Name).FirstOrDefault();
+}
+
+<!DOCTYPE html>
+
+<div>
+    <ul id="SubHeadingUrl" class="color-blue">
+        @foreach (var item in ShopNew.Where(c=>c.col1!=null).Select(c=>c.col1).Distinct().ToList())
+        {
+            <li><a id="@item" style="cursor:pointer;">@item.Replace("_"," ")</a></li>
+        }
+    </ul>
+</div>
+<script>
+
+    $("#SubHeadingUrl li a").click(function () {
+        $("#SubHeadingUrl li a").removeClass("activeAClass");
+        $(this).addClass("activeAClass");
+        $("#DataSubHead").html("");
+        var subhead=$(this).prop("id");
+        $.post("/Translation/GetDataofSubHeading?SubHeading=" + subhead + "&Page=@PageNameShop", function (data) {
+            $("#DataSubHead").html(data);
+        });
+    })
+</script>

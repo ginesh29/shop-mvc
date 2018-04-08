@@ -1,0 +1,268 @@
+﻿@{
+    List<SPA.Models.LanguageLabelDetails> Language = ViewBag.Language;
+    ViewBag.Title = Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault();
+    Layout = null;
+    List<SPA.Models.PaySection> PaymentInfo = Model;
+    SPA.Models.RemainingShopCredit RemainingDetails = new SPA.Models.RemainingShopCredit();
+    RemainingDetails = ViewBag.RemainingStatus;
+    List<SPA.Models.BillingHistory> BillingHistory = new List<SPA.Models.BillingHistory>();
+    BillingHistory = ViewBag.BillingHistory;
+    var Currency = ViewBag.Currency;
+    double RemainingCredit = ViewBag.RemaingCredit;
+}
+<div class="payment-section-main margin-top10 margin-bottom30">
+    @*if payment gets success status*@
+    @*New Payment page start*@
+    <div class="Payment_page">
+        <div class="row">
+            <div class="col-lg-16 col-md-16 col-sm-16">
+                <h4>@*Payment History*@ @Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()</h4>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 text-right">
+                <h4 class="credit">@*Credit*@ @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault(): @RemainingCredit @Currency</h4>
+            </div>
+        </div>
+        <div class="table-responsive payment-history">
+            <table class="table" id="fixheader">
+                @Html.Action("PaymentHistoryPrint", "Shop", new { Billing = ViewBag.BillingHistory, Currency = Currency, status=false })
+            </table>
+            @*<table class="table" id="fixheader">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Reservation Id</th>
+                        <th>Date</th>
+                        <th>Payment Plan</th>
+                        <th>Amount</th>
+                        <th>Credit</th>
+                        <th>Product</th>
+                        <th>Customer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (BillingHistory.Count > 0)
+                    {
+                        foreach (var item in BillingHistory)
+                        {
+                            int index = BillingHistory.IndexOf(item) + 1;
+                            <tr>
+                                <td>@index</td>
+                                <td>@item.ReservationId</td>
+                                <td>@item.created_on</td>
+                                <td>@item.PaymentCatgName</td>
+                                <td>@item.Amount</td>
+                                <td>@item.Credit</td>
+                                <td>@item.ProductName</td>
+                                <td>@item.FirstName @item.LastName</td>
+                            </tr>
+                        }
+
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="8" class="text-center Nodata">
+                                <img src="~/images/No Data_2.png" />
+                                <div>No Data Found</div>
+                            </td>
+                        </tr>
+                    }
+                    @*<tr>
+                        <td colspan="7">Not Data Found</td>
+                        </tr>
+            </tbody>
+            </table>*@
+        </div>
+        <div class="payment_balance">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h4>@*Estimation for how long it will rest*@ @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault():</h4>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <h4>@(RemainingDetails != null ? RemainingDetails.RemainingDays : 0) @*days*@ @Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()</h4>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <h4>@*Approx*@ @Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault(). @(RemainingDetails != null ? RemainingDetails.TotalReservation : 0) @*Reservations*@ @Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()</h4>
+                </div>
+            </div>
+        </div>
+        <div class="payment-section-price-table">
+            <form id="Payment-Form" name="Payment-Form" action="/Shop/DebitPay" enctype="multipart/form-data" method="post">
+                @if (PaymentInfo.Count > 0)
+                {
+                    <input type="hidden" id="PayDetail" name="PayDetail" />
+                    <input type="hidden" value="@PaymentInfo.Select(c => c.schlId).FirstOrDefault()" id="ShopId">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="width30per">@*Online shop*@ @Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()</th>
+                                    <th class="text-center width20per">@PaymentInfo.Select(c => c.Currency).FirstOrDefault()</th>
+                                    <th class="width10per">@*Add*@ @Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()</th>
+                                    <th class="text-center width20per">@*Amount*@ @Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()</th>
+                                    <th class="text-center width20per">@*Credit*@ @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</th>
+                                </tr>
+                            </thead>
+                            <tbody id="Payment-BodyShop">
+                                @if (PaymentInfo.Count > 0)
+                                {
+                                    foreach (var PayDet in PaymentInfo.Select(c => c.PaymentDetail_Id).Distinct().ToList())
+                                    {
+                                        var PayDetail = PaymentInfo.Where(c => c.PaymentDetail_Id == PayDet).FirstOrDefault();
+                                        <tr class="@PayDetail.PaymentDetail_Id">
+                                            <td class="width30per">@PayDetail.PaymentCatgName</td>
+                                            <td class="width20per">
+                                                <input type="text" class="form-control input-price" @(PayDetail.Amount == 0 ? "" : "disabled") min="0" maxlength="6" id="Amount_@PayDetail.PaymentDetail_Id" value="@PayDetail.Amount" placeholder="@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()">
+                                            </td>
+                                            <td class="checkbox width10per"><input type="checkbox" id="@PayDetail.PaymentDetail_Id" name="@PayDetail.PaymentDetail_Id" status="" class="add-checkbox"><label for="@PayDetail.PaymentDetail_Id"></label></td>
+                                            <td class="text-center width20per" id="FinalAmount_@PayDetail.PaymentDetail_Id"></td>
+                                            <td class="text-center width20per"></td>
+                                        </tr>
+                                    }
+                                    @*<tr>
+                                        <td>One Time Setup Fee</td>
+                                        <td><input type="text" class="form-control input-price" value="3000" placeholder="Amount"></td>
+                                        <td class="checkbox"><input type="checkbox" id="24" status="" class="add-checkbox"><label for="24"></label></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        </tr>
+                                        <tr>
+                                        <td>One Time Setup Fee</td>
+                                        <td><input type="text" class="form-control input-price" value="3000" placeholder="Amount"></td>
+                                        <td class="checkbox"><input type="checkbox" id="24" status="" class="add-checkbox"><label for="24"></label></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        </tr>*@
+                                    <tr>
+                                        <td colspan="3" class="font-family-bold color-darkblack font20 border-top-black font-family-bold ">@*Total value*@ @Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()</td>
+                                        <td class="font-bold color-darkblack font20 border-top-black text-center font-family-bold " id="TotalPrice">
+                                            <span>0 </span> @Currency
+                                        </td>
+                                        <td class="font-bold color-darkblack font20 border-top-black text-center font-family-bold " id="TotalCredit">
+                                            <span>0 </span> @Currency
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5" class="border-top-black text-right"><input disabled="disabled" type="submit" class="btn btn-green" value="@Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()" id="Buy" /></td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="5" class="Nodata text-center">
+                                            <img src="~/images/No Data_2.png" />
+                                            <div>@*No Payment Found*@ @Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()</div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="Nodata text-center">
+                        <img src="~/images/No Data_2.png" />
+                        <div>@*No Payment Category Found*@ @Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()</div>
+                    </div>
+                }
+            </form>                @*<h3>No Payment Category Found</h3>*@
+        </div>
+    </div>
+</div>
+<div class="welcome-modal Payment_popup">
+    <div class="modal fade" role="dialog" id="Payment_popup">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">@*Select Payment Method*@ @Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault()</h4>
+                </div>
+                <div class="modal-body margin-bottom30">
+                    <div class="Payment_popup_CHK">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="Payment_popup_img">
+                                    <img src="~/images/Online.png" />
+                                </div>
+                                <h4>@*Online Payment*@ @Language.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault()</h4>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="Payment_popup_img">
+                                    <img src="~/images/Cash.jpg" />
+                                </div>
+                                <h4>@*Cash On Service*@ @Language.Where(c => c.Order_id == 17).Select(c => c.Value).FirstOrDefault()</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#viewmore").click(function () {
+        $("#viewless").slideToggle("slow");
+    });
+    $("#fixheader").tableHeadFixer({ 'foot': true });
+    $("#Payment-Form").validate();
+    $("#Payment-BodyShop tr input[type='checkbox']").click(function () {
+        //variables
+        var CurrentEvent = $(this);
+        var CurrentCatgId = $(this).prop("id");
+        var ShopId = $("#ShopId").val();
+        var getallChk = $("#Payment-BodyShop tr input[type='checkbox']:checked").map(function () { return this.id; }).get().toString();
+        if (getallChk == "") {
+            getallChk = "0";
+            $("#Buy").attr("disabled", "disabled");
+        }
+        else
+            $("#Buy").removeAttr("disabled");
+        var JsonArray = [];
+        var JsonStringOld = $("#PayDetail").val();
+        var EnteredAmount = $("#Amount_" + CurrentCatgId).val();
+        //Logic
+        if ($.isNumeric($("#Amount_" + CurrentCatgId).val())) {
+            {
+                if (JsonStringOld != "")
+                    JsonArray = jQuery.parseJSON(JsonStringOld);
+                if (!CurrentEvent.is(":checked")) {
+                    getallChk = getallChk.replace(',' + CurrentCatgId, '').replace(CurrentCatgId, '');
+                    JsonArray = $.grep(JsonArray, function (item, index) { return item.CatgId != CurrentCatgId });
+                    console.log(JsonArray);
+                }
+                var AmountU = 0;
+                var CreditU = 0;
+                $.grep(JsonArray, function (item, index) { if (item.Amount != "" && item.User != null) { AmountU += parseInt(item.Amount); } if (item.credit != "" && item.User != null) { CreditU += parseInt(item.credit); } });
+                var JsonData = { CatgId: CurrentCatgId, Amount: null, shopid: ShopId, User: null, ListofCatgId: getallChk, TotalAmount: 0, credit: 0, TotalCredit: 0, AmountUser: AmountU, CatPayment: null, CreditUser: CreditU };
+                if (!$("#Amount_" + CurrentCatgId).is(":disabled"))
+                    JsonData.Amount = EnteredAmount;
+                $.ajax({
+                    url: "/Shop/CheckPayment",
+                    type: 'POST',
+                    dataType: "json",
+                    data: { debit: JsonData },
+                    async: true,
+                    success: function (Result) {
+                        JsonData = Result;
+                        $("#TotalPrice span").html(JsonData.TotalAmount);
+                        $("#TotalCredit span").html(JsonData.TotalCredit);
+                        if (CurrentEvent.is(":checked"))
+                            CurrentEvent.parent("td").next("td").html(JsonData.Amount).next("td").html(JsonData.credit);
+                        else
+                            CurrentEvent.parent("td").next("td").html("").next("td").html("");
+                        if (JsonData.User == "1")
+                            JsonArray.push(JsonData);
+                        $("#PayDetail").val(JSON.stringify(JsonArray));
+                    },
+                    cache: false,
+                });
+            }
+        }
+        else {
+            $("#Amount_" + CurrentCatgId).css("border-color", "#ff0000").delay(2000).queue(function () { $("#Amount_" + CurrentCatgId).removeAttr("style").clearQueue() });
+            $("#" + CurrentCatgId).prop("checked", false);
+        }
+    });
+    //$("#Payment_popup").modal("show");
+</script>

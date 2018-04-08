@@ -1,0 +1,28 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Employee_Layout.cshtml";
+}
+<ol class="spa-breadcrumbs breadcrumb">
+    @*<li><a href="#" class="active">Home</a></li>
+        <li><a href="#">Reservation</a></li>*@
+</ol>
+
+<div class="form-content">
+    @Html.Partial("Freecustomer_Layout")
+    <div class="Freecustomer_thanks">
+        <div class="thanks-message text-center">
+            <hr />
+            <h1 class="title36 margin-bottom30 margin-top20">Thank You,</h1>
+            <h2 class="title36 margin-bottom30">Your customer has been added successfully</h2>
+            <div class="text-center padding-top10">
+                <a href="/FreeCustomer/FreeCustomerList" class="btn btn-green">Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#InfoPage').addClass('present active');
+    $('#EmployeePage').addClass('present active');
+    $('#ThankPage').addClass('present');
+</script>
+

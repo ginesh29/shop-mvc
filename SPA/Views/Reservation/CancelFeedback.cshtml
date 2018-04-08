@@ -1,0 +1,42 @@
+﻿@{
+    Layout = null;
+    List<Language_Label_Detail> Language = new List<Language_Label_Detail>();
+    Language = ViewBag.Language;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CancelFeedback</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</head>
+<body id="BodyTab">
+    <div> 
+        <div class="welcome-modal">
+            <div id="Cancel" class="modal fade"  role="dialog" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title"></h4>
+                        </div>
+                        <div class="modal-body margin-bottom30" id="WelcomeAlert">
+                            <h1 class="text-center margin-bottom30"><span>CLICK-AND-GO!</span></h1>
+                            <p class="title15 text-center margin-bottom30">@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault() @*Your booking is still safe!*@</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+    @if(ViewBag.CancelFeedback == "Yes")
+    {
+        <script>
+            $('#Cancel').modal("show");
+        </script>
+    }
+</body>
+</html>

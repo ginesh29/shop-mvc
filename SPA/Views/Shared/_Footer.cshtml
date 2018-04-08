@@ -1,0 +1,84 @@
+﻿@using SPA.Models
+@{
+    SPA.Models.ShopMasterDetail LendingInfo = ViewBag.lendingDetails;
+    List<SPA.Models.LendingWeekScheduleDetails> WeekDetails = new List<SPA.Models.LendingWeekScheduleDetails>();
+    WeekDetails = ViewBag.WeekDetails;
+    List<SPA.Models.LanguageLabelDetails> LanguageDetail = ViewBag.Language;
+    var Language = LanguageDetail.Where(c => c.Page_Name == "Lending_Page").ToList();
+    var DayLangList = LanguageDetail.Where(c => c.Page_Name == "Create_Employee").ToList();
+    var Closed = Language.Where(c => c.Order_id == 41).FirstOrDefault();
+    var StatusClosed = Closed.Value;
+    var EnLabelStatusClosed = Closed.English_Label;
+
+
+}
+<footer>
+    <div class="Footer-Box" id="FooterBox">
+        <div class="col-lg-7 col-md-7 col-sm-6">
+            <h4 class="footer-heading margin-bottom10">@*GET IN TOUCH*@ @Language.Where(c => c.Order_id == 32).Select(c => c.Value).FirstOrDefault()</h4>
+            <div class="footer-Getin">
+                @Html.Action("Contact", "Footer");
+            </div>
+        </div>
+        <div class="col-lg-7 col-md-7 col-sm-6">
+            <h4 class="footer-heading margin-bottom10">@*CONTACT US*@ @Language.Where(c => c.Order_id == 33).Select(c => c.Value).FirstOrDefault()</h4>
+            <div class="footer-Contact">
+                <div class="footer-address">
+                    <span class="footer-icon"><i class="fa fa-home" aria-hidden="true"></i></span>
+                    <ul>
+                        @*<li>Platform Doctor and Spa Directory Kappelergasse 1</li>
+                            <li>563010</li>
+                            <li>U.S.A</li>*@
+                        <li id="FooterAddress">@(!string.IsNullOrEmpty(LendingInfo.Address) ? LendingInfo.Address : LendingInfo.Shop_Address)</li>
+                        <li><span id="FooterZipCode">@(!string.IsNullOrEmpty(LendingInfo.ZipCode) ? LendingInfo.ZipCode : LendingInfo.Shop_ZipCode)</span>&nbsp;<span id="FooterShopCity">@(!string.IsNullOrEmpty(LendingInfo.ShopCity) ? LendingInfo.ShopCity : LendingInfo.Shop_ShopCity)</span></li>
+                        <li>@LendingInfo.country</li>
+                    </ul>
+                </div>
+                <div class="footer-address margin-top15">
+                    <span class="footer-icon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                    <ul>
+                        <li id="FooterEmailId">@*info@spa.com*@ @(!string.IsNullOrEmpty(LendingInfo.Email_id) ? LendingInfo.Email_id : LendingInfo.Shop_Email_id) @*ShopDetails.CCTSP_User.Select(c=>c.EmailId).FirstOrDefault()*@</li>
+                    </ul>
+                </div>
+                <div class="footer-address margin-top15">
+                    <span class="footer-icon"><i class="fa fa-phone" aria-hidden="true"></i></span>
+                    <ul>
+                        <li id="FooterPhoneNo">@*+4412141564*@ @*@ShopDetails.CCTSP_User.Select(c => c.PhoneNo).FirstOrDefault()*@ @(!string.IsNullOrEmpty(LendingInfo.PhoneNo) ? LendingInfo.PhoneNo : LendingInfo.Shop_PhoneNo)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-10 col-md-10 col-sm-10">
+            <h4 class="footer-heading margin-bottom10">@*SCHEDULE*@ @Language.Where(c => c.Order_id == 34).Select(c => c.Value).FirstOrDefault()</h4>
+            <div class="footer-schedule table-responsive">
+                <table class="table">
+                    <tbody id="MainWeekSchedule">
+                        @foreach (var item in WeekDetails)
+                        {
+                            <tr>
+                                <td><i class="fa fa-clock-o footer-icon" aria-hidden="true"></i><span>@item.Day</span></td>
+                                <td>@(item.Catgdesc != null && item.Catgdesc != EnLabelStatusClosed ? item.Catgdesc : StatusClosed)</td>
+                                <td>@(item.Gender != null && item.Gender != EnLabelStatusClosed ? item.Gender : StatusClosed)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                @*<ul id="MainWeekSchedule">
+                        @foreach (var item in Model.OrderBy(c=>c.CatgTypeid).ToList())
+                        {
+                            <li> @item.Day   @(item.CatgDesc!=null?item.CatgDesc:"Closed")</li>
+                        }
+                    </ul>*@
+                @*<ul>
+                            <li id="DaySchedule"> @(LendingInfo.FromDay != null? LendingInfo.FromDay+"-":"Monday-")@(LendingInfo.ToDay != null ? LendingInfo.ToDay:"Sunday")</li>
+                            <li id="TimeSchedule"> @(LendingInfo.ShopStartTime != null?LendingInfo.ShopStartTime+"AM to":"09:00 AM to ") @(LendingInfo.ShopEndTime!= null ?LendingInfo.ShopEndTime+"PM":"09:00 PM")</li>
+                    </ul>*@
+            </div>
+        </div>
+        <div class="clearfix"></div>
+
+    </div>
+    <div class="footer-line text-center row">
+        @*2016 All Rights Reserved # CLICK-AND-GO*@ @Language.Where(c => c.Order_id == 35).Select(c => c.Value).FirstOrDefault()
+    </div>
+</footer>

@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "ThanksMessage";
+    List<Language_Label_Detail> LanguageList = new List<Language_Label_Detail>();
+    int LanguageId = ViewBag.LanguageId;
+    LanguageList = ViewBag.Language;
+    var Language = LanguageList.Where(c => c.Page_Name == "Booking_Done").ToList();
+    List<Language_Label_Detail> LanguageAlertBox = ViewBag.LanguageAlertBox;
+    ViewBag.Title = LanguageList.Where(c => c.Page_Name == "Title" && c.Order_id == 6).Select(c => c.Value).FirstOrDefault();
+}
+@if (LanguageId != 1)
+{
+    <script>
+        $(".header-top").hide();
+    </script>
+}
+<ol class="spa-breadcrumbs breadcrumb">
+    @*<li><a href="#" class="active">Home</a></li>
+    <li><a href="#">Choose your product</a></li>*@
+</ol>
+<div class="form-content">
+    @Html.Partial("_ProcessHead")
+    <div class="thanks-message text-center">
+        <h1 class="title36 margin-bottom30">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()@*THANK YOU, YOUR BOOKING WAS SUCCESFUL!*@</h1>
+        <h2 class="title-green16 margin-bottom30">@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()@*YOU WILL RECEIVE IN SHORT A CONFIRMATION PER EMAIL.*@</h2>
+        <hr />
+        @*<p class="title-italic text-center margin-bottom30 padding-top10">@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()</p>
+        <span>
+            <img src="~/images/thanks.png" alt="" />
+        </span>*@
+        <p class="title15 text-center margin-bottom30">@LanguageAlertBox.Where(c => c.Order_id == 26).Select(c => c.Value).FirstOrDefault()@*Do you want to order another service?*@</p>
+        @*<p class="title-green14 text-center margin-bottom30 margin-top20">@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</p>*@
+        <div class="text-center padding-top10">
+            @*<a class="btn btn-green" data-toggle="modal" data-target="#ConfirmationMsg">@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()</a>*@
+            <a href="/Home/ChooseYourProduct" class="btn btn-green">@LanguageAlertBox.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault()</a>
+            <a href="/Home/LogutAfterAllBooking" class="btn btn-black">@LanguageAlertBox.Where(c => c.Order_id == 28).Select(c => c.Value).FirstOrDefault()</a>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+@*<div class="alert-modal">
+    <div id="ConfirmationMsg" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg_green">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title text-center title-green14">SmartShop</h4>
+                </div>
+                <div class="modal-body ">
+                    <p class="title15 text-center margin-bottom30">@LanguageAlertBox.Where(c => c.Order_id == 26).Select(c=>c.Value).FirstOrDefault()</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="/Home/ChooseYourProduct" class="btn btn-black">@LanguageAlertBox.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault()</a>
+                    <a href="/Home/LogutAfterAllBooking" class="btn btn-green">@LanguageAlertBox.Where(c => c.Order_id == 28).Select(c => c.Value).FirstOrDefault()</a>
+                    
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>*@
+<script>
+    $('#a1').addClass('present active');
+    $('#a2').addClass('present active');
+    $('#a3').addClass('present active');
+    $('#a4').addClass('present active');
+</script>

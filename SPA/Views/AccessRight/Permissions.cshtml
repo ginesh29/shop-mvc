@@ -1,0 +1,93 @@
+﻿
+@{
+    Layout = null;
+    List<SPA.Models.MainCategoryDetails> RoleList = new List<SPA.Models.MainCategoryDetails>();
+    RoleList = ViewBag.RoleDetails;
+    List<SPA.Models.UserRoleDetails> UserList = new List<SPA.Models.UserRoleDetails>();
+    UserList = ViewBag.User;
+    List<SPA.Models.LanguageLabelDetails> LanguageInfo = new List<SPA.Models.LanguageLabelDetails>();
+    LanguageInfo = ViewBag.Language;
+    var Language = LanguageInfo.Where(c => c.Page_Name == "Permission").ToList();
+}
+
+<div class="Permissions_page">
+    <div class="create-employee-form shop-owner-setup">
+        <div class="col-lg-16 col-lg-offset-4  col-md-22 col-md-offset-1 col-sm-24">
+            @if (UserList.Count > 0)
+            {
+                <form id="AssignPermission" action="/AccessRight/AddPermissions" method="post" enctype="multipart/form-data">
+                    <div class="row  form-group" style="border-bottom: 2px solid #ddd;">
+                        <div class="col-lg-7 col-md-8 col-sm-8 hidden-xs">
+                            <label class="form-label spa-label-bold label-middle">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault() @*Employee*@</label>
+                        </div>
+                        <div class="col-lg-17 col-md-16 col-sm-16 text-center hidden-xs">
+                            <label class="form-label spa-label-bold label-middle">@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault() @*Role*@</label>
+                        </div>
+                    </div>
+                    @foreach (var Item in UserList)
+                    {
+                        <div class="row  form-group">
+                            <div class="col-lg-7 col-md-8 col-sm-8">
+                                <label class="form-label spa-label label-middle">@Item.FirstName @Item.LastName</label>
+                                <input type="hidden" value="@Item.UserId" name="UserId" id="UserId_@Item.UserId" />
+                            </div>
+                            <div class="col-lg-17 col-md-16 col-sm-16">
+                                <div class="dropdown spa-dropdown">
+                                    <a class="dropdown-toggle spa-text-box form-control spa-dropdown-box Drop_Permission" data-toggle="dropdown">
+                                        @if (RoleList.Count > 0)
+                                        {
+                                            @RoleList.Where(c => c.MainCatgId == Item.RoleId).Select(c => c.MainCategory).FirstOrDefault().Replace("Employee", LanguageInfo.Where(c => c.Page_Name == "Role").Select(c => c.Value).FirstOrDefault())
+                                        }
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-height PermissionDrop">
+                                        @foreach (var Role in RoleList)
+                                        {
+                                            <li><a id="@Role.MainCatgId">@Role.MainCategory.Replace("Employee", LanguageInfo.Where(c=>c.Page_Name== "Role").Select(c=>c.Value).FirstOrDefault())</a></li>
+                                        }
+                                        @if (RoleList.Count > 0)
+                                        {
+                                            <input type="hidden" value="@RoleList.Where(c => c.MainCatgId == Item.RoleId).Select(c => c.MainCatgId).FirstOrDefault()" name="SelectedRoleId" id="SelectedRoleId_@Item.UserId" />
+                                        }
+                                        else
+                                        {
+                                            <input type="hidden" value="" name="SelectedRoleId" id="SelectedRoleId_@Item.UserId" />
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="clearfix"></div>
+                    <div class="form-group text-right margin-top20">
+                        <input type="submit" class="btn btn-green" value="@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()" />
+                    </div>
+                </form>
+            }
+            else
+            {
+                <div class="Nodata text-center">
+                    <img src="~/images/defaultuser.png" />
+                    <div>@*No Employee Available*@ @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()</div>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+<script>
+    $("body").delegate(".PermissionDrop li a", "click", function () {
+        var GetDefaultDetail = $(this);
+        var ChangingUL = GetDefaultDetail.closest("ul");
+        var IdforHidden = "";
+        var GetId = "";
+        var GetHtml = "";
+        ResultVal = $(this).text();
+        var Textobj = "";
+        Textobj = $(this).closest("ul").parent().find(".Drop_Permission");
+        console.log(Textobj);
+        Textobj.html(ResultVal + '<span class="caret"></span>');;
+        GetId = GetDefaultDetail.prop("id");
+        $($(this).closest("ul").find("input[type='hidden']")).val(GetId);
+    });
+</script>

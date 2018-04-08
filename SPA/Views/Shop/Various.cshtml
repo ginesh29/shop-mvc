@@ -1,0 +1,344 @@
+﻿@{
+    Layout = null;
+    List<int> alert = ViewBag.Alert;
+    SPA.Models.variousShopDetails Shopdata = ViewBag.ShopData;
+    List<Language_Label_Detail> Language = ViewBag.Language;
+    SPA.Models.ShopInfoJson ReNotification = ViewBag.ReNotification;
+    List<int> HourList = ViewBag.Alert;
+}
+
+<div class="create-employee-form shop-owner-setup">
+    <form id="VariousForm" action="/Shop/VariousAdd" method="post" enctype="multipart/form-data">
+        <div class="col-lg-18 col-lg-offset-4  col-md-22 col-md-offset-1 col-sm-24">
+            @Html.AntiForgeryToken()
+            <div class="alert alert-danger" style="display: none"></div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @*<div class="row  form-group">
+                    <div class="col-lg-7 col-md-8 col-sm-8">
+                        <label class="form-label spa-label-bold">@Language.Where(c=>c.Order_id==1).Select(c=>c.Value).FirstOrDefault()</label>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 spa-radio">
+                        <input id="LangEnglish" type="radio" name="Language" value="LangEnglish" checked="checked">
+                        <label for="LangEnglish" class="form-label spa-label1 margin-top8">English</label>
+                    </div>
+                    @if (Shopdata.Schcountry != "INDIA")
+                    {
+                        <div class="col-lg-5 col-md-5 col-sm-5 spa-radio">
+                            <input id="LangGerman" type="radio" name="Language" value="LangGerman">
+                            <label for="LangGerman" class="form-label spa-label1 margin-top8">German</label>
+                        </div>
+                        <div class="col-lg-6 col-md-5 col-sm-6 spa-radio">
+                            <input id="LangFrench" type="radio" name="Language" value="LangFrench">
+                            <label for="LangFrench" class="form-label spa-label1 margin-top8">French</label>
+                        </div>
+                    }
+                </div>*@
+            @if (Shopdata.send_sms == "1")
+            {
+                <div class="row  form-group">
+                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-2 col-sm-10">
+                        @*@Html.Label("REMINDER ALERT", htmlAttributes: new { @class = "form-label spa-label-bold" })*@
+                        <label class="form-label spa-label-bold">@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()@*REMINDER ALERT*@</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12">
+                        <div class="input-group">
+                            <div class="dropdown spa-dropdown SPA-VacationDrop">
+                                <a class="dropdown-toggle spa-text-box form-control spa-dropdown-box reminderalertdrop" id="ReminderAlertTitle" data-toggle="dropdown">
+                                    Hour
+                                    <span class="caret"></span>
+                                </a>
+                               
+                                <ul class="dropdown-menu reminderalertlist dropdown-menu-height">
+                                    @foreach (var Numbers in ViewBag.Alert)
+                                    {
+                                        <li><a>@Numbers</a></li>
+                                    }
+                                </ul>
+                                <span class="error" id="ReminderError"></span>
+                            </div>
+                            <span class="input-group-addon">@*Hours*@ @Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault() </span>
+                        </div>
+                        <input type="hidden" name="reminderInput" id="reminderInput" value="@Shopdata.AlertRemainder" />
+                    </div>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" name="reminderInput" id="reminderInput" value="@Shopdata.AlertRemainder" />
+            }
+            @*<div class="row  form-group">
+                    <div class="col-lg-7 col-md-8 col-sm-8">
+                        <label class="form-label spa-label-bold">@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</label>
+                    </div>
+                    <div class="col-lg-17 col-md-16 col-sm-16">
+                            <input type="text" value="@Shopdata.Currency" id="CurrencyTxt" name="CurrencyTxt" class="form-control spa-text-box" disabled="disabled" />
+                    </div>
+                </div>*@
+            <div class="row  form-group">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-2 col-sm-10">
+                    <label class="form-label spa-label-bold">@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()@*BOOKING APPROVAL*@</label>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-12">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8 spa-radio">
+                            <input id="ApprovalYes" type="radio" name="BookingApproval" value="YES" checked="checked">
+                            <label for="ApprovalYes" class="form-label spa-label1 margin-top8">@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()@*Yes*@</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8 spa-radio">
+                            <input id="ApprovalNo" type="radio" name="BookingApproval" value="NO">
+                            <label for="ApprovalNo" class="form-label spa-label1 margin-top8">@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()@*No*@</label>
+                        </div>
+                        <span class="error" id="BookingError"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row  form-group">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-2 col-sm-10">
+                    <label class="form-label spa-label-bold">@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()@*SHOW PRICE TO CUSTOMERS*@</label>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-12">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8 spa-radio">
+                            <input id="PriceYes" type="radio" name="CusomerPrice" value="YES" checked="checked">
+                            <label for="PriceYes" class="form-label spa-label1 margin-top8">@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()@*Yes*@</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8 spa-radio">
+                            <input id="PriceNo" type="radio" name="CusomerPrice" value="NO">
+                            <label for="PriceNo" class="form-label spa-label1 margin-top8">@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()@*No*@</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row  form-group">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-2 col-sm-10">
+                    <label class="form-label spa-label-bold">@Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()@*SHOW PRICE TO CUSTOMERS*@</label>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-12">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8 spa-radio">
+                            <input id="NotificationOfReservationYes" type="radio" name="NotificationOfReservation" value="YES">
+                            <label for="NotificationOfReservationYes" class="form-label spa-label1 margin-top8">@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()@*Yes*@</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8 spa-radio">
+                            <input id="NotificationOfReservationNo" type="radio" name="NotificationOfReservation" value="NO" checked="checked">
+                            <label for="NotificationOfReservationNo" class="form-label spa-label1 margin-top8">@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()@*No*@</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row  form-group">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-2 col-sm-10">
+                    <label class="form-label spa-label-bold">@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()@*ADVANCE BOOKING RESTRICTION*@</label>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-12">
+                    <div class="input-group">
+                        <div class="dropdown spa-dropdown SPA-VacationDrop">
+                            <a class="dropdown-toggle spa-text-box form-control spa-dropdown-box restrictiondrop dropmenuEllips" id="TitleRestriction" data-toggle="dropdown">
+                                Month
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu restrictionlist dropdown-menu-height">
+                                @foreach (var Numbers in alert.Take(12))
+                                {
+                                    <li><a class="dropmenuEllips">@Numbers</a></li>
+                                }
+
+                            </ul>
+                            <span class="error" id="AdvanceError"></span>
+                        </div>
+                        <span class="input-group-addon">@*Months*@ @Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()</span>
+                    </div>
+                    <input type="hidden" name="AdvanceBooking" id="AdvanceBooking" value="@Shopdata.AdvBookingRestrict" />
+                    <input type="hidden" name="ColorSelection" id="ColorSelection" value="@Shopdata.Color_Id" />
+                </div>
+            </div>
+            @*Prevent cancellation of Reservation*@
+            <div class="row  form-group">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-2 col-sm-10">
+                    @*@Html.Label("REMINDER ALERT", htmlAttributes: new { @class = "form-label spa-label-bold" })*@
+                    <label class="form-label spa-label-bold">@Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault() </label>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-12">
+                    <div class="input-group">
+                        <div class="dropdown spa-dropdown SPA-VacationDrop">
+                            <a class="dropdown-toggle spa-text-box form-control spa-dropdown-box CancelReservationdrop" id="CancelReservation_Hours" data-toggle="dropdown">
+                                @HourList.LastOrDefault()
+                                <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu CancelReservationlist dropdown-menu-height">
+                                @foreach (var Numbers in ViewBag.Alert)
+                                {
+                                    <li><a>@Numbers</a></li>
+                                }
+                            </ul>
+                            <span class="error" id="CancelReservationError"></span>
+                        </div>
+                        <span class="input-group-addon">@*Hours*@ @Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault() </span>
+                    </div>
+                    <input type="hidden" name="CancelReservationInput" id="CancelReservationInput" value="@(Shopdata.Cancel_Res_Duration!= null?Shopdata.Cancel_Res_Duration:24)" />
+                </div>
+            </div>
+            @*<div class="row  form-group  @(Shopdata.Display_Invoice==2?"":"display-none")">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-2 col-sm-10">
+                    @*Invoice Free Text
+                    <label class="form-label spa-label-bold"> @Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault() </label>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-12">
+                    <textarea  class="form-control spa-text-box  text-box single-line"  id="Invoice_FreeText" name="Invoice_FreeText" maxlength="400" rows="3">@Shopdata.Invoice_FreeText</textarea>
+                </div>
+            </div>*@
+            <div class="row  form-group display-none">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-2 col-sm-10">
+                    <label class="form-label spa-label-bold">Time Slot</label>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-12">
+                        <div class="dropdown spa-dropdown">
+                            <a class="dropdown-toggle spa-text-box form-control spa-dropdown-box dropmenuEllips" data-toggle="dropdown">
+                                Select Time
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-height">
+                                <li><a>10:00</a></li>
+                                <li><a>10:00</a></li>
+                                <li><a>10:00</a></li>
+                                <li><a>10:00</a></li>
+                                <li><a>10:00</a></li>
+                                <li><a>10:00</a></li>
+                            </ul>
+                        </div>
+                </div>
+            </div>
+            @*color page start*@
+            @*<div class="row  form-group">
+                    <div class="col-lg-7 col-md-8 col-sm-8">
+                        <label class="form-label spa-label-bold">@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()COLOR SELECTION</label>
+                    </div>
+                    <div class="col-lg-17 col-md-16 col-sm-16">
+                            <ul class="color-selection">
+                                @foreach (var item in ColorData)
+                                {
+                                    <li><a class="@item.Color_Class" id="@item.Color_Id"></a></li>
+                                }
+                            </ul>
+                    </div>
+
+                </div>*@
+
+
+            <div class="clearfix"></div>
+            <div class="text-right margin-top20 col-lg-16 col-lg-offset-2 col-md-18 col-md-offset-2 col-sm-24">
+                <input type="button" class="btn btn-green" id="btnLogin" onclick="AddVarious();" value="@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()" />
+                @*<input type="reset" class="btn btn-black" id="btnCreateCancelShop" value="Cancel" />*@
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    //$('.dropdown-toggle').dropdown();
+    $(".restrictionlist li a").click(function () {
+        var Restriction = $.trim($(this).html());
+        $(".restrictiondrop").html(Restriction + "<span class=\"caret\"></span>");
+        $("#AdvanceBooking").val(Restriction)
+        if ($.trim($("#AdvanceError").html()) != "") { $("#AdvanceError").html(""); }
+    });
+    $(".reminderalertlist li a").click(function () {
+        var Reminder = $.trim($(this).html());
+        $("#ReminderAlertTitle").html(Reminder + "<span class=\"caret\"></span>");
+        $("#reminderInput").val(Reminder);
+        if ($("#NumberError").html() != "") { $("#NumberError").html(""); }
+    });
+    $(".CancelReservationlist li a").click(function () {
+        var CancelReservation = $.trim($(this).html());
+        $("#CancelReservation_Hours").html(CancelReservation + "<span class=\"caret\"></span>");
+        $("#CancelReservationInput").val(CancelReservation);
+        if ($("#CancelReservationError").html() != "") { $("#CancelReservationError").html(""); }
+    });
+</script>
+@if (Shopdata != null)
+{
+    if (Shopdata.Lang_id == 1 || Shopdata.Lang_id == null)
+    {
+        <script>
+            $("#LangEnglish").attr('Checked', true);
+        </script>
+    }
+    else if (Shopdata.Lang_id == 2)
+    {
+        <script>
+            $("#LangGerman").attr('Checked', true);
+        </script>
+    }
+    else
+    {
+        <script>
+            $("#LangFrench").attr('Checked', true);
+        </script>
+    }
+    if (Shopdata.AdvBookingRestrict != null)
+    {
+        <script>
+            $("#TitleRestriction").html('@Shopdata.AdvBookingRestrict.ToString()<span class="caret"></span>');
+            $("#AdvanceBooking").val("@Shopdata.AdvBookingRestrict.ToString()");
+        </script>
+    }
+    if (Shopdata.BookingApproval != null)
+    {
+        if (Shopdata.BookingApproval == "YES")
+        {
+            <script>
+                $("#ApprovalYes").attr('Checked', true);
+            </script>
+        }
+        if (Shopdata.BookingApproval == "NO")
+        {
+            <script>
+                $("#ApprovalNo").attr('Checked', true);
+            </script>
+        }
+
+    }
+
+    if (Shopdata.AlertRemainder != null)
+    {
+        <script>
+            $("#ReminderAlertTitle").html('@Shopdata.AlertRemainder<span class="caret"></span>');
+            $("#reminderInput").val("@Shopdata.AlertRemainder");
+        </script>
+    }
+    if (Shopdata.Cancel_Res_Duration != null)
+    {
+        <script>
+            $("#CancelReservation_Hours").html('@Shopdata.Cancel_Res_Duration<span class="caret"></span>');
+            $("#CancelReservationInput").val("@Shopdata.Cancel_Res_Duration");
+        </script>
+    }
+    if (Shopdata.ShowPrice != null)
+    {
+        <script>
+            $("#PriceYes").attr('Checked', true);
+        </script>
+    }
+    else
+    {
+        <script>
+            $("#PriceNo").attr('Checked', true);
+        </script>
+    }
+}
+@if (ReNotification.ReNotification != null)
+{
+    if (ReNotification.ReNotification == "YES")
+    {
+        <script>
+            $("#NotificationOfReservationYes").attr('Checked', true);
+        </script>
+    }
+    else
+    {
+        <script>
+            $("#NotificationOfReservationNo").attr('Checked', true);
+        </script>
+    }
+}

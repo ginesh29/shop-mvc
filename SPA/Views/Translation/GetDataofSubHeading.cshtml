@@ -1,0 +1,414 @@
+﻿
+@{
+    Layout = null;
+    List<Language_NewShop> ShopNew = new List<Language_NewShop>();
+    ShopNew = ViewBag.TranslationData;
+    var PageNameShop = ShopNew.Select(c => c.Page_Name).FirstOrDefault();
+    int CountSub = 0;
+}
+
+<div id="DataDivEdit" style="display:none;">
+</div>
+<div id="DataEditImage" class="margintop20" style="display:none;">
+    <form id="DataImageForm" action="/Translation/AddImage" method="post">
+        Image<img src="" id="ImageEng" width="70%" height="30%" /><br />
+        <input type="hidden" name="IdImage" id="IdImage" />
+        <input type="file" name="ImageUrlFile" id="ImageUrlFile" />
+        <input type="button" name="SubmitDataImage" value="Submit Text" onclick="FormSubmitImage();" id="SubmitDataText" />
+        <input type="reset" id="ResetDataImage" value="cancel" />
+    </form>
+</div>
+<div id="AddImageDIV" style="display:none;">
+    <form id="AddImageSubForm" action="/Translation/Addingimage" method="post">
+        <input type="file" name="ImageFileSubAdd" id="ImageFileSubAdd" />
+        <input type="hidden" name="PageDataImg" id="PageDataImg" />
+        <input type="hidden" name="SubHeadingImg" id="SubHeadingImg" />
+        <input type="button" name="SubmitDataImage" value="Add Change" onclick="AddImageData();" id="SubmitDataText" />
+        <input type="reset" id="ResetSubImage" value="cancel" />
+    </form>
+</div>
+<div id="AddTextDIV" style="display:none;">
+    <form id="AddTextSubForm" action="/Translation/AddingText" method="post">
+        <div class="col-lg-7 col-md-7 col-sm-7 margintop20">
+            <label class="label-shop">English Text :</label>
+        </div>
+        <div class="col-lg-17 col-md-17 col-sm-17 margintop20">
+            <textarea class="area-shop form-control" id="EngAddTxt" name="EngAddTxt" />
+        </div>
+        <div class="col-lg-7 col-md-7 col-sm-7 margintop20">
+            <label class="label-shop">GermanText :</label>
+        </div>
+        <div class="col-lg-17 col-md-17 col-sm-17 margintop20">
+            <textarea class="area-shop form-control" id="deAddTxt" name="deAddTxt" />
+        </div>
+
+        <div class="col-lg-7 col-md-7 col-sm-7 margintop20">
+            <label class="label-shop">FrenchText :</label>
+        </div>
+        <div class="col-lg-17 col-md-17 col-sm-17 margintop20">
+            <textarea class="area-shop form-control" id="frAddTxt" name="frAddTxt" />
+        </div>
+        <div class="col-lg-7 col-md-7 col-sm-7 margintop20">
+            <label class="label-shop">ItalianText :</label>
+        </div>
+        <div class="col-lg-17 col-md-17 col-sm-17 margintop20">
+            <textarea class="area-shop form-control" id="itAddTxt" name="itAddTxt" />
+        </div>
+        <input type="hidden" name="PageData" id="PageData" />
+        <input type="hidden" name="SubHeadingData" id="SubHeadingData" />
+        <input type="button" name="SubmitAddText" value="Submit Text" onclick="AddTextData();" id="SubmitAddText" />
+        <input type="reset" id="ResetSubText" value="cancel" />
+    </form>
+</div>
+<div id="AddQuestionAnswersdiv" style="display:none;">
+    <form id="AddTextQuestionAnswerForm" action="/Translation/AddingQuestionAnswerText" method="post">
+        <div class="col-lg-7 col-md-7 col-sm-7 margintop20">
+            <label class="label-shop">English Text Question:</label>
+        </div>
+        <div class="col-lg-17 col-md-17 col-sm-17 margintop20">
+            <textarea class="area-shop form-control" id="EngAddQTxt" name="EngAddQTxt" />
+        </div>
+        <div class="col-lg-7 col-md-7 col-sm-7 margintop20">
+            <label class="label-shop">English Text Answer:</label>
+        </div>
+        <div class="col-lg-17 col-md-17 col-sm-17 margintop20">
+            <textarea class="area-shop form-control" id="EngAddAnsTxt" name="EngAddAnsTxt" />
+        </div>
+        <div class="col-lg-7 col-md-7 col-sm-7 margintop20">
+            <label class="label-shop">German Text Question :</label>
+        </div>
+        <div class="col-lg-17 col-md-17 col-sm-17 margintop20">
+            <textarea class="area-shop form-control" id="deAddQTxt" name="deAddQTxt" />
+        </div>
+        <div class="col-lg-7 col-md-7 col-sm-7 margintop20">
+            <label class="label-shop">German Text Answer :</label>
+        </div>
+        <div class="col-lg-17 col-md-17 col-sm-17 margintop20">
+            <textarea class="area-shop form-control" id="deAddAnsTxt" name="deAddAnsTxt" />
+        </div>
+        <div class="col-lg-7 col-md-7 col-sm-7 margintop20">
+            <label class="label-shop">French Text Question :</label>
+        </div>
+        <div class="col-lg-17 col-md-17 col-sm-17 margintop20">
+            <textarea class="area-shop form-control" id="frAddQTxt" name="frAddQTxt" />
+        </div>
+        <div class="col-lg-7 col-md-7 col-sm-7 margintop20">
+            <label class="label-shop">French Text Answer :</label>
+        </div>
+        <div class="col-lg-17 col-md-17 col-sm-17 margintop20">
+            <textarea class="area-shop form-control" id="frAddAnsTxt" name="frAddAnsTxt" />
+        </div>
+        <div class="col-lg-7 col-md-7 col-sm-7 margintop20">
+            <label class="label-shop">Italian Text Question :</label>
+        </div>
+        <div class="col-lg-17 col-md-17 col-sm-17 margintop20">
+            <textarea class="area-shop form-control" id="itAddQTxt" name="itAddQTxt" />
+        </div>
+        <div class="col-lg-7 col-md-7 col-sm-7 margintop20">
+            <label class="label-shop">Italian Text Answer :</label>
+        </div>
+        <div class="col-lg-17 col-md-17 col-sm-17 margintop20">
+            <textarea class="area-shop form-control" id="itAddAnsTxt" name="itAddAnsTxt" />
+        </div>
+        <input type="hidden" name="PageDataQuestionAnswer" id="PageDataQuestionAnswer" />
+        <input type="hidden" name="SubHeadingDataQuestionAnswer" id="SubHeadingDataQuestionAnswer" />
+        <input type="button" name="SubmitAddText" value="Submit Text" onclick="AddQuestionAnswerTextData();" id="SubmitAddText" />
+        <input type="reset" id="ResetQuestionAnswerText" value="cancel" />
+    </form>
+</div>
+<div id="DataDiv" class="margintop20">
+    <table class="table-responsive" border="3">
+        <thead>
+            <tr>
+                <th id="ContentTitle">Title</th>
+                <th id="EngTitle">English</th>
+                <th id="deTitle">German</th>
+                <th id="frTitle">French</th>
+                <th id="itTitle">Italian</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ShopNew.Where(c => c.Lang_id == 1).OrderBy(c => c.Order_id))
+            {
+                if (item.Image_Url != "" && item.Image_Url != null)
+                {
+                    if (CountSub == 0 && item.col3 == "Dyn")
+                    {
+                        <tr>
+                            <button id="AddImageBTN">Add Image</button>
+                        </tr>
+                        CountSub = CountSub + 1;
+                    }
+
+                    <tr>
+                        <td>
+                            <img src="@item.Image_Url" width="70%" height="30%" />
+                            <br />
+                        </td>
+                        <td>
+                            <button onclick="GetEditImage(@item.Lang_Newshop_Id)">EditText</button>
+                            <button onclick="DeleteData(@item.Order_id)">Delete Text</button>
+                        </td>
+                        <script>
+                            $("#deTitle").hide();
+                            $("#frTitle").hide();
+                            $("#itTitle").hide();
+                            $("#EngTitle").html("Image");
+                        </script>
+                    </tr>
+                }
+                else if (item.Catg_Sep == "Q" || item.Catg_Sep == "A")
+                {
+
+                    if (CountSub == 0 && item.col3 == "Dyn")
+                    {
+                        <tr>
+                            <button id="AddQuestionAnswers">Add Text</button>
+                        </tr>
+                        CountSub = CountSub + 1;
+                    }
+                    <tr>
+
+                        @if (item.Catg_Sep == "Q")
+                        {
+                            <td>
+                                @if (item.Catg_Sep != null)
+                                {
+                                    <text>@item.Catg_Sep</text>
+                                }
+                            </td>
+                                <td class="activeAClass">
+                                    @item.Value
+                                </td>
+                                <td class="activeAClass">
+                                    @ShopNew.Where(c => c.Lang_id == 2 && c.Order_id == item.Order_id && c.Catg_Sep == "Q").Select(c => c.Value).FirstOrDefault()
+                                </td>
+
+                                <td class="activeAClass">
+                                    @ShopNew.Where(c => c.Lang_id == 3 && c.Order_id == item.Order_id && c.Catg_Sep == "Q").Select(c => c.Value).FirstOrDefault()
+                                </td>
+                                <td class="activeAClass">
+                                    @ShopNew.Where(c => c.Lang_id == 4 && c.Order_id == item.Order_id && c.Catg_Sep == "Q").Select(c => c.Value).FirstOrDefault()
+                                </td>
+                                <td>
+                                    <button onclick="GetEditOption(@item.Lang_Newshop_Id)">EditText</button>
+                                    <button onclick="DeleteData(@item.Order_id)">Delete Text</button>
+                                </td>
+                        }
+                        else
+                        {
+
+                            <td>
+                                @if (item.Catg_Sep != null)
+                                {
+                                    <text>@item.Catg_Sep</text>
+                                }
+                            </td>
+                                <td>
+                                    @Html.Raw(item.Value)
+                                </td>
+                                <td>
+                                    @Html.Raw(ShopNew.Where(c => c.Lang_id == 2 && c.Order_id == item.Order_id).Select(c => c.Value).FirstOrDefault())
+                                </td>
+                                <td>
+                                    @Html.Raw(ShopNew.Where(c => c.Lang_id == 3 && c.Order_id == item.Order_id).Select(c => c.Value).FirstOrDefault())
+                                </td>
+                                <td>
+                                    @Html.Raw(ShopNew.Where(c => c.Lang_id == 4 && c.Order_id == item.Order_id).Select(c => c.Value).FirstOrDefault())
+                                </td>
+                                <td>
+                                    <button onclick="GetEditOption(@item.Lang_Newshop_Id)">EditText</button>
+                                    <button onclick="DeleteData(@item.Order_id)">Delete Text</button>
+                                </td>
+                        }
+                    </tr>
+                }
+                else
+                {
+                    if (CountSub == 0 && item.col3 == "Dyn")
+                    {
+                        <tr>
+                            <button id="AddTextBTN"> Add Text </button>
+                        </tr>
+                        CountSub = CountSub + 1;
+                    }
+                    <tr>
+                        <td>
+                            @if (item.Catg_Sep != null)
+                            {
+                                <text>@item.Catg_Sep</text>
+                            }
+                        </td>
+                        <td>
+                            @Html.Raw(item.Value)
+                        </td>
+                        <td>
+                            @Html.Raw(ShopNew.Where(c => c.Lang_id == 2 && c.Order_id == item.Order_id).Select(c => c.Value).FirstOrDefault())
+                        </td>
+                        <td>
+                            @Html.Raw(ShopNew.Where(c => c.Lang_id == 3 && c.Order_id == item.Order_id).Select(c => c.Value).FirstOrDefault())
+                        </td>
+                        <td>
+                            @Html.Raw(ShopNew.Where(c => c.Lang_id == 4 && c.Order_id == item.Order_id).Select(c => c.Value).FirstOrDefault())
+                        </td>
+                        <td>
+                            <button onclick="GetEditOption(@item.Lang_Newshop_Id)">EditText</button>
+                            <button onclick="DeleteData(@item.Order_id)">Delete Text</button>
+                        </td>
+                    </tr>
+                }
+
+            }
+        </tbody>
+
+    </table>
+</div>
+
+<script>
+    function GetEditOption(Id) {
+
+        $.ajax({
+            url: "/Translation/SubEdit?Id=" + Id,
+            cache: false,
+            //dataType: "json",
+            success: function (data) {
+                $("#DataDivEdit").html(data);
+                $("#DataDivEdit").slideDown();
+                // tinymce.get('EngTxt').setContent(data.EngText.replace("'", "\""));
+                // tinymce.get('deTxt').setContent(data.deText.replace("'", "\""));
+                // tinymce.get('frTxt').setContent(data.FrText.replace("'", "\""));
+                //$("#EngTxt").val(data.EngText.replace("'", "\""));
+                //$("#deTxt").val(data.deText.replace("'", "\""));
+                // $("#TransTitle").val(data.TitleAdd.replace("'", "\""));
+                //$("#frTxt").val(data.FrText.replace("'", "\""));
+                // $("#IdLang").val(data.Id);
+            },
+            error: function (request, status, error) { alert(status + ", " + error); }
+        });
+    }
+    function GetEditImage(Id) {
+        $.ajax({
+            url: "/Translation/EditImage?Id=" + Id,
+            cache: false,
+            dataType: "json",
+            success: function (data) {
+                $("#DataImageForm")[0].reset();
+                $("#DataEditImage").slideDown();
+                $("#ImageEng").prop('src', data.EngImg);
+                $("#ImageFr").prop('src', data.FrImg);
+                $("#Imagede").prop('src', data.deImg);
+                $("#IdImage").val(data.Id);
+            },
+            error: function (request, status, error) { alert(status + ", " + error); }
+        });
+    }
+    
+    $("#ResetSubImage").click(function () {
+        $("#AddImageDIV").slideToggle();
+    });
+    $("#ResetSubText").click(function () {
+        $("#AddTextDIV").slideToggle();
+    });
+    $("#ResetQuestionAnswerText").click(function () {
+        $("#AddQuestionAnswersdiv").slideToggle();
+    });
+    $("#ResetDataImage").click(function () {
+        $("#DataEditImage").slideToggle();
+    });
+    function FormSubmitData() {
+        var form = $("#DataDivForm");
+        var url = form.attr("action");
+        var formData = form.serialize();
+        $.post(url, formData, function (data) {
+            $("#DataDivEdit").slideToggle();
+            $("#DataDiv").slideToggle();
+            $("#SubHeadingUrl li a").removeClass("activeAClass");
+        });
+    }
+    function FormSubmitImage() {
+        var formData = new FormData($("#DataImageForm")[0]);
+        $.ajax({
+            url: $("#DataImageForm").attr("action"),
+            type: 'POST',
+            data: formData,
+            async: false,
+            success: function (data) {
+                $("#ImageEng").prop('src', data.EngImg);
+                $("#ImageFr").prop('src', data.FrImg);
+                $("#Imagede").prop('src', data.deImg);
+                $("#IdImage").val(data.Id);
+                $("#DataEditImage").slideDown();
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+        return false;
+    }
+    $("#AddImageBTN").click(function () {
+        $("#AddImageDIV").slideDown();
+        $("#PageDataImg").val("@ViewBag.TranslationPage");
+        $("#SubHeadingImg").val("@ViewBag.TranslationSub");
+    });
+    $("#AddTextBTN").click(function () {
+        $("#AddTextDIV").slideDown();
+
+        $("#PageData").val("@ViewBag.TranslationPage");
+        $("#SubHeadingData").val("@ViewBag.TranslationSub");
+    });
+    $("#AddQuestionAnswers").click(function () {
+        $("#AddQuestionAnswersdiv").slideDown();
+        $("#PageDataQuestionAnswer").val("@ViewBag.TranslationPage");
+        $("#SubHeadingDataQuestionAnswer").val("@ViewBag.TranslationSub");
+    });
+    function AddTextData() {
+        var form = $("#AddTextSubForm");
+        var url = form.attr("action");
+        var formData = form.serialize();
+        $.post(url, formData, function () {
+            $.post("/Translation/GetDataofSubHeading?SubHeading=@ViewBag.TranslationSub" + "&Page=@ViewBag.TranslationPage", function (AllData) {
+                $("#DataSubHead").html(AllData);
+            });
+        });
+    }
+    function AddQuestionAnswerTextData() {
+        var form = $("#AddTextQuestionAnswerForm");
+        var url = form.attr("action");
+        var formData = form.serialize();
+        $.post(url, formData, function () {
+            $.post("/Translation/GetDataofSubHeading?SubHeading=@ViewBag.TranslationSub" + "&Page=@ViewBag.TranslationPage", function (AllData) {
+                $("#DataSubHead").html(AllData);
+            });
+        });
+
+    }
+    function AddImageData() {
+        var formData = new FormData($("#AddImageSubForm")[0]);
+        $.ajax({
+            url: $("#AddImageSubForm").attr("action"),
+            type: 'POST',
+            data: formData,
+            async: false,
+            success: function () {
+                $.post("/Translation/GetDataofSubHeading?SubHeading=@ViewBag.TranslationSub" + "&Page=@ViewBag.TranslationPage", function (AllData) {
+                    $("#DataSubHead").html(AllData);
+                });
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+        return false;
+    }
+    function DeleteData(Id) {
+        $.post("/Translation/DeleteData?orderId=" + Id + "&PageName=@ViewBag.TranslationPage", function () {
+            $.post("/Translation/GetDataofSubHeading?SubHeading=@ViewBag.TranslationSub" + "&Page=@ViewBag.TranslationPage", function (AllData) {
+                $("#DataSubHead").html(AllData);
+            });
+        })
+    }
+
+
+</script>
+

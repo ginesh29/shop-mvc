@@ -1,0 +1,17 @@
+﻿
+@{
+    Layout = null;
+    var path = ViewBag.DataImage;
+}
+<script src="~/Scripts/zoom.js"></script>
+<script src="~/Scripts/jquery.zoom.min.js"></script>
+<span id="ImageZoom">
+    <img id="UserImageshop" src="@ViewBag.DataImage" alt="" class="margin-top10 zoom">
+</span>
+<script>
+    $(document).ready(function () {
+        $("#ImageZoom")
+          .parent()
+          .zoom();
+    });
+</script>

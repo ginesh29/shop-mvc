@@ -1,0 +1,73 @@
+﻿@using System.Configuration;
+@{
+    ViewBag.Title = "About";
+    Layout = "~/Views/Shared/_SmartwareplusLayout.cshtml";
+    List<Language_NewShop> Language = ViewBag.Language;
+    Language = Language.Where(c => c.Page_Name == "About_Page").ToList();
+}
+<div class="container">
+    <ul class="mt60">
+        <li>
+            <strong class="font-s20 color6">
+                <a name="AGB">@Html.Raw(Language.Where(c => c.Page_Name == "About_Page" && c.Order_id == 1).Select(c => c.Value).FirstOrDefault())</a>
+                @*AGB‘s*@
+            </strong>
+            <ol class="mt20 f-family2 font-s18">
+                <li>
+                    <p>
+                        @Html.Raw(Language.Where(c => c.Page_Name == "About_Page" && c.Order_id == 2).Select(c => c.Value).FirstOrDefault())
+                        @*Automatische Erinnerung per email und/oder SMS vor dem Termin. Sie bestimmen wie viele Stunden vor dem Termin
+                            der Kunde freundlich erinnert wird. Auch ob Sie per email und/oder SMS erinnern wollen ist Ihnen überlassen.*@
+                    </p>
+                </li>
+            </ol>
+        </li>
+
+    </ul>
+
+    <ul class="mt60">
+        <li>
+            <strong class="font-s20 color6">
+                <a name="Datenschutz">
+                    @Html.Raw(Language.Where(c => c.Page_Name == "About_Page" && c.Order_id == 3).Select(c => c.Value).FirstOrDefault()) </ a >
+                @*Datenschutz*@
+        </strong>
+
+        <ol class="mt20 f-family2 font-s18">
+            <li>
+                <p>
+                    @Html.Raw(Language.Where(c => c.Page_Name == "About_Page" && c.Order_id == 4).Select(c => c.Value).FirstOrDefault())
+                    @*Ihre Daten werden ausschliesslich in der Schweiz gespeichert. Dank SSL Verschlüsslung (Bankenstandard) sind Ihre
+                        Daten bei uns sicher.*@
+
+                </p>
+            </li>
+        </ol>
+    </li>
+</ul>
+</div>
+@if (ViewBag.LangId == 1)
+{
+    <script>
+        $("#LangChange #English a").addClass("activeShop");
+    </script>
+}
+@if (ViewBag.LangId == 2)
+{
+    <script>
+        $("#LangChange #German a").addClass("activeShop");
+    </script>
+}
+@if (ViewBag.LangId == 3)
+{
+    <script>
+        $("#LangChange #French a").addClass("activeShop");
+    </script>
+}
+@Html.Partial("_ClickFooter", ((List<Language_NewShop>)ViewBag.Language).Where(c => c.Page_Name == "Layout_Footer").ToList())
+<script>
+    $("#Menu-page li").removeClass("active");
+    $("#ABOUT").addClass("active");
+</script>
+
+

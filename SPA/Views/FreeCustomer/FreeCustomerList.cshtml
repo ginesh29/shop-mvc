@@ -1,0 +1,144 @@
+﻿@model IEnumerable<SPA.Models.FreeCustomerList>
+
+@{
+    Layout = "~/Views/Shared/_Employee_Layout.cshtml";
+    ViewBag.Title = "FreeCustomerList";
+    int Index = 1;
+}
+
+<ol class="spa-breadcrumbs breadcrumb">
+    @*<li><a href="#" class="active">Home</a></li>
+        <li><a href="#">Reservation</a></li>*@
+</ol>
+<div class="form-content">
+    <div class="employee-blank Freecustomer_list">
+        @*<h1 class="italic-title">
+            Free Customer list <span class="badge user-count margin-left5">@Model.Count()</span>
+            <a class="title-green16 pull-right" id="AddFreeCustomer"><i class="fa fa-plus-square margin-right5"></i>Add Free Customer</a>
+        </h1>*@
+        <div class="italic-title display_inline full-width">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                Free Customer list <span class="badge user-count margin-left5">@Model.Count()</span>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 text-right text-left">
+                <a class="title-green16" id="AddFreeCustomer"><i class="fa fa-plus-square margin-right5"></i>Add Free Customer</a>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-lg-18 col-md-18 col-sm-14"></div>
+            <div class="col-lg-6 col-md-6 col-sm-10">
+                <input class="form-control spa-text-box text-box single-line margin-top10" type="text" id="SearchFreeCustomer" placeholder="Search" style="height:35px;">
+            </div>
+        </div>
+        <div class="table-responsive pending-approval-table choose-your-product">
+            <table class="table table-striped" id="FreeCustomerList">
+                <thead>
+                    <tr>
+                        <th>Index</th>
+                        <th>
+                            Index
+                        </th>
+                        <th>
+                           ShopId
+                        </th>
+                        <th>
+                            Shop Name
+                        </th>
+                        <th>
+                            Shop City
+                        </th>
+                        <th>
+                            Owner Name
+                        </th>
+                        <th>
+                            Owner Last Name
+                        </th>
+                        <th>
+                           Main Category
+                        </th>
+                        <th>
+                           Shop Type
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {                       
+                        <tr>
+                            <td class="spa-label1">
+                               @Index
+                            </td>
+                            <td class="spa-label1">
+                                @Html.DisplayFor(modelItem => item.ShopId)
+                            </td>
+                            <td class="spa-label1">
+                                @item.ShopName
+                            </td>
+                            <td class="spa-label1">
+                                @item.ShopCity
+                            </td>
+                            <td class="spa-label1">
+                                @item.OwnerName
+                            </td>
+                            <td class="spa-label1">
+                                @item.OwnerLName
+                            </td>
+                            <td class="spa-label1">
+                                @item.MainCategory
+                            </td>
+                            <td class="spa-label1">
+                                @item.ShopType
+                            </td>
+                            <td>
+                                <a href="/FreeCustomer/EditFreeCustomer?SchlId=@item.ShopId">
+                                    <i class="fa fa-pencil-square-o spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Edit" data-original-title="" title=""></i>
+                                </a>
+                                <a>
+                                    <i class="fa fa-trash spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Delete" onclick="DeleteShopReg(@item.ShopId);" data-original-title="" title=""></i>
+                                </a>
+                            </td>
+                        </tr>
+                        Index = Index + 1;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="welcome-modal">
+    <div id="Freecustomer" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body margin-bottom30">
+                    <h1 class="text-center margin-bottom30"><span>CLICK-AND-GO!</span></h1>
+                    <p class="title15 text-center margin-bottom30">Do you want to create doctor shop?</p>
+                    <div class="text-center padding-top10">
+                        <a class="btn btn-green" href="/FreeCustomer/OwnerInfo?Status=2">Yes</a>
+                        <a class="btn btn-black" href="/FreeCustomer/OwnerInfo?Status=1">No</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#FreeCustomer").addClass("active");
+    searchInPage("SearchFreeCustomer", "FreeCustomerList", 0, 8);
+    $("#AddFreeCustomer").click(function () {
+        $("#Freecustomer").modal("show");
+    });
+    function DeleteShopReg(schlid) {
+            var confirmDeletePaymentPlan = confirm("Do You want to Delete Shop");
+            if (confirmDeletePaymentPlan) {
+                $(".loader").show();
+                $.post("/FreeCustomer/DeleteNewShop?Schlid=" + schlid, function () {
+                    window.location.reload();
+                    $(".loader").hide();
+                });
+            }
+       
+    }
+
+</script>
+

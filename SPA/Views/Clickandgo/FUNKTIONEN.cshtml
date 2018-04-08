@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "FUNKTIONEN";
+    List<Language_NewShop> Language = ViewBag.Language;
+    Language = Language.Where(c => c.Page_Name == "FEATURES_PAGE").ToList();
+
+}
+<!--FUNKTIONEN Start-->
+<div class="container">
+    <p class="text-robotoregular font-s20 color6 mt30">
+        @Html.Raw(Language.Where(c => c.Page_Name == "FEATURES_PAGE" && c.Order_id == 1).Select(c => c.Value).FirstOrDefault())
+        @*Die Software ist sehr einfach und selbsterklärend aufgebaut. Mit ein paar wenigen Clicks können Sie Ihr Geschäft darauf abbilden und
+            beginnen die Software zu nutzen du von ihren Vorteilen zu profitieren.*@
+    </p>
+    <ul class="row swp-wir swp-wir1 ulpadl0 mt30">
+        <li class="col-lg-15 col-md-15 col-sm-15">
+            <strong class="font-s20 txt-d-none swp-ttl1">@Html.Raw(Language.Where(c => c.Page_Name == "FEATURES_PAGE" && c.Order_id == 2).Select(c => c.Value).FirstOrDefault())@*Wir helfen Ihnen bei:*@</strong>
+            <ol class="mt20 font-s18 ulpadl45 ml-20">
+                @foreach (var feature in Language.Where(c => c.col1 == "Functions").ToList())
+                {
+                    <li>@Html.Raw(feature.Value)</li>
+                }
+                @*<li>Online Terminreservatio</li>
+                    <li>Einfache manuelle Terminreservation im Kalender</li>
+                    <li>Einfacher Produktekatalog erstellen</li>
+                    <li>Email Terminbestätigungen</li>
+                    <li>SMS Erinnerungsfunktion zur Verhinderung von verpassten Terminen</li>
+                    <li>Kundendaten in einem System inklusive diverser Auswertungen und Statistiken</li>
+                    <li>Individuelle Anzahl Mitarbeiter und Mitarbeiter spezifische Services & Produkte einrichten</li>
+                    <li>Fotos von Mitarbeiter zur Personalisierung hochladen</li>*@
+            </ol>
+        </li>
+        <li class="col-lg-9 col-md-9 col-sm-9">
+            <img src="~/Images/click/img4.png" alt="" />
+        </li>
+    </ul>
+    <strong class="font-s20 txt-d-none swp-ttl1">@Html.Raw(Language.Where(c => c.Page_Name == "FEATURES_PAGE" && c.Order_id == 11).Select(c => c.Value).FirstOrDefault())@*Einfach. Schnell. Bequem.*@</strong>
+    <p class="text-robotoregular font-s18 color3 mt20">
+        @Html.Raw(Language.Where(c => c.Page_Name == "FEATURES_PAGE" && c.Order_id == 12).Select(c => c.Value).FirstOrDefault())
+        @*Der individuelle Shop kann innerhalb ca. 30 Minuten eingerichtet werden, ja nach Anzahl Mitarbeiter und Anzahl Produkte / Services und ist unmittelbar online verfügbar. Unser hoch motiviertes Team unterstützt Sie bei allen Fragen.*@
+
+    </p>
+</div>
+<!--End FUNKTIONEN-->
+@if (ViewBag.LangId == 1)
+{
+    <script>
+        $("#LangChange #English a").addClass("activeShop");
+    </script>
+}
+@if (ViewBag.LangId == 2)
+{
+    <script>
+        $("#LangChange #German a").addClass("activeShop");
+    </script>
+}
+@if (ViewBag.LangId == 3)
+{
+    <script>
+        $("#LangChange #French a").addClass("activeShop");
+    </script>
+}
+@Html.Partial("_ClickFooter", ((List<Language_NewShop>)ViewBag.Language).Where(c => c.Page_Name == "Layout_Footer").ToList())
+<script>
+    $("#Menu-page li").removeClass("active");
+    $("#FUNK").addClass("active");
+</script>
+

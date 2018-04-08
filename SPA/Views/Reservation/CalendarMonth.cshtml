@@ -1,0 +1,169 @@
+﻿@{
+    ViewBag.Title = "CalendarMonth";
+    Layout = null;
+    var EmployeeCounts = ViewBag.Employeelist;
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.Language;
+    string currency = ViewBag.currency;
+}
+@if (Session["Message"].ToString() == "calendarmonth_CI")
+{
+    <script>
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 33).Select(c => c.Value).FirstOrDefault()</p>");
+        $('#welcome').modal("show");
+    </script>
+    Session["Message"] = "";
+    Session["AddCustomerMsg"] = "";
+}
+@if (Session["Message"].ToString() == "calendarmonth_CIP")
+{
+    <script>
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 34).Select(c => c.Value).FirstOrDefault()</p>");
+        $('#welcome').modal("show");
+    </script>
+    Session["Message"] = "";
+    Session["AddCustomerMsg"] = "";
+}
+@if (Session["Message"].ToString() == "calendarmonth_PCMP")
+{
+    <script>
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 36).Select(c => c.Value).FirstOrDefault()</p>");
+        $('#welcome').modal("show");
+    </script>
+    Session["Message"] = "";
+    Session["AddCustomerMsg"] = "";
+}
+@if (Session["Message"].ToString() == "calendarmonth_DCMP")
+{
+    <script>
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 35).Select(c => c.Value).FirstOrDefault()</p>");
+        $('#welcome').modal("show");
+    </script>
+    Session["Message"] = "";
+    Session["AddCustomerMsg"] = "";
+}
+<ul class="cal-header">
+    <li class="col-lg-6 col-md-6 col-sm-12">
+        <h2 class="title-green16 margin-top15 margin-bottom20">@Language.Where(c => c.Order_id == 23).Select(c => c.Value).FirstOrDefault()@*EMPLOYEE CALENDAR LIST*@ <span class="badge user-count margin-left5">@EmployeeCounts</span></h2>
+    </li>
+    <li class="col-lg-6 col-md-6 col-sm-12 text_rightResp">
+        <label class="spa-label1 margin-top15">@*Total Revenue*@@Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault() : <span class="spa-label-bold">@ViewBag.TotalRevenue @currency</span></label>
+    </li>
+    <li class="col-lg-12 col-md-12 col-sm-24 text-right margin-top10 margin-bottom10">
+        <label class="spa-label-bold">@*View Calendar by*@@Language.Where(c => c.Order_id == 26).Select(c => c.Value).FirstOrDefault():</label>
+        @if (EmployeeCounts > 0)
+        {
+            <a href="#" class="btn btn-today" onclick="ShowTodayCalData();">@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()@*Today*@</a>
+        }
+        else
+        {
+            <a href="#" class="btn btn-today">@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()@*Today*@</a>
+        }
+        <span class="view-cal">
+            <a class="btn" id="DayBTN"><span>@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()@*Day*@</span></a>
+            <a class="btn active" id="WeekBTN"><span>@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()@*Week*@</span></a>
+            <a class="btn" id="MONTHBTN"><span>@Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()@*Month*@</span></a>
+        </span>
+    </li>
+
+</ul>
+<div class="clearfix"></div>
+<ul class="review-block res-review-block">
+     <li class="col-lg-24 col-md-24 col-sm-24 Calanderpallet text-right">
+        <label class="spa-label-bold"><span class="BookedSlotes poor margin-right5"></span>@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()@*Booked*@</label>
+        <label class="spa-label-bold"><span class="average Available margin-right5"></span>@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()@*Available*@</label>
+        <label class="spa-label-bold"><span class="NotAvailable poor margin-right5"></span>@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()@*Not Available*@</label>
+        <label class="spa-label-bold"><span class="holidayAdd poor margin-right5"></span>@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()@*Holiday*@</label>
+        <label class="spa-label-bold"><span class="Temporary poor margin-right5"></span>@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()@*Temporary*@</label>
+        <label class="spa-label-bold"><span class="ApCloseBlock poor margin-right5"></span>@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()@*Ap Closed*@</label>
+        <label class="spa-label-bold"><span class="NotAvailableStart poor margin-right5"></span>@Language.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault()@*Not Available for start*@</label>
+        <label class="spa-label-bold"><span class="Quick_Holiday poor margin-right5"></span>@*Quick Blocker*@ @Language.Where(c => c.Order_id == 29).Select(c => c.Value).FirstOrDefault()</label>
+    </li>
+</ul>
+<div id="Temp">
+    <div id="DisplayDay" style="display:none;">@Html.Action("Day", "Reservation")</div>
+    <div id="DisplayWeek" >@Html.Action("Week", "Reservation")</div>
+    <div id="DisplayMonth" style="display:none;">@Html.Action("Month", "Reservation")</div>
+</div>
+<script>
+    QuickBlockerPopup();
+    QuickBlockEditDelete();
+    $("#DayBTN").click(function () {
+        $.each($(".view-cal a"), function () {
+            $(this).removeClass("active");
+        });
+        $(this).addClass("active");
+        $("#DisplayWeek").hide();
+        $("#DisplayMonth").hide();
+        $("#DisplayDay").show();
+    });
+    $("#WeekBTN").click(function () {
+        $.each($(".view-cal a"), function () {
+            $(this).removeClass("active");
+        });
+        $(this).addClass("active");
+        $("#DisplayMonth").hide();
+        $("#DisplayDay").hide();
+        $("#DisplayWeek").show();
+    });
+    $("#MONTHBTN").click(function () {
+        $.each($(".view-cal a"), function () {
+            $(this).removeClass("active");
+        });
+        $(this).addClass("active");
+        $("#DisplayWeek").hide();
+        $("#DisplayDay").hide();
+        $("#DisplayMonth").show();
+    });
+    function ShowMonthDetails(month, year, status, id) {
+        $(".loader").show();
+        var MonthandYear = $("#DataContent_" + id).html().split("-");
+        $.post("/Reservation/MonthCalendar?id=" + id + "&monthChange=" + $.trim(MonthandYear[0]) + "&yearChange=" + $.trim(MonthandYear[1]) + "&status=" + status + "", function (data) {
+            $("#calendarShow_" + id).html(data);
+            $.post("/Reservation/GetNameMonthAndYear?monthChange=" + $.trim(MonthandYear[0]) + "&yearChange=" + $.trim(MonthandYear[1]) + "&status=" + status, function (data1) {
+                $("#DataContent_" + id).html(data1);
+                $(".loader").hide();
+            });
+        });
+    }
+    function showMonthWiseCalendar(id) {$("#calendarShow_" + id).slideToggle(800);}
+</script>
+@if (!string.IsNullOrEmpty(Session["View"] as string))
+{
+    if (Convert.ToString(Session["View"]) == "Week")
+    {
+        <script>
+            //$("#calendarmonth").click();
+            $("#WeekBTN").click();
+        </script>
+        Session["View"] = "";
+        Session["ViewUserId"] = "";
+        Session["ViewDate"] = "";
+        Session["AllView"] = "";
+    }
+}
+@if (Convert.ToString(Session["View"]) == "Month")
+{
+    <script>
+        //$("#calendarmonth").click();
+        $("#MONTHBTN").click();
+    </script>
+    Session["View"] = "";
+    Session["ViewUserId"] = "";
+    Session["ViewDate"] = "";
+    Session["AllView"] = "";
+}
+@if (Convert.ToString(Session["View"]) == "Day")
+{
+    <script>
+        //$("#calendarmonth").click();
+        $("#DayBTN").click();
+    </script>
+    Session["View"] = "";
+    Session["ViewUserId"] = "";
+    Session["ViewDate"] = "";
+    Session["AllView"] = "";
+}
+
+
+

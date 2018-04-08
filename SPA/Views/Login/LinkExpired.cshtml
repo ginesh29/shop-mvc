@@ -1,0 +1,22 @@
+﻿@{
+    Layout = null;
+    List<Language_Label_Detail> Language = new List<Language_Label_Detail>();
+    Language = ViewBag.Language;
+}
+
+<!DOCTYPE html>
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>LinkExpired</title>
+</head>
+<body>
+    <div class="modal-body margin-bottom30">
+        <h1 class="text-center margin-bottom30">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()@*Sorry From*@ <span>CLICK-AND-GO</span></h1><p class="title15 text-center margin-bottom30">@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()@*Your Link is Expired*@</p>
+    </div>
+</body>
+</html>

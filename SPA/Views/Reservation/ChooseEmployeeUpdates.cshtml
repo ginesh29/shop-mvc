@@ -1,0 +1,181 @@
+﻿@{
+    List<SPA.Models.EmployeeList> EmployeeList = new List<SPA.Models.EmployeeList>();
+    EmployeeList = ViewBag.DataEmployee;
+    Layout = null;
+    List<Language_Label_Detail> LanguageDetails = ViewBag.OpenLang;
+    var Language = LanguageDetails.Where(c => c.Page_Name.ToLower() == "choose_employee").ToList();
+    var Language_Reservation_Update = LanguageDetails.Where(c => c.Page_Name.ToLower() == "reservation_update").ToList();
+    var LanguageBack = LanguageDetails.Where(c => c.Page_Name.ToLower() == "back_button").FirstOrDefault();
+    long UsersId = 0;
+    if (EmployeeList.Count > 0)
+    {
+        UsersId = EmployeeList.OrderBy(c => c.UserId).Select(c => c.UserId).FirstOrDefault();
+    }
+    int CountingEmployee = 0;
+    long TotalDuration = EmployeeList.Select(c => c.Duration).FirstOrDefault();
+    long ReservationUpdateId = ViewBag.ReservationId;
+    var status = "";
+    if (ViewBag.ReservationStatus != null && ViewBag.ReservationStatus != "")
+    {
+        status = ViewBag.ReservationStatus;
+    }
+    var LocalLanguage = ViewBag.LocalLanguage;
+}
+<div class="col-lg-14 col-lg-offset-5  col-md-16 col-md-offset-4 col-sm-19 col-sm-offset-1 col-xs-24 res-margin-top margin-top24">
+    @if (ViewBag.ReservationStatus != null && ViewBag.ReservationStatus != "")
+    {
+        <div class="col-lg-24 col-md-24 col-sm-24">
+            <a href="/Reservation/UpdateReservedData?ReservationId=@ViewBag.ReservationId&Status=CalUpdateReservation" class="title-green16 pull-right"><i class="fa fa-reply-all margin-right5"></i>@LanguageBack.Value</a>
+        </div>
+    }
+    else
+    {
+        <div class="col-lg-24 col-md-24 col-sm-24">
+            <a href="/Reservation/UpdateReservedData?ReservationId=@ViewBag.ReservationId" class="title-green16 pull-right"><i class="fa fa-reply-all margin-right5"></i>@LanguageBack.Value</a>
+        </div>
+      
+    }
+    <h4 class="online-res margin-top20"> @Language_Reservation_Update.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()@*Original reservation*@</h4>
+    <div id="ShowDefaultBooking">
+    </div>
+    <form id="UpdateReservationForm" name="UpdateReservationForm" method="post" action="/Reservation/UpdateReservationInformation">
+        <h1 class="title14-border">@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()</h1>
+        <ul id="owl-demo" class="owl-carousel owl-theme choose-employee-slider">
+            @if (EmployeeList.Count > 0)
+            {
+                if (EmployeeList.Count > 1)
+                {
+                    <li class="text-center item">
+                        <span class="spa-circle-img active" id="DefaultUser" onclick="DisplayDateTimeDetail(@EmployeeList.OrderBy(c=>c.UserId).Select(c=>c.UserId).FirstOrDefault(),0)">
+                            <span class="select-any">@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()</span>
+                        </span>
+                    </li>
+                }
+
+                <input type="hidden" name="UserIdOrder" id="UserIdOrder" value="@EmployeeList.OrderBy(c=>c.UserId).Select(c=>c.UserId).FirstOrDefault()" />
+                foreach (var ImageData in EmployeeList)
+                {
+                    if (CountingEmployee == 0 && EmployeeList.Select(c => c.UserId).ToList().Count == 1)
+                    {
+                        <li class="text-center item" id="AllImage">
+                            <div class="spa-circle-img active" id="@ImageData.UserId">
+                                @if (ImageData.Image == null || ImageData.Image == "")
+                                {
+                                    <img src="/images/defaultuser.png"  onclick="DisplayDateTimeDetail(@ImageData.UserId,0);" />
+                                }
+                                else
+                                {
+                                    <img src=@ImageData.Image onerror="this.onerror=null;this.src='/images/defaultuser.png';" onclick="DisplayDateTimeDetail(@ImageData.UserId,0);">
+                                }
+                            </div>
+                            <p class="user-name text-center">@ImageData.FirstName @ImageData.LastName</p>
+                        </li>
+                        CountingEmployee = CountingEmployee + 1;
+                    }
+                    else
+                    {
+                        <li class="text-center item" id="AllImage">
+                            <div class="spa-circle-img" id="@ImageData.UserId">
+                                @if (ImageData.Image == null || ImageData.Image == "")
+                                {
+                                    <img src="/images/defaultuser.png" onclick="DisplayDateTimeDetail(@ImageData.UserId,0);" />
+                                }
+                                else
+                                {
+                                    <img src=@ImageData.Image onerror="this.onerror=null;this.src='/images/defaultuser.png';" onclick="DisplayDateTimeDetail(@ImageData.UserId,0);">
+                                }
+                            </div>
+                            <p class="user-name text-center">@ImageData.FirstName @ImageData.LastName</p>
+                        </li>
+                    }
+
+                }
+            }
+            else
+            {
+                <li class="text-center item">
+                    @Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()
+                </li>
+            }
+        </ul>
+        @Html.Hidden("EmployeeChoosed")
+        @Html.Hidden("choosedTime")
+        @Html.Hidden("ChoosedDate")
+        <input type="hidden" id="ChoosedProduct" name="ChoosedProduct" value="@ViewBag.CatgTypeId" />
+        <input type="hidden" id="ChangeReservation" name="ChangeReservation" value="@ViewBag.ReservationId" />
+        <input type="hidden" id="ReservationStatus" name="ReservationStatus" value="@status"/>
+        <div class="date-selection">
+            <div>
+                <div id="DateTimeDisplayEmployee">
+                    <h1 class="title14-border">@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()</h1>
+                    <div class="col-lg-12 col-md-12 col-sm-12 calendar-box margin-bottom10">
+                        <div id="CalanderKalande1"></div>
+                    </div>
+                </div>
+                <div id="TimeSlotEmployeeDisplay" style="display:none;">
+                    <div class="col-lg-12 col-md-12 col-sm-12 text-center book-schedule" id="TimeSlotDataForm">
+
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="text-res-center text-right margin-top20">
+                    <input type="button" class="btn btn-green margin-bottom20" id="FinalConfirmation" value="@Language_Reservation_Update.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()" onclick="UpdateReservation()" /> @*Submit All Changes*@
+                    @*<label for="FinalConfirmation" class="form-label spa-label1"></label>*@
+                    @if (ViewBag.ReservationStatus != null && ViewBag.ReservationStatus != "")
+                    {
+                    <a href="/Reservation/Reservation#calendarmonth" class="btn btn-black margin-bottom20">@Language_Reservation_Update.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()</a>@*Cancel*@
+                    }
+                    else
+                    {
+                        <a href="/Reservation/Reservation" class="btn btn-black margin-bottom20">@Language_Reservation_Update.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()</a>@*Cancel*@
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        @Html.Hidden("TotalDuration")
+    </form>
+</div>
+
+
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+<script>
+    moment.locale('@LocalLanguage');
+    $("#CalanderKalande1").kalendae();
+    var monthYear = moment($.trim($(".k-caption").html().split(',')[0]), 'MMM').lang('en').format("MMMM") + ", " + $.trim($(".k-caption").html().split(',')[1]);
+    try {
+        AutoSelect(@UsersId,0);
+    }
+    catch (err) {
+
+    }
+    //DataToBeBlock(monthYear);
+    $(".k-days span").click(function () {
+        if (!$(this).hasClass("k-out-of-month")) {
+            var DateOnly = $(this).html();
+            $("#TimeSlotEmployeeDisplay").hide();
+            var Month = moment($.trim($(".k-caption").html().split(',')[0]), 'MMM').lang('en').format("MMMM") + ", " + $.trim($(".k-caption").html().split(',')[1]);
+            $("#ChoosedDate").val(DateOnly + " " + Month);
+            var DateOnlypls=DateOnly + " " + Month;
+            dataDisplayofTimeSlotUpdate(DateOnlypls, @ReservationUpdateId);
+            //ankit
+            //AutoselectMonth(Month);
+        }
+    });
+    $(".k-title .k-btn-next-month,.k-title .k-btn-next-year,.k-title .k-btn-previous-month,.k-title .k-btn-previous-year").on("click contextmenu",function(){
+        var month1 = moment($.trim($(".k-caption").html().split(',')[0]), 'MMM').lang('en').format("MMMM") + ", " + $.trim($(".k-caption").html().split(',')[1]);
+        DataToBeBlock(month1,0);
+    });
+    $("#DefaultUser").click(function () {
+        GetAnyDefaultuser();
+    });
+    $("#TotalDuration").val(@TotalDuration);
+    $("body").delegate("#TimeSlotDataForm a","click",function () {
+        $("#TimeSlotDataForm a").removeClass("active");
+        $(this).addClass("active");
+        $("#choosedTime").val($(this).html());
+    });
+</script>

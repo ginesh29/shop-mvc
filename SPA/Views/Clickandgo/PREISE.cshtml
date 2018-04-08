@@ -1,0 +1,274 @@
+﻿
+@{
+    ViewBag.Title = "PREISE";
+    List<Language_NewShop> Language = ViewBag.Language;
+    Language = Language.Where(c => c.Page_Name == "Prices_Page").ToList();
+    int status = ViewBag.status;
+}
+
+<div class="container">
+    <ul class="mt30">
+        <li>
+            <strong class="font-s20 txt-d-none swp-ttl1">
+                <p class="g-color margin-6 text-robotoblack font-s18">
+                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 19).Select(c => c.Value).FirstOrDefault())
+                    </ p >
+                    @*Wie die Software so die Preise:	 Einfach. Transparent. Übersichtlich.*@
+                <p class="font-s18 text-robotoblack">
+                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 20).Select(c => c.Value).FirstOrDefault())
+                </p>
+                @*Alle Preise exkl. MWST.*@
+            </strong>
+        </li>
+    </ul>
+    <ul class="row mt30">
+        <li class="col-lg-18 col-md-18 col-sm-18">
+            <div class="color4 swp-p-block">
+                <ul class="swp-wir swp-wir2">
+                    <li>
+                        <strong class="font-s20">
+                            @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 12).Select(c => c.Value).FirstOrDefault()):
+                            @*Dies ist alles inklusiv:*@
+                        </strong>
+                        <ol class="mt20 font-s16">
+                            <li>
+                                @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 13).Select(c => c.Value).FirstOrDefault())
+                                @*1 Monat gratis den vollen Funktionsumfang testen!*@
+                            </li>
+                            <li>
+                                @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 14).Select(c => c.Value).FirstOrDefault())
+                                @*Installation*@
+                            </li>
+                            <li>
+                                @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 15).Select(c => c.Value).FirstOrDefault())
+                                @*Kunden Benachrichtigungen inklusiv*@
+                            </li>
+                            <li>
+                                @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 16).Select(c => c.Value).FirstOrDefault())
+                                <span class="glyphicon glyphicon-arrow-right"></span>
+                                @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 45).Select(c => c.Value).FirstOrDefault())
+                                @*Monatlich kündbar -> keine langfristige Verpflichtung*@
+                            </li>
+                            <li>
+                                @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 17).Select(c => c.Value).FirstOrDefault())
+                                @*keine versteckten Kosten*@
+                            </li>
+                        </ol>
+                    </li>
+                </ul>
+            </div>
+            @if (status != 1)
+            {
+                <div class="table-responsive margin-top27">
+                    <table class="table-border table">
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>
+                                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 25).Select(c => c.Value).FirstOrDefault())
+                                    @*Abo*@
+                                </th>
+                                <th>
+                                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 26).Select(c => c.Value).FirstOrDefault())
+                                    @*Anzahl Kalender*@
+                                </th>
+                                <th>
+                                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 27).Select(c => c.Value).FirstOrDefault())
+                                    @*CHF / Tag*@
+                                </th>
+                                <th>
+                                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 28).Select(c => c.Value).FirstOrDefault())
+                                    @*CHF / Mt.*@
+                                </th>
+                                <th class="thbg">
+                                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 29).Select(c => c.Value).FirstOrDefault())
+                                    @*Anzahl Kaffeverzicht um pro*@<br />
+                                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 41).Select(c => c.Value).FirstOrDefault())
+                                    @*Monat die Kosten auszugleichen*@
+                                </th>
+                                <th>
+                                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 30).Select(c => c.Value).FirstOrDefault())
+                                    @*CHF / Jahr*@
+                                </th>
+                            </tr>
+                            <tr>
+                                <td class="text-center f-size14">
+                                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 31).Select(c => c.Value).FirstOrDefault())
+                                    @*Gold*@
+                                </td>
+                                <td class="text-center f-size14">
+                                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 32).Select(c => c.Value).FirstOrDefault())
+                                    @*1-2 Mitarbeiter =>Flatrate!*@<br />
+                                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 43).Select(c => c.Value).FirstOrDefault())
+                                    @*SMS inklusiv!*@
+                                </td>
+                                <td class="text-center f-size14">
+                                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 33).Select(c => c.Value).FirstOrDefault())
+                                    @*X CHF*@
+                                </td>
+                                <td class="text-center f-size14">
+                                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 46).Select(c => c.Value).FirstOrDefault())
+                                    @*X CHF*@
+                                </td>
+                                <td class="text-center f-size14">
+                                    <img src="../Images/click/cup1.png" />@Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 35).Select(c => c.Value).FirstOrDefault())@*= pro Woche*@
+                                </td>
+                                <td class="text-center f-size14">
+                                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 47).Select(c => c.Value).FirstOrDefault())
+                                    @*X CHF*@
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center f-size14">
+                                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 36).Select(c => c.Value).FirstOrDefault())
+                                    @*Platinum*@
+                                </td>
+                                <td class="text-center f-size14">
+                                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 37).Select(c => c.Value).FirstOrDefault())
+                                    @*3-X Mitarbeiter*@<br />
+                                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 44).Select(c => c.Value).FirstOrDefault())
+                                    @*SMS* nach Verbrauch*@
+                                </td>
+                                <td class="text-center f-size14">
+                                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 48).Select(c => c.Value).FirstOrDefault())
+                                    @*X CHF*@
+                                </td>
+                                <td class="text-center f-size14">
+                                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 49).Select(c => c.Value).FirstOrDefault())
+                                    @*X CHF*@
+                                </td>
+                                <td class="text-center f-size14">
+                                    <img src="../Images/click/cup2.png" />@Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 35).Select(c => c.Value).FirstOrDefault()) @*= pro Woche*@
+                                </td>
+                                <td class="text-center f-size14">
+                                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 50).Select(c => c.Value).FirstOrDefault())
+                                    @*X CHF*@
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            }
+            <ul class="mt20 border1 ullist margin-top27">
+                <li>
+                    <strong class="font-s20">
+                        @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 1).Select(c => c.Value).FirstOrDefault())
+                        @*Bei beiden Abonnementsvarianten profitieren Sie von ALLEN verfügbaren Funktionalitäten!*@
+                    </strong>
+                    <ol class="mt20 font-s18">
+                        @foreach (var subscription in Language.Where(c => c.col1 == "Subscription_Body").ToList())
+                        {
+                            <li class="color2">@Html.Raw(subscription.Value) </li>
+                        }
+                        @*<li class="color2">
+                        Online Terminbuchungen 24/7
+                    </li>
+                    <li class="color2">
+                        Kalenderverwaltung, von überall her verfügbar (auch auf Mobile und Tablet)
+                    </li>
+                    <li class="color2">
+                        Kostenfreie Terminbuchungen
+                    </li>
+                    <li class="color2">
+                        Errinnerungs-SMS (nur in Gold inklusive, ansonsten Abrechnung nach Anzahl SMS)
+                    </li>
+                    <li class="color2">
+                        Vollständige Kundenkartei
+                    </li>
+                    <li class="color2">
+                        Einbau der Buchungsfunktion auf Ihrer Website
+                    </li>
+                    <li class="color2">
+                        Kunden können den gewünschten Mitarbeiter auswählen
+                    </li>
+                    <li class="color2">
+                        Echtzeit-Buchungen für Ihren Kunden, ohne eine App installieren zu müssen!
+                    </li>*@
+                    </ol>
+                </li>
+            </ul>
+        </li>
+        <li class="col-lg-6 col-md-6 col-sm-6">
+            <div class="rgt-block font-s16 text-center text-robotoregular">
+                <br />
+                <br />
+                <p class="text-robotoregular font-s16">@Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 21).Select(c => c.Value).FirstOrDefault())@*Noch keine Webseite?*@</p>
+                <br />
+                <br />
+                <p class="text-robotoregular font-s16">
+                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 22).Select(c => c.Value).FirstOrDefault())
+                    @*Kein Problem, wir erstellen
+                        Ihnen gerne eine einfache
+                        Webseite.*@
+                </p>
+                <br />
+                <br />
+                <p class="text-robotoregular font-s16">
+                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 23).Select(c => c.Value).FirstOrDefault())
+                    @*Für nur X CHF pro Monat
+                        erhalten Sie eine einfache,
+                        individuelle Website!*@
+                </p>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <p class="text-robotoregular font-s16">
+                    @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 24).Select(c => c.Value).FirstOrDefault())
+                    @*Kontaktieren Sie uns,
+                        Danke!*@
+                </p>
+            </div>
+        </li>
+
+    </ul>
+
+
+    
+
+
+    <ul class="color4 swp-p-block text-center">
+        <li>
+            @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 10).Select(c => c.Value).FirstOrDefault())
+            @*Wenn Sie einen 2-Jahresvertrag abschliessen gibt es noch einmal 10% Rabatt auf dem Jahrespreis!*@
+            @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 40).Select(c => c.Value).FirstOrDefault())
+            @*Bei einem 3-Jahresvertrag profitieren Sie in total von einem Rabatt von 25%!*@
+            @Html.Raw(Language.Where(c => c.Page_Name == "Prices_Page" && c.Order_id == 11).Select(c => c.Value).FirstOrDefault())@*Melden Sie sich bei uns, gerne unterbreiten wir Ihnen eine individuelle Offerte.*@
+        </li>
+    </ul>
+
+</div>
+<div class="clearfix"></div>
+@if (ViewBag.LangId == 1)
+{
+    <script>
+        $("#LangChange #English a").addClass("activeShop");
+    </script>
+}
+@if (ViewBag.LangId == 2)
+{
+    <script>
+        $("#LangChange #German a").addClass("activeShop");
+    </script>
+}
+@if (ViewBag.LangId == 3)
+{
+    <script>
+        $("#LangChange #French a").addClass("activeShop");
+    </script>
+}
+@Html.Partial("_ClickFooter", ((List<Language_NewShop>)ViewBag.Language).Where(c => c.Page_Name == "Layout_Footer").ToList())
+
+
+
+<script>
+    $("#Menu-page li").removeClass("active");
+    $("#PREISE").addClass("active");
+    //AOS.init({
+    //    easing: 'ease-out-back',
+    //    duration: 1000
+    //});
+</script>
+

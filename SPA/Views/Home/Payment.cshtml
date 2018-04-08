@@ -1,0 +1,120 @@
+﻿
+@{
+    ViewBag.Title = "Payment";
+
+}
+<ol class="spa-breadcrumbs breadcrumb"></ol>
+<div class="form-content">
+
+
+    @if (Session["heading"].ToString() == "a")
+    {
+        @Html.Partial("_ProcessHead")
+    }
+    else
+    {
+        @Html.Partial("_ProcessHead1")
+    }
+    <div class="payment_page">
+        <div class="col-lg-14 col-md-12 col-sm-24">
+            <div class="payment_select">
+                <h4>Payment</h4>
+                <p>Select payment method</p>
+                <div class="paymetSelect_btn">
+                    <div class="payment-checkbox">
+                        <input type="radio" id="OnlinePay" checked="checked" name="online">
+                        <label for="OnlinePay">Online Payment</label>
+                    </div>
+                    <div class="payment-checkbox">
+                        <input type="radio" id="CashPay" name="online">
+                        <label for="CashPay">Cash Payment</label>
+                    </div>
+                </div>
+                <div class="Payment_info">
+                    <div class="col-lg-18 col-lg-offset-3 col-md-18 col-md-offset-3 col-sm-18 col-sm-offset-3">
+                        <p>Fill the require information</p>
+                        <div class="form-group">
+                            <input class="form-control spa-text-box  text-box single-line" type="text" placeholder="First Name">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control spa-text-box  text-box single-line" type="text" placeholder="Family Name">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control spa-text-box  text-box single-line" type="text" placeholder="Phone Number">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control spa-text-box  text-box single-line" type="text" placeholder="Email">
+                        </div>
+                        <div class="form-group text-right">
+                            <button type="button" class="btn btn-green">Sumbit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-10 col-md-12 col-sm-24" style="background-color:#e8e8e8;">
+            <div class="Payment_DisProduct">
+                <h4>Services</h4>
+                <div class="DisProduct_whitebox">
+                    <div class="Disproduct_heading">
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <h4 class="ellipsis"><span><i class="fa fa-user" aria-hidden="true"></i></span>Jaiswal Dhruv</h4>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <h4><span><i class="fa fa-clock-o" aria-hidden="true"></i></span>09:00 to 10:00</h4>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-right">
+                            <h4><span><i class="fa fa-calendar" aria-hidden="true"></i></span>04 May, 2017</h4>
+                        </div>
+                    </div>
+                    <div class="payment-scroll">
+                        <div class="Disproduct_list">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                <div class="Disproduct_img">
+                                    <img src="~/images/payment_img.png" />
+                                </div>
+                            </div>
+                            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                                <div class="Disproduct_name">
+                                    <h4>Skin massage therapy</h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
+                                <div class="Disproduct_name">
+                                    <h4>INR 50</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="Disproduct_subtotal">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <h5>Sub-total:</h5>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                        <h5>INR 50</h5>
+                    </div>
+                </div>
+                <div class="Disproduct_subtotal display-none">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <h5>Discount</h5>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                        <h5 class="redColor">INR 0</h5>
+                    </div>
+                </div>
+                <div class="Disproduct_total">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <h4>Total</h4>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                        <h5 class="total_green">INR 50</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(".header-top").hide();
+</script>

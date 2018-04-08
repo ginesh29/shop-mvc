@@ -1,0 +1,62 @@
+﻿@using SPA.Models
+@{
+    ViewBag.Title = "RestrictionAddLeaves";
+    Layout = null;
+    List<SPA.Models.ConfirmModel> BookingDetails = new List<SPA.Models.ConfirmModel>();
+    BookingDetails = ViewBag.ShopLeavesList;
+    List<Language_Label_Detail> Language = new List<Language_Label_Detail>();
+    Language = ViewBag.Language;
+}
+<div>
+    @if (BookingDetails != null)
+    {
+        <h4 class="margin-bottom10 text-center color-black">@ViewBag.LangaugeContent</h4>
+        <h4 class="margin-bottom10 text-center color-black">@ViewBag.Startdate - @ViewBag.EndDate</h4>
+        <div class="choose-your-product table-responsive choose-employee-table updateReservation">
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center">@Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()</th>
+                        <th class="text-center">@Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()</th>
+                        <th class="text-center">@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()</th>
+                        <th class="text-center">@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()</th>
+                        <th class="text-center">@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in BookingDetails)
+                    {
+                        <tr>
+                            <td class="text-center">
+                                @item.ClientName @item.ClientLastName
+                            </td>
+                            <td class="text-center">
+                                @item.ClientPhoneNo
+                            </td>
+                            <td class="text-center">
+                                @item.BookingDate
+                            </td>
+                            <td class="text-center">
+                                @item.FromSlotMasterId
+                            </td>
+                            <td class="text-center">
+                                @item.ProductName
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
+
+    }
+</div>
+
+
+
+
+
+
+

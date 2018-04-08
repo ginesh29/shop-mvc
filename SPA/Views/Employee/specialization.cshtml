@@ -1,0 +1,188 @@
+﻿@model SPA.Models.GetCustomerSpecialization
+@{
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.Language;
+    if (Language.Count > 0)
+    {
+        ViewBag.Title = Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault();
+    }
+    Layout = null;
+    var SpecialCategory = (List<SPA.Models.MainCategoryDetails>)(ViewBag.Category);
+    var SelectedMain = ViewBag.CatgList;
+}
+<div class="Emp_specialization">
+    <form name="Addspecialization" id="Addspecialization" action="/Employee/specialization" method="post">
+        <div class="row">
+            @Html.HiddenFor(model => model.UserId)
+            <div class="col-lg-12 col-md-12 col-sm-24">
+                <div class="row form-group">
+                    <div class="col-lg-8 col-md-8 col-sm-8">
+                        <label class="form-label spa-label-bold">@*Degree*@ @Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()</label>
+                    </div>
+                    <div class="col-lg-16 col-md-16 col-sm-16">
+                        @Html.TextBoxFor(m => m.degree, new { @class = "form-control spa-text-box text-box single-line required" })
+                        @*<input class="form-control spa-text-box text-box single-line digits required" type="text">*@
+                    </div>
+
+                </div>
+                <div class="row form-group">
+
+                    <div class="col-lg-8 col-md-8 col-sm-8">
+                        <label class="form-label spa-label-bold">@*Experience*@ @Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()</label>
+                    </div>
+                    <div class="col-lg-16 col-md-16 col-sm-16">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                            @Html.TextBoxFor(m => m.ExperienceYear, new { @class = "form-control spa-text-box text-box single-line digits required", @placeholder = @Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault(), @type = "number" })
+                            @*<input class="form-control spa-text-box text-box single-line digits required" type="text" placeholder="Year">*@
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding-right0">
+                            @Html.TextBoxFor(m => m.ExperienceMonth, new { @class = "form-control spa-text-box text-box single-line digits required", @placeholder = @Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault(), @type = "number" })
+                            @*<input class="form-control spa-text-box text-box single-line digits required" type="text" placeholder="Month">*@
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="row form-group">
+
+                    <div class="col-lg-8 col-md-8 col-sm-8">
+                        <label class="form-label spa-label-bold">@*Skype Id*@ @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</label>
+                    </div>
+                    <div class="col-lg-16 col-md-16 col-sm-16">
+                        @*<input class="form-control spa-text-box text-box single-line digits required" type="text">*@
+                        @Html.TextBoxFor(m => m.skypeId, new { @class = "form-control spa-text-box text-box single-line" })
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-24">
+                @for (int i = 1; i <= 4; i++)
+                {
+                    <div class="row form-group">
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <label class="form-label spa-label-bold">@*Specialization*@ @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault() @i</label>
+                        </div>
+                        <div class="col-lg-16 col-md-16 col-sm-16">
+                            <div class="dropdown spa-dropdown">
+                                <input type="text" class="dropdown-toggle spa-text-box form-control spa-dropdown-box EventDisplayDrop dropmenuEllips" id="VSpecialization_@i" data-toggle="dropdown" aria-expanded="false" placeholder="@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()" />
+                                <ul class="dropdown-menu Specialization_@i">
+                                    @foreach (var Item in SpecialCategory)
+                                    {
+                                        <li><a id="@Item.MainCatgId">@Item.MainCategory</a></li>
+                                    }
+                                </ul>
+                                <input type="hidden" value="" name="HSpecialization_@i" id="HSpecialization_@i" />
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="text-center margin-top20">
+                <input type="submit" class="btn btn-green btn-small margin-right5" value="@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()">@*Save*@
+            </div>
+        </div>
+    </form>
+</div>
+@if (SelectedMain.Count > 0)
+{
+    var Index = 0;
+    foreach (var Item in SelectedMain)
+    {
+        Index = Index + 1;
+        <script>
+            $("#HSpecialization_" +@Index).val(@Item.MainCatgId);
+            $("#VSpecialization_" + @Index).val('@Item.MainCategory');
+        </script>
+    }
+}
+<script>
+    $("#Addspecialization").validate();
+    SearchInSelectedList("#specialization_Main input[type='text']");
+    $("body").delegate("#Special-list li", "click", function () {
+        $(this).remove();
+        $("#specialization_" + $(this).prop("id")).attr("checked", false);
+    })
+    $("#Specialization_Add input").click(function () {
+        if ($(this).is(":checked") == true) {
+            var LiText = "<li id='" + $(this).prop("value") + "'><a selid='" + $(this).prop("value") + "'>" + $(this).attr("HtmlText") + "</a></li>";
+            if ($("#Special-list li").length > 0)
+                $("#Special-list li:last").after(LiText);
+            else
+                $("#Special-list").html(LiText);
+        }
+        else {
+            $("#Special-list #" + $(this).prop("value")).remove();
+        }
+
+    });
+    //$("body").delegate(".Specialization_1 li a,.Specialization_2 li a,.Specialization_3 li a, .Specialization_4 li a", "click", function () {
+    //    var GetDefaultDetail = $(this);
+    //    var ChangingUL = GetDefaultDetail.closest("ul");
+    //    var IdforHidden = "";
+    //    var GetId = "";
+    //    var GetHtml = "";
+    //    if (ChangingUL.hasClass("Specialization_1"))
+    //        IdforHidden = "Specialization_1";
+    //    if (ChangingUL.hasClass("Specialization_2"))
+    //        IdforHidden = "Specialization_2";
+    //    if (ChangingUL.hasClass("Specialization_3"))
+    //        IdforHidden = "Specialization_3";
+    //    if (ChangingUL.hasClass("Specialization_4"))
+    //        IdforHidden = "Specialization_4";
+
+    //    GetHtml = GetDefaultDetail.html();
+    //    GetId = GetDefaultDetail.prop("id");
+
+    //    $("#H" + IdforHidden).val(GetId);
+    //    $("#V" + IdforHidden).html(GetHtml + '<span class="caret"></span>')
+    //});
+    NewDropDown();
+    $("#VSpecialization_1,#VSpecialization_2,#VSpecialization_3,#VSpecialization_4").change(function () {
+        $(this).parent().find("input[type='hidden']").val("");
+        if ($(this).val() != "") {
+            var value = $(this).parent().find("ul li:contains('" + $(this).val() + "')");
+            if (value.length != 0)
+            { $(this).parent().find("input[type='hidden']").val(value.find("a").attr("id")); }
+        }
+    })
+    function NewDropDown() {
+        var ResultVal = "";
+        $("body").delegate(".Specialization_1 li a,.Specialization_2 li a,.Specialization_3 li a, .Specialization_4 li a", "click", function () {
+            var GetDefaultDetail = $(this);
+            var ChangingUL = GetDefaultDetail.closest("ul");
+            var IdforHidden = "";
+            var GetId = "";
+            var GetHtml = "";
+            if (ChangingUL.hasClass("Specialization_1"))
+                IdforHidden = "Specialization_1";
+            if (ChangingUL.hasClass("Specialization_2"))
+                IdforHidden = "Specialization_2";
+            if (ChangingUL.hasClass("Specialization_3"))
+                IdforHidden = "Specialization_3";
+            if (ChangingUL.hasClass("Specialization_4"))
+                IdforHidden = "Specialization_4";
+
+            ResultVal = $(this).text();
+            var Textobj = "";
+            Textobj = $(this).closest("ul").parent().find("input[type='text']");
+            Textobj.val(ResultVal).change();
+            GetId = GetDefaultDetail.prop("id");
+           // $("#H" + IdforHidden).val(GetId);
+        });
+        $("#VSpecialization_1,#VSpecialization_2,#VSpecialization_3,#VSpecialization_4").keyup(function () {
+            var Element = $(this);
+            ResultVal = Element.val().toLowerCase();
+            var NearestUL = Element.parent().find("ul li");
+            NearestUL.each(function () {
+                if ($(this).html().toLowerCase().indexOf(ResultVal) == -1) $(this).hide();
+                else $(this).show();
+            });
+            if (Element.attr("aria-expanded") == "false") Element.click();
+        });
+    }
+</script>

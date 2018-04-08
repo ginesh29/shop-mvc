@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Contact";
+    Layout =null;
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.ContactLangauge;
+}
+<ol class="spa-breadcrumbs breadcrumb"></ol>
+<form id="ContactForm" name="ContactForm" action="/Footer/Contact" method="post">
+    <div class="form-group">
+        <input type="text" class="form-control spa-text-box required" placeholder="@Language.Where(c => c.Order_id == 36).Select(c => c.Value).FirstOrDefault()" id="ConFirstName" name="ConFirstName">
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control spa-text-box required" placeholder="@Language.Where(c => c.Order_id == 39).Select(c => c.Value).FirstOrDefault()" id="ConEmail" name="ConEmail">
+    </div>
+    <div class="form-group">
+        <textarea type="text" class="form-control spa-text-area required" placeholder="@Language.Where(c => c.Order_id == 37).Select(c => c.Value).FirstOrDefault()" id="ConCommunication" name="ConCommunication"></textarea>
+    </div>
+    <div class="form-group text-right">
+        <input type="submit" class="btn btn-green btn-small widthauto" value="@Language.Where(c => c.Order_id == 38).Select(c => c.Value).FirstOrDefault()">
+    </div>
+</form>
+
+<script>
+    $("#ContactForm").validate();
+</script>

@@ -1,0 +1,99 @@
+﻿@model IEnumerable<SPA.CCTSP_SchedulerMaster>
+@{
+    ViewBag.Title = "Shopschedule";
+    Layout = null;
+    var ShopSchedule = Model.ToList();
+    var ShopWeeks = ShopSchedule.Select(c => c.WeekDay).Distinct().ToList();
+    var Language = (List<Language_Label_Detail>)ViewBag.Language;
+}
+<div class="shopschedule">
+    <div class="week-schedule overflowhidden p-relative margin-top20">
+        <div class="schedule-box">
+            <ul class="week-schedule-header">
+                <li>
+                    <span>@Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault()@*WORKING DAYS*@</span>
+                </li>
+                <li>
+                    <span>@Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()@*START AM*@</span>
+                </li>
+                <li>
+                    <span>@Language.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault()@*END AM*@</span>
+                </li>
+                <li>
+                    <span>@Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault()@*START PM*@</span>
+                </li>
+                <li>
+                    <span>@Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault()@*END PM*@</span>
+                </li>
+            </ul>
+
+            <form id="FormSchedule" action="/Shop/ScheduleAdd" method="post">
+                @foreach (var item in ShopWeeks)
+                {
+                    var TimeMgMtCnt = 1;
+                    <ul class="week-schedule-content week-s-datepicker">
+                        <li class="ChkWeek">
+                            <span class="spa-checkbox checkbox">
+                                <input name="@item" value="true" id="@item" type="checkbox" @(ShopSchedule.Where(c => c.WeekDay == item).FirstOrDefault().ActiveStatus.Trim() == "R"? "":"checked=checked")>
+                                <label for="@item" class="form-label">@Language.Where(c => c.English_Label == item).Select(c => c.Value).FirstOrDefault()</label>
+                            </span>
+                        </li>
+                        @foreach (var TimeMgmt in ShopSchedule.Where(c => c.WeekDay == item).Take(2))
+                        {
+                            <li class="week-time">
+                                <div class="date uldate-picker">
+                                    <input class="form-control spa-text-box text-box required" minlength="5" maxlength="5" type="text" @(ShopSchedule.Where(c => c.WeekDay == item).FirstOrDefault().ActiveStatus.Trim() == "R"? "disabled=disabled": "") id="@TimeMgMtCnt@item" name="@TimeMgMtCnt@item" value="@TimeMgmt.StartTime.ToString().Remove(TimeMgmt.StartTime.ToString().Length - 3, 3)">
+                                    <a><i class="fa fa-clock-o icon-clock"></i></a>
+                                </div>
+                            </li>
+                            TimeMgMtCnt = TimeMgMtCnt + 1;
+                            <li class="week-time">
+                                <div class="date uldate-picker">
+                                    <input class="form-control spa-text-box text-box required" minlength="5" maxlength="5" type="text" @(ShopSchedule.Where(c => c.WeekDay == item).FirstOrDefault().ActiveStatus.Trim() == "R"? "disabled=disabled": "") id="@TimeMgMtCnt@item" name="@TimeMgMtCnt@item" value="@TimeMgmt.EndTime.ToString().Remove(TimeMgmt.EndTime.ToString().Length - 3, 3)">
+                                    <i class="fa fa-clock-o icon-clock"></i>
+                                </div>
+                            </li>
+                            TimeMgMtCnt = TimeMgMtCnt + 1;
+                        }
+                    </ul>
+                    <div class="clearfix"></div>
+                }
+                <div class="text-center margin-top20 margin-bottom20">
+                    <input type="button" id="SaveSchedule" class="btn btn-green btn-small margin-right5" value="Save">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#addWeekschedule,#cancleshopschedule").click(function () {
+        $("#shopschedule").slideToggle();
+    });
+    $('.week-schedule-content input[type="Text"]').datetimepicker({
+        stepping: 5,
+        format: 'HH:mm'
+    });
+    ScheduleInputControl();
+    $("#SaveSchedule").click(function () {
+        $(".loader").show();
+        var form = $("#FormSchedule");
+        var urlData = form.attr("action");
+        var formData = new FormData($("#FormSchedule")[0]);
+        $.ajax({
+            url: urlData,
+            beforeSend: function () {
+                $(".loader").show();
+            },
+            type: 'POST',
+            data: formData,
+            async: true,
+            success: function () {
+                $(".loader").hide();
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    });
+</script>

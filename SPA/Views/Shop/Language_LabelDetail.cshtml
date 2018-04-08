@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "Language_LabelDetail";
+    Layout = null;
+    List<Language_Label_Detail> LabelDetail = new List<Language_Label_Detail>();
+    LabelDetail = ViewBag.LanguageDetailList;
+    int MaxLength = LabelDetail.Select(c => c.Order_id).Max().Value;
+}
+
+<table class="table table-striped margin-top15">
+    <thead>
+        <tr>
+            <th class="spa-label2">English</th>
+            <th class="spa-label2">German</th>
+            <th class="spa-label2">French</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @for (int i = 1; i <= MaxLength; i++)
+        {
+            <tr>
+                @foreach (var item in LabelDetail.Where(c => c.Order_id == i).OrderBy(c => c.Lang_id))
+                {
+                    if (item.Lang_id == 1)
+                    {
+                        <td class="spa-label1 @(item.newdata=="0"?"":"DeclinedTrColor")" style="cursor:pointer;" onclick="EditLanguage(@item.Lang_Detail_Id)">@item.Value</td>
+                    }
+                    if (item.Lang_id == 2)
+                    {
+                        <td class="spa-label1 @(item.newdata=="0"?"":"DeclinedTrColor")" style="cursor:pointer;" onclick="EditLanguage(@item.Lang_Detail_Id)">@item.Value</td>
+                    }
+                    if (item.Lang_id == 3)
+                    {
+                        <td class="spa-label1 @(item.newdata=="0"?"":"DeclinedTrColor")" style="cursor:pointer;" onclick="EditLanguage(@item.Lang_Detail_Id)">@item.Value</td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>

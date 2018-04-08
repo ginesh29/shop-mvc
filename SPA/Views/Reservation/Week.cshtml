@@ -1,0 +1,231 @@
+﻿@{
+    Layout = null;
+    long UserIds = 0;
+    List<SPA.Models.WeekDayBlockDetail> WeekDetaillist = new List<SPA.Models.WeekDayBlockDetail>();
+    WeekDetaillist = ViewBag.WeeklyUserData;
+    if (WeekDetaillist != null && WeekDetaillist.Count > 0)
+    {
+        UserIds = WeekDetaillist.OrderBy(c => c.UserId).Select(c => c.UserId).FirstOrDefault();
+    }
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.Language;
+}
+
+<div class="emp-slider-padding padding-left50" id="EmployeesWeekbtn">
+    <!--Employee slider-->
+   
+        @if (WeekDetaillist.Count > 0)
+        {
+            <div class="employee-detail-slider">
+                <div class="item">
+                    <a class="employee-slider-box all-text-box" onclick="ShowAllButton('All');">
+                        <span>@*ALL*@ @Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()</span>
+                    </a>
+                </div>
+                @foreach (var item in WeekDetaillist.OrderBy(c => c.UserId))
+                {
+                <div class="item">
+                    <a class="employee-slider-box" id="@item.UserId" onclick="ShowDataWeeklyCalender(@item.UserId)">
+                        <div class="img-box emp-height-box">
+                            @if (!string.IsNullOrEmpty(item.Image))
+                            {
+                                <img src="@item.Image" onerror="this.onerror=null;this.src='/images/defaultuser.png';">
+                            }
+                            else
+                            {
+                                <img src="~/images/defaultuser.png" />
+                            }
+                        </div>
+                        <span>@item.firstName @item.lastName</span>
+                    </a>
+                </div>
+                }
+            </div>
+        }
+           
+    <!--Employee slider-->
+    <div class="clearfix"></div>
+    @*@if (WeekDetaillist.Count > 0)
+        {
+            <input type="button" onclick="ShowAllButton('All');" class="btn btn-browse btn-small margin-top15 margin-right5 " value="ALL">
+            foreach (var item in WeekDetaillist.OrderBy(c=>c.UserId))
+            {
+                <input type="button" class="btn btn-browse btn-small margin-top15 margin-right5" id="@item.UserId" onclick="ShowDataWeeklyCalender(@item.UserId)" value="@item.firstName @item.lastName">
+            }
+        }*@
+</div>
+
+<div class="calendar-month">
+    @*<div class="text-right">
+        <input type="button" class="btn btn-green margin-bottom5 display-none" id="btnWeekQuickBlocker" value="Quickblocker" BlockUserId="" />
+    </div>*@
+    @if (WeekDetaillist.Count > 0)
+    {
+        <div class="table-responsive">
+            <table class="table cal-table">
+                <thead>
+                    <tr class="month-name">
+                        <th id="UserNamesForWeek" colspan="2">User name</th>
+                        <th id="UnoccWeek" colspan="2">@Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()@*Unutilised*@<span class="badge user-count margin-left5">58%</span></th>
+                        <th colspan="3">
+                            <a onclick="MonthChangeInWeek(0,-1)">
+                                <i class="fa fa-angle-double-left cal-icon"></i>
+                            </a>
+                            <a onclick="MonthChangeInWeek(-1,0)">
+                                <i class="fa fa-angle-left cal-icon"></i>
+                            </a>
+                            <span class="width-20 WeekDatesDisp ">October - 2015</span>
+                            <a onclick="MonthChangeInWeek(1,0)">
+                                <i class="fa fa-angle-right cal-icon"></i>
+                            </a>
+                            <a onclick="MonthChangeInWeek(0,1)">
+                                <i class="fa fa-angle-double-right cal-icon"></i>
+                            </a>
+                        </th>
+                        @*<th>Rating<span class="badge user-count margin-left5">100%</span></th>*@
+                        <th id="WeeklyRevenue" colspan="2">@*Revenue*@@Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault() : <span>0$</span></th>
+                        <th class="Quick_blocker" BlockUserId="" id="btnWeekQuickBlocker"><span class="margin-right5"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i></span>@*Quick Blocker*@ @Language.Where(c => c.Order_id == 29).Select(c => c.Value).FirstOrDefault()</th>
+                    </tr>
+                    <tr>
+                        <th class="remove-padding" colspan="6">
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+
+            <div class="choose-your-product" id="fixColumnHeadCalendar">
+                <table class="table table-striped" id="weektable">
+                    @*<thead>
+                        <tr class="month-name">
+                            <th id="UserNamesForWeek" colspan="2">User name</th>
+                            <th id="UnoccWeek" colspan="2">@Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()@*Unutilised@<span class="badge user-count margin-left5">58%</span></th>
+                            <th colspan="3">
+                                <a onclick="MonthChangeInWeek(0,-1)">
+                                    <i class="fa fa-angle-double-left cal-icon"></i>
+                                </a>
+                                <a onclick="MonthChangeInWeek(-1,0)">
+                                    <i class="fa fa-angle-left cal-icon"></i>
+                                </a>
+                                <span class="width-20 WeekDatesDisp ">October - 2015</span>
+                                <a onclick="MonthChangeInWeek(1,0)">
+                                    <i class="fa fa-angle-right cal-icon"></i>
+                                </a>
+                                <a onclick="MonthChangeInWeek(0,1)">
+                                    <i class="fa fa-angle-double-right cal-icon"></i>
+                                </a>
+                            </th>
+                            @*<th>Rating<span class="badge user-count margin-left5">100%</span></th>
+                            <th id="WeeklyRevenue" colspan="2">@*Revenue@@Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault() : <span>0$</span></th>
+                            <th class="Quick_blocker display-none" BlockUserId="" id="btnQuickBlocker"><span class="margin-right5"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i></span>Quick Blocker</th>
+                        </tr>
+                        <tr>
+                            <th class="remove-padding" colspan="6">
+                            </th>
+                        </tr>
+                    </thead>*@
+                    <thead class="week">
+                        <tr class="bg_green">
+                            <th colspan="24" class="left-auto">
+                                <a onclick="WeekChange(-1)">
+                                    <i class="fa fa-angle-left cal-icon"></i>
+                                </a>
+                                <span class="WeekNumbersDisplay width-20">@Language.Where(C => C.Order_id == 10).FirstOrDefault().Value<span></span></span>
+                                <a onclick="WeekChange(1)">
+                                    <i class="fa fa-angle-right cal-icon"></i>
+                                </a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <thead class="day">
+                        <tr>
+                            <th colspan="2" class="cal-border col-lg-3 col-md-3 col-sm-3 col-xs-3">@Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault()@*Day Name*@</th>
+                            <th class="cal-border text-center">@Language.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault()@*Monday*@</th>
+                            <th class="cal-border text-center">@Language.Where(c => c.Order_id == 17).Select(c => c.Value).FirstOrDefault()@*Tuesday*@</th>
+                            <th class="cal-border text-center">@Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault()@*Wednesday*@</th>
+                            <th class="cal-border text-center">@Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()@*Thursday*@</th>
+                            <th class="cal-border text-center">@Language.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault()@*Friday*@</th>
+                            <th class="cal-border text-center">@Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault()@*Saturday*@</th>
+                            <th class="text-center">@Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault()@*Sunday*@</th>
+                        </tr>
+                    </thead>
+                    <thead class="day day-name Week-Dates" id="Weeks-Dates">
+                        <tr>
+                            <th colspan="2" class="cal-border col-lg-3 col-md-3 col-sm-3 col-xs-3 DateTitle">@Language.Where(c => c.Order_id == 25).Select(c => c.Value).FirstOrDefault()@*Date*@</th>
+                            <th class="cal-border text-center Dates">05-10-2015</th>
+                            <th class="cal-border text-center Dates">06-10-2015</th>
+                            <th class="cal-border text-center Dates">07-10-2015</th>
+                            <th class="cal-border text-center Dates">08-10-2015</th>
+                            <th class="cal-border text-center Dates">09-10-2015</th>
+                            <th class="cal-border text-center Dates">10-10-2015</th>
+                            <th class="text-center Dates">11-10-2015</th>
+                        </tr>
+                    </thead>
+                    <tbody id="WeekCalBodyTag">
+                        @for (int BarPlays = 0; BarPlays < 15; BarPlays++)
+                        {
+                            <tr>
+                                <td colspan="2">08:00</td>
+                                @for (int BarCount = 0; BarCount < 7; BarCount++)
+                                {
+                                    <td></td>
+                                }
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="Nodata text-center">
+            <img src="~/images/defaultuser.png" />
+            <div>@*No Employee Available*@@Language.Where(c => c.Order_id == 28).Select(c => c.Value).FirstOrDefault()</div>
+        </div>
+    }
+</div>
+@if (WeekDetaillist.Count > 0)
+{
+    if (!string.IsNullOrEmpty(Session["ViewUserId"] as string) && !string.IsNullOrEmpty(Session["ViewDate"] as string))
+    {
+        if (Session["ViewUserId"].ToString() != "" && Session["ViewDate"].ToString() != "")
+        {
+            <script>
+                $(document).ready(function () {
+                    $(".loader").show();
+                    GetAllDefaultsForWeek("@Session["ViewDate"].ToString()");
+                    $("#EmployeesWeekbtn a").removeClass("activebutton");
+                    $("#EmployeesWeekbtn #@Session["ViewUserId"].ToString()").addClass("activebutton");
+                    $("#UserNamesForWeek").html($("#EmployeesWeekbtn .activebutton span").html());
+                    GoWeekCalender();
+                });
+            </script>
+
+        }
+        else
+        {
+            <script>
+                $(document).ready(function () {
+                    $(".loader").show();
+                    GetAllDefaultsForWeek();
+                    $("#EmployeesWeekbtn #@UserIds").addClass("activebutton");
+                    $("#UserNamesForWeek").html($("#EmployeesWeekbtn .activebutton span").html());
+                    GoWeekCalender();
+                });
+            </script>
+        }
+    }
+    else
+    {
+        <script>
+            $(document).ready(function () {
+                $(".loader").show();
+                GetAllDefaultsForWeek();
+                $("#EmployeesWeekbtn #@UserIds").addClass("activebutton");
+                $("#UserNamesForWeek").html($("#EmployeesWeekbtn .activebutton span").html());
+                GoWeekCalender();
+            });
+        </script>
+    }
+}

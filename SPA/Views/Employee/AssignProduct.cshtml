@@ -1,0 +1,193 @@
+﻿@model IEnumerable<SPA.Models.GroupProductList>
+@{
+    List<SPA.Models.GroupProductList> GroupingProductList = Model.ToList();
+    ViewBag.Title = "AssignProduct";
+    int Default = 0;
+    Layout = null;
+    string currency = ViewBag.currency;
+    //List<CCTSP_GroupProductDetails> Group = ViewBag.Group;
+    string DurationPre = "Min";
+    List<Language_Label_Detail> Language = new List<Language_Label_Detail>();
+    Language = ViewBag.Language;
+    //List<CCTSP_CategoryDetails> Groupname = ViewBag.Groupname;
+    //List<CCTSP_GroupProductDetails> GroupList = ViewBag.GroupList;
+}
+
+<div class="assign-product margin-top15">
+    <a class="title-green16 add-product-After pull-right margin-right30"><i class="fa fa-plus-square margin-right5"></i>@Language.Where(c => c.Order_id == 43).Select(c => c.Value).FirstOrDefault() @*Add Product*@</a>
+    <div class="col-lg-16 col-lg-offset-1 col-md-20 col-sm-24 add-assign-product" id="DisplayCopy">
+        @Html.AntiForgeryToken()
+        <div class="alert alert-danger" style="display: none"></div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="col-lg-4 col-md-4 col-sm-5 ">
+        </div>
+        <div class="col-lg-10 col-md-10 col-sm-11">
+            <div class="dropdown spa-dropdown">
+            </div>
+        </div>
+        <div class="col-lg-10  col-md-10 col-sm-8">
+            <div class="margin-top5">
+            </div>
+        </div>
+
+    </div>
+    <div class="clearfix"></div>
+    <div class="choose-your-product table-responsive margin-top15" id="AllProduct" style="display:none;">
+        <form id="FormProduct" action="/Employee/AddEmployeeProduct" method="post">
+            @Html.Hidden("ProductUserId")
+            <div class="product-catalog-box add-vacation-table product-catalog-table padding0 hover-remove">
+
+                <div class="table-responsive">
+                    @if (GroupingProductList.Count > 0 && GroupingProductList != null)
+                    {
+                        var GroupIdList = GroupingProductList.Select(c => c.GroupIdByShop).Distinct().ToList();
+                        foreach (var GroupId in GroupIdList)
+                        {
+                            <div class="grouping-product">
+
+                                <div>
+                                    <table class="table table-striped margin-top15 grouping-detail-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="textLeft">
+                                                    <a class="title-green16  margin-left0 cursor-default">
+                                                        @GroupingProductList.Where(c => c.GroupIdByShop == GroupId).Select(c => c.GroupName).FirstOrDefault()
+                                                    </a>
+                                                </th>
+                                                <th></th>
+                                                <th class="textLeft">@Language.Where(c => c.Order_id == 44).Select(c => c.Value).FirstOrDefault()@*OFFERS*@</th>
+                                                <th class="text-center">@Language.Where(c => c.Order_id == 56).Select(c => c.Value).FirstOrDefault()@*Gender*@</th>
+                                                <th class="text-center"> @Language.Where(c => c.Order_id == 45).Select(c => c.Value).FirstOrDefault()@*DURATION*@</th>
+                                                <th class="text-center">@Language.Where(c => c.Order_id == 46).Select(c => c.Value).FirstOrDefault()@*PRICE*@</th>
+                                                <th class="text-center"> @Language.Where(c => c.Order_id == 47).Select(c => c.Value).FirstOrDefault()@*PRODUCTINFORMATION*@ </th>
+                                            </tr>
+                                        </thead>
+
+                                        @foreach (var Productid in GroupingProductList.Where(c => c.GroupIdByShop == GroupId).Select(c => c.ProductId).Distinct().ToList())
+                                        {
+                                            var ProductDetails = GroupingProductList.Where(c => c.ProductId == Productid && c.GroupIdByShop == GroupId).FirstOrDefault();
+                                                <tbody id="TbodyProduct">
+                                                    <tr>
+                                                        <td class="width27per spa-label1"></td>
+                                                        <td class="spa-label1 width5per">
+                                                            <span class="spa-checkbox checkbox AssignEmpProduct">
+                                                                <input value="true" name=@ProductDetails.ProductId id=@ProductDetails.ProductId type="checkbox">
+                                                                <label for=@ProductDetails.ProductId class="form-label spa-label1"></label>
+                                                            </span>
+                                                        </td>
+                                                        <td class="spa-label1 textLeft width30per">@ProductDetails.ProductName</td>
+                                                        @if (ProductDetails.Gender == "Both")
+                                                        {
+                                                            <td class="spa-label1 text-center width10per">
+                                                                <i class="fa fa-female gendericonSize" aria-hidden="true"></i>
+                                                                <i class="fa fa-male gendericonSize" aria-hidden="true"></i>
+                                                            </td>
+                                                        }
+                                                        @if (ProductDetails.Gender == "male")
+                                                        {
+                                                            <td class="spa-label1 text-center width10per">
+                                                                <i class="fa fa-female gendericonSize opacity0" aria-hidden="true"></i>
+                                                                <i class="fa fa-male gendericonSize" aria-hidden="true"></i>
+                                                            </td>
+                                                        }
+                                                        @if (ProductDetails.Gender == "Female")
+                                                        {
+                                                            <td class="spa-label1 text-center width10per">
+                                                                <i class="fa fa-female gendericonSize" aria-hidden="true"></i>
+                                                                <i class="fa fa-male gendericonSize opacity0" aria-hidden="true"></i>
+                                                            </td>
+                                                        }
+                                                        @if (ProductDetails.Gender == null)
+                                                        {
+                                                            <td class="width10per spa-label1 text-center"></td>
+                                                        }
+                                                        <td class="spa-label1 width9per">
+                                                            @ProductDetails.Duration @DurationPre
+                                                        </td>
+                                                        <td class="spa-label1 width9per">
+                                                            @float.Parse(ProductDetails.Amount.ToString()) @currency
+                                                        </td>
+                                                        <td class="text-center width10per">
+                                                            @if(!string.IsNullOrEmpty(ProductDetails.SectionDesc))
+                                                            {
+                                                                <span>
+                                                                    <i class="fa fa-info-circle spa-icon" data-toggle="popover" data-content="@ProductDetails.SectionDesc"></i>
+                                                                </span>
+                                                            }
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>   
+                                        }
+                                    </table>
+                                </div>
+                            </div>
+
+                        }
+                    }
+                    else
+                    {
+                        <table class="table table-striped margin-top15 grouping-detail-table">
+                            <tbody>
+                                <tr>
+                                    <td colspan="4" class="border-top-none">
+                                        <span>
+                                            <img src="~/images/basket.png" alt="" />
+                                        </span>
+                                        <p class="text-center title-grey padding-bottom20">@Language.Where(c => c.Order_id == 48).Select(c => c.Value).FirstOrDefault()@*No product*@</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        Default = 1;
+                    }
+
+                </div>
+            </div>
+            <div class="text-right margin-top20 margin-bottom20 FinalDiv">
+                <input type="button" class="btn btn-green btn-small margin-right5" id="SubmitProductEmp" onclick="ProductAssigning();" value="@Language.Where(c => c.Order_id == 52).Select(c => c.Value).FirstOrDefault()" />
+                <input type="reset" class="btn btn-black btn-small" id="btnAllProductCancel" value="@Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()" />
+            </div>
+        </form>
+    </div>
+    <div id="OnlyEmployeeData">
+        @Html.Action("UserProductAssigned", "Employee")
+    </div>
+</div>
+@if (Default == 0)
+{
+    <script>
+        $("#SubmitProductEmp").show();
+    </script>
+}
+@if (Default == 1)
+{
+    <script>
+        $("#SubmitProductEmp").hide();
+    </script>
+}
+
+<script>
+    $('[data-toggle="popover"]').popover({
+        placement: 'bottom',
+        trigger: 'hover'
+    });
+    $(".add-product-After").click(function () {
+        $("#AllProduct").show();
+        $("#onlyEmployees").hide();
+        $("#DisplayCopy").show();
+        $("#add-product").hide();
+    });
+    $("#btnAllProductCancel").click(function () {
+        $("#AllProduct").hide();
+        $("#onlyEmployees").show();
+        $("#DisplayCopy").hide();
+        $("#add-product").show();
+    });
+    $('.AssignedProductEmployee li a').click(function () {
+        var selText = $(this).text();
+        var CopyFromEmp = $(this).attr("id");
+        $("#CopyEmployee").val(CopyFromEmp);
+        $(".ProductMenu").html(selText + '<span class="caret"></span>');
+    });
+</script>

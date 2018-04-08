@@ -1,0 +1,101 @@
+﻿@model IEnumerable<SPA.SPA_LeaveMaster>
+@{
+    ViewBag.Title = "Vacation";
+    Layout = null;
+    var LngLocal = ViewBag.LngLocal;
+    List<Language_Label_Detail> Language = new List<Language_Label_Detail>();
+    Language = ViewBag.Language;
+}
+<div class="assign-product margin-top15" id="AddVacation">
+    <a class="title-green16 pull-right col-lg-7 col-md-7 col-sm-7 title-green16-right add-vac-dtl"><i class="fa fa-plus-square margin-right5"></i> @Language.Where(c => c.Order_id == 39).Select(c => c.Value).FirstOrDefault()@*Add Vacation*@</a>
+    <div class="clearfix"></div>
+    <div class="choose-your-product margin-top15 vacation-block">
+        <div class="col-lg-24 col-md-24 col-sm-24 vacation-box">
+            <div class="add-vacation-block">
+                <div class="add-vacation">
+                    <form id="VacationForm" method="post" action="/Employee/VacationAdd">
+                        @Html.Hidden("VacationId")
+                        @Html.Hidden("EditVacationId")
+                        <div class="row">
+                            <ul class="row">
+                                <li class="col-lg-10 col-md-10 col-sm-10 form-group">
+                                    <label class="form-label spa-label">@Language.Where(c => c.Order_id == 40).Select(c => c.Value).FirstOrDefault()@*Vacation Name*@</label>
+                                    <input type="text" name="VacationDesc" id="VacationDescEdit" class="form-control required spa-text-box text-box spa-text-box2" maxlength="99" placeholder="@Language.Where(c => c.Order_id == 55).Select(c => c.Value).FirstOrDefault()">
+                                    @Html.ValidationMessage("VacationDesc", "", new { @class = "text-danger" })
+                                </li>
+                                <li class="col-lg-7 col-md-7 col-sm-7 form-group">
+                                    <label class="form-label spa-label">@Language.Where(c => c.Order_id == 41).Select(c => c.Value).FirstOrDefault()@*From*@</label>
+                                    <input type="text" name="StartDate" id="StartDateEdit" class="form-control spa-text-box required spa-text-box2  dateimg spa-border-radius" placeholder="DD/MM/YYYY">
+                                </li>
+                                <li class="col-lg-7 col-md-7 col-sm-7 form-group">
+                                    <label class="form-label spa-label">@Language.Where(c => c.Order_id == 42).Select(c => c.Value).FirstOrDefault()@*To*@</label>
+                                    <input type="text" name="EndDate" id="EndDateEdit" class="form-control spa-text-box required spa-text-box2  dateimg spa-border-radius" placeholder="DD/MM/YYYY">
+                                </li>
+                                <li class="col-lg-24 col-md-24 col-sm-24 col-xs-24 text-right">
+                                    <input type="button" class="btn btn-green btn-small margin-top15 margin-right5" value=" @Language.Where(c => c.Order_id == 52).Select(c => c.Value).FirstOrDefault() " id="VacationSave" onclick="VacationAdding();">
+                                    <input type="button" class="btn btn-black btn-small margin-top15" id="CancelVacation" value=" @Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault() ">
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-lg-15 col-md-16 col-sm-22 add-vacation-table paddingBottom50" id="VacationTableDetail">
+            @Html.Action("VacationDetail", "Employee",new {UserId= ViewBag.UserId })
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    
+    var date = new Date();
+   // date.setDate(date.getDate() - 1);
+    $('#StartDateEdit').datetimepicker({
+        format: 'DD/MM/YYYY',
+        minDate: date,
+        locale: '@LngLocal',
+        widgetPositioning: {
+            horizontal: 'auto',
+            vertical: 'bottom'
+        }
+    });
+    $('#EndDateEdit').datetimepicker({
+        format: 'DD/MM/YYYY',
+        minDate: date,
+        locale: '@LngLocal',
+        widgetPositioning: {
+            horizontal: 'auto',
+            vertical: 'bottom'
+        }
+    });
+        var dateRange = {
+            dateStartDateControlId: "StartDateEdit", // Start date control id
+            dateEndDateControlId: "EndDateEdit" // End date control id
+        };
+        InitDateTimePicker(dateRange);
+        function InitDateTimePicker(dateRange) {
+            var minDate = new Date();
+            minDate.setDate(date.getDate()-1);
+            $('#' + dateRange.dateStartDateControlId).on("dp.change", function (e) {
+                $('#' + dateRange.dateStartDateControlId).data("DateTimePicker").minDate(minDate);
+                $('#' + dateRange.dateStartDateControlId).data("DateTimePicker").format('DD/MM/YYYY');
+            });
+            $('#' + dateRange.dateStartDateControlId).datetimepicker({
+
+            });
+            $('#' + dateRange.dateStartDateControlId).on("dp.change", function (e) {
+                $('#' + dateRange.dateEndDateControlId).data("DateTimePicker").minDate(e.date);
+                $('#' + dateRange.dateEndDateControlId).data("DateTimePicker").format('DD/MM/YYYY');
+            });
+            $('#' + dateRange.dateEndDateControlId).datetimepicker({
+            });
+        }
+        $("#CancelVacation").click(function () {
+            $('#VacationForm')[0].reset();
+            $(".add-vacation-block").slideToggle();
+            $("#EditVacationId").val("");
+        });
+
+</script>

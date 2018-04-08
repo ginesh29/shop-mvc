@@ -1,0 +1,61 @@
+﻿@model SPA.spa_DemoShop
+
+@{
+    ViewBag.Title = "LiveDemo";
+    List<Language_NewShop> Language = ViewBag.Language;
+    Language = Language.Where(c => c.Page_Name == "ADVANTAGES_PAGE").ToList();
+    int Lang = ViewBag.LangId;
+}
+<div class="live_demo mt30">
+    <div class="row text-center">
+        <h4>we will contact you</h4>
+    </div>
+    <div class="col-lg-14 col-lg-offset-5 col-md-16 col-md-offset-4 col-sm-20 col-sm-offset-2">
+        <form name="frmLiveDemo" id="frmLiveDemo" action="/Clickandgo/AddLiveDemo?Lang=@Lang" method="post">
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row form-group">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            @Html.Label("First Name", htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.first_name, new { htmlAttributes = new { @class = "login-input-box form-control text-box required" } })
+                            @Html.ValidationMessageFor(model => model.first_name, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            @Html.Label("Last Name", htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "login-input-box form-control text-box required" } })
+                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                        </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        @Html.Label("Email", htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "login-input-box form-control text-box required email" } })
+                        @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        @Html.Label("Shop Type", htmlAttributes: new { @class = "control-label" })
+                        @*@Html.EditorFor(model => model.shoptype_id, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.DropDownListFor(c => c.shoptype_id, (SelectList)(ViewBag.ShopTypeList), new { @class = "login-input-box form-control text-box required" })
+                        @Html.ValidationMessageFor(model => model.shoptype_id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        @Html.Label("Mobile Number", htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.mobilenumber, new { htmlAttributes = new { @class = "login-input-box form-control text-box required digits" } })
+                        @Html.ValidationMessageFor(model => model.mobilenumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="text-center mt20">
+                        <input type="submit" value="Submit" class="btn continue-btn green-btn" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $("#frmLiveDemo").validate();
+</script>

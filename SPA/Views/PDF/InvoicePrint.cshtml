@@ -1,0 +1,537 @@
+﻿@{
+    System.Globalization.CultureInfo enGB = new System.Globalization.CultureInfo("en-GB");
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.LanguageInfo;
+    ViewBag.Title = Language.Where(c => c.Order_id == 82).Select(c => c.Value).FirstOrDefault();
+    Layout = null;
+    List<SPA.Models.ManualInvoice> InvoiceDetails = new List<SPA.Models.ManualInvoice>();
+    InvoiceDetails = Model;
+    bool Status = ViewBag.Status;
+    var Url = ViewBag.Url;
+    var RedirectUrl = "/Invoice/Invoicing#" + Url;
+    if (Url == "calendarmonth" || Url == "Appclosed")
+    {
+        RedirectUrl = "/Reservation/Reservation#" + Url;
+    }
+    decimal Amount = ViewBag.Amount != null ? ViewBag.Amount : 0.00;
+    var Link = ViewBag.link;
+    List<SPA.Models.CatgDropDownList> CatgDropDown = new List<SPA.Models.CatgDropDownList>();
+    CatgDropDown = ViewBag.VatDropDown;
+    var ViewStatus = ViewBag.viewStatus;
+    var Rstatus = ViewBag.RStatus;
+    List<SPA.Models.CategoryDetails> categoryDetails = ViewBag.partialPage;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="~/Scripts/jquery-2.1.1.min.js"></script>
+    @*@Styles.Render("~/Content/css")*@
+    <title>@ViewBag.Title</title>
+    @*<link href="~/Content/Print_invoice_IE.css" rel="stylesheet" />*@
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link id="ChromeCss" href="@Link/Content/print_invoice.css" rel="stylesheet"  />
+    @*<link href="@Link/Content/print_invoice.css" rel="stylesheet" />*@
+    <style>
+        .Print_heading {
+            display: inline-block;
+            width: 100%;
+        }
+
+        .print_maring {
+            margin: 1% 13%;
+            background-color: #ddd;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        .black_border {
+            margin-bottom: -1px;
+            padding: 0 3px;
+            border: 1px solid #000;
+        }
+
+            .black_border table {
+                border-spacing: 0;
+            }
+
+        .padding-top10 {
+            padding-top: 2px !important;
+        }
+
+        .padding-bottom10 {
+            padding-bottom: 2px !important;
+        }
+
+        .details_table tbody tr td {
+            font-weight: 500;
+            font-family: Verdana !important;
+            vertical-align: top;
+            font-size: 12px;
+            word-break: break-all;
+        }
+
+            .details_table tbody tr td.HelthTD_14px {
+                font-size: 13px;
+            }
+
+        .HelthTD_14px {
+            font-size: 13px;
+        }
+
+        .P_font10 {
+            font-size: 16px;
+        }
+
+        .product_print table thead tr th {
+            font-size: 12px;
+            font-family: Verdana !important;
+            font-weight: normal;
+        }
+
+        .product_print table tbody tr td {
+            font-size: 12px;
+            font-weight: normal;
+            padding: 0;
+            vertical-align: top;
+            font-family: Verdana !important;
+        }
+
+        .Invoice_footer table tbody tr td {
+            word-break: break-all;
+            font-size: 12px;
+            font-family: Verdana !important;
+            padding: 0;
+        }
+
+        .footer_table {
+            width: 100%;
+            font-family: Verdana !important;
+        }
+
+            .footer_table tbody tr td {
+                vertical-align: top;
+            }
+
+        .barcode {
+            margin-left: 10px;
+            float: left;
+            position: relative;
+            height: 35px;
+            overflow: hidden;
+            width: 35px;
+        }
+
+        .Barcode_box {
+            position: absolute;
+            margin: 0 auto;
+            left: 0;
+            top: 0;
+        }
+
+            .Barcode_box img {
+                height: 100%;
+                width: 100%;
+            }
+
+        .barcode_text {
+            float: right;
+        }
+
+        .last_Footerline {
+            width: 100%;
+            display: inline-block;
+            margin-top: 2px;
+        }
+
+
+
+        .invoice_footer_box {
+            margin-top: 20px;
+        }
+
+        .Back_button {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .back {
+            color: #84b002;
+            word-break: break-word;
+            font-size: 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .Invoice_box {
+            margin-top: 10px;
+            background-color: #fff;
+            padding: 10px 5px 5px 5px;
+            border: 1px solid #ccc;
+        }
+
+        .Invoice_footer {
+            position: absolute !important;
+            bottom: 20px;
+            width: 97%;
+            left: 10px;
+        }
+
+        .Invoice_print {
+            position: relative;
+            height: 1280px;
+        }
+    </style>
+    @*CSS for GeneralInvoice*@
+    <style>
+        .Background_Invoice {
+            background-color: #f2f3f5;
+        }
+
+        .general_Invoice {
+            /*margin: 2% 10%;*/
+            background-color: #fff;
+            padding: 10px 20px;
+        }
+
+        .mRop_heading h4 {
+            font-size: 24px;
+            font-family: Verdana !important;
+            color: #84b002 !important;
+        }
+
+        .address_box {
+            border: 1px solid #ddd;
+            padding: 0px 10px;
+        }
+
+        .Month_RepBold {
+            color: #000;
+            font-size: 14px;
+            font-weight: bold;
+            font-family: Verdana !important;
+        }
+
+        .width200 {
+            width: 200px;
+        }
+
+        .details_invoice h4 {
+            padding: 10px 20px;
+            background-color: #f3f3f3 !important;
+            color: #292929;
+            font-family: Verdana !important;
+            font-size: 20px;
+        }
+
+        .Generalinvoice_table h4 {
+            color: #292929;
+            font-family: Verdana !important;
+            font-size: 20px;
+        }
+
+        .details_invoice {
+            display: inline-block;
+            width: 100%;
+        }
+
+            .details_invoice table tbody tr td {
+                padding: 2px 15px;
+            }
+
+        .Month_Repregular {
+            color: #000;
+            font-size: 14px;
+            font-family: Verdana !important;
+            font-weight: normal;
+        }
+
+        .Rep_logo {
+            height: 120px;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto;
+        }
+
+            .Rep_logo img {
+                margin: auto;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                max-height: 100%;
+                max-width: 100%;
+                position: absolute;
+            }
+
+        .table_heading {
+            padding: 10px;
+            background-color: #f3f3f3;
+        }
+
+        .Generalinvoice_table table thead tr th, .Generalinvoice_table table tbody tr td {
+            padding: 3px 10px;
+        }
+
+        .Generalinvoice_table table thead tr th {
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .free_text {
+            margin-top: 10px;
+            width: 99%;
+            border: 1px solid #ddd;
+            min-height: 90px;
+            padding: 2px;
+            border-radius: 5px;
+        }
+
+            .free_text p {
+                margin: 0;
+                padding: 2px;
+                font-size: 14px;
+                font-family: Verdana !important;
+                word-break: break-all;
+            }
+
+        .monthRep_footer {
+            border: 1px solid #84b002;
+            padding: 10px 20px;
+        }
+
+        .footer_sign {
+            color: #000;
+            margin: 60px 0 10px 0;
+            padding-top: 5px;
+            border-top: 2px dashed #d0d0d0;
+            width: 85%;
+            font-size: 14px;
+            font-weight: normal;
+            font-family: Verdana !important;
+        }
+
+        .foooter_border {
+            border-bottom: 0 !important;
+            border-top: 2px solid #2a2a2a;
+        }
+
+        .width100 {
+            width: 100px;
+        }
+
+        .Generalinvoice_table .spa-text-box {
+            height: 25px;
+            padding: 0 5px;
+            width: 50px;
+        }
+
+        .Back_button {
+            text-align: right;
+        }
+
+        .back {
+            color: #84b002;
+            word-break: break-word;
+            font-size: 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .width_GI70 {
+            width: 71%;
+        }
+
+        .width_GI20 {
+            width: 21%;
+        }
+    </style>
+    @if (!Status && ViewStatus != "D")
+    {
+        <style>
+            .Invoice_box {
+                padding: 0 !important;
+                margin-top: 0 !important;
+                background-color: #fff !important;
+                padding: 0 !important;
+                border: 0 !important;
+                letter-spacing: 0.2px !important;
+                 font-family: Verdana !important;
+            }
+
+            .details_table tbody tr td {
+                white-space: normal !important;
+                min-width: 50px;
+                font-size: 11px !important;
+                font-weight: normal !important;
+                word-break: break-all !important;
+                letter-spacing: 0.2px !important;
+                 font-family: Verdana !important;
+            }
+
+                .details_table tbody tr td.HelthTD_14px {
+                    font-size: 10px !important;
+                }
+
+            .HelthTD_14px {
+                font-size: 10px !important;
+            }
+
+            .P_font10 {
+                font-size: 14px !important;
+            }
+
+            .print_maring {
+                margin: 0 !important;
+                height: 100%;
+                background-color: #fff;
+            }
+
+            .Invoice_print {
+                position: relative;
+                height: 1280px;
+            }
+
+            .product_print table thead tr th, .product_print table tbody tr td, .Invoice_footer table tbody tr td {
+                font-size: 11px !important;
+                letter-spacing: 0.2px !important;
+                 font-family: Verdana !important;
+            }
+
+            .product_print table thead tr th {
+                text-align: left;
+            }
+
+            .new_invoice {
+                page-break-before: always !important;
+            }
+
+            .P_font9 {
+                font-size:11px !important;
+            }
+
+            .P_font14 {
+                font-size: 14px !important;
+            }
+            /*.invoice_footer_box{position:relative;margin-top:0 !important;}*/
+            .Invoice_footer {
+                 font-family: Verdana !important;
+                position: absolute !important;
+                bottom: -10px !important;
+                width: 99% !important;
+                left: 10px !important;
+            }
+
+            .details_table tbody tr td {
+                font-family: Verdana !important;
+            }
+
+            .barcode {
+                margin-left: 10px !important;
+            }
+
+
+            .black_border {
+                margin-bottom: -1px;
+            }
+            .width40 {
+                width: 40px !important;
+            }
+
+            .width60 {
+                width: 60px !important;
+            }
+
+            .width50 {
+                width: 50px !important;
+            }
+
+            .Back_button {
+                display: none !important;
+            }
+            .PDF_paddingRight{padding-right:8px !important;}
+            .PDF_16{font-size:16px !important;}
+            .PDF_Ptop-4px{padding-top:4px !important;}
+            .PDF_1-0 {
+                height: 1.0cm !important;
+            }
+        .padding-top10 {
+            padding-top: 4px !important;
+        }
+
+        .padding-bottom10 {
+            padding-bottom: 4px !important;
+        }
+        .PDF_Pad_3{padding-top:3px !important;padding-bottom:3px !important;}
+        </style>
+    }
+</head>
+<body>
+    <div class="Back_button">
+        <a href="@RedirectUrl" class="back"><i class="fa fa-reply-all" style="margin-right:5px;font-size: 18px;"></i>@*Back*@ @Language.Where(c => c.Order_id == 92 && c.Page_Name == "Invoice_Page").Select(c => c.Value).FirstOrDefault()</a>
+    </div>
+</body>
+@if (InvoiceDetails.Count > 0)
+{
+    foreach (var Item in InvoiceDetails.Select(c => c.InvoiceNo).Distinct().OrderBy(c => c).ToList())
+    {
+        var InvoiceList = InvoiceDetails.Where(c => c.InvoiceNo == Item).ToList();
+        var info = InvoiceList.Where(c => c.InvoiceNo == Item).FirstOrDefault();
+        var DisplayInvoice = info.Cust_Display_Invoice != null ? info.Cust_Display_Invoice.Value : info.DisplayInvoice;
+        var Invoice = info.DisplayInvoice == 2 ? info.DisplayInvoice : DisplayInvoice;
+        <body class="print_maring">
+            @foreach (var CatgData in categoryDetails.Where(c => c.Group_orderdata == Invoice).Select(c => c.CatgDesc).Distinct().ToList())
+            {
+                <div class="page_margin new_invoice">
+                    @Html.Partial(CatgData, InvoiceList)
+                </div>
+            }
+            <div id="ABC" style="display:none;"></div>
+        </body>
+    }
+
+}
+
+</html>
+<script>
+
+</script>
+@if (Status && ViewStatus != "D")
+{
+    <script type="text/javascript">
+
+        var IsIE = /Trident/.test(navigator.userAgent);
+        if (IsIE) {
+            var $head = $("head");
+            $("#ChromeCss").remove();
+            var linkElement = "<link href='@Link/Content/Print_invoice_IE.css' rel='stylesheet' />";
+            $head.append(linkElement);
+            window.print();
+        }
+        else if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
+            var $head = $("head");
+            $("#ChromeCss").remove();
+            var linkElement = "<link href='@Link/Content/Print_Invocie_Safari.css' rel='stylesheet' />";
+            $head.append(linkElement);
+            window.print();
+        }
+        else {
+            window.print();
+        }
+        function alertFunc() {
+            if (!$("#ABC").is(":visible")) {
+                $("#ABC").show();
+                @*if ("@Url" == "openlistview" || "@Url" == "openlistview")
+                    window.location.href = "/Reservation/Reservation#openlistview";
+                else
+                    window.location.href = "/Invoice/Invoicing#@Url";*@
+                window.location.href = "@RedirectUrl";
+            }
+            window.onafterprint = function () {
+                $("#ABC").hide();
+            }
+        }
+        setInterval(alertFunc, 2000);
+    </script>
+}
+

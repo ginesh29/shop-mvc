@@ -1,0 +1,374 @@
+﻿@model SPA.Models.EmployeeJsonModel
+@{
+    Layout = "~/Views/Shared/_Employee_Layout.cshtml";
+    List<SPA.Models.MainCategoryDetails> SpecialCategory = new List<SPA.Models.MainCategoryDetails>();
+    SpecialCategory = ViewBag.Category;
+    var Status = ViewBag.Status;
+    SPA.Models.MainCategoryDetails selectedCategory = ViewBag.selected;
+}
+<ol class="spa-breadcrumbs breadcrumb">
+    @*<li><a href="#" class="active">Home</a></li>
+        <li><a href="#">Reservation</a></li>*@
+</ol>
+<div class="form-content">
+    @Html.Partial("Freecustomer_Layout")
+    <div class="col-lg-24 col-md-24 col-sm-24 margin-top10 padding-right20">
+        <a class="title-green16 pull-right" href="/FreeCustomer/OwnerInfo"><i class="fa fa-reply-all margin-right5"></i>Back</a>
+    </div>
+    <div class="employee-blank Owner_infopage">
+        <div class="Owner_section">
+            <div class="">
+                <h1 class="italic-title margin-top10">
+                    Employee list <span class="badge user-count margin-left5" id="EmpListCount">2</span>
+                    <a class="title-green16 pull-right" id="add-emp"><i class="fa fa-plus-square margin-right5"></i>Add Employee</a>
+                </h1>
+                <div class="create-employee-form" id="add-emp-box" style="display:none;">
+                    <form id="FrmMultiEmployee" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-lg-16 col-md-16 col-sm-12">
+                                <div class="form-group row">
+                                    <div class="col-lg-8 col-md-8">
+                                        @Html.Label("Mobile Number", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                    </div>
+                                    <div class="col-lg-16 col-md-16">
+                                        @Html.EditorFor(model => model.EmpNumber, new { htmlAttributes = new { @class = "form-control required digits  spa-text-box text-box single-line", @minlength = "10", @maxlength = "10" } })
+                                        @Html.ValidationMessage("Mobile Number", "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-8 col-md-8">
+                                        @Html.Label("Title", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                    </div>
+                                    <div class="col-lg-16 col-md-16">
+                                        @Html.DropDownListFor(model => model.EmpGender, (SelectList)(ViewBag.Client), new { @class = "form-control required spa-dropdown-box" })
+                                        @Html.ValidationMessage("Title", "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-8 col-md-8">
+                                        @Html.Label("First Name", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                    </div>
+                                    <div class="col-lg-16 col-md-16">
+                                        @Html.EditorFor(model => model.EmpFName, new { htmlAttributes = new { @class = "form-control required spa-text-box text-box single-line", @maxlength = "50" } })
+                                        @Html.ValidationMessage("First Name", "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-8 col-md-8">
+                                        @Html.Label("Family Name", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                    </div>
+                                    <div class="col-lg-16 col-md-16">
+                                        @Html.EditorFor(model => model.EmpLName, new { htmlAttributes = new { @class = "form-control  spa-text-box text-box single-line", @maxlength = "50" } })
+                                        @Html.ValidationMessage("Family Name", "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-8 col-md-8">
+                                        @Html.Label("Email", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                    </div>
+                                    <div class="col-lg-16 col-md-16">
+                                        @Html.EditorFor(model => model.EmpEmail, new { htmlAttributes = new { @class = "form-control email spa-text-box text-box single-line", @maxlength = "50" } })
+                                        @Html.ValidationMessage("Email", "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-8 col-md-8">
+                                        @Html.Label("Fees", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                    </div>
+                                    <div class="col-lg-16 col-md-16">
+                                        @Html.EditorFor(model => model.EmpCharge, new { htmlAttributes = new { @class = "form-control number required spa-text-box text-box single-line" } })
+                                        @Html.ValidationMessage("Fees", "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <div class="user-circle-img">
+                                    <span><img src="~/images/defaultuser.png" id="EmpImage" alt="" /></span>
+                                </div>
+                                <div class="text-center">
+                                    <a class="file-input-wrapper btn btn-browse">
+                                        <span>Browse</span>
+                                        <input type="file" title="Browse" class="btn-primary" id="EmpImage_Name" name="EmpImage_Name" onchange="setPreviewHomePageImage(this, 'EmpImage');">
+                                        <input type="hidden" id="Hidden_EmpImage" name="Hidden_EmpImage" value="" />
+                                    </a>
+                                    <input type="button" class="btn btn-browse display-none" id="EmpImage_Delete" value="Delete" onclick="DeletePreviewPicture('EmpImage');" />
+                                    <span id="EmpImage_error" class="doctorValid"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="@(Status=="2"?"":"display-none") margin-top20">
+                            <div class="Owner_section_heading p-relative">
+                                <div class="Ownerborder-green"></div>
+                                <h4>Extra</h4>
+                            </div>
+                            <div class="margin-top15 row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group row">
+                                        <div class="col-lg-8 col-md-8">
+                                            @Html.Label("Degree", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                        </div>
+                                        <div class="col-lg-16 col-md-16">
+                                            @Html.EditorFor(model => model.EmpDegree, new { htmlAttributes = new { @class = "form-control required spa-text-box text-box single-line", @maxlength = "349" } })
+                                            @Html.ValidationMessage("Degree", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-lg-8 col-md-8">
+                                            @Html.Label("SkypeId", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                        </div>
+                                        <div class="col-lg-16 col-md-16">
+                                            @Html.EditorFor(model => model.EmpSkypeId, new { htmlAttributes = new { @class = "form-control spa-text-box text-box single-line", @maxlength = "99" } })
+                                            @Html.ValidationMessage("SkypeId", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-lg-8 col-md-8">
+                                            @Html.Label("Experience Year", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                        </div>
+                                        <div class="col-lg-16 col-md-16">
+                                            @Html.EditorFor(model => model.EmpExpYear, new { htmlAttributes = new { @class = "form-control digits required spa-text-box text-box single-line", @maxlength = "2" } })
+                                            @Html.ValidationMessage("Experience Year", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-lg-8 col-md-8">
+                                            @Html.Label("Experience Month", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                        </div>
+                                        <div class="col-lg-16 col-md-16">
+                                            @Html.EditorFor(model => model.EmpExpMonth, new { htmlAttributes = new { @class = "form-control digits spa-text-box text-box single-line", @maxlength = "2" } })
+                                            @Html.ValidationMessage("Experience Month", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    @for (int i = 1; i <= 4; i++)
+                                    {
+                                        <div class="row form-group">
+                                            <div class="col-lg-8 col-md-8">
+                                                <label class="form-label spa-label-bold">Specialization @i</label>
+                                            </div>
+                                            <div class="col-lg-16 col-md-16">
+                                                <div class="dropdown spa-dropdown">
+                                                    <input type="text" class="dropdown-toggle spa-text-box form-control spa-dropdown-box EventDisplayDrop dropmenuEllips" id="VSpecialization_@i" data-toggle="dropdown" aria-expanded="false" placeholder="Select Specialization" />
+                                                    <ul class="dropdown-menu Specialization_@i">
+                                                        @foreach (var Item in SpecialCategory)
+                                                        {
+                                                            <li><a id="@Item.MainCatgId">@Item.MainCategory</a></li>
+                                                        }
+                                                    </ul>
+                                                    <input type="hidden" value="" name="HSpecialization_@i" id="HSpecialization_@i" />
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group text-center margin-top20">
+                            <input type="button" class="btn btn-green margin-right5" value="Submit" id="AddEmployee">
+                            <input type="button" class="btn btn-black" value="Cancel" id="CancelAddEmp">
+                            @*<a class="btn btn-black">Cancel</a>*@
+                        </div>
+                    </form>
+                </div>
+                <div class="choose-your-product table-responsive employee-master-table">
+                    <table class="table">
+                        <tbody id="MultiEmployeeMasterTable">
+                            <tr id="NoEmployee">
+                                <td class="spa-label1 Nodata text-center" colspan="5">
+                                    <img src="~/images/defaultuser.png" />
+                                    <div>No Employee Available</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <form id="FrmEmp" action="/FreeCustomer/AddMultipleEmployee" method="post" enctype="multipart/form-data">
+                        <div class="form-group text-center margin-top20">
+                            <input type="hidden" value="" name="EmpJsonModel" id="EmpJsonModel" />
+                            <input type="Submit" class="btn btn-green margin-right5 display-none " value="Next" id="NxtPage">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@for (int i = 1; i <= 4; i++)
+{
+    <script>
+        $('[id="VSpecialization_@i"]').val('@Html.Raw(selectedCategory.MainCategory)');
+    </script>
+}
+<script>
+    function setPreviewHomePageImage(input, id) {
+        var fileExtension = ["jpg", "jpeg", "png", "gif"];
+        if ($.inArray($("#" + id + "_Name").val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+            $("#" + id + "_error").text("Only '.jpeg','.jpg','.png','.gif' formats are allowed.").fadeIn().delay(2000).fadeOut();
+        }
+        else {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                   $('#' + id).attr('src', e.target.result);
+                    $("#" + id + "_Delete").show();
+                    $("#Hidden_" + id).val(e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    }
+    function DeletePreviewPicture(Id) {
+        $("#" + Id + "_Name").val('');
+        document.getElementById(Id).src = "";
+        $("#" + Id + "_Delete").hide();
+        $("#Hidden_" + Id).val('');
+    }
+
+    $("#add-emp").click(function () {
+        $("#add-emp-box").slideToggle();
+        $("#Hidden_EmpImage").val('');
+        $("#EmpImage").prop("src", "/images/defaultuser.png");
+        $("#EmpImage_Delete").hide();
+        $("#HSpecialization_1").val('@selectedCategory.MainCatgId');
+        $("#HSpecialization_2").val('@selectedCategory.MainCatgId');
+        $("#HSpecialization_3").val('@selectedCategory.MainCatgId');
+        $("#HSpecialization_4").val('@selectedCategory.MainCatgId');
+
+    });
+    $('#InfoPage').addClass('present active');
+    $('#EmployeePage').addClass('present');
+    $("#EmpListCount").html($("#MultiEmployeeMasterTable tr").not("#NoEmployee").length);
+    $("body").delegate("#MultiEmployeeMasterTable tr a", "click", function () {
+        var Empid = $(this).prop("id");
+        var JsonArray = JSON.parse($("#EmpJsonModel").val());
+        JsonArray = $.grep(JsonArray, function (item, index) { return item.Empid != Empid });
+        if (JsonArray.length == 0)
+            $("#EmpJsonModel").val("");
+        else
+            $("#EmpJsonModel").val(JSON.stringify(JsonArray));
+        $(this).closest("tr").remove();
+        if ($("#MultiEmployeeMasterTable tr").not("#NoEmployee").length == 0) {
+            $("#NxtPage").addClass("display-none");
+            $("#NoEmployee").removeClass("display-none");
+        }
+        $("#EmpListCount").html($("#MultiEmployeeMasterTable tr").not("#NoEmployee").length);
+    });
+
+    NewDropDown();
+    $("#VSpecialization_1,#VSpecialization_2,#VSpecialization_3,#VSpecialization_4").change(function () {
+        $(this).parent().find("input[type='hidden']").val("");
+        if ($(this).val() != "") {
+            var value = $(this).parent().find("ul li:contains('" + $(this).val() + "')");
+            if (value.length != 0)
+            { $(this).parent().find("input[type='hidden']").val(value.find("a").attr("id")); }
+        }
+    })
+    function NewDropDown() {
+        var ResultVal = "";
+        $("body").delegate(".Specialization_1 li a,.Specialization_2 li a,.Specialization_3 li a, .Specialization_4 li a", "click", function () {
+            var GetDefaultDetail = $(this);
+            var ChangingUL = GetDefaultDetail.closest("ul");
+            var IdforHidden = "";
+            var GetId = "";
+            var GetHtml = "";
+            if (ChangingUL.hasClass("Specialization_1"))
+                IdforHidden = "Specialization_1";
+            if (ChangingUL.hasClass("Specialization_2"))
+                IdforHidden = "Specialization_2";
+            if (ChangingUL.hasClass("Specialization_3"))
+                IdforHidden = "Specialization_3";
+            if (ChangingUL.hasClass("Specialization_4"))
+                IdforHidden = "Specialization_4";
+
+            ResultVal = $(this).text();
+            var Textobj = "";
+            Textobj = $(this).closest("ul").parent().find("input[type='text']");
+            Textobj.val(ResultVal).change();
+            GetId = GetDefaultDetail.prop("id");
+            //$("#H" + IdforHidden).val(GetId);
+        });
+        $("#VSpecialization_1,#VSpecialization_2,#VSpecialization_3,#VSpecialization_4").keyup(function () {
+            var Element = $(this);
+            ResultVal = Element.val().toLowerCase();
+            var NearestUL = Element.parent().find("ul li");
+            NearestUL.each(function () {
+                if ($(this).html().toLowerCase().indexOf(ResultVal) == -1) $(this).hide();
+                else $(this).show();
+            });
+            if (Element.attr("aria-expanded") == "false") Element.click();
+        });
+    }
+    $("#CancelAddEmp").click(function () {
+        $("#add-emp-box").slideUp();
+        $("#FrmMultiEmployee")[0].reset();
+        $("#FrmMultiEmployee").validate().resetForm();
+        $("#Hidden_EmpImage").val('');
+        $("#EmpImage").prop("src", "/images/defaultuser.png");
+        $("#HSpecialization_1").val('');
+        $("#HSpecialization_2").val('');
+        $("#HSpecialization_3").val('');
+        $("#HSpecialization_4").val('');
+    });
+    var Ab = 1;
+    $("#AddEmployee").click(function () {
+        var Empvalidate = $("#FrmMultiEmployee").validate().form();
+        if (Empvalidate != false) {
+            var EmpJsonArray = [];
+            if ($("#EmpJsonModel").val() != "")
+                EmpJsonArray = jQuery.parseJSON($("#EmpJsonModel").val());
+            var EmpNumber = $("#EmpNumber").val();
+            var EmpFName = $("#EmpFName").val();
+            var EmpLName = $("#EmpLName").val();
+            var EmpImage = $("#EmpImage").prop("src");
+            var EmpImage_Name = $("#EmpImage_Name").val();
+            var Hidden_EmpImage = $("#Hidden_EmpImage").val();
+            var EmpGender = $("#EmpGender").val();
+            var EmpEmail = $("#EmpEmail").val();
+            var EmpCharge = $("#EmpCharge").val();
+            var EmpSkypeId = $("#EmpSkypeId").val();
+            var EmpDegree = $("#EmpDegree").val();
+            var EmpExpMonth = $("#EmpExpMonth").val();
+            var EmpExpYear = $("#EmpExpYear").val();
+            var HSpecialization_1 = $("#HSpecialization_1").val();
+            var HSpecialization_2 = $("#HSpecialization_2").val();
+            var HSpecialization_3 = $("#HSpecialization_3").val();
+            var HSpecialization_4 = $("#HSpecialization_4").val();
+            var JsonString = {
+                Empid: Ab, EmpNumber: EmpNumber, EmpFName: EmpFName, EmpLName: EmpLName, EmpGender: EmpGender, EmpEmail: EmpEmail,
+                EmpCharge: EmpCharge, EmpSkypeId: EmpSkypeId, EmpDegree: EmpDegree, EmpExpMonth: EmpExpMonth, EmpExpYear: EmpExpYear,
+                HSpecialization_1: HSpecialization_1, HSpecialization_2: HSpecialization_2, HSpecialization_3: HSpecialization_3,
+                HSpecialization_4: HSpecialization_4, EmpImage: EmpImage, EmpImage_Name: EmpImage_Name, Hidden_EmpImage: Hidden_EmpImage
+            };
+            Ab = Ab + 1;
+            EmpJsonArray.push(JsonString);
+            $("#EmpJsonModel").val(JSON.stringify(EmpJsonArray));
+            $.ajax({
+                url: "/FreeCustomer/MultipleEmpList",
+                method: "post",
+                data: { Jsonresult: JsonString },
+                success: function (DisplayText) {
+                    $("#FrmMultiEmployee")[0].reset();
+                    $("#FrmMultiEmployee").validate().resetForm();
+                    $("#add-emp-box").slideToggle();
+                    var DisplayTable = $("#MultiEmployeeMasterTable");
+                    $("#NoEmployee").addClass("display-none");
+                    var Length = DisplayTable.find("tr").length;
+                    if (Length == 0)
+                        DisplayTable.html(DisplayText);
+                    else
+                        DisplayTable.find("tr").first().before(DisplayText);
+                    if ($("#MultiEmployeeMasterTable tr").not("#NoEmployee").length > 0)
+                        $("#NxtPage").removeClass("display-none");
+                    $("#EmpListCount").html($("#MultiEmployeeMasterTable tr").not("#NoEmployee").length);
+
+                }
+            });
+        }
+
+
+    });
+
+
+</script>

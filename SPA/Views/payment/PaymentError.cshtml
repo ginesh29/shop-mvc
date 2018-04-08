@@ -1,0 +1,23 @@
+﻿@{
+    List<SPA.Models.LanguageLabelDetails> Language = ViewBag.Language;
+    ViewBag.Title = Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault();
+}
+<div class="PaymentError_page">
+    <div class="PaymentError_img">
+        <img src="~/images/Payment_failed.png" />
+    </div>
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-8 col-md-10 col-md-offset-7 col-sm-14 col-sm-offset-5 col-xs-20 col-xs-offset-2">
+            <div class="payment_msg">
+
+                <h4>
+                    <span><i class="fa fa-exclamation-circle" aria-hidden="true"></i></span>
+                    @*Your transaction could not be processed*@ @Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-green">@*Retry*@ @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</button>
+    </div>
+</div>

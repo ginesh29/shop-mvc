@@ -1,0 +1,264 @@
+﻿@{
+    Layout = "~/Views/Shared/_Employee_Layout.cshtml";
+
+    string currency = ViewBag.currency;
+    string DurationPre = "Min";
+    List<SPA.Models.GroupProductList> ProductList = new List<SPA.Models.GroupProductList>();
+    ProductList = ViewBag.DataProductAssigned;
+    List<Language_Label_Detail> FullLang = ViewBag.OpenLang;
+    var Language = FullLang.Where(c => c.Page_Name.ToLower() == "choose_product").ToList();
+    var Language_Reservation_Update = FullLang.Where(c => c.Page_Name.ToLower() == "reservation_update").ToList();
+    var Monthlist = FullLang.Where(c => c.Page_Name.ToLower() == "small_calander").ToList();
+    ViewBag.Title = FullLang.Where(c => c.Page_Name == "Title" && c.Order_id == 16).Select(c => c.Value).FirstOrDefault();
+    long ReservationId = ViewBag.ReservationId;
+    var LanguageBack = FullLang.Where(c => c.Page_Name.ToLower() == "back_button").FirstOrDefault();
+    var LanguageAlert = FullLang.Where(c => c.Page_Name.ToLower() == "alertmsg").FirstOrDefault();
+    var status = "";
+    if (ViewBag.ReservationStatus != null && ViewBag.ReservationStatus != "")
+    {
+        status = ViewBag.ReservationStatus;
+    }
+    SPA.CCTSP_SchoolMaster ShopInfo = ViewBag.ShopInfo;
+}
+
+<ol class="spa-breadcrumbs breadcrumb"></ol>
+
+<div id="ProductDisplay" class="form-content">
+    @*<tr><td>@Language_Reservation_Update.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()</td></tr>*@
+    <div class="col-lg-20 col-lg-offset-2 col-md-18 col-md-offset-3 col-sm-20 col-sm-offset-2">
+        <h4 class="online-res margin-top20">
+            @Language_Reservation_Update.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()@*Original reservation*@
+        </h4>
+        <div id="Bookinghistory">
+            <div class="choose-your-product table-responsive choose-employee-table updateReservation">
+                <table class="table table-striped">
+                    <tbody>
+                        <tr><td>@Language_Reservation_Update.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault():</td><td>@ViewBag.ReservedData.CCTSP_CategoryDetails.CatgDesc</td></tr> @*Booked Product*@
+                        <tr>
+                            @{
+                                string bookingdate = "";
+                                if (ViewBag.ReservedData.BookingDate != null)
+                                {
+                                    var monthname = DateTime.Parse(ViewBag.ReservedData.BookingDate).ToString("MMMM");
+                                    var MonthLanguagechange = Monthlist.Where(c => c.English_Label.ToLower() == monthname.ToLower()).Select(c => c.Value).FirstOrDefault();
+                                    bookingdate = ViewBag.ReservedData.BookingDate.Replace(monthname, MonthLanguagechange);
+                                }
+                            }
+                            <td>@Language_Reservation_Update.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault():</td>
+                            <td>@bookingdate</td>
+                        </tr>   @*Booking Date*@
+                        <tr><td>@Language_Reservation_Update.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault():</td><td>@ViewBag.EmpName</td></tr>  @*EmployeeName*@
+                        <tr><td>@Language_Reservation_Update.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault():</td><td>@ViewBag.ReservedData.FromSlotMasterId</td></tr>  @*Booking StartTime*@
+                        <tr><td>@Language_Reservation_Update.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault():</td><td>@ViewBag.ReservedData.ToSlotMasterId</td></tr>  @*Booking EndTime*@
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @if (ViewBag.ReservationStatus != null && ViewBag.ReservationStatus != "")
+        {
+
+            <div class="col-lg-24 col-md-24 col-sm-24 margin-top10">
+                <a href="/Reservation/Reservation#calendarmonth" class="title-green16 pull-right"><i class="fa fa-reply-all margin-right5"></i>@LanguageBack.Value</a>
+            </div>
+            <div class="clearfix"></div>
+        }
+        else
+        {
+            <div class="col-lg-24 col-md-24 col-sm-24 margin-top10">
+                <a href="/Reservation/Reservation" class="title-green16 pull-right"><i class="fa fa-reply-all margin-right5"></i>@LanguageBack.Value</a>
+            </div>
+            <div class="clearfix"></div>
+        }
+        <div class="choose-your-product table-responsive">
+            <div class="product-catalog-box add-vacation-table product-catalog-table padding0 hover-remove">
+                <div class="table-responsive">
+                    @foreach (var GroupId in ProductList.Select(c => c.GroupIdByShop).Distinct())
+                    {
+                        <div class="grouping-product">
+                            <div>
+                                <table class="table table-striped margin-top15 grouping-detail-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="textLeft">
+                                                <a class="title-green16  margin-left0 cursor-default">
+                                                    @ProductList.Where(c => c.GroupIdByShop == GroupId).Select(c => c.GroupName).FirstOrDefault()
+                                                </a>
+                                            </th>
+                                            <th></th>
+                                            <th class="textLeft">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()@*OFFERS*@</th>
+                                            <th class="text-center">@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()@*Gender*@</th>
+                                            <th class="text-center">  @Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()@*DURATION*@ </th>
+                                            <th class="text-center"> @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()@*PRICE*@</th>
+                                            <th class="text-center">@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()@*PRODUCTINFORMATION*@</th>
+                                        </tr>
+                                    </thead>
+                                    @foreach (var item in ProductList.Where(c => c.GroupIdByShop == GroupId).ToList())
+                                    {
+                                        <tbody id="TbodyProduct">
+                                            <tr>
+                                                <td class="width27per"></td>
+                                                <td class="spa-label1 width5per">
+                                                    <div class="spa-checkbox checkbox ProductDiv">
+                                                        <input id="@item.ProductId" name=@item.ProductId type="checkbox">
+                                                        <label for="@item.ProductId" class="form-label spa-label1"></label>
+                                                    </div>
+                                                </td>
+                                                <td class="spa-label1 textLeft width30per">@item.ProductName</td>
+                                                @if (item.Gender == "Both")
+                                                {
+                                                    <td class="spa-label1 text-center width10per">
+                                                        <i class="fa fa-female gendericonSize" aria-hidden="true"></i>
+                                                        <i class="fa fa-male gendericonSize" aria-hidden="true"></i>
+                                                    </td>
+                                                }
+                                                @if (item.Gender == "male")
+                                                {
+                                                    <td class="spa-label1 text-center width10per">
+                                                        <i class="fa fa-female gendericonSize opacity0" aria-hidden="true"></i>
+                                                        <i class="fa fa-male gendericonSize" aria-hidden="true"></i>
+                                                    </td>
+                                                }
+                                                @if (item.Gender == "Female")
+                                                {
+                                                    <td class="spa-label1 text-center width10per">
+                                                        <i class="fa fa-female gendericonSize" aria-hidden="true"></i>
+                                                        <i class="fa fa-male gendericonSize opacity0" aria-hidden="true"></i>
+                                                    </td>
+                                                }
+                                                @if (item.Gender == null)
+                                                {
+                                                    <td class="width10per spa-label1 text-center"></td>
+                                                }
+                                                <td class="spa-label1 width9per">
+                                                    @item.Duration @DurationPre
+                                                </td>
+                                                <td class="spa-label1 width9per">
+                                                    @float.Parse(item.Amount.ToString()) @currency
+                                                </td>
+                                                <td class="text-center width10per">
+                                                    @if (!string.IsNullOrEmpty(item.SectionDesc))
+                                                    {
+                                                        <span>
+                                                            <i class="fa fa-info-circle spa-icon" data-toggle="popover" data-content="@item.SectionDesc"></i>
+                                                        </span>
+                                                    }
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    }
+                                </table>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+            <div class="text-right margin-bottom10 margin-top20 text-res-center">
+                <input type="button" class="btn btn-green margin-bottom10" id="ClientEmployeeBtn" value="@Language_Reservation_Update.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()" />  @*"Change"*@
+                <input type="button" class="btn btn-black margin-bottom10" id="NoThanksProduct" value="@Language_Reservation_Update.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()" />   @*"No Thanks"*@
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <input type="hidden" id="ProductSelected" />
+    <div class="clearfix"></div>
+</div>
+<div id="EmployeeSelection" class="form-content overflowhidden" style="display:none;">
+
+    <div class="clearfix"></div>
+</div>
+
+@{
+    <script>
+        $("#@ViewBag.ReservedData.CCTSP_CategoryDetails.CatgTypeId").attr("checked", true);
+        $("#ProductSelected").val(@ViewBag.ReservedData.CCTSP_CategoryDetails.CatgTypeId);
+    </script>
+}
+<div class="alert-modal">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg_green">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel"><span class="alert-icon"><i class="fa fa-exclamation-triangle spa-icon"></i></span>@*Alert Message*@@LanguageAlert.Value!</h4>
+                </div>
+                <div class="modal-body" id="MsgAlert">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-green btn-small" data-dismiss="modal">@*OK*@ @Language_Reservation_Update.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault()</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("_LoderPage", ShopInfo.SchlStudentStrength);
+@*<div class="loader" id="helloWorld" style="display:none;">
+        <img src="~/images/@(ShopInfo.SchlStudentStrength==3?"Doctor_Loader3.gif":"SPALOADER.gif")" />
+    </div>*@
+<script>
+    $("#NoThanksProduct").click(function () {
+        $(".loader").show();
+        $("#ProductDisplay").hide();
+        $("#EmployeeSelection").show();
+        var CatgType = $("#ProductSelected").val();
+        if (CatgType!="") {
+            $.post("/Reservation/ChooseEmployeeUpdates?CatgTypeId=" + CatgType + "&ReservationId=" +@ReservationId +"&Status=@status", function (data) {
+                $("#EmployeeSelection").html(data);
+                $("#ShowDefaultBooking").html($("#Bookinghistory").html());
+                $(".loader").hide();
+            })
+        }
+        else
+        {
+            if ("@status" == "CalUpdateReservation")
+                window.location.href = "/Reservation/Reservation#calendarmonth";
+            else 
+                window.location.href = "/Reservation/Reservation#openlistview";
+        }
+
+    });
+    $('.spa-checkbox input[type="checkbox"]').click(function () {
+        var a = $(this).attr("name");
+        $.each($('.spa-checkbox input[type="checkbox"]'), function () {
+            if ($(this).prop("checked") && $(this).attr("name") != a) {
+                $(this).attr("checked", false);
+            }
+        });
+    });
+    $("#ClientEmployeeBtn").click(function () {
+
+        $(".loader").show();
+        var Id = "";
+        var ChkMsg = "";
+        $.each($('.ProductDiv input[Type="checkbox"]'), function () {
+            if ($(this).prop("checked")) {
+                Id = $(this).attr("id");
+                ChkMsg = "Yes";
+            }
+        })
+        $("#ProductSelected").val($("#" + Id).attr("id"));
+        var CatgType = $("#ProductSelected").val();
+        if (ChkMsg == "Yes") {
+            $.post("/Reservation/ChooseEmployeeUpdates?CatgTypeId=" + CatgType + "&ReservationId=" +@ReservationId +"&Status=@status", function (data) {
+                $("#EmployeeSelection").show();
+                $("#ProductDisplay").hide();
+                $("#EmployeeSelection").html(data);
+                $("#ShowDefaultBooking").html($("#Bookinghistory").html());
+                $(".loader").hide();
+            })
+
+        }
+        else {
+            $(".loader").show();
+            $.post("/Product/GetDataOfLanguage?Text='Please select Product'&id=7", function (data) {
+                $(".loader").hide();
+                $("#MsgAlert").html("<h2 class=\"modal-h4 text-center\">" + data + "</h2>");
+                $('#myModal').modal("show");
+            });
+
+        }
+    });
+
+</script>

@@ -1,0 +1,70 @@
+﻿@model IEnumerable<SPA.SPA_SchedulerSlotMaster>
+@{
+    Layout = null;
+    int i = 1;
+}
+@if (ViewBag.DataCount != 0)
+{
+    foreach (var item in Model)
+    {
+        DateTime time = DateTime.Today.Add(DateTime.Parse(item.StartTime.ToString()).TimeOfDay);
+        string displayTime = time.ToString("HH:mm");
+        <a class="btn btn-time spa-label" name=@i id="@item.SlotDue">@displayTime</a>
+        i = i + 1;
+    }
+}
+else
+{
+    <h3> No Time is Available</h3>
+}
+<script>
+   
+
+    $("#TimeSlotDataForm a").click(function () {
+        $(".loader").show();
+        var EmpUserId = $("#EmployeeChoosed").val();
+        var Date = $(".k-days .k-selected").attr("data-date");
+        $("#TimeSlotDataForm .book").removeClass("book");
+        $("#TimeSlotDataForm .active").removeClass("active");
+        var selectedtime = $(this);
+        var a = $(this).attr("name");
+        var b = parseInt($("#TotalDuration").val());
+        var Slot = 0;
+        $.post("/Home/CheckDurationDifference?EmpUserId=" + EmpUserId + "&Date=" + Date, function (data) {
+            Slot = parseInt(data);
+            var i = 0;
+            $.each($("#TimeSlotDataForm a"), function () {
+                if ($(this).attr("name") == a) {
+                    i = 1;
+                }
+                if (i == 1) {
+                    if (b > 0) {
+                        if (!$(this).hasClass("RemoveActivate")) {
+                            b = b - Slot;
+                            //$(this).addClass("book");
+                        }
+                        else {
+                            b = 100000;
+                        }
+                    }
+                }
+            });
+            if (b > 0) {                
+                $(".loader").hide();
+                $.post("/product/GetDataOfLanguage?Text=Please select other Time as Your requirment can not be fulfilled&id=36", function (data) {
+                    $("#MsgAlert").html("<h2 class=\"modal-h4 text-center\">" + data + "</h2>");
+                    $('#myModal').modal("show");
+                    $("#TimeSlotDataForm .book").removeClass("book");
+                    $("#TimeSlotDataForm .active").removeClass("active");
+                    $("#choosedTime").val("");
+                });
+            }
+            else {
+                $('[name='+a+']').addClass("active");
+                var ClickedTime = $(selectedtime).html();
+                $("#choosedTime").val(ClickedTime);
+                $(".loader").hide();
+            }
+        });
+    });
+</script>

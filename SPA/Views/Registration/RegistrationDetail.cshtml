@@ -1,0 +1,238 @@
+﻿@model  SPA.Models.Registration
+@using System.Configuration;
+@{
+    Layout = null;
+    List<Language_NewShop> Language = ViewBag.Language;
+    int LanguageId = ViewBag.LangId;
+    List<spatime_zone> CountryList = ViewBag.countrylist;
+    List<SPA.Models.LanguageLabelDetails> LangNameList = ViewBag.LangNameList;
+}
+@Styles.Render("~/Contents/css")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/clickscript")
+<script type="text/javascript" src="~/Scripts/Location.js"></script>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @if (LanguageId > 1)
+    {
+        @Html.Partial("_LangValidation", "/Scripts/messages_" + LangNameList.Where(c => c.Lang_id == LanguageId).Select(c => c.English_Label).FirstOrDefault().ToLower() + ".js");
+    }
+    @*@if (LanguageId == 2){<script type="text/javascript" src="~/Scripts/messages_de.js"></script>}
+        @if (LanguageId == 3){<script type="text/javascript" src="~/Scripts/messages_fr.js"></script>}*@
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMSFX8VQlWkX6sUZPN9bKh5aF7lpS9Lwc&libraries=places&sensor=false"></script>
+    <title>@*Registration Detail*@ @Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 54).Select(c => c.Value).FirstOrDefault()</title>
+</head>
+<body style="background:#fff;">
+    <div class="container">
+        <div class="bg-grey border-radius5">
+            <div class="login-main">
+                @Html.Partial("_Progressbar", Language.Where(c => c.Page_Name == "Registration_Page").ToList())
+                <form name="RegistrationDetail" id="RegistrationDetail" action="/Registration/RegistrationDetail" method="post">
+                    @*<input type="hidden" id="shopState_hidden" name="shopState_hidden" value="@Model.shopState_hidden" valueId="@Model.shopState" />
+                        <input type="hidden" id="shopcity_hidden" name="shopcity_hidden" value="@Model.shopcity_hidden" valueId="@Model.shopcity" />
+                        @if (CountryList.Where(c => c.name_country == "INDIA").Count() > 0)
+                        {
+                            <input type="hidden" id="shopcountry_hidden" name="shopcountry_hidden" value="@(Model.shopcountry_hidden != null?Model.shopcountry_hidden:"INDIA")" valueId="@(Model.shopcountry != null?Model.shopcountry:Convert.ToString(CountryList.Where(c=>c.name_country=="INDIA").Select(c=>c.geonameid).FirstOrDefault()))" />
+                        }
+                        else
+                        {
+                            <input type="hidden" id="shopcountry_hidden" name="shopcountry_hidden" value="@(Model.shopcountry_hidden != null?Model.shopcountry_hidden:"SWITZERLAND")" valueId="@(Model.shopcountry != null?Model.shopcountry:Convert.ToString(CountryList.Where(c=>c.name_country=="SWITZERLAND").Select(c=>c.geonameid).FirstOrDefault()))" />
+                        }*@
+                    <div class="personal-block">
+                        <h5>
+                            @*LOCATION*@@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 38).Select(c => c.Value).FirstOrDefault())
+                            <a href="@(LanguageId>0?"/Registration/Registration?lang="+LanguageId:"/Registration/Registration")" class="back-btn"><i class="fa fa-reply-all"></i>@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 30).Select(c => c.Value).FirstOrDefault()) </a>@*Back*@
+                        </h5>
+                    </div>
+                    <input type="hidden" value="@LanguageId" name="Langid" id="Langid" />
+                    <input type="hidden" value="@ViewBag.ShopDetails" name="ShopTypeJson" id="ShopTypeJson" />
+                    <div class="personal-main">
+                        <div class="col-lg-14 col-lg-offset-5 col-md-20 col-md-offset-2 col-sm-22 col-sm-offset-2 col-xs-22 col-xs-offset-1">
+
+                            <div class="row form-group">
+                                <div class="col-lg-8 col-md-7 col-sm-8 personal-detail ">
+                                    <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 11).Select(c => c.Value).FirstOrDefault()) *@*COUNTRY*@ </label>
+                                </div>
+                                <div class="col-lg-16 col-md-17 col-sm-14 p0 reg-margint15">
+                                        @*@Html.EditorFor(Model => Model.shopcountry_hidden, new { htmlAttributes = new { @class = "form-control registration-input-box required" } })*@
+                                        @if (CountryList.Where(c => c.name_country == "INDIA").Count() > 0)
+                                        {
+                                            @*@Html.DropDownListFor(c => c.shopcountry, new SelectList(ViewBag.countrylist, "geonameid", "name_country", (Model.shopcountry != null ? Model.shopcountry : Convert.ToString(CountryList.Where(c => c.name_country == "INDIA").Select(c => c.geonameid).FirstOrDefault()))), new { @class = "login-input-box form-control required", @onchange = "GetLocationData(this.value,'shopState',2,'shopcountry');" })*@
+                                            @Html.DropDownListFor(c => c.shopcountry_hidden, new SelectList(CountryList, "name_country", "name_country", "INDIA"), new { @class = "login-input-box form-control required" })
+                                        }
+                                        else
+                                        {
+                                            @*@Html.DropDownListFor(c => c.shopcountry, new SelectList(ViewBag.countrylist, "geonameid", "name_country", (Model.shopcountry != null ? Model.shopcountry : Convert.ToString(CountryList.Where(c => c.name_country == "SWITZERLAND").Select(c => c.geonameid).FirstOrDefault()))), new { @class = "login-input-box form-control required", @onchange = "GetLocationData(this.value,'shopState',2,'shopcountry');" })*@
+                                            @Html.DropDownListFor(c => c.shopcountry_hidden, new SelectList(CountryList, "name_country", "name_country", "SWITZERLAND"), new { @class = "login-input-box form-control required" })
+                                        }
+                                        @*@Html.DropDownListFor(c => c.shopcountry, new SelectList(ViewBag.countrylist, "geonameid", "name_country", Model.shopcountry), new { @class = "login-input-box form-control required", @onchange = "getplaces(this.value, 'shopState',this.id);" })*@
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-8 col-md-7 col-sm-8 personal-detail">
+                                        <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 43).Select(c => c.Value).FirstOrDefault()) *@*State*@ </label>
+                                </div>
+                                <div class="col-lg-16 col-md-17 col-sm-14 p0 reg-margint15">
+                                        @*@Html.DropDownListFor(c => c.shopState, new SelectList(""), new { @class = "login-input-box form-control required", @onchange = "GetLocationData(this.value,'shopcity',3,'shopState');" })*@
+                                        @Html.EditorFor(c => c.shopState_hidden, new { htmlAttributes = new { @class = "login-input-box form-control required" } })
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-8 col-md-7 col-sm-8 personal-detail">
+                                        <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 12).Select(c => c.Value).FirstOrDefault())*@*CITY*@</label>
+                                </div>
+                                <div class="col-lg-16 col-md-17 col-sm-14 p0 reg-margint15">
+                                        @Html.EditorFor(c => c.shopcity_hidden, new { htmlAttributes = new { @class = "login-input-box form-control required" } })
+                                        @*@Html.DropDownListFor(c => c.shopcity, new SelectList(""), new { @class = "login-input-box form-control required", @onchange = "SetHidden('shopcity');" })*@
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-8 col-md-7 col-sm-8 personal-detail">
+                                    <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 13).Select(c => c.Value).FirstOrDefault()) *@*ZIP CODE*@</label>
+                                </div>
+                                <div class="col-lg-16 col-md-17 col-sm-14 p0 reg-margint15">
+                                        @Html.EditorFor(Model => Model.shopzipcode, new { htmlAttributes = new { @class = "form-control registration-input-box required digits", @maxlength = "8" } })
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-8 col-md-7 col-sm-8 personal-detail">
+                                    <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 14).Select(c => c.Value).FirstOrDefault())*@*ADDRESS*@</label>
+                                </div>
+                                <div class="col-lg-16 col-md-17 col-sm-14 p0 reg-margint15">
+                                        @Html.EditorFor(Model => Model.shopaddress, new { htmlAttributes = new { @class = "form-control registration-input-box required" } })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="personal-block">
+                        <h5>@*YOUR BUSINESS*@@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 39).Select(c => c.Value).FirstOrDefault())</h5>
+                    </div>
+                    <div class="personal-main">
+                        <div class="col-lg-14 col-lg-offset-5 col-md-20 col-md-offset-2 col-sm-22 col-sm-offset-2 col-xs-22 col-xs-offset-1">
+                            <div class="row form-group">
+                                <div class="col-lg-8 col-md-7 col-sm-7 col-xs-24 personal-detail">
+                                    <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 15).Select(c => c.Value).FirstOrDefault()) *@*SHOP TYPE*@</label>
+                                </div>
+                                <div class="col-lg-13 col-md-14 col-sm-14 col-xs-20 Res-padding0">
+                                        @Html.DropDownListFor(c => c.ShopType, (SelectList)(ViewBag.ShopTypeList), new { @class = "login-input-box form-control required", @id = "ShopType", @onchange = "FillMainCatgType()" })
+                                        <input type="hidden" name="ShopTypeName" id="ShopTypeName" />
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4 Res320padd_0 form-group">
+                                        <a href="#" class="btn info-btn">
+                                            <span class="glyphicon glyphicon-info-sign"></span>
+                                        </a>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-8 col-md-7 col-sm-7 col-xs-24 personal-detail">
+                                    <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 17).Select(c => c.Value).FirstOrDefault())*@*MAINCATEGORY*@</label>
+                                </div>
+                                <div class="col-lg-13 col-md-14 col-sm-14 col-xs-20 Res-padding0">
+                                        @Html.EditorFor(Model => Model.maincategory, new { htmlAttributes = new { @class = "form-control registration-input-box required", @id = "MainCategory", @readonly = "true" } })
+                                        <input type="hidden" name="MainCatgId" id="MainCatgId" />
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4 Res320padd_0">
+                                        <a href="#" class="btn info-btn">
+                                            <span class="glyphicon glyphicon-info-sign"></span>
+                                        </a>
+                                </div>
+                            </div>
+
+                            @*<div class="row">
+                                    <div class="col-lg-8 col-md-7 personal-detail">
+                                        <label class="form-label">SPECIALIZATION</label>
+                                    </div>
+                                    <div class="col-lg-13 col-md-14">
+                                        <div class="form-group">
+                                            @Html.EditorFor(Model => Model.specialization, new { htmlAttributes = new { @class = "form-control registration-input-box" } })
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3">
+                                        <div class="form-group">
+                                            <a href="#" class="btn info-btn">
+                                                <span class="glyphicon glyphicon-info-sign"></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>*@
+
+                            <div class="row form-group">
+                                <div class="col-lg-8 col-md-7 col-sm-7 col-xs-24 personal-detail">
+                                    <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 34).Select(c => c.Value).FirstOrDefault())* @*Numberofemployees*@</label>
+                                </div>
+                                <div class="col-lg-13 col-md-14 col-sm-14 col-xs-20 Res-padding0">
+                                        @*<input class="form-control registration-input-box" type="text">*@
+                                        @Html.EditorFor(Model => Model.Numberofemployees, new { htmlAttributes = new { @class = "form-control registration-input-box required digits" } })
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4 Res320padd_0">
+                                        <a href="#" class="btn info-btn">
+                                            <span class="glyphicon glyphicon-info-sign"></span>
+                                        </a>
+                                </div>
+                            </div>
+
+                            <div class="text-center mt30 marginb20">
+                                <input type="submit" class="continue-btn green-btn" value="@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 29).Select(c => c.Value).FirstOrDefault())" />@*NExt*@
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    $("#RegistrationDetail").validate();
+    $('#Login').addClass('login-detail active');
+    $('#Registration').addClass('login-detail');
+    $('#Registration a').addClass('active');
+    function FillMainCatgType() {
+        var SolutionId = $('#ShopType').val();
+        var JsonArray = [];
+        if ($("#ShopTypeJson").val() != "")
+            JsonArray = jQuery.parseJSON($("#ShopTypeJson").val());
+        jQuery.grep(JsonArray, function (obj) {
+            if (obj.ShopTypeId == SolutionId) {
+                $("#ShopTypeName").val(obj.ShopTypeId);
+                $("#MainCategory").val(obj.MainCategory);
+                $("#MainCatgId").val(obj.MainCatgId);
+            }
+        });
+
+    }
+    var Stateinput = document.getElementById('shopState_hidden');
+    var Stateautocomplete = new google.maps.places.Autocomplete(Stateinput);
+    google.maps.event.addListener(Stateautocomplete, 'place_changed', function (Stateinput) {
+        var place = Stateautocomplete.getPlace();
+        $("#shopState_hidden").val(place.name);
+    })
+    var Cityinput = document.getElementById('shopcity_hidden');
+    var Cityautocomplete = new google.maps.places.Autocomplete(Cityinput, { types: ['(cities)'] });
+    google.maps.event.addListener(Cityautocomplete, 'place_changed', function (Cityinput) {
+        var place = Cityautocomplete.getPlace();
+        $("#shopcity_hidden").val(place.name);
+    })
+    // GetLocationData($("#shopcountry option:selected").val(), 'shopState', 2, 'shopcountry');
+</script>
+@if (ViewBag.LangId == 1)
+{
+    <script>
+        $("#LangChange #English a").addClass("activeShop");
+    </script>
+}
+@if (ViewBag.LangId == 2)
+{
+    <script>
+        $("#LangChange #German a").addClass("activeShop");
+    </script>
+}
+@if (ViewBag.LangId == 3)
+{
+    <script>
+        $("#LangChange #French a").addClass("activeShop");
+    </script>
+}

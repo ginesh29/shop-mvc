@@ -1,0 +1,110 @@
+﻿@model SPA.CCTSP_User
+@{
+    Layout = null;
+    List<Language_Label_Detail> Language = new List<Language_Label_Detail>();
+    Language = ViewBag.Language;
+    var LanguageBack = ViewBag.LanguageBack;
+}
+<form id="EmployeeForm" action="/Employee/CreateEmployeeAdd" method="post" enctype="multipart/form-data">
+    <div class="col-lg-16 col-md-16 col-sm-16">
+        @Html.HiddenFor(c => c.UserId)
+        @Html.AntiForgeryToken()
+        <div class="alert alert-danger" style="display: none"></div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="col-lg-6 col-md-7">
+                @Html.Label(@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault().ToString() + " *", htmlAttributes: new { @class = "form-label spa-label-bold" })
+            </div>
+            <div class="col-lg-18 col-md-17">
+                <div class="form-group">
+                    @Html.EditorFor(c => c.PhoneNo, new { htmlAttributes = new { @class = "form-control spa-text-box required", @id = "PhoneNo", @Minlength = 10, @Maxlength = 10, @placeholder = @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault() } })
+                    @Html.ValidationMessageFor(c => c.PhoneNo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-7">
+                @Html.Label(@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault().ToString() + "", htmlAttributes: new { @class = "form-label spa-label-bold" })
+            </div>
+            <div class="col-lg-18 col-md-17">
+                <div class="form-group">
+                    <div class="dropdown spa-dropdown SPA-VacationDrop">
+                        <a class="dropdown-toggle spa-text-box form-control required spa-dropdown-box MenuDrop GendDropVal" data-toggle="dropdown">
+
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu GenderEmployee">
+                            @foreach (var GenderList in ViewBag.GenderList)
+                            {
+                                <li><a>@GenderList</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                @Html.HiddenFor(c => c.Gender)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-7">
+                @Html.Label(@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault().ToString() + " *", htmlAttributes: new { @class = "form-label spa-label-bold" })
+            </div>
+            <div class="col-lg-18 col-md-17">
+                <div class="form-group">
+                    @Html.EditorFor(c => c.FirstName, new { htmlAttributes = new { @class = "form-control spa-text-box required", @placeholder = @Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault() } })
+                    @Html.ValidationMessageFor(c => c.FirstName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-7">
+                @Html.Label(@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault().ToString(), htmlAttributes: new { @class = "form-label spa-label-bold" })
+            </div>
+            <div class="col-lg-18 col-md-17">
+                <div class="form-group">
+                    @Html.EditorFor(c => c.LastName, new { htmlAttributes = new { @class = "form-control spa-text-box", @placeholder = @Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault() } })
+                    @Html.ValidationMessageFor(c => c.LastName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-md-7">
+                @Html.Label(@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault().ToString()+" *", htmlAttributes: new { @class = "form-label spa-label-bold" })
+            </div>
+            <div class="col-lg-18 col-md-17">
+                <div class="form-group">
+                    @Html.EditorFor(c => c.EmailId, new { htmlAttributes = new { @class = "form-control spa-text-box required email", @placeholder = @Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault() } })
+                    @Html.ValidationMessageFor(c => c.EmailId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group text-right margin-top20">
+            <input type="button" class="btn btn-green margin-right5" id="btnLogin" value=" @Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()" onclick="SubmitEmployee();" />
+            @if (ViewBag.UserId != 0 && ViewBag.UserId != null)
+            {
+                <a href="/Employee/EmployeeMaster" class="btn btn-black">@Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault().ToString() </a>
+            }
+            else
+            {
+                <a href="/Employee/EmployeeMaster" class="btn btn-black">@Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()</a>
+                                    @*<input type="button" class="btn btn-black" id="btnCreateCancel" value="Cancel" />*@
+            }
+
+        </div>
+        @Html.HiddenFor(c => c.Answer2)
+
+    </div>
+    <div class="col-lg-8 col-md-8 col-sm-8">
+        <div class="user-circle-img">
+            <span><img id="UserImage" src="~/images/defaultuser.png" alt="" /></span>
+        </div>
+        <div class="text-center">
+            <a class="file-input-wrapper btn btn-browse">
+                <span>@Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()</span>
+                <input type="file" title="Browse" class="btn-primary" id="FileProfile" name="ProfilePic" onchange="setImage(this);">
+            </a>
+            <input type="button" class="btn btn-browse" id="DeletePic" onclick="DeletePicture();" value="@Language.Where(c => c.Order_id == 53).Select(c => c.Value).FirstOrDefault()" style="display:none;" />
+        </div>
+    </div>
+</form>
+

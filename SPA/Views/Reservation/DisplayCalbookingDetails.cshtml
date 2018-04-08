@@ -1,0 +1,150 @@
+﻿@using System.Globalization
+@using SPA.Models
+@{
+    Layout = null;
+    SPA.Models.ConfirmModel DisplayBookedDetails = new SPA.Models.ConfirmModel();
+    DisplayBookedDetails = ViewBag.DisplayBookedDetail;
+    List<Language_Label_Detail> Language = ViewBag.Language_Reservation_Update;
+    var Language_Reservation_Update = Language.Where(c => c.Page_Name.ToLower() == "reservation_update").ToList();
+    var Monthlist = Language.Where(c => c.Page_Name == "Small_calander").ToList();
+    var Commonlist = Language.Where(c => c.Page_Name.ToLower() == "common").ToList();
+    string LangBookingDate = "";
+    SPA.Models.getAccess Acceess = ViewBag.CheckAccessRight;
+}
+<div>
+    @if (DisplayBookedDetails != null)
+    {
+        var InvoiceBtn = Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault();
+        var HiddenClass = "display-none";
+        if (!string.IsNullOrEmpty(DisplayBookedDetails.Invoice_Status))
+        {
+            InvoiceBtn = DisplayBookedDetails.Invoice_Status == "CI" ? Language.Where(c => c.Order_id == 23).Select(c => c.Value).FirstOrDefault() : Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault();
+        }
+        if (((Acceess.Insert != "N" && (Acceess.FlowStatus == "2" || Acceess.FlowStatus == "3")) || (Acceess.FlowStatus == "1")))
+        {
+            HiddenClass = "";
+        }
+        <div class="choose-your-product choose-employee-table updateReservation table-res-border">
+            <div class="text-right margin-top10">
+                @*When Reservation status is not : Appoinment Closed*@
+                @if (DisplayBookedDetails.ActiveStatus.Trim() != "C" && DisplayBookedDetails.BookedStatus.Trim() != "C")
+                {
+                    @*When Reservation status is : Confirm Booking*@
+                if (DisplayBookedDetails.ActiveStatus.Trim() == "A" && DisplayBookedDetails.BookedStatus.Trim() == "B")
+                {
+                    if (((DisplayBookedDetails.DeleteAccess != "N" && DisplayBookedDetails.FlowStatus == "2") || (DisplayBookedDetails.FlowStatus == "1")))
+                    {
+                        <a onclick="CancelCalBookedDetails(@DisplayBookedDetails.EmpSchDetailsId,'Booking' ,'@DisplayBookedDetails.BookingDate')" class="float_right margin-top0"> <i class="fa fa-times-circle spa-icon1 click-go-popup-cross margin-top2" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language_Reservation_Update.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()"></i></a>
+                    }
+                    if (((DisplayBookedDetails.UpdateAccess != "N" && DisplayBookedDetails.FlowStatus == "2") || (DisplayBookedDetails.FlowStatus == "1")))
+                    {
+                        <a onclick="EditCalReservation(@DisplayBookedDetails.EmpSchDetailsId,'CalUpdateReservation')" class="float_right"> <i class="fa fa-pencil-square-o spa-icon1 click-go-popup margin-top2" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language_Reservation_Update.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()"></i></a>
+
+                        //Appclose
+                        <a class="spa-checkbox checkbox ap-closed acceptchk check-cross" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language_Reservation_Update.Where(c => c.Order_id == 26).Select(c => c.Value).FirstOrDefault()">
+                            <input name="CalAppointmentClosed" id="CalAppointmentClosed_@DisplayBookedDetails.EmpSchDetailsId" type="checkbox" onclick="AppointMentClosed(@DisplayBookedDetails.EmpSchDetailsId,'CalAppointmentClosed_@DisplayBookedDetails.EmpSchDetailsId','calendarmonth','@ViewBag.view','@ViewBag.AllView','@string.Format("{0:yyyy-MM-dd HH:mm:ss}", DisplayBookedDetails.BookingDate)',@DisplayBookedDetails.EMP_UserId)">
+                            <label for="CalAppointmentClosed_@DisplayBookedDetails.EmpSchDetailsId" class="form-label spa-label1"></label>
+                        </a>
+                    }
+                }
+                else
+                {
+                    if (((DisplayBookedDetails.DeleteAccess != "N" && DisplayBookedDetails.FlowStatus == "2") || (DisplayBookedDetails.FlowStatus == "1")))
+                    {
+                        <a onclick="CancelCalBookedDetails(@DisplayBookedDetails.EmpSchDetailsId,'TemBooking', '@DisplayBookedDetails.BookingDate')" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language_Reservation_Update.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()"> <i class="fa fa-times-circle spa-icon1 font24 "></i></a>
+
+                        if ((DateTime.Parse(DisplayBookedDetails.BookingDate + " " + DisplayBookedDetails.FromSlotMasterId)) >= (DateTime.Parse(ViewBag.Europdate.ToString())))
+                        {
+                            <a class="spa-checkbox checkbox ap-closed acceptchk check-cross" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language_Reservation_Update.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()">
+                                <input name="CalPendingRquestAccept" id="CalPendingRquestAccept_@DisplayBookedDetails.EmpSchDetailsId" type="checkbox" onclick="StatusOfCalBookingData(@DisplayBookedDetails.EmpSchDetailsId,'@DisplayBookedDetails.BookingDate')">
+                                <label for="CalPendingRquestAccept_@DisplayBookedDetails.EmpSchDetailsId" class="form-label spa-label1"></label>
+                            </a>
+                            }
+                        }
+                    }
+                }
+            </div>
+            <div class="table-responsive full-width">
+                <table class="table table-striped">
+                    <tbody>
+                        @{
+                            if (DisplayBookedDetails.BookingDate != null)
+                            {
+                                var monthname = DateTime.Parse(DisplayBookedDetails.BookingDate).ToString("MMMM");
+                                var MonthLanguagechange = Monthlist.Where(c => c.English_Label.ToLower() == monthname.ToLower()).Select(c => c.Value).FirstOrDefault();
+                                LangBookingDate = DisplayBookedDetails.BookingDate.Replace(monthname, MonthLanguagechange);
+                            }
+                        }
+                        <tr class="res-text-center">
+                            @if (DisplayBookedDetails.Image == null || DisplayBookedDetails.Image == "")
+                            {
+                                <td rowspan="6" class="active spa-circle-img">
+                                    <img src="/images/defaultuser.png">
+                                </td>
+                            }
+                            else
+                            {
+                                <td rowspan="6" class="active spa-circle-img">
+                                    <img src="@DisplayBookedDetails.Image" onerror="this.onerror=null;this.src='/images/defaultuser.png';">
+                                </td>
+                            }
+                        </tr>
+                        <tr><td class="width50per brk-all">@Language_Reservation_Update.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault():</td><td class="width50per brk-all">@DisplayBookedDetails.FirstName @DisplayBookedDetails.LastName</td></tr>
+                        <tr><td class="width50per brk-all">@Language_Reservation_Update.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault():</td><td class="width50per brk-all">@DisplayBookedDetails.ClientName @DisplayBookedDetails.ClientLastName</td></tr>
+                        <tr><td class="width50per brk-all">@Language_Reservation_Update.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault():</td><td class="width50per brk-all">@DisplayBookedDetails.ClientPhoneNo </td></tr>
+                        <tr><td class="width50per brk-all">@Language_Reservation_Update.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault():</td><td class="width50per brk-all">@DisplayBookedDetails.ClientEmail </td></tr>
+                        <tr><td class="width50per brk-all">@Language_Reservation_Update.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault():</td><td class="width50per brk-all">@LangBookingDate</td></tr>
+                        <tr><td class="width50per brk-all">@Language_Reservation_Update.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault():</td><td class="width50per brk-all">@DisplayBookedDetails.ProductName</td></tr>
+                        <tr><td class="width50per brk-all">@Language_Reservation_Update.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault():</td><td class="width50per brk-all">@DisplayBookedDetails.Product_price</td></tr>
+                        <tr><td class="width50per brk-all">@Language_Reservation_Update.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault():</td><td class="width50per brk-all">@DisplayBookedDetails.FromSlotMasterId</td></tr>
+                        <tr><td class="width50per brk-all">@Language_Reservation_Update.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault():</td><td class="width50per brk-all">@DisplayBookedDetails.ToSlotMasterId</td></tr>
+                        <tr><td class="width50per brk-all">@Language_Reservation_Update.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault():</td><td class="width50per brk-all">@DisplayBookedDetails.comment</td></tr>
+                        <tr>
+                            <td class="width50per brk-all">@Language_Reservation_Update.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault() :</td>
+                            @if (DisplayBookedDetails.Reg_Status == "D")
+                            {
+                                <td class="width50per brk-all">
+                                    @Commonlist.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()
+                                </td>
+                            }
+                            @if (DisplayBookedDetails.Reg_Status == "M")
+                            {
+                                <td class="width50per brk-all">
+                                    @Commonlist.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()
+                                </td>
+                            }
+                            @if (DisplayBookedDetails.Reg_Status == "PlatForm")
+                            {
+                                <td class="width50per brk-all">
+                                    @Commonlist.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()
+                                </td>
+                            }
+                        </tr>
+                        <tr><td class="width50per brk-all">@Language_Reservation_Update.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault(): @DisplayBookedDetails.CreatedDate</td><td class="width50per brk-all"> @Language_Reservation_Update.Where(c => c.Order_id == 17).Select(c => c.Value).FirstOrDefault(): @DisplayBookedDetails.ShopOwnerName @DisplayBookedDetails.ShopOwnerLastName</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-group text-right">
+                @if (((DisplayBookedDetails.insertAccess != "N" && (DisplayBookedDetails.FlowStatus == "2" || DisplayBookedDetails.FlowStatus == "3")) || (DisplayBookedDetails.FlowStatus == "1")))
+                {
+                    if (DisplayBookedDetails.ActiveStatus.Trim() == "C" && DisplayBookedDetails.BookedStatus.Trim() == "C")
+                    {
+                        <a href="/Reservation/InvoiceRedirectFromCalendar?View=@ViewBag.view&AllView=@ViewBag.AllView&Date=@string.Format("{0:yyyy-MM-dd HH:mm:ss}", DisplayBookedDetails.BookingDate)&EmpUserId=@DisplayBookedDetails.EMP_UserId&ReservationId=@DisplayBookedDetails.EmpSchDetailsId&InvoiceId=@DisplayBookedDetails.Invoice_id&InvoiceStatus=@DisplayBookedDetails.Invoice_Status" class="btn btn-green margin-bottom5 @HiddenClass">@InvoiceBtn</a>
+                    }
+                }
+                @if (ViewBag.SchlStudentStrength > 2)
+                {
+                    if ((DisplayBookedDetails.ActiveStatus.Trim() == "A" && DisplayBookedDetails.BookedStatus.Trim() == "B") || (DisplayBookedDetails.ActiveStatus.Trim() == "C" && DisplayBookedDetails.BookedStatus.Trim() == "C"))
+                    {
+                        <a href="/Reservation/NoteRedirectFromCalendar?View=@ViewBag.view&AllView=@ViewBag.AllView&Date=@string.Format("{0:yyyy-MM-dd HH:mm:ss}", DisplayBookedDetails.BookingDate)&EmpUserId=@DisplayBookedDetails.EMP_UserId&ReservationId=@DisplayBookedDetails.EmpSchDetailsId" class="btn btn-green margin-bottom5">@*Note*@  @Language_Reservation_Update.Where(c => c.Order_id == 25).Select(c => c.Value).FirstOrDefault()  </a>
+                    }
+                }
+            </div>
+        </div>
+                            }
+</div>
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    });
+</script>

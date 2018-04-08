@@ -1,0 +1,100 @@
+﻿@{
+    ViewBag.Title = "WeekSchedule";
+    Layout = null;
+    string Day = "";
+    List<Language_Label_Detail> Language = new List<Language_Label_Detail>();
+    Language = ViewBag.Language;
+    List<SPA.Models.WeekSchedule> WeekSch = new List<SPA.Models.WeekSchedule>();
+    WeekSch = Model;
+}
+@if (Session["Message"].ToString() == "YES")
+{
+    <script>
+        $.post("/product/GetDataOfLanguage?Text=Welcome from&id=34", function (data) {
+            $.post("/product/GetDataOfLanguage?Text=Welcome back Again&id=35", function (data1) {
+                $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\">" + data + " <span>CLICK-AND-GO!</span></h1><p class=\"title15 text-center margin-bottom30\">" + data1 + "</p>");
+                $('#welcome').modal("show");
+            });
+        });
+    </script>
+    Session["Message"] = "";
+}
+<div class="week-schedule">
+    <div class="schedule-box">
+        <div class="row">
+            <form id="FormProfile" action="/Employee/AddUserDays" method="post">
+                <div class="col-lg-6 col-md-8 col-sm-10 col-xs-8">
+                    <ul class="days_list margin-top30" id="days_list">
+                        <li class="Ellips"><span>@Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault()</span></li>
+                        @foreach (var days in ViewBag.day)
+                        {
+                            <li class="ChkWeek">
+                                <span class="spa-checkbox checkbox">
+                                    <input name="Day_@days" value="" id="Day_@days" type="checkbox" @(WeekSch.Where(c => c.WeekDay == days && c.flg == 1).FirstOrDefault() != null ? "checked" : "")>
+                                    <label for="Day_@days" class="form-label Ellips">@Language.Where(c => c.English_Label == days).Select(c => c.Value).FirstOrDefault()</label>
+                                </span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <input type="hidden" id="WeekUserId" name="WeekUserId" value="@ViewBag.UserId" />
+                <div class="col-lg-17 col-md-15 col-sm-12 col-xs-15">
+                    <div style="overflow-x:auto;">
+                        <div style="width:100%;white-space:nowrap;margin-bottom: 10px;">
+                            <ul style="height:30px" id="closeSectionList">
+                                @for (int i = 1; i <= (ViewBag.highestcount); i++)
+                                {
+                                    <li class="weekbox_close @(i>2?"CloseWeekBox":"weekbox_default") "><i class="fa fa-times" aria-hidden="true"></i></li>
+                                }
+                            </ul>
+                            <ul class="time_section">
+                                @for (int i = 1; i <= ((ViewBag.highestcount) * 2); i++)
+                                {
+                                    <li class="time_section-li">
+                                        <ul class="time_box">
+                                            <li class="Ellips time_header">
+                                                <span>
+                                                    @Language.Where(c => c.Order_id == (i % 2 == 0 ? 20 : 19)).Select(c => c.Value).FirstOrDefault()
+                                                </span>
+                                            </li>
+                                            @foreach (var daywise in (List<string>)ViewBag.day)
+                                            {
+                                                var getdata = WeekSch.Where(c => (c.WeekDay).Trim().ToLower() == (daywise).Trim().ToLower()).ElementAtOrDefault((i % 2 == 0 ? i / 2 : (i + 1) / 2) - 1);
+                                                <li class="week-time">
+                                                    <div class="date uldate-picker">
+                                                        <input class="form-control spa-text-box text-box clock_image required" @(((List<string>)ViewBag.userday).Where(c=>c.Trim().ToLower()==daywise.Trim().ToLower()).Count()>0?"":"disabled") name="@(daywise)_@i" type="text" value="@(getdata!=null?(i%2==0?string.Format("{0:hh\\:mm}",getdata.endTime):string.Format("{0:hh\\:mm}",getdata.starttime)):"")" />
+                                                    </div>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-1 margin-top30">
+                @*if Breaks are as per Slot add ,'@ViewBag.slot'*@
+                @*<button class="btn add_weekschedule" onclick="getNewLane('@Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()','@Language.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault()','@ViewBag.slot')"><i class="fa fa-plus-square" aria-hidden="true"></i></button>*@
+            </div>
+        </div>
+
+        <div class="text-center margin-top20 margin-bottom20">
+            <input type="button" class="btn btn-green btn-small margin-right5" id="DaysAdd" value="@Language.Where(c => c.Order_id == 52).Select(c => c.Value).FirstOrDefault()" onclick="btnDaysAdd();" />
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.week-time input[type="Text"]').datetimepicker({
+        //stepping: 5,
+        stepping:@ViewBag.slot,
+        format: 'HH:mm',
+        widgetPositioning: {
+            horizontal: 'auto',
+            vertical: 'bottom'
+        }
+    });
+</script>
+<script src="~/Scripts/Employee.js"></script>

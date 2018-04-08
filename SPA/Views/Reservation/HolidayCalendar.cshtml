@@ -1,0 +1,373 @@
+﻿
+@{
+    Layout = null;
+}
+<link href="~/Content/dataTable.css" rel="stylesheet" />
+<link href="~/Content/fixedColumns.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables.js"></script>
+<script src="~/Scripts/dataTables.fixedColumns.js"></script>
+<div class="holiday_calendar">
+    <ul class="review-block res-review-block">
+        <li class="col-lg-8 col-md-5 col-sm-24 margin-bottom10">
+            <label class="col-lg-16 spa-label-bold">Holiday Calendar</label>
+        </li>
+        <li class="col-lg-16 col-md-19 col-sm-24 Calanderpallet text-right">
+            <label class="spa-label-bold"><span class="average Available margin-right5"></span>Available</label>
+            <label class="spa-label-bold"><span class="NotAvailable poor margin-right5"></span>Not available</label>
+            <label class="spa-label-bold"><span class="holidayAdd poor margin-right5"></span>Holiday</label>
+            <label class="spa-label-bold"><span class="Public_Holiday poor margin-right5"></span>Public Holiday</label>
+        </li>
+    </ul>
+    <div class="calendar-month">
+        <div class="table-responsive">
+            <table class="table cal-table">
+                    <thead>
+                        <tr class="month-name">
+                            <th style="text-align:center;">
+                                <a><i class="fa fa-angle-double-left cal-icon"></i></a>
+                                <a><i class="fa fa-angle-left cal-icon"></i></a>
+                                <span class="width-20 WeekDatesDisp">July - 2017</span>
+                                <a><i class="fa fa-angle-right cal-icon"></i></a>
+                                <a><i class="fa fa-angle-double-right cal-icon"></i></a>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            @*<div class="holiday_datatable">
+                <table id="example" class="table-striped table-bordered table stripe row-border order-column" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="text-center">1</th>
+                            <th class="text-center">2</th>
+                            <th class="text-center">3</th>
+                            <th class="text-center">4</th>
+                            <th class="text-center">5</th>
+                            <th class="text-center">6</th>
+                            <th class="text-center">7</th>
+                            <th class="text-center">8</th>
+                            <th class="text-center">9</th>
+                            <th class="text-center">10</th>
+                            <th class="text-center">11</th>
+                            <th class="text-center">12</th>
+                            <th class="text-center">13</th>
+                            <th class="text-center">14</th>
+                        </tr>
+                    </thead>
+                    <thead>
+                        <tr>
+                            <th class="text-center">Employee</th>
+                            <th class="text-center">SAT</th>
+                            <th class="text-center">SUN</th>
+                            <th class="text-center">MON</th>
+                            <th class="text-center">TUE</th>
+                            <th class="text-center">WEND</th>
+                            <th class="text-center">THU</th>
+                            <th class="text-center">FRI</th>
+                            <th class="text-center">SAT</th>
+                            <th class="text-center">SUN</th>
+                            <th class="text-center">MON</th>
+                            <th class="text-center">TUE</th>
+                            <th class="text-center">WEND</th>
+                            <th class="text-center">THU</th>
+                            <th class="text-center">FRI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Patel Divya</td>
+                            <td class="Available">Available</td>
+                            <td class="Public_Holiday">Holiday</td>
+                            <td class="Public_Holiday">Holiday</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                        </tr>
+                        <tr>
+                            <td>Ankit</td>
+                            <td class="Available">Available</td>
+                            <td class="Public_Holiday">Holiday</td>
+                            <td class="Public_Holiday">Holiday</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                        </tr>
+                        <tr>
+                            <td>Ankit</td>
+                            <td class="Available">Available</td>
+                            <td class="Public_Holiday">Holiday</td>
+                            <td class="Public_Holiday">Holiday</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                        </tr>
+                        <tr>
+                            <td>Ankit</td>
+                            <td class="Available">Available</td>
+                            <td class="Public_Holiday">Holiday</td>
+                            <td class="Public_Holiday">Holiday</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                        </tr>
+                        <tr>
+                            <td>Ankit</td>
+                            <td class="Available">Available</td>
+                            <td class="Public_Holiday">Holiday</td>
+                            <td class="Public_Holiday">Holiday</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                        </tr>
+                        <tr>
+                            <td>Ankit</td>
+                            <td class="Available">Available</td>
+                            <td class="Public_Holiday">Holiday</td>
+                            <td class="Public_Holiday">Holiday</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                        </tr>
+                        <tr>
+                            <td>Ankit</td>
+                            <td class="Available">Available</td>
+                            <td class="Public_Holiday">Holiday</td>
+                            <td class="Public_Holiday">Holiday</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                        </tr>
+                        <tr>
+                            <td>Ankit</td>
+                            <td class="Available">Available</td>
+                            <td class="Public_Holiday">Holiday</td>
+                            <td class="Public_Holiday">Holiday</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                        </tr>
+                        <tr>
+                            <td>Ankit</td>
+                            <td class="Available">Available</td>
+                            <td class="Public_Holiday">Holiday</td>
+                            <td class="Public_Holiday">Holiday</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                        </tr>
+                        <tr>
+                            <td>Ankit</td>
+                            <td class="Available">Available</td>
+                            <td class="Public_Holiday">Holiday</td>
+                            <td class="Public_Holiday">Holiday</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                            <td class="Available">Available</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>*@
+            <div class="choose-your-product">
+                    <table class="table table-striped" id="MonthTable">
+                        <thead class="week">
+                            <tr class="bg_green">
+                                <th></th>
+                                <th class="text-center"></th>
+                                <th class="text-center p_holiday" colspan="2">Raksha Bandhan</th>
+                                <th class="text-center" colspan="28"></th>
+                            </tr>
+                        </thead>
+                        <thead class="day">
+                            <tr>
+                                <th></th>
+                                <th class="text-center">1</th>
+                                <th class="text-center">2</th>
+                                <th class="text-center">3</th>
+                                <th class="text-center">4</th>
+                                <th class="text-center">5</th>
+                                <th class="text-center">6</th>
+                                <th class="text-center">7</th>
+                                <th class="text-center">8</th>
+                                <th class="text-center">9</th>
+                                <th class="text-center">10</th>
+                                <th class="text-center">11</th>
+                                <th class="text-center">12</th>
+                                <th class="text-center">13</th>
+                                <th class="text-center">14</th>
+                                <th class="text-center">15</th>
+                                <th class="text-center">16</th>
+                                <th class="text-center">17</th>
+                                <th class="text-center">18</th>
+                                <th class="text-center">19</th>
+                                <th class="text-center">20</th>
+                                <th class="text-center">21</th>
+                                <th class="text-center">22</th>
+                                <th class="text-center">23</th>
+                                <th class="text-center">24</th>
+                                <th class="text-center">25</th>
+                                <th class="text-center">26</th>
+                                <th class="text-center">27</th>
+                                <th class="text-center">28</th>
+                                <th class="text-center">29</th>
+                                <th class="text-center">30</th>
+                                <th class="text-center">31</th>
+                            </tr>
+                        </thead>
+                        <thead class="day">
+                            <tr>
+                                <th class="text-center">Employee</th>
+                                <th class="text-center">SAT</th>
+                                <th class="text-center Public_Holiday">SUN</th>
+                                <th class="text-center Public_Holiday">MON</th>
+                                <th class="text-center">TUE</th>
+                                <th class="text-center">WED</th>
+                                <th class="text-center">THUR</th>
+                                <th class="text-center">FRI</th>
+                                <th class="text-center">SAT</th>
+                                <th class="text-center">SUN</th>
+                                <th class="text-center">MON</th>
+                                <th class="text-center">TUE</th>
+                                <th class="text-center">WED</th>
+                                <th class="text-center">THUR</th>
+                                <th class="text-center">FRI</th>
+                                <th class="text-center">SAT</th>
+                                <th class="text-center">SUN</th>
+                                <th class="text-center">MON</th>
+                                <th class="text-center">TUE</th>
+                                <th class="text-center">WED</th>
+                                <th class="text-center">THUR</th>
+                                <th class="text-center">FRI</th>
+                                <th class="text-center">SAT</th>
+                                <th class="text-center">SUN</th>
+                                <th class="text-center">MON</th>
+                                <th class="text-center">TUE</th>
+                                <th class="text-center">WED</th>
+                                <th class="text-center">THUR</th>
+                                <th class="text-center">FRI</th>
+                                <th class="text-center">SAT</th>
+                                <th class="text-center">SUN</th>
+                                <th class="text-center">MON</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Patel Divya</td>
+                                <td class="Available">Available</td>
+                                <td class="Public_Holiday" colspan="2">Holiday</td>
+                                <td class="Available">Available</td>
+                                <td class="Available">Available</td>
+                                <td class="Available">Available</td>
+                                <td class="Available">Available</td>
+                                <td class="Available">Available</td>
+                                <td class="Available">Available</td>
+                                <td class="Available">Available</td>
+                                <td class="Available">Available</td>
+                                <td class="Available">Available</td>
+                                <td class="Available">Available</td>
+                                <td class="Available">Available</td>
+                                <td class="NotAvailable">Not available</td>
+                                <td class="NotAvailable">Not available</td>
+                                <td class="NotAvailable">Not available</td>
+                                <td class="NotAvailable">Not available</td>
+                                <td class="NotAvailable">Not available</td>
+                                <td class="NotAvailable">Not available</td>
+                                <td class="NotAvailable">Not available</td>
+                                <td class="NotAvailable">Not available</td>
+                                <td class="NotAvailable">Not available</td>
+                                <td class="NotAvailable">Not available</td>
+                                <td class="NotAvailable">Not available</td>
+                                <td class="holidayAdd" colspan="6">Holiday</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#MonthTable").tableHeadFixer({ "left": 1 });
+    //$(document).ready(function () {
+    //    var table = $('#MonthTable').DataTable();
+    //});
+</script>

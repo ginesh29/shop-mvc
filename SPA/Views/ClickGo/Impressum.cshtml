@@ -1,0 +1,53 @@
+﻿
+@{
+    Layout = "~/Views/Shared/ClickGoLayout.cshtml";
+    ViewBag.Title = "Impressum";
+    List<SPA.Models.LanguageNewShop> Language = ViewBag.Language;
+    Language = Language.Where(c => c.Page_Name == "IMPRESSUM").ToList();
+}
+
+<div class="footerNew">
+    <div class="" style="background:#fff;">
+        <div class="container">
+            <ul class="mt60">
+                <li>
+                    <strong class="font-s22 f-family32">
+                        <a>@*IMPRESSUM*@ @Html.Raw(Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault())</a>
+                    </strong>
+                </li>
+            </ul>
+            <ul class="margin-top20 margin-bottom20">
+                <li>
+                    <strong class="font-s22 f-family32">
+                        <a style="text-decoration: underline;">@Html.Raw(Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault())</a>
+                    </strong>
+                    <ul class="mt20 f-family3 font-s18">
+                        <li>@Html.Raw(Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault())</li>
+                        <li>@Html.Raw(Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault())</li>
+                        <li>@Html.Raw(Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault())</li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="margin-top20 margin-bottom20">
+                <li>
+                    <strong class="font-s22 f-family32">
+                        <a style="text-decoration: underline;">@Html.Raw(Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault())</a>
+                    </strong>
+                    <ul class="mt20 f-family3 font-s18">
+                        <li>@Html.Raw(Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault())</li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="margin-top20 margin-bottom20">
+                <li>
+                    <strong class="font-s22 f-family32">
+                        <a style="text-decoration: underline;">@Html.Raw(Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault())</a>
+                    </strong>
+                    <ul class="mt20 f-family3 font-s18">
+                        <li>@Html.Raw(Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault())</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

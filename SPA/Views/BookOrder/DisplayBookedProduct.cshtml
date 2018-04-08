@@ -1,0 +1,120 @@
+﻿@using SPA.Models
+@{
+    Layout = null;
+    List<ConfirmModel> ListData = new List<ConfirmModel>();
+    ListData = ViewBag.DisplayBookProduct;
+    string currency = ViewBag.currency;
+    string DurationPre = "Min";
+    List<Language_Label_Detail> Languageinfo = new List<Language_Label_Detail>();
+    Languageinfo = ViewBag.Language;
+    var Language = Languageinfo.Where(c => c.Page_Name == "Confirm_Booking").ToList();
+    var Monthlist = Languageinfo.Where(c => c.Page_Name == "Small_calander").ToList();
+    string LangBookingDate = "";
+}
+@foreach (var EmpInfo in ListData)
+{
+    <div class="col-lg-3 col-md-3 col-sm-4 text-center">
+        <div class="active spa-circle-img">
+            @if (EmpInfo.Image == null || EmpInfo.Image == "")
+                {
+                <img src="/images/defaultuser.png">
+            }
+            else
+            {
+                <img src="@EmpInfo.Image" onerror="this.onerror=null;this.src='/images/defaultuser.png';" alt="">
+            }
+        </div>
+    </div>
+    <div class="col-lg-21 col-md-21 col-sm-20">
+
+        <div>
+            <h2 class="title14-border">@EmpInfo.FirstName @EmpInfo.LastName </h2>
+            <div class="alert alert-danger" style="display: none"></div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @foreach (var item in ListData)
+            {
+                if (item.BookingDate != null)
+                {
+                    var monthname = DateTime.Parse(item.BookingDate).ToString("MMMM");
+                    var MonthLanguagechange = Monthlist.Where(c => c.English_Label.ToLower() == monthname.ToLower()).Select(c => c.Value).FirstOrDefault();
+                    LangBookingDate = item.BookingDate.Replace(monthname, MonthLanguagechange);
+                }
+                <ul class="row">
+                    <li class="col-lg-5 col-md-5 col-sm-5 col-xs-15">
+                        <div class="form-group">
+                            <input class="form-control spa-text-box text-box single-line text-center" name="BookingDate" readonly="readonly" type="text" value="@LangBookingDate">
+                            @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                        </div>
+                    </li>
+                    <li class="col-lg-3 col-md-3 col-sm-4 col-xs-9">
+                        <div class="form-group">
+                            @{
+                                DateTime time = DateTime.Today.Add(DateTime.Parse(item.FromSlotMasterId.ToString()).TimeOfDay);
+                                string displayTime = time.ToString("HH:mm");
+                            }
+                            <input class="form-control spa-text-box text-box single-line text-center" id="FromDate" name="FromDate" readonly="readonly" type="text" value="@displayTime">
+                            @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                        </div>
+                    </li>
+                    <li class="col-lg-8 col-md-8 col-sm-5 col-xs-24">
+                        <div class="form-group">
+                            <input class="form-control spa-text-box text-box single-line" id="Product" name="Product" readonly="readonly" type="text" value="@item.ProductName">
+                            @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                        </div>
+                    </li>
+                    <li class="col-lg-3 col-md-3 col-sm-4 col-xs-9">
+                        <div class="form-group">
+                            <input class="form-control spa-text-box text-box single-line text-center" data-val="true" data-val-number="The field Int64 must be a number." data-val-required="The Int64 field is required." id="Duration" name="Duration" readonly="readonly" type="text" value="@item.Duration @DurationPre">
+                            @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                        </div>
+                    </li>
+                    <li class="col-lg-3 col-md-3 col-sm-4 col-xs-9">
+                        <div class="form-group">
+                            <input class="form-control spa-text-box text-box single-line text-center" data-val="true" data-val-number="The field Int64 must be a number." data-val-required="The Int64 field is required." id="Price" name="Price" readonly="readonly" type="text" value="@float.Parse(item.Amount.ToString()) @currency">
+                            @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                        </div>
+                    </li>
+                    <li class="col-lg-2 col-md-2 col-sm-1 col-xs-6 margin-top10 text-center ">
+                        @if (item.Productdesc != null)
+                        {
+                            <span>
+                                <i class="fa fa-info-circle spa-icon margin-right5" data-toggle="popover" data-content="@item.Productdesc"></i>
+                            </span>
+                        }
+                        <a onclick="DeleteProductWhileBookingShop(@item.EmpSchDetailsId,@ViewBag.UserId,'@ViewBag.Status','@ViewBag.Url')"><i class="fa fa-trash spa-icon" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()" data-original-title="" title=""></i></a>
+
+                    </li>
+                </ul>
+                                }
+        </div>
+
+
+    </div>
+                                }
+@*i = i + 1;*@
+<div class="confirm-total margin-top20">
+    <div class="col-lg-17 col-md-16 col-sm-14 col-xs-9">
+        <p class="user-name">@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()@*TOTAL*@</p>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-5 col-xs-6">
+        <p class="user-name text-center">@ListData.Select(c => c.Duration).Sum() @DurationPre</p>
+        @Html.Hidden("TotalDuration")
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-5 col-xs-9">
+        <p class="user-name">@float.Parse(@ListData.Select(c => c.Amount).Sum().ToString()) @currency</p>
+    </div>
+</div>
+<div class="margin-top20">
+    <label class="spa-label1">@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault() :</label>
+    <textarea id="Comments" class="form-control spa-text-box text-box" rows="4" cols="20" style="resize: none; white-space: pre-line"></textarea>
+</div>
+<div class="form-group text-right padding-top20">
+    <input type="button" class="btn btn-green" onclick="BookMyOrderShop(@ViewBag.UserId,'@ViewBag.Status','@ViewBag.Url')" id="BookConfirmBtn" value="@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()" /> @*book*@
+</div>
+<script>
+    $('[data-toggle="popover"]').popover({
+        placement: 'bottom',
+        trigger: 'hover'
+    });
+    $("#TotalDuration").val(@ListData.Select(c=>c.Duration).Sum());
+</script>

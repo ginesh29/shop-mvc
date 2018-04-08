@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = ViewBag.Title;
+    Layout = "~/Views/Shared/_Employee_layout.cshtml";
+    List<SPA.Models.LanguageLabelDetails> Language = ViewBag.Language;
+    List<SPA.Models.AccessSubMenu> SubMenu = new List<SPA.Models.AccessSubMenu>();
+    SubMenu = ViewBag.SubMenu;
+    List<SPA.Models.ConditionList> ConditionList = new List<SPA.Models.ConditionList>();
+    ConditionList = ViewBag.ConditionList;
+    var Active = "active";
+    var DivActive = "in active";
+}
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMSFX8VQlWkX6sUZPN9bKh5aF7lpS9Lwc&libraries=places"></script>
+
+<ol class="spa-breadcrumbs breadcrumb">
+    @*<li><a href="#" class="active">Home</a></li>
+        <li><a href="#">Shop</a></li>*@
+</ol>
+<div class="form-content">
+    <div class="employee-blank">
+        <h1 class="italic-title">
+            @Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()
+            @*<span class="pull-right">
+                    <a href="@Url.Action("","")" class="title-green16"><i class="fa fa-reply-all margin-right5"></i>Back</a>
+                </span>*@
+        </h1>
+        <div class="spa-home-tab Shopmenu">
+            <ul id="myTab" class="nav nav-tabs">
+                @foreach (var Item in SubMenu.OrderBy(c => c.SubId).ToList())
+                {
+                    if (Item.Condition != null)
+                    {
+                        if (ConditionList.Where(c => c.Condition == Item.Condition && c.ConditionValue == Item.ConditionValue).FirstOrDefault() != null)
+                        {
+                            <li class="@Active"><a href="#@Item.SubLink" data-toggle="tab" onclick="CommonTabDetails('@Item.TabLink','#@Item.SubLink');">@Item.SubTabName</a></li>
+                            Active = "";
+                        }
+                    }
+                    else
+                    {
+                        <li class="@Active"><a href="#@Item.SubLink" data-toggle="tab" onclick="CommonTabDetails('@Item.TabLink','#@Item.SubLink');">@Item.SubTabName</a></li>
+                        Active = "";
+                    }
+                }
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                @foreach (var Item in SubMenu.OrderBy(c => c.SubId).ToList())
+                {
+                    if (Item.Condition != null)
+                    {
+                        if (ConditionList.Where(c => c.Condition == Item.Condition && c.ConditionValue == Item.ConditionValue).FirstOrDefault() != null)
+                        {
+                            <div class="tab-pane fade @DivActive" id="@Item.SubLink">
+                                @if (DivActive != "")
+                                {
+                                    @Html.Action(Item.Link)
+                                }
+
+                            </div>
+                            DivActive = "";
+                        }
+                    }
+                    else
+                    {
+                        <div class="tab-pane fade @DivActive " id="@Item.SubLink">
+                            @if (DivActive != "")
+                            {
+                                @Html.Action(Item.Link)
+                            }
+                        </div>
+                        DivActive = "";
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<script>
+    $("#ShopMainMenu").addClass("active");
+    var Type = "@ViewBag.MsgType";
+    if (Type != null && Type != "") {
+        $("#myTabContent .active").removeClass("in active");
+        $("#" + Type).addClass("in active");
+    }
+    if (window.location.toString().indexOf('#') != -1) {
+        hashFunForTab("2");
+    }
+    $('.dropdown-toggle').dropdown();
+    $("#myTabContent").delegate("div.tab-pane", "click", function () {
+        $('.dropdown-toggle').dropdown();
+    });
+</script>

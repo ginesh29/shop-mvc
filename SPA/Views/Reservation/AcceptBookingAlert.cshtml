@@ -1,0 +1,71 @@
+﻿@{
+    Layout = null;
+    List<Language_Label_Detail> Language = new List<Language_Label_Detail>();
+    Language = ViewBag.Language;
+}
+<html>
+<head>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</head>
+<body>
+    <ol class="spa-breadcrumbs breadcrumb"></ol>
+
+    <img id="ImgCancel" style="display:none;" src="/images/expired.jpg" />
+
+    <div class="welcome-modal">
+        <div id="Cancel" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body margin-bottom30" id="WelcomeAlert">
+                        <h1 class="text-center margin-bottom30"><span>CLICK-AND-GO!</span></h1>
+                        <p class="title15 text-center margin-bottom30">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault() @*Do you want to Accept booking?*@</p>
+                        <div class="text-center padding-top10">
+                            <a href="/Reservation/AcceptBooking?BookingId=@ViewBag.BookingId" class="btn btn-green">@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault() @*Yes*@</a>
+                            @*<a href="/Reservation/CancelFeedback" class="btn btn-black">@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</a>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="welcome-modal">
+        <div id="welcome" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body margin-bottom30" id="WelcomeAlert">
+                        <h1 class="text-center margin-bottom30"><span>CLICK-AND-GO!</span></h1>
+                        <p class="title15 text-center margin-bottom30">@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (ViewBag.AcceptStatus == "Yes")
+    {
+        <script>
+            $('#welcome').modal("show");
+                $("#Cancel").modal("hide");
+        </script>
+    }
+    @if (ViewBag.AcceptStatus == "No")
+    {
+        <script>
+            $("#Cancel").modal("show");
+            $('#welcome').modal("hide");
+        </script>
+    }
+</body>
+
+</html>
+

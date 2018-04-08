@@ -1,0 +1,54 @@
+﻿
+@{
+    Layout = null;
+    List<Language_NewShop> ShopNew = new List<Language_NewShop>();
+    ShopNew = ViewBag.TranslationData;
+}
+<html>
+<head>
+    @Styles.Render("~/Contents/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/clickscript")
+    
+</head>
+    <body>
+        <div class="col-lg-24 margintop20">
+            <div class="col-lg-6">
+                <ul id="PageNameUL" class="color-blue">
+                    @foreach (var item in ShopNew.OrderBy(c => c.Created_date).Select(c => c.Page_Name).Distinct())
+                    {
+                        <li>
+                            <a id="@item" style="cursor:pointer;">
+                                @item.Replace("_", " ")
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="col-lg-6" id="Subheading">
+
+            </div>
+            <div class="col-lg-12" id="DataSubHead">
+
+
+            </div>
+
+        </div>
+    </body>
+
+</html>
+    
+    <script>
+        $("#bs-example-navbar-collapse-1").html("");
+        $("#PageNameUL li a").click(function () {
+            $("#PageNameUL li a").removeClass("activeAClass");
+            $(this).addClass("activeAClass");
+            $("#DataSubHead").html("");
+            $("#Subheading").html("");
+            var pagename=$(this).prop("id");
+            $.post("/Translation/GetSubHeading?Pagename=" + pagename, function (data) {
+                $("#Subheading").html(data);
+            });
+        });
+    </script>

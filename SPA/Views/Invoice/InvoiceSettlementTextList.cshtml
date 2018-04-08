@@ -1,0 +1,122 @@
+﻿
+@{
+    Layout = null;
+    List<SPA.Models.settlementTxt> settlementTextList = new List<SPA.Models.settlementTxt>();
+    settlementTextList = Model;
+    string Currency = ViewBag.Currency;
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.Language;
+    long CustomerId = ViewBag.CustomerId;
+    var Istatus = ViewBag.IStatus;
+}
+<form id="frmIAddSettlementText" name="frmIAddSettlementText" action="/Invoice/InvoiceAddOnProductAdd" method="post">
+    <div style="border: 1px solid #84b002;">
+        <table class="table margin-top15 grouping-detail-table">
+            <thead>
+                <tr>
+                    <th style="width:5%;">@*No*@ @Language.Where(c => c.Order_id == 53).Select(c => c.Value).FirstOrDefault()</th>
+                    <th style="width:5%;"></th>
+                    <th style="text-align:left;width:10%;">@*Tariff*@ @Language.Where(c => c.Order_id == 47).Select(c => c.Value).FirstOrDefault()</th>
+                    <th style="text-align:left;width:30%;">@*Settlement text*@ @Language.Where(c => c.Order_id == 48).Select(c => c.Value).FirstOrDefault()</th>
+                    <th style="width:25%">@*Duration*@ @Language.Where(c => c.Order_id == 46).Select(c => c.Value).FirstOrDefault()</th>
+                    <th style="text-align:right;width:10%">@*Rate*@ @Language.Where(c => c.Order_id == 87).Select(c => c.Value).FirstOrDefault()</th>
+                    <th style="width:15%;">@*Date*@ @Language.Where(c => c.Order_id == 45).Select(c => c.Value).FirstOrDefault()</th>
+                </tr>
+            </thead>
+            <tbody id="CalAddSettlementText">
+                @foreach (var item in settlementTextList)
+                {
+                    var Index = settlementTextList.IndexOf(item) + 1;
+                    <tr>
+                        <td class="spa-label1">@Index</td>
+                        <td class="width5per">
+                            <span class="spa-checkbox checkbox margin0 float_left">
+                                <input value="@item.Health_Assign_id" name="IAddOnProductId" id="@item.Health_Assign_id" type="checkbox">
+                                <label for="@item.Health_Assign_id" class="form-label spa-label1"></label>
+                            </span>
+                        </td>
+                        <td class="spa-label1" style="text-align:left">@*Makeup Box*@ @item.Tarif_Number</td>
+                        <td class="spa-label1" style="text-align:left">
+                            @*Makeup Box*@
+                        @if (item.flg == "1")
+                        {
+                            <input type="text" id="Settlement_text" class="form-control spa-text-box spa-text-box2 DefaultSettle" style="width:100%;" />
+                        }
+                        else
+                        {
+                            @item.Settlement_text
+                            <input type="hidden" id="Settlement_text" value="@(item.Settlement_text != null?item.Settlement_text:item.Settlement_text)" />
+                        }                       
+                    </td>
+                    <td class="spa-label1">@item.Duration Min</td>
+                    <input type="hidden" id="ProductName" value="@item.Settlement_text" />
+                    <input type="hidden" id="Tarif_Number" value="@item.Tarif_Number" />
+                    <input type="hidden" id="Settlement_Number" value="@item.Settlement_Number" />
+                    <input type="hidden" id="Rate" value="@String.Format("{0:0.00}",item.Rate)" />
+                    <input type="hidden" id="Add_OnQuantity" value="@item.Quantity" />
+                    <input type="hidden" id="Duration" value="@item.Duration" />
+                    <input type="hidden" id="vat" value="0" />
+                    @*<input type="hidden" id="EmpId" value="@item.EmpId" />*@
+                    <input type="hidden" id="CustomerId" value="@CustomerId" />
+                    <input type="hidden" id="InvoiceDate" value="@ViewBag.InvoiceDate" />
+                    <td class="spa-label1" style="text-align:right">@String.Format("{0:0.00}", Convert.ToDouble(item.Amount))</td>
+                    <td class="width15per position_rel"><input type="text" id="Add_OnDate" class="form-control spa-text-box spa-text-box2" placeholder="@Language.Where(c => c.Order_id == 45).Select(c => c.Value).FirstOrDefault()" style="width:100px;"></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        <div class="margin-top20 text-right margin-bottom20 margin-right10">
+            <input type="button" class="btn btn-green btn-small margin-right5 width100" value="@Language.Where(c => c.Order_id == 56).Select(c => c.Value).FirstOrDefault()" id="Save_SettlemetText">
+            <input type="button" class="btn btn-black btn-small width100" value="@Language.Where(c => c.Order_id == 57).Select(c => c.Value).FirstOrDefault()" id="Cancel_SettlementText">
+        </div>
+    </div>
+</form>
+<script>
+    $("#Cancel_SettlementText").click(function () {
+        $("#AddSettlementText").slideUp();
+    });
+    $("#CalAddSettlementText tr input[type='checkbox']").change(function () {
+        if ($(this).is(":checked")) {
+            $(this).parents("tr:first").find("input:not([type='checkbox'])").map(function () { $(this).attr({ "name": $(this).attr("id") }); $(this).parent("tr:first").find(".DefaultSettle").addClass("required") });
+        }
+        else {
+            $(this).parents("tr:first").find("input:not([type='checkbox'])").removeAttr("name").removeClass("required");
+        }
+    });
+    $("body").delegate("#Save_SettlemetText", "click", function () {
+        var addprodvalidation = $("#frmIAddSettlementText").validate().form();
+        if (addprodvalidation != false) {
+            if ($("#CalAddSettlementText tr input[type='checkbox']:checked").length > 0) {
+                $('.loader').show();
+                var form = $("#frmIAddSettlementText");
+                var url = "/Invoice/InvoiceAddOnProductAdd?Status=AddOnSettlementText&Istatus=@Istatus";
+                var formData = form.serialize();
+                $.post(url, formData, function (data) {
+                    if (data != null) {
+                        $("#CalAddSettlementText tr input[type='checkbox']").attr("checked", false).change();
+                        if ("@Istatus" == "GI")
+                            $("#CalProductDuration #TrTotal").before(data);
+                        else
+                            $("#CalProductDuration tr:last").after(data);
+                        if ($("#CalProductDuration tr").not("#NoDataIProduct,#TrTotal").length == 0) {
+                            $("#NoDataIProduct").removeClass("display-none");
+                            $("#TrTotal").addClass("display-none");
+                        }
+                        else {
+                            $("#NoDataIProduct").addClass("display-none");
+                            $("#TrTotal").removeClass("display-none");
+                        }
+                        TotalSum();
+                        $("#AddSettlementText").slideUp();
+                    }
+                    $(".loader").hide();
+                });
+            }
+            else {
+                // var Message = "Please Select Add On Product";
+                $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO!</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 95).Select(c => c.Value).FirstOrDefault()</p>");
+                $('#welcome').modal("show");
+            }
+        }
+    });
+</script>

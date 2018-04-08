@@ -1,0 +1,153 @@
+﻿@using System.Configuration;
+@{
+    cctspDatabaseEntities22 NEWSPA = new cctspDatabaseEntities22();
+    List<Language_NewShop> Language = new List<Language_NewShop>();
+    int LanguageId = ViewBag.LangId;
+    string schId = ConfigurationManager.AppSettings["EnterpriseId"];
+    Language = NEWSPA.Language_NewShop.Where(c => c.Page_Name == "HOME_PAGE" && c.Lang_id == LanguageId && c.col2 == "A" && c.Schid == schId).ToList();
+    int count = 0;
+    int Menucount = 0;
+    ViewBag.Title = "CLICK-AND-GO";
+    
+}
+<!--Navigation Start-->
+<div class="container">
+    <div class="row">
+        <div id="myCarousel" class="carousel slide carousel-fade" data-ride="carousel">
+            <ol class="carousel-indicators">
+                @for (int i = 0; i < Language.Where(c => c.Page_Name == "HOME_PAGE" && c.col1 == "BANNER").Select(c => c.Image_Url).ToList().Count; i++)
+                {
+                    if (i == 0)
+                    {
+                        <li data-target="#myCarousel" data-slide-to="@i" class="active"></li>
+                    }
+                    else
+                    {
+                        <li data-target="#myCarousel" data-slide-to="@i"></li>
+                    }
+
+                }
+            </ol>
+            <div class="carousel-inner" role="listbox">
+                @foreach (var item in Language.Where(c => c.Page_Name == "HOME_PAGE" && c.col1 == "BANNER").Select(c => c.Image_Url).ToList())
+                {
+                    if (count == 0)
+                    {
+                        <div class="item active"> <img src="@item" alt="banner1"> </div>
+                    }
+                    else
+                    {
+                        <div class="item"> <img src="@item" alt="banner1"> </div>
+                    }
+                    count = count + 1;
+
+                }
+            </div>
+            @*<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"
+                      aria-hidden="true"></span> <span class="sr-only">Previous</span>
+            </a> <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">Next</span>
+            </a>*@
+        </div>
+
+
+        <!--End Banner Part-->
+    </div>
+    <!--Banner Part Start-->
+    <div class="row swp-quotes-main">
+        <div class="swp-quotes">
+            @Html.Raw(Language.Where(c => c.Page_Name == "HOME_PAGE" && c.Order_id == 1).Select(c => c.Value).FirstOrDefault())<br />
+            @Html.Raw(Language.Where(c => c.Page_Name == "HOME_PAGE" && c.Order_id == 25).Select(c => c.Value).FirstOrDefault())
+            @*"Die ideale Unterstützung für alle die Dienstleistungen<br />
+                verbunden mit einer Terminreservation anbieten".*@
+        </div>
+
+        <!--End Banner Part-->
+        <!--Online Reservation Start-->
+        <div class="padl45">
+            <strong class="font-s18 swp-ttl1 text-uppercase">@Html.Raw(Language.Where(c => c.Page_Name == "HOME_PAGE" && c.Order_id == 2).Select(c => c.Value).FirstOrDefault())@*online resevation*@</strong>
+            <p class="mt30">
+                @Html.Raw(Language.Where(c => c.Page_Name == "HOME_PAGE" && c.Order_id == 3).Select(c => c.Value).FirstOrDefault())
+                @*Lassen Sie Ihre Kunden Termine online buchen: Jederzeit, von überall her.*@<br />
+                <br />
+                @Html.Raw(Language.Where(c => c.Page_Name == "HOME_PAGE" && c.Order_id == 4).Select(c => c.Value).FirstOrDefault())
+                @*Wir ermöglichen Kleinst-, Klein- und Mittelgrossen Unternehmen den Zugang zu den bestmöglichen Hilfsmitteln um Ihnen die tägliche Arbeit zu erleichtern und helfen mit dass Sie sich auf das wesentliche konzentrieren können: Ihr Kerngeschäft.*@<br />
+                <br />
+                @Html.Raw(Language.Where(c => c.Page_Name == "HOME_PAGE" && c.Order_id == 5).Select(c => c.Value).FirstOrDefault())
+                @*Stetige Verbesserung und volle Kundenorientierung ermöglicht Fortschritte für alle.*@<br />
+                @*Ohne Zusatzkosten. Ohne aufwändige Installationen.*@<br />
+                <br />
+            </p>
+        </div>
+        <hr />
+    </div>
+
+    <!--End Online Reservation-->
+    <!--Advertise Start-->
+    <ul class="row swp-wir padl45">
+        <li class="col-lg-24 col-md-24 col-sm-24">
+            <strong class="font-s18 txt-d-none swp-ttl1">@Html.Raw(Language.Where(c => c.col1 == "Help_Title" && c.Order_id == 6).Select(c => c.Value).FirstOrDefault())@*Wir helfen Ihnen bei:*@</strong>
+            <ol class="mt20 font-s18 ulpadl0">
+                @foreach (var help in Language.Where(c => c.col1 == "Help").ToList())
+                {
+                    <li>@Html.Raw(help.Value)</li>
+                }
+                @*<li>Den Kunden einfache und schnelle Reservationsmöglichkeiten zu bieten</li>
+                    <li>Leerzeiten zu minimieren</li>
+                    <li>Verpasste Termine zu reduzieren</li>
+                    <li>Ihre Termine einfach und übersichtlich zu managen</li>
+                    <li>Den administrativen Aufwand zu reduzieren</li>*@
+            </ol>
+        </li>
+    </ul>
+    <div class="row">
+        <p class="text-center mtb35 font-s16 color3 text-robotoregular">@Html.Raw(Language.Where(c => c.Order_id == 12 && c.col1 == "display_Text_Above_Menubar").Select(c => c.Value).FirstOrDefault())@*Einfachste Installation und Benutzung macht es Nutzbar für alle, auch wenn Sie keine Ahnung von IT und Software haben.*@ </p>
+        <hr />
+        <ul class="swp-b-nav">
+
+            @foreach (var Menu_Bottom in Language.Where(c => c.col1 == "Menu_Bar").ToList())
+            {
+                Menucount = Menucount + 1;
+                var classMenu = "icon" + Menucount;
+                <li class="col-lg-3 col-md-3 col-sm-6">
+                    <a> <span class=@classMenu></span> </a> <strong>
+                        @Html.Raw(Menu_Bottom.Value)
+                        @*Höchste Sicherheit
+                            dank SSL*@
+                    </strong>
+                </li>
+            }
+            <div class="clearfix"></div>
+        </ul>
+        <hr />
+    </div>
+</div>
+@if (ViewBag.LangId == 1)
+{
+    <script>
+        $("#LangChange #English a").addClass("activeShop");
+    </script>
+}
+@if (ViewBag.LangId == 2)
+{
+    <script>
+        $("#LangChange #German a").addClass("activeShop");
+    </script>
+}
+@if (ViewBag.LangId == 3)
+{
+    <script>
+        $("#LangChange #French a").addClass("activeShop");
+    </script>
+}
+
+@Html.Partial("_Footer")
+<script>
+    $("#Menu-page li").removeClass("active");
+    $("#HOMEPAGE").addClass("active");
+
+</script>
+
+

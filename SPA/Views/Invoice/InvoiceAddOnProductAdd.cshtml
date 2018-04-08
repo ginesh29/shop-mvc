@@ -1,0 +1,97 @@
+﻿
+@{
+    Layout = null;
+    List<SPA.Models.DisplayAddOnProductInvoiceAddList> AddOnProductList = new List<SPA.Models.DisplayAddOnProductInvoiceAddList>();
+    AddOnProductList = Model;
+    var Istatus = ViewBag.IStatus;
+}
+
+@foreach (var item in AddOnProductList)
+{
+    if (Istatus == "GI")
+    {
+        <tr>
+            <td class="Report_disaplyNone" style="width:6%;text-align:left">
+                <a class="font16 colorBlack"><i class="fa fa-minus-square" aria-hidden="true"></i></a>
+                <a class="font16 colorGreen HideaddReservationBtn"><i class="fa fa-plus-square AddIReservation" aria-hidden="true"></i></a>
+            </td>
+            <td class="Month_Repregular" style="text-align:left">@(item.Add_OnDate != null ? item.Add_OnDate.ToString("dd.MM.yyyy") : "")</td>
+            <input type="hidden" id="PReservationid" name="PReservationid" value="@(item.PReservationid != null?item.PReservationid:0)" />
+            <input type="hidden" id="AddOnProductId" name="AddOnProductId" value="@item.AddOnProductId" />
+            <input type="hidden" id="AddOnQuantity" name="AddOnQuantity" value="@item.Add_OnQuantity" />
+            <input type="hidden" id="AddOnDate" name="AddOnDate" value="@item.Add_OnDate" />
+            @{ var RealAmount = (item.Rate * item.Add_OnQuantity) + ((double.Parse(item.vat.ToString()) * (item.Rate * item.Add_OnQuantity)) / 100);}
+            <input type="hidden" id="RealAmount" value="@RealAmount" />
+            <td class="Month_Repregular" style="text-align:left;">@item.ProductName</td>
+            <td class="Month_Repregular" style="text-align:center;">
+                <input type="text" @(item.PReservationid > 0 ? "" : "disabled") maxlength="4" id="PDuaration" name="PDuaration" class="spa-text-box ProductDuration @(item.PReservationid > 0 ? "required" : "")  digits Report_disaplyNone" Rate="@item.Rate" value="@item.Duration" vat="@item.vat" />
+                @if (item.PReservationid == 0 || item.PReservationid == null)
+                {
+                    <input type="hidden" id="PDuaration" name="PDuaration" value="0" />
+                }
+                
+            </td>
+            <td class="Month_Repregular" style="text-align:center;">@String.Format("{0:0.00}", item.Add_OnQuantity)</td>
+            <td class="Month_Repregular" style="text-align:center;">@String.Format("{0:0.00}", item.Rate)</td>
+            <td class="Month_Repregular" style="text-align:center;">@item.vat.Value.ToString("0.00")</td>
+            <td class="Month_Repregular" style="text-align:right;">@RealAmount.ToString("0.00")</td>
+        </tr>
+    }
+    else
+    {
+        <tr class="CalTr">
+            <td class="padding-top5">
+                <a class="font16 colorBlack"><i class="fa fa-minus-square" aria-hidden="true"></i></a>
+                <a class="font16 colorGreen HideaddReservationBtn" id="add_reservation"><i class="fa fa-plus-square AddIReservation" aria-hidden="true"></i></a>
+            </td>
+            <td class="padding-top5">@(item.Add_OnDate != null ? item.Add_OnDate.ToString("dd.MM.yyyy") : "")</td>
+            @if (item.AddOnSettlementTextId > 0)
+            {
+                <input type="hidden" id="AddOnSettlementTextId" name="AddOnSettlementTextId" value="@(item.AddOnSettlementTextId != null?item.AddOnSettlementTextId:0)" />
+                <input type="hidden" id="ISettlementText" name="ISettlementText" value="@item.Settlement_text" />
+                <input type="hidden" id="SettlementTextDate" name="SettlementTextDate" value="@item.Add_OnDate" />
+            }
+            else
+            {
+                <input type="hidden" id="PReservationid" name="PReservationid" value="@(item.PReservationid != null?item.PReservationid:0)" />
+                <input type="hidden" id="AddOnDate" name="AddOnDate" value="@item.Add_OnDate" />
+                <input type="hidden" id="AddOnProductId" name="AddOnProductId" value="@item.AddOnProductId" />
+                <input type="hidden" id="AddOnQuantity" name="AddOnQuantity" value="@item.Add_OnQuantity" />
+                <input type="hidden" id="AddOnTime" name="AddOnTime" value="@item.Add_OnTime" />
+            }                               
+            @{ var RealAmount = (item.Rate * item.Add_OnQuantity) + ((double.Parse(item.vat.ToString()) * (item.Rate * item.Add_OnQuantity)) / 100);}
+            <input type="hidden" id="RealAmount" value="@RealAmount" />
+            <td class="padding-top5">
+                @if (item.AddOnSettlementTextId > 0)
+                {
+                    <input type="text" @(item.AddOnSettlementTextId > 0 ? "" : "disabled") id="SettlementTextDuaration" name="SettlementTextDuaration" maxlength="4" class="spa-text-box ProductDuration @(item.AddOnSettlementTextId > 0 ? "required" : "") digits" placeholder="" Rate="@item.Rate" value="@item.Duration" vat="@item.vat" />
+                    if (item.AddOnSettlementTextId == 0 || item.AddOnSettlementTextId == null)
+                    {
+                        <input type="hidden" id="SettlementTextDuaration" name="SettlementTextDuaration" value="0" />
+                    }
+                }
+                else
+                {
+                    <input type="text" @(item.PReservationid > 0 ? "" : "disabled") id="PDuaration" name="PDuaration" maxlength="4" class="spa-text-box ProductDuration @(item.PReservationid > 0 ? "required" : "") digits" placeholder="" Rate="@item.Rate" value="@item.Duration" vat="@item.vat" />
+                    if ((item.PReservationid == 0 || item.PReservationid == null))
+                    {
+                        <input type="hidden" id="PDuaration" name="PDuaration" value="0" />
+                    }
+                }
+                          
+            </td>
+            <td class="padding-top5">@item.Tarif_Number</td>
+            <td class="padding-top5"><p>@item.Settlement_Number</p></td>
+            <td class="padding-top5">@String.Format("{0:0.00}", item.Add_OnQuantity)</td>
+            <td class="padding-top5">@String.Format("{0:0.00}", item.Rate)</td>
+            <td class="padding-top5">1.00</td>
+            <td class="padding-top5">@String.Format("{0:0.0}", item.vat)%</td>
+            <td style="text-align:right;" class="padding-top5">@String.Format("{0:0.00}", RealAmount)</td>
+        </tr>
+        <tr>
+            <td colspan="4"></td>
+            <td colspan="5">@item.Settlement_text</td>
+            <td></td>
+        </tr>
+                    }
+                }

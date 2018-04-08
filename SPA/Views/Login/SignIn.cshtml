@@ -1,0 +1,177 @@
+﻿@model  SPA.Models.LoginModels
+@{
+    Layout = null;
+    List<Language_Label_Detail> LanguageList = new List<Language_Label_Detail>();
+    SPA.Models.ShopMasterDetail SchoolInformation = new SPA.Models.ShopMasterDetail();
+    SchoolInformation = ViewBag.SchoolInformation;
+    int LanguageId = SchoolInformation.Lang_id.Value;
+    LanguageList = ViewBag.Language;
+    var Language = LanguageList.Where(c => c.Page_Name == "login page").ToList();
+    string Colorclass = ViewBag.Colorclass;
+    ViewBag.Title = LanguageList.Where(c => c.Page_Name == "Title" && c.Order_id == 7).Select(c => c.Value).FirstOrDefault();
+    List<SPA.Models.LanguageLabelDetails> LangNameList = ViewBag.LangNameList;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @if (LanguageId > 1)
+    {
+        @Html.Partial("_LangValidation", "/Scripts/messages_" + LangNameList.Where(c => c.Lang_id == LanguageId).Select(c => c.English_Label).FirstOrDefault().ToLower() + ".js");
+    }
+    @*@if (LanguageId == 2)
+        {
+            <script type="text/javascript" src="~/Scripts/messages_de.js"></script>
+        }
+        @if (LanguageId == 3)
+        {
+            <script type="text/javascript" src="~/Scripts/messages_fr.js"></script>
+        }*@
+</head>
+<body class="@Colorclass">
+    <div class="sign-in">
+        <h1 class="title-white14">
+            @Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()@*PLEASE LOGIN*@
+            @if (SchoolInformation.SchlWebsite != null && SchoolInformation.SchlWebsite != "")
+            {
+                if (SchoolInformation.SchlWebsite.ToString().Contains("http://"))
+                {
+                    <a href=@SchoolInformation.SchlWebsite class="pull-right icon-home">
+                        <i class="fa fa-home"></i>
+                    </a>
+                }
+                else
+                {
+                    string WebsiteUrl = "http://" + SchoolInformation.SchlWebsite;
+                    <a href="@WebsiteUrl" class="pull-right icon-home">
+                        <i class="fa fa-home"></i>
+                    </a>
+                }
+            }
+            else
+            {
+                <a href="/Home/Home" class="pull-right icon-home">
+                    <i class="fa fa-home"></i>
+                </a>
+            }
+        </h1>
+        <div class="sign-in-form">
+            @using (Html.BeginForm("SignIn", "Login", FormMethod.Post, new { @id = "SignInForm", autocomplete = "off" }))
+            {
+                @*@Html.AntiForgeryToken()*@
+                <div class="alert alert-danger" style="display: none"></div>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group margin-bottom20">
+                    <div class="inner-addon left-addon">
+                        <i class="fa fa-user"></i>
+                        @Html.EditorFor(c => c.PhoneNumber, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control spa-text-box required number",
+                           //@minlength = 10,
+                           @maxlength = 12,
+                           @placeholder = @Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()@*"Enter your mobile number"*@ }
+                   })
+                    </div>
+                    @Html.ValidationMessageFor(c => c.PhoneNumber, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group margin-bottom20">
+                    <div class="inner-addon left-addon">
+                        <i class="fa fa-key"></i>
+                        @Html.EditorFor(c => c.password, new
+                   {
+                       htmlAttributes = new
+                       {
+                           @class = "form-control spa-text-box required",
+                           Type = "password",
+                           @placeholder = @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()@*"Enter your Password"*@ ,
+                           @minlength = "6"
+                       }
+
+                   })
+                    </div>
+                    @Html.ValidationMessageFor(c => c.password, "", new { @class = "text-danger" })
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            @*<span class="spa-checkbox checkbox" hidden>
+                                    <input name="RememberMe" id="02" type="checkbox" hidden>
+                                    <label for="02" class="form-label spa-label1" hidden></label>
+                                </span>*@
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top10">
+                        <div class="form-group text-right">
+                            <a href="/Login/ForgotPassword" class="title-green14">@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()@*Forgot Password ?*@</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group text-center margin-top15">
+                    <input type="submit" class="btn btn-green" id="btnLogin" value="@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()" />
+                </div>
+            }
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="welcome-modal">
+        <div id="welcome" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body margin-bottom30" id="WelcomeAlert">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (Session["Message"].ToString() == "Error")
+    {
+        <script>
+            $.post("/Product/GetDataOfLanguage?Text=Sorry From&id=29", function (data) {
+                $.post("/Product/GetDataOfLanguage?Text=Please Login Again!&id=31", function (data1) {
+                    $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\">" + data + " </br></br><span>CLICK-AND-GO!</span></h1><p class=\"title15 text-center margin-bottom30\">" + data1 + "</p>");
+                    $('#welcome').modal("show");
+                })
+            });
+        </script>
+        Session["Message"] = "";
+    }
+    @if (Session["Message"].ToString() == "No Access")
+    {
+        <script>
+            $.post("/Product/GetDataOfLanguage?Text=You have no Access&id=73", function (data) {
+                $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO!</span></h1><p class=\"title15 text-center margin-bottom30\">" + data + "</p>");
+                $('#welcome').modal("show");
+            });
+        </script>
+        Session["Message"] = "";
+    }
+    @if (Session["Message"].ToString() == "Expire Account")
+    {
+        <script>
+            $.post("/Product/GetDataOfLanguage?Text=Your account is Expired&id=74", function (data) {
+                $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO!</span></h1><p class=\"title15 text-center margin-bottom30\">" + data + "</p>");
+                $('#welcome').modal("show");
+            });
+        </script>
+        Session["Message"] = "";
+    }
+    @{
+        Session["Message"] = "";
+    }
+    <script>
+        $("#SignInForm").validate();
+        $("#SignInForm")[0].reset();
+    </script>
+</body>
+</html>

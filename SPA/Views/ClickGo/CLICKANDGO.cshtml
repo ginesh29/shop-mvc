@@ -1,0 +1,75 @@
+﻿
+@{
+    Layout = "~/Views/Shared/ClickGoLayout.cshtml";
+    ViewBag.Title = "CLICKANDGO";
+    List<SPA.Models.LanguageNewShop> Language = ViewBag.Language;
+    Language = Language.Where(c => c.Page_Name == "SMARTWAREPLUS_Page").ToList();
+}
+<div class="footerNew">
+    <div class="" style="background:#fff;">
+        <div class="container">
+            <ul class="mt60">
+                <li>
+                    <strong class="font-s22 f-family32">
+                        <a name="Wie" id="Wie">@Html.Raw(Language.Where(c => c.Page_Name == "SMARTWAREPLUS_Page" && c.Order_id == 1).Select(c => c.Value).FirstOrDefault())</a>
+                        @*Wie funktioniert SmartWarePlus*@
+                    </strong>
+                    <ol class="mt20 f-family3 font-s18">
+                        @foreach (var HowSmartWarePlus in Language.Where(c => c.SubPage == "How_Smartwareplus").ToList())
+                        {
+                            <li>@Html.Raw(HowSmartWarePlus.Value)</li>
+                        }
+                    </ol>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="" style="background:#f5f5f5;">
+        <div class="container">
+            <ul class="mt60">
+                <li>
+                    <strong class="font-s22 f-family32">
+                        <a name="Warum">@Html.Raw(Language.Where(c => c.Page_Name == "SMARTWAREPLUS_Page" && c.Order_id == 10).Select(c => c.Value).FirstOrDefault())</a>
+                        @*Wie funktioniert SmartWarePlus*@
+                    </strong>
+                    <ol class="mt20 f-family3 font-s18">
+                        @foreach (var WhySmartWarePlus in Language.Where(c => c.SubPage == "Why_SmartWarePlus").ToList())
+                        {
+                            <li>@Html.Raw(WhySmartWarePlus.Value)</li>
+                        }
+                    </ol>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="" style="background:#fff;">
+        <div class="container">
+            <ul class="mt60">
+                <li>
+                    <strong class="font-s22 f-family32">
+                        <a name="FAQ">@Html.Raw(Language.Where(c => c.Page_Name == "SMARTWAREPLUS_Page" && c.Order_id == 19).Select(c => c.Value).FirstOrDefault())</a>
+                        @*FAQ‘s (Frequently Asked Questions)*@
+                    </strong>
+                    <ol class="mt20 f-family2 font-s18">
+                        @foreach (var LanguageFaq in Language.Where(c => c.SubPage == "FAQ_Q_A" && c.Catg_Sep == "Q").ToList())
+                        {
+                            <li>
+                                <strong class="f-family32 color6">
+                                    @Html.Raw(LanguageFaq.Value)
+                                    @*@Language.Where(c => c.Page_Name == "SMARTWAREPLUS_Page" && c.Order_id == 20).Select(c => c.Value).FirstOrDefault()*@
+                                    @*Kann ich die Software auf meiner Webseite integrieren?*@
+                                </strong>
+                                <p>
+                                    @Html.Raw(Language.Where(c => c.SubPage == "FAQ_Q_A" && c.Order_id == LanguageFaq.Order_id && c.Catg_Sep == "A").Select(c => c.Value).FirstOrDefault())
+                                    @*@Language.Where(c => c.Page_Name == "SMARTWAREPLUS_Page" && c.Order_id == 21).Select(c => c.Value).FirstOrDefault()*@
+                                </p>
+                            </li>
+                        }
+                    </ol>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+@Html.Partial("ClickGo_Footer")

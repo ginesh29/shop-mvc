@@ -1,0 +1,21 @@
+﻿@using System.Configuration
+@using SPA.Common
+@{
+    ViewBag.Title = "_ProcessHead";
+    int schlId = Convert.ToInt32(ConfigurationManager.AppSettings["ApplicationVariable"]);
+    var link = System.Web.HttpContext.Current.Request.Url.Host;
+    Function fu = new Function();
+    schlId = Convert.ToInt32(fu.GetShopId(link));
+    cctspDatabaseEntities22 SPA = new cctspDatabaseEntities22();
+    List<Language_Label_Detail> Language = new List<Language_Label_Detail>();
+    int LanguageId = SPA.CCTSP_SchoolMaster.Where(c => c.ActiveStatus == "A" && c.SchlId == schlId).Select(c => c.Lang_id).FirstOrDefault().Value;
+    Language = SPA.Language_Label_Detail.Where(c => c.Page_Name == "Reservation_Row" && c.Lang_id == LanguageId).ToList();
+}
+<ul class="progressbar full-width">
+    <li class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="a1">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()@*Login*@</li>
+    <li class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="a2">@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()@*Choose your Product*@</li>
+    <li class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="a3">@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()@*Choose your employee, date and time*@</li>
+    <li class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="a4">@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()@*Confirm the Booking*@</li>
+</ul>
+
+

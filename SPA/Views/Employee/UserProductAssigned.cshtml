@@ -1,0 +1,137 @@
+﻿@using SPA.Models;
+@{
+    ViewBag.Title = "UserProductAssigned";
+    Layout = null;
+    string currency = ViewBag.currency;
+    string DurationPre = "Min";
+    List<Language_Label_Detail> Language = new List<Language_Label_Detail>();
+    Language = ViewBag.Language;
+    List<GroupProductList> GroupProductDetails = new List<GroupProductList>();
+    GroupProductDetails = ViewBag.querProdList;
+}
+@if (GroupProductDetails.Count > 0)
+{
+    <div class="choose-your-product table-responsive margin-top10" id="onlyEmployees">
+        <div class="product-catalog-box add-vacation-table product-catalog-table padding0 hover-remove">
+
+            <div class="table-responsive">
+                @if (GroupProductDetails.Count > 0 && GroupProductDetails != null)
+                {
+                    foreach (var GroupId in GroupProductDetails.Select(c => c.GroupIdByShop).Distinct())
+                    {
+                        <div class="grouping-product">
+                            
+                            <div>
+                                <table class="table table-striped margin-top15 grouping-detail-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="textLeft">
+                                                <a class="title-green16  margin-left0 cursor-default">
+                                                    @GroupProductDetails.Where(c => c.GroupIdByShop == GroupId).Select(c => c.GroupName).FirstOrDefault()
+                                                </a>
+                                            </th>
+                                          
+                                            <th class="textLeft">@Language.Where(c => c.Order_id == 44).Select(c => c.Value).FirstOrDefault()@*OFFERS*@</th>
+                                            <th class="text-center">@Language.Where(c => c.Order_id == 56).Select(c => c.Value).FirstOrDefault()@*Gender*@</th>
+                                            <th class="text-center">@Language.Where(c => c.Order_id == 45).Select(c => c.Value).FirstOrDefault()@*DURATION*@</th>
+                                            <th class="text-center">@Language.Where(c => c.Order_id == 46).Select(c => c.Value).FirstOrDefault()@*PRICE*@</th>
+                                            <th class="text-center">@Language.Where(c => c.Order_id == 47).Select(c => c.Value).FirstOrDefault()@*PRODUCT INFORMATION*@</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+
+                                    @foreach (var ProductDetails in GroupProductDetails.Where(c => c.GroupIdByShop == GroupId).ToList())
+                                    {                                                                                   
+                                            <tbody id="TbodyProduct">
+                                                <tr>
+                                                    <td class="width27per"></td>
+                                                    <td class="spa-label1 textLeft width30per">
+                                                        @ProductDetails.ProductName
+                                                    </td>
+                                                    @if (ProductDetails.Gender == "Both")
+                                                    {
+                                                        <td class="spa-label1 text-center width10per">
+                                                            <i class="fa fa-female gendericonSize" aria-hidden="true"></i>
+                                                            <i class="fa fa-male gendericonSize" aria-hidden="true"></i>
+                                                        </td>
+                                                    }
+                                                    @if (ProductDetails.Gender == "male")
+                                                    {
+                                                        <td class="spa-label1 text-center width10per">
+                                                            <i class="fa fa-female gendericonSize opacity0" aria-hidden="true"></i>
+                                                            <i class="fa fa-male gendericonSize" aria-hidden="true"></i>
+                                                        </td>
+                                                    }
+                                                    @if (ProductDetails.Gender == "Female")
+                                                    {
+                                                        <td class="spa-label1 text-center width10per">
+                                                            <i class="fa fa-female gendericonSize" aria-hidden="true"></i>
+                                                            <i class="fa fa-male gendericonSize opacity0" aria-hidden="true"></i>
+                                                        </td>
+                                                    }
+                                                    @if (ProductDetails.Gender == null)
+                                                    {
+                                                        <td class="width10per spa-label1 text-center"></td>
+                                                    }
+                                                    <td class="spa-label1 text-center width9per">@ProductDetails.Duration @DurationPre</td>
+                                                    <td class="spa-label1 text-center width9per">@float.Parse(ProductDetails.Amount.ToString()) @currency</td>
+
+                                                    <td class="text-center width10per">
+                                                        @if(!string.IsNullOrEmpty(ProductDetails.SectionDesc))
+                                                        {
+                                                            <a href="#" data-toggle="popover" data-content="@ProductDetails.SectionDesc"><i class="fa fa-info-circle spa-icon"></i></a>
+                                                        }
+                                                    </td>
+                                                    <td class="text-center width5per"><a><i class="fa fa-trash spa-icon" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 53).Select(c => c.Value).FirstOrDefault()" data-original-title="" title="" onclick="DeleteEmployeeProduct(@ProductDetails.SolutionId);"></i></a></td>
+                                                </tr>
+
+                                            </tbody>         
+                                    }
+                                </table>
+                            </div>
+                        </div>
+
+                    }
+                }              
+
+            </div>
+        </div>
+
+    </div>
+}
+else
+{
+    <div class="choose-your-product table-responsive margin-top10" id="onlyEmployees">
+        <table class="table table-striped margin-top15">
+            <thead>
+                <tr>
+                    <th>@Language.Where(c => c.Order_id == 44).Select(c => c.Value).FirstOrDefault()@*OFFERS*@</th>
+                    <th class="text-center">@Language.Where(c => c.Order_id == 45).Select(c => c.Value).FirstOrDefault()@*DURATION*@</th>
+                    <th class="text-center">@Language.Where(c => c.Order_id == 46).Select(c => c.Value).FirstOrDefault()@*PRICE*@</th>
+                    <th class="text-center">@Language.Where(c => c.Order_id == 47).Select(c => c.Value).FirstOrDefault()@*PRODUCT INFORMATION*@</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-center">
+                    <td colspan="4" class="no-product">
+                        <span>
+                            <img src="~/images/basket.png" alt="" />
+                        </span>
+                        <div>
+                            <p class="text-center title-grey padding-bottom20">@Language.Where(c => c.Order_id == 48).Select(c => c.Value).FirstOrDefault()@*No product*@</p>
+                            <a class="btn btn-green margin-top20 add-product-After">@Language.Where(c => c.Order_id == 49).Select(c => c.Value).FirstOrDefault()@*Add Product*@</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+<script>
+    $(".add-product-After").click(function () {
+        $("#AllProduct").show();
+        $("#onlyEmployees").hide();
+        $("#DisplayCopy").show();
+        $("#add-product").hide();
+    });
+</script>

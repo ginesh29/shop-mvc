@@ -1,0 +1,107 @@
+﻿
+@{
+    Layout = null;
+    List<Language_NewShop> LanguageTxt = ViewBag.GetAllLangData;
+    ViewBag.Title = "SubEdit";
+}
+<script src="~/tinymce/tinymce.min.js"></script>
+<form id="DataDivForm" action="/Translation/AddText" method="post">
+    <div class="col-lg-7 col-md-7 col-sm-7 margintop20">
+        <label class="label-shop">Add Title :</label>
+    </div>
+    <div class="col-lg-17 col-md-17 col-sm-17 margintop20">
+        <input type="text" class="area-shop form-control" id="TransTitle" name="TransTitle" value="@LanguageTxt.FirstOrDefault().Catg_Sep" />
+    </div>
+    <div class="col-lg-7 col-md-7 col-sm-7 margintop20">
+        <label class="label-shop">English Text :</label>
+    </div>
+    <div class="col-lg-17 col-md-17 col-sm-17 margintop20">
+        <textarea class="area-shop form-control" id="EngTxt" name="EngTxt">@LanguageTxt.Where(c => c.Lang_id == 1).Select(c => c.Value).FirstOrDefault().ToString()</textarea>
+    </div>
+    <div class="col-lg-7 col-md-7 col-sm-7 margintop20">
+        <label class="label-shop">GermanText :</label>
+    </div>
+
+    <div class="col-lg-17 col-md-17 col-sm-17 margintop20">
+        <textarea class="area-shop form-control" id="deTxt" name="deTxt">@LanguageTxt.Where(c => c.Lang_id == 2).Select(c => c.Value).FirstOrDefault().ToString()</textarea>
+    </div>
+
+    <div class="col-lg-7 col-md-7 col-sm-7 margintop20">
+        <label class="label-shop">FrenchText :</label>
+    </div>
+    <div class="col-lg-17 col-md-17 col-sm-17 margintop20">
+        <textarea class="area-shop form-control" id="frTxt" name="frTxt">@LanguageTxt.Where(c => c.Lang_id == 3).Select(c => c.Value).FirstOrDefault().ToString()</textarea>
+    </div>
+    <div class="col-lg-7 col-md-7 col-sm-7 margintop20">
+        <label class="label-shop">ItalianText :</label>
+    </div>
+    <div class="col-lg-17 col-md-17 col-sm-17 margintop20">
+        <textarea class="area-shop form-control" id="itTxt" name="itTxt">@LanguageTxt.Where(c => c.Lang_id == 4).Select(c => c.Value).FirstOrDefault().ToString()</textarea>
+    </div>
+    <input type="hidden" name="IdLang" id="IdLang" value="@ViewBag.Id"/>
+    <input type="button" name="SubmitDataText" value="Submit Text" onclick="FormSubmitData();" id="SubmitDataText" />
+    <input type="reset" id="ResetData" value="cancel" />
+</form>
+@if (LanguageTxt.FirstOrDefault().Field1 == "ED")
+{
+    <script>
+        var editor = {
+            editorControlId: ["EngTxt", "deTxt", "frTxt", "EngAddTxt", "deAddTxt", "frAddTxt"], // Textarea id
+            editorControlName: ["EngTxt", "deTxt", "frTxt", "EngAddTxt", "deAddTxt", "frAddTxt"] // Textarea name
+        };
+        EditorTinyMCEForDiscussion(editor);
+        function EditorTinyMCEForDiscussion(editors) {
+            var selectors = "";
+            for (i = 0; i < editors.editorControlId.length; i++) {
+                if (i == 0) selectors = "#" + editors.editorControlId[i];
+                else selectors += ",#" + editors.editorControlId[i];
+            }
+
+            tinyMCE.init({
+                selector: selectors,
+                theme: "modern",
+                menubar: false,
+                statusbar: false,
+                height: "215",
+                forced_root_block: false,
+                force_p_newlines: false,
+                remove_linebreaks: false,
+                force_br_newlines: false,
+                remove_trailing_nbsp: false,
+                verify_html: false,
+                setup: function (editor) {
+                    editor.on('init', function () {
+                        this.getDoc().body.style.fontSize = '14px';
+                        this.getDoc().body.style.fontFamily = 'Arial';
+                        this.getDoc().body.style.color = '#555555';
+                    });
+                    editor.on('change', function () {
+                        tinyMCE.triggerSave();
+                    });
+                },
+                convert_fonts_to_spans: false,
+                plugins: ["advlist autolink lists link anchor", "searchreplace visualblocks code fullscreen", "insertdatetime media contextmenu paste", "placeholder"],
+                toolbar: "bold italic underline | alignleft aligncenter alignright | bullist numlist | link | blockquote",
+                theme_advanced_toolbar_location: "top",
+                theme_advanced_toolbar_align: "left",
+                theme_advanced_statusbar_location: "bottom"
+
+            });
+        }
+        @*tinymce.get('EngTxt').setContent(@LanguageTxt.Where(c => c.Lang_id == 1).Select(c => c.Value).FirstOrDefault().ToString().Replace("\"", "'"));
+        tinymce.get('deTxt').setContent(@LanguageTxt.Where(c => c.Lang_id == 2).Select(c => c.Value).FirstOrDefault().ToString().Replace("\"", "'"));
+        tinymce.get('frTxt').setContent(@LanguageTxt.Where(c => c.Lang_id == 3).Select(c => c.Value).FirstOrDefault().ToString().Replace("\"", "'"));*@
+        
+    </script>
+}
+<script>
+    $("#DataDivForm")[0].reset();
+    $("#ResetData").click(function () {
+        $("#DataDivEdit").slideToggle();
+    })
+</script>
+
+
+
+
+

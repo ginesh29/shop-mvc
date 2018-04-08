@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="spa-breadcrumbs breadcrumb">
+    @*<li><a href="#" class="active">Home</a></li>
+    <li><a href="#">Profile</a></li>*@
+</ol>
+<div class="form-content">
+    <div class="employee-blank">
+        <h1 class="italic-title">
+            Profile
+            <span class="pull-right">
+                <a href="@Url.Action("","")" class="title-green16"><i class="fa fa-reply-all margin-right5"></i>Back</a>
+            </span>
+        </h1>
+        <p class="spa-label"><span><i class="fa fa-asterisk margin-right5 calendar"></i></span>Anfahrt mit dem Auto</p>
+        <p class="spa-label1 margin-left20">
+            Autobahnausfahrt e Marin, directions La Thielle
+            Thielle
+        </p>
+        <p class="spa-label"><span><i class="fa fa-asterisk margin-right5 calendar"></i></span>Zug & Bus</p>
+        <p class="spa-label1 margin-left20 margin-bottom20">
+            Bahnhof Meilen, danach mit dem Bus 920
+            oder 925 Richtung Stäfa bis Bushaltestelle
+            Männedorf Büelen.
+        </p>
+        <p class="spa-label1 margin-left20">
+            Danach in Fahrtrichtung laufen und nach
+            ca.80m links die Steinbrüchelstrasse
+            hochgehen. Anschliessend zweites Haus rechts (rotes
+            Backsteinhaus )
+        </p>
+    </div>
+</div>
+@Html.Partial("_Footer")

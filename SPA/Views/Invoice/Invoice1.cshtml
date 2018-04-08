@@ -1,0 +1,1003 @@
+﻿@{
+    System.Globalization.CultureInfo enGB = new System.Globalization.CultureInfo("en-GB");
+    Layout = null;
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.LanguageInfo;
+    ViewBag.Title = Language.Where(c => c.Order_id == 68).Select(c => c.Value).FirstOrDefault();
+    List<SPA.Models.ManualInvoice> Invoicelist = new List<SPA.Models.ManualInvoice>();
+    Invoicelist = Model;
+    List<SPA.Models.CatgDropDownList> DropdownList = ViewBag.DropDownList;
+    SPA.Models.InvoiceStatus InvoiceMaster = ViewBag.Invoice;
+    List<SPA.Models.AddOnProductList> AddOnProductList = new List<SPA.Models.AddOnProductList>();
+    AddOnProductList = ViewBag.AddOnProductList;
+    var Url = ViewBag.Url;
+    SPA.Models.ShopMasterDetail ShopInfo = new SPA.Models.ShopMasterDetail();
+    ShopInfo = ViewBag.ShopInfo;
+    var LngLocal = ViewBag.LngLocal;
+    var TreatDate = ViewBag.TreatDate;
+    var TreatFromDate = ViewBag.TreatToDate;
+    List<SPA.Models.InvoiceServicesList> ServicesList = new List<SPA.Models.InvoiceServicesList>();
+    ServicesList = ViewBag.ServicesList;
+    List<SPA.Models.settlementTxt> SettlementTextList = new List<SPA.Models.settlementTxt>();
+    SettlementTextList = ViewBag.settlementtextList;
+    DateTime InvoiceDate = InvoiceMaster.InvoiceDate != null ? InvoiceMaster.InvoiceDate.Value : DateTime.Now;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    @* <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">*@
+    <title>@ViewBag.Title</title>
+    <link href='https://fonts.googleapis.com/css?family=Raleway:800,800italic' rel='stylesheet' type='text/css'>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    @*<script src="~/Scripts/jquery.formatter.js"></script>*@
+    @if (ShopInfo.Lang_id == 2)
+    {
+        <script type="text/javascript" src="~/Scripts/messages_de.js"></script>
+    }
+    @if (ShopInfo.Lang_id == 3)
+    {
+        <script type="text/javascript" src="~/Scripts/messages_fr.js"></script>
+    }
+    @if (ShopInfo.Lang_id == 4)
+    {
+        <script type="text/javascript" src="~/Scripts/messages_it.js"></script>
+    }
+    <style>
+        .required {
+            border: 2px solid #f50b24;
+        }
+
+        .invoice_tabel tbody tr td {
+            padding: 0;
+        }
+
+        .invoice_tabel thead tr th {
+            padding: 8px 0;
+        }
+    </style>
+    @if (ViewBag.ServiceTabAccess == false)
+    {
+        <style>
+            .HideaddServiceBtn {
+                display: none;
+            }
+        </style>
+    }
+    @if (ViewBag.ReservationTabAccess == false)
+    {
+        <style>
+            .HideaddReservationBtn {
+                display: none;
+            }
+        </style>
+    }
+</head>
+<body>
+    <div class="invvoice1_page">
+        <div class="row margin-bottom5">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h4 class="font14 font-bold">@*Receipt for reimbursement, copy for the health insurance*@  @Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()</h4>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h4 class="text-right font14">@*Release 4.3G/de*@ @Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()</h4>
+            </div>
+        </div>
+        @if (Invoicelist.Count > 0)
+        {
+            var Basicinfo = Invoicelist.FirstOrDefault();
+
+            <form id="frmAddManualInvoice" name="frmAddManualInvoice" action="/Invoice/AddManualInvoice" method="post">
+                <div class="invcoie_form">
+                    <div class="row">
+                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                            <div class="row form-group">
+                                <div class="col-lg-16 col-md-16 col-sm-16 col-xs-16">
+                                    <label class="invoice_label">@*Document Identification*@ @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    <input type="text" id="InvoiceNumber" name="InvoiceNumber" class="spa-text-box" placeholder="@Language.Where(c => c.Order_id == 74).Select(c => c.Value).FirstOrDefault()" disabled="disabled" value="@InvoiceMaster.ReservationList.FirstOrDefault()" />
+                                </div>
+                            </div>
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    <label class="invoice_label">@*Invoicing party*@ @Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-right">
+                                    <label class="invoice_label">@*GLN-No. (B)*@ @Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    <input type="text" id="Own_GLN_No" name="Own_GLN_No" class="spa-text-box" disabled="disabled" placeholder="@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Own_GLN_No" />
+                                    <input type="hidden" id="ReservationIdList" name="ReservationIdList" value="@ViewBag.ReservationIdList" />
+                                    <input type="hidden" id="InvoiceId" name="InvoiceId" value="@InvoiceMaster.ReservationList.FirstOrDefault()" />
+                                    <input type="hidden" id="InvoiceDate" name="InvoiceDate" value="@InvoiceMaster.InvoiceDate" />
+                                    <input type="hidden" id="PatientId" name="PatientId" value="@Basicinfo.PatientId" />
+                                    <input type="hidden" id="EmpId" name="EmpId" value="@Basicinfo.EmpId" />
+                                    <input type="hidden" id="UrlStatus" name="UrlStatus" value="@Url" />
+                                    <input type="hidden" id="Invoice_Service" name="Invoice_Service" value="@Basicinfo.Invoice_Service" />
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-right">
+                                    <label class="invoice_label">@*ZSR-No.*@ @Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    <input type="text" id="Own_ZSR_No" name="Own_ZSR_No" class="spa-text-box required" maxlength="7" minlength="7" placeholder="@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Own_ZSR_No" />
+                                </div>
+                            </div>
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    <label class="invoice_label">@*Render of service*@ @Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-right">
+                                    <label class="invoice_label">@*GLN-No. (B)*@ @Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    <input type="text" disabled="disabled" id="Emp_GLN_No" name="Emp_GLN_No" class="spa-text-box" placeholder="@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Emp_GLN_No" />
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-right">
+                                    <label class="invoice_label">@*ZSR-No.*@ @Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    <input type="text" id="Emp_ZSR_No" name="Emp_ZSR_No" class="spa-text-box required" maxlength="7" minlength="7" placeholder="@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Emp_ZSR_No" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-13 col-md-13 col-sm-13 col-xs-13">
+                            <div class="row form-group">
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                    <input type="text" class="spa-text-box" placeholder="@Language.Where(c => c.Order_id == 45).Select(c => c.Value).FirstOrDefault()" disabled="disabled" value="@InvoiceMaster.InvoiceDate.Value.ToString("dd.MM.yyyy")" />
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                    <input type="text" class="spa-text-box" placeholder="@Language.Where(c => c.Order_id == 55).Select(c => c.Value).FirstOrDefault()" disabled="disabled" value="@InvoiceMaster.InvoiceDate.Value.ToString(" HH:mm:ss")" />
+                                </div>
+                            </div>
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                    <input type="text" id="Own_Fname" name="Own_Fname" maxlength="50" class="spa-text-box" disabled="disabled" placeholder="@Language.Where(c => c.Order_id == 39).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Own_Fname @Basicinfo.Own_Lname" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-right">
+                                    <label class="invoice_label">@*Email*@ @Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault():</label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                    <input type="text" id="OwnEmail" name="OwnEmail" class="spa-text-box" disabled="disabled" placeholder="@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.OwnEmail" />
+                                </div>
+                            </div>
+                            <div class="row form-group">
+
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padding-right0">
+                                    @*street*@
+                                    <input type="text" class="spa-text-box required" id="Shopstreet" name="Shopstreet" placeholder="@Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Shopstreet" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    @*street no*@
+                                    <input type="text" class="spa-text-box required" id="ShopStreetNumber" name="ShopStreetNumber" placeholder="@Language.Where(c => c.Order_id == 104).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.ShopStreetNumber" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 padding-left0">
+                                    @*ZipCode*@
+                                    <input type="text" class="spa-text-box required digits" id="ShopZipcode" name="ShopZipcode" value="@Basicinfo.ShopZipcode" placeholder="@Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()" maxlength="8" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 padding-right0">
+                                    @*city*@
+                                    <input type="text" class="spa-text-box required" id="ShopCity" name="ShopCity" placeholder="@Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.ShopCity" />
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-right padding0">
+                                    <label class="invoice_label">@*Tel*@ @Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault():</label>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <input type="text" id="OwnPhoneno" name="OwnPhoneno" class="spa-text-box" disabled="disabled" placeholder="@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.OwnPhoneno" />
+                                </div>
+                            </div>
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 padding-right0">
+                                    <input type="text" disabled="disabled" id="EmpFName" name="EmpFName" class="spa-text-box" placeholder="@Language.Where(c => c.Order_id == 39).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.EmpFName @Basicinfo.EmpLName" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-right">
+                                    <label class="invoice_label">@*Email*@ @Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault():</label>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                    <input type="text" disabled="disabled" id="EmpEmail" name="EmpEmail" class="spa-text-box" placeholder="@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.EmpEmail" />
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padding-right0">
+                                    @*street*@
+                                    <input type="text" id="Emp_Street" name="Emp_Street" class="spa-text-box required" placeholder="@Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Emp_Street" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    @*street no*@
+                                    <input type="text" id="Emp_StreetNumber" name="Emp_StreetNumber" class="spa-text-box required" placeholder="@Language.Where(c => c.Order_id == 104).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Emp_StreetNumber" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 padding-left0">
+                                    @*ZipCode*@
+                                    <input type="text" class="spa-text-box required digits" id="Emp_Pincode" name="Emp_Pincode" placeholder="@Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Emp_Pincode" maxlength="8" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 padding-right0">
+                                    @*city*@
+                                    <input type="text" class="spa-text-box required" id="Emp_City" name="Emp_City" placeholder="@Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Emp_City" />
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-right padding0">
+                                    <label class="invoice_label">@*Tel*@ @Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault():</label>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <input type="text" id="EmpPhoneNo" name="EmpPhoneNo" disabled="disabled" class="spa-text-box" placeholder="@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.EmpPhoneNo" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="invcoie_form">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <label class="invoice_label" style="word-break:break-all;">@*Patient*@ @Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()</label>
+                        </div>
+                        <div class="col-lg-22 col-md-22 col-sm-22 col-xs-22">
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*Family name*@ @Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" id="Cust_LastName" name="Cust_LastName" maxlength="50" class="spa-text-box required" placeholder="@Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Cust_LastName" />
+                                </div>
+                            </div>
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*First name*@ @Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" id="Cust_FirstName" name="Cust_FirstName" maxlength="50" class="spa-text-box required" placeholder="@Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Cust_FirstName" />
+                                </div>
+                            </div>
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*Street*@ @Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" id="Cust_Street" name="Cust_Street" class="spa-text-box required" placeholder="@Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Cust_Street" />
+                                </div>
+                            </div>
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*Zip code*@ @Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" id="Cust_Pincode" name="Cust_Pincode" class="spa-text-box required digits" placeholder="@Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()" maxlength="8" value="@Basicinfo.Cust_Pincode" />
+                                </div>
+                            </div>
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*City*@ @Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" id="Cust_City" name="Cust_City" class="spa-text-box required" placeholder="@Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Cust_City" />
+                                </div>
+                            </div>
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*Birth date*@ @Language.Where(c => c.Order_id == 70).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    @{
+                                        var Date = Basicinfo.DOB != null ? (Basicinfo.DOB != new DateTime(0001, 01, 01) ? Basicinfo.DOB.Value.ToString("dd-MM-yyyy") : "") : "";
+                                    }
+                                    <input type="text" id="DOB" name="DOB" class="spa-text-box required" placeholder="@Language.Where(c => c.Order_id == 70).Select(c => c.Value).FirstOrDefault()" value="@Date" />
+                                </div>
+                            </div>
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*Law*@ @Language.Where(c => c.Order_id == 26).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <div class="dropdown spa-dropdown">
+                                        @Html.DropDownList("Law", new SelectList(DropdownList.Where(c => c.CatgName == "Invoice_Law").ToList(), "CatgDesc", "CatgDesc", Invoicelist.Where(c => c.CategoryName == "Invoice_Law").Select(c => c.Value).FirstOrDefault()), new { @class = "dropdown-toggle spa-dropdown-box form-control dropdown-toggle Invoice_dropdown" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*Gender*@ @Language.Where(c => c.Order_id == 17).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    @*<input type="text" id="Cust_Gender" name="Cust_Gender"  class="spa-text-box required" placeholder="@Language.Where(c => c.Order_id == 17).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Cust_Gender" />*@
+                                    @Html.DropDownList("Cust_Title", new SelectList(DropdownList.Where(c => c.CatgName == "New_Gender").ToList(), "CatgDesc", "CatgType", Basicinfo.Cust_Title), new { @class = "dropdown-toggle spa-dropdown-box form-control dropdown-toggle Invoice_dropdown" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" class="spa-text-box" disabled="disabled" placeholder="@Language.Where(c => c.Order_id == 89).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Cust_Gender">
+                                </div>
+                            </div>
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*Case date*@ @Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" class="spa-text-box" placeholder="@Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault()" disabled="disabled" value="@InvoiceMaster.InvoiceDate.Value.ToString(" dd.MM.yyyy")" />
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" class="spa-text-box" disabled="disabled" placeholder="@Language.Where(c => c.Order_id == 39).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Cust_FirstName @Basicinfo.Cust_LastName">@*Name*@
+                                </div>
+                            </div>
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*Patient Nr.*@ @Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" disabled="disabled" class="spa-text-box" placeholder="@Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.PatientId" />
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" class="spa-text-box" disabled="disabled" placeholder="@Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Cust_Street">@*street Number & Name*@
+                                </div>
+                            </div>
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*AHV no.*@ @Language.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" id="Cust_AHV_Number" name="Cust_AHV_Number" class="spa-text-box" maxlength="16" placeholder="@Language.Where(c => c.Order_id ==20).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Cust_AHV_Number" />
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" class="spa-text-box" disabled="disabled" placeholder="@Language.Where(c => c.Order_id == 69).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Cust_Pincode @Basicinfo.Cust_City">@*Address*@
+                                </div>
+                            </div>
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*VEKA- Nr.*@ @Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" class="spa-text-box" id="Cust_VEKA_Number" name="Cust_VEKA_Number" maxlength="20" placeholder="@Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Cust_VEKA_Number" />
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" class="spa-text-box" disabled="disabled" placeholder="@Language.Where(c => c.Order_id == 91).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Cust_Country">@*City*@
+                                </div>
+                            </div>
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*Patient insurance no.*@ @Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" class="spa-text-box" id="Cust_InsuranceNumber" name="Cust_InsuranceNumber" maxlength="20" placeholder="@Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Cust_InsuranceNumber" />
+                                </div>
+                            </div>
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*State*@ @Language.Where(c => c.Order_id == 71).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" class="spa-text-box" id="Cust_State" name="Cust_State" placeholder="@Language.Where(c => c.Order_id == 71).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.Cust_State" />
+                                </div>
+                            </div>
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*Copy*@ @Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" class="spa-text-box" disabled="disabled" placeholder="@Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault()" value="@Language.Where(c => c.Order_id == 85).Select(c => c.Value).FirstOrDefault()" />
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*KoGu-Date / No.*@ @Language.Where(c => c.Order_id == 31).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                            </div>
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*Kind of reimbursement*@ @Language.Where(c => c.Order_id == 25).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    @Html.DropDownList("Kind_of_reimbursement", new SelectList(DropdownList.Where(c => c.CatgName == "reimbursement").ToList(), "CatgDesc", "CatgDesc", Invoicelist.Where(c => c.CategoryName == "reimbursement").Select(c => c.Value).FirstOrDefault()), new { @class = "dropdown-toggle spa-dropdown-box form-control dropdown-toggle Invoice_dropdown" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*Invoice date / number*@ @Language.Where(c => c.Order_id == 32).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                    <input type="text" disabled="disabled" class="spa-text-box" placeholder="@Language.Where(c => c.Order_id == 45).Select(c => c.Value).FirstOrDefault()" value="@InvoiceMaster.InvoiceDate.Value.ToString("dd.MM.yyyy")" />@*Date*@
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <input type="text" id="InvoiceNo" name="InvoiceNo" disabled="disabled" class="spa-text-box" placeholder="@Language.Where(c => c.Order_id == 74).Select(c => c.Value).FirstOrDefault()" value="@InvoiceMaster.ReservationList.FirstOrDefault()" />@*Invoice No*@
+                                </div>
+                                @*<div class="col-lg-3 col-md-3 col-sm-3">
+                                        <input type="text" id="InvoiceDateAndTime" name="InvoiceDateAndTime" disabled="disabled" class="spa-text-box" placeholder="@Language.Where(c => c.Order_id == 35).Select(c => c.Value).FirstOrDefault()" value="@InvoiceMaster.InvoiceDate.Value.ToString(" dd.MM.yyyy HH:mm:ss")" /> @*Date & Time
+                                    </div>*@
+                            </div>
+
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*Contract-no.*@ @Language.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" id="ContractNo" name="ContractNo" class="spa-text-box" placeholder="@Language.Where(c => c.Order_id == 27).Select(c => c.Value).FirstOrDefault()" value="@Invoicelist.Where(c => c.CategoryName == "Invoice_ContractNo").Select(c => c.Value).FirstOrDefault()" />
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*Reminder date / No.*@ @Language.Where(c => c.Order_id == 33).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <input type="text" id="Reminder_No" name="Reminder_No" disabled="disabled" class="spa-text-box" placeholder="@Language.Where(c => c.Order_id == 34).Select(c => c.Value).FirstOrDefault()" value="1" />@*Reminder No*@
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <input type="text" id="Reminder_DateAndTime" disabled="disabled" name="Reminder_DateAndTime" class="spa-text-box" placeholder="@Language.Where(c => c.Order_id == 35).Select(c => c.Value).FirstOrDefault()" value="@(Basicinfo.ReminderDate != null?Basicinfo.ReminderDate.Value.ToString("dd.MM.yyyy"):"")" />@*Date & Time*@
+                                </div>
+                            </div>
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*Treatment*@ @Language.Where(c => c.Order_id == 28).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    @*@{
+                                            var TreatDate = Invoicelist.Where(c => c.CategoryName == "InvoiceFromToDate").Select(c => c.Value).FirstOrDefault() != null ? DateTime.Parse(Invoicelist.Where(c => c.CategoryName == "InvoiceFromToDate").Select(c => c.Value).FirstOrDefault(),enGB).ToString("yyyy/MM/dd") : DateTime.Parse(Basicinfo.BookingDate,enGB).ToString("yyyy/MM/dd");
+                                        }*@
+                                    <input type="text" disabled="disabled" id="TreatFromdate" name="TreatFromdate" class="spa-text-box " placeholder="@Language.Where(c => c.Order_id == 72).Select(c => c.Value).FirstOrDefault()" value="@TreatDate" />@*From*@
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    @*@{
+                                            var TreatFromDate = Invoicelist.Where(c => c.CategoryName == "InvoiceFromToDate").Select(c => c.CatgDetail).FirstOrDefault() != null ? DateTime.Parse(Invoicelist.Where(c => c.CategoryName == "InvoiceFromToDate").Select(c => c.CatgDetail).FirstOrDefault(),enGB).ToString("yyyy/MM/dd") : DateTime.Parse(Invoicelist.Where(c => c.BookingDate != null).Select(c => c.BookingDate).LastOrDefault(),enGB).ToString("yyyy/MM/dd");
+                                        }*@
+                                    <input type="text" disabled="disabled" id="TreatTodate" name="TreatTodate" class="spa-text-box " placeholder="@Language.Where(c => c.Order_id == 73).Select(c => c.Value).FirstOrDefault()" value="@TreatFromDate" />@*To*@
+                                </div>
+                                @*<div class="col-lg-6 col-md-6 col-sm-6">
+                                        @Html.DropDownList("Treatment", new SelectList(DropdownList.Where(c => c.CCTSP_CategoryMaster.CatgName == "Reason for treatment").ToList(), "CatgDesc", "CatgDesc"), new { @class = "dropdown-toggle spa-dropdown-box form-control dropdown-toggle Invoice_dropdown" })
+                                    </div>*@
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*Reason for treatment*@ @Language.Where(c => c.Order_id == 36).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    @Html.DropDownList("Treatment", new SelectList(DropdownList.Where(c => c.CatgName == "Reason for treatment").ToList(), "CatgDesc", "CatgDesc", Invoicelist.Where(c => c.CategoryName == "Reason for treatment").Select(c => c.Value).FirstOrDefault()), new { @class = "dropdown-toggle spa-dropdown-box form-control dropdown-toggle Invoice_dropdown" })
+                                </div>
+                            </div>
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*Role/place*@ @Language.Where(c => c.Order_id == 30).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" class="spa-text-box" disabled placeholder="@Language.Where(c => c.Order_id == 30).Select(c => c.Value).FirstOrDefault()" value="@Language.Where(c => c.Order_id == 102).Select(c => c.Value).FirstOrDefault()" />
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    @*<input type="text" id="SchlName" name="SchlName" class="spa-text-box" disabled="disabled" placeholder="@Language.Where(c => c.Order_id == 75).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.SchlName" />@*Shop Name*@
+                                </div>
+                            </div>
+                            <div class="row form-group margin-bottom5">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*Company number-/Name*@ @Language.Where(c => c.Order_id == 29).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" id="SchlName" name="SchlName" disabled="disabled" class="spa-text-box" placeholder="@Language.Where(c => c.Order_id == 29).Select(c => c.Value).FirstOrDefault()" value="@Basicinfo.SchlName" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="invcoie_form">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="row form-group">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <label class="invoice_label">@*Referer*@ @Language.Where(c => c.Order_id == 37).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" id="Invoice_Gln" name="Invoice_Gln" maxlength="7" minlength="7" class="spa-text-box" placeholder="@Language.Where(c => c.Order_id ==110).Select(c => c.Value).FirstOrDefault()" value="@Invoicelist.Where(c => c.CategoryName == "Invoice_Gln").Select(c=> c.Value).FirstOrDefault()" />@*GLN / ZSR-No.*@
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" id="Invoice_Zsr" name="Invoice_Zsr" maxlength="7" minlength="7" class="spa-text-box" placeholder="@Language.Where(c => c.Order_id == 109).Select(c => c.Value).FirstOrDefault()" value="@Invoicelist.Where(c => c.CategoryName == "Invoice_Zsr").Select(c=> c.Value).FirstOrDefault()" />@*GLN / ZSR-No.*@
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <input type="text" id="Invoice_Referer" name="Invoice_Referer" class="spa-text-box" placeholder="@Language.Where(c => c.Order_id == 39).Select(c => c.Value).FirstOrDefault()" value="@Invoicelist.Where(c => c.CategoryName == "Invoice_Referer").Select(c=> c.Value).FirstOrDefault()" />@*GLN / ZSR-No.*@
+                                </div>
+                                @*<div class="col-lg-8 col-md-8 col-sm-8">
+                                        <input type="text" id="Invoice_Referer_Name" name="Invoice_Referer_Name" class="spa-text-box" placeholder="@Language.Where(c => c.Order_id == 39).Select(c => c.Value).FirstOrDefault()" value="@Invoicelist.Where(c => c.CategoryName == "Invoice_Referer").Select(c=> c.CatgDetail).FirstOrDefault()" />@*Nam
+                                    </div>*@
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
+                    </div>
+                </div>
+                <div class="invcoie_form">
+                    <div class="row">
+                        <div class="col-lg-18 col-md-18 col-sm-18 col-xs-18">
+                            <div class="row form-group">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*Diagnosis*@ @Language.Where(c => c.Order_id == 40).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-18 col-md-18 col-sm-18 col-xs-18">
+                                    <input type="text" id="Invoice_Diagnosis" name="Invoice_Diagnosis" class="spa-text-box" placeholder="@Language.Where(c => c.Order_id == 41).Select(c => c.Value).FirstOrDefault()" value="@Invoicelist.Where(c => c.CategoryName == "Invoice_Diagnose").Select(c=> c.Value).FirstOrDefault()" />@*Free text field for writing very briefly the diagnosis (high level only, no details)*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
+                    </div>
+                </div>
+                <div class="invcoie_form">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="row form-group">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <label class="invoice_label">@*Therapie*@ @Language.Where(c => c.Order_id == 42).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-16 col-md-16 col-sm-16 col-xs-16">
+                                    @Html.DropDownList("Therapie", new SelectList(DropdownList.Where(c => c.CatgName == "Invoice_Therapie").ToList(), "CatgDesc", "CatgDesc", Invoicelist.Where(c => c.CategoryName == "Invoice_Therapie").Select(c => c.Value).FirstOrDefault()), new { @class = "dropdown-toggle spa-dropdown-box form-control dropdown-toggle Invoice_dropdown" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
+                    </div>
+                </div>
+                <div class="invcoie_form">
+                    <div class="row">
+                        <div class="col-lg-18 col-md-18 col-sm-18 col-xs-18">
+                            <div class="row form-group">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <label class="invoice_label">@*Remarks*@ @Language.Where(c => c.Order_id == 43).Select(c => c.Value).FirstOrDefault()</label>
+                                </div>
+                                <div class="col-lg-18 col-md-18 col-sm-18 col-xs-18">
+                                    <textarea type="text" id="Invoice_Remarks" name="Invoice_Remarks" class="spa-text-box" placeholder="@Language.Where(c => c.Order_id == 44).Select(c => c.Value).FirstOrDefault()" style="height:auto;">@Invoicelist.Where(c => c.CategoryName == "Invoice_Remarks").Select(c => c.Value).FirstOrDefault()</textarea> @*Free text field for remarks*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
+                    </div>
+                </div>
+                <div class="table-responsive invoice_tabel margin-top15">
+                    <table class="table" id="tblCalProductDuration">
+                        <thead>
+                            <tr>
+                                <th style="width:5%"></th>
+                                <th style="width:10%">@*Date*@ @Language.Where(c => c.Order_id == 45).Select(c => c.Value).FirstOrDefault()</th>
+                                <th style="width:10%">@*Duration*@ @Language.Where(c => c.Order_id == 46).Select(c => c.Value).FirstOrDefault()</th>
+                                <th style="width:5%">@*Rate*@ @Language.Where(c => c.Order_id == 47).Select(c => c.Value).FirstOrDefault()</th>
+                                <th style="width:20%">@*Rate Number*@ @Language.Where(c => c.Order_id == 48).Select(c => c.Value).FirstOrDefault()</th>
+                                <th style="width:10%">@*Qty*@ @Language.Where(c => c.Order_id == 49).Select(c => c.Value).FirstOrDefault()</th>
+                                <th style="width:10%">@*Rate*@ @Language.Where(c => c.Order_id == 87).Select(c => c.Value).FirstOrDefault()</th>
+                                <th style="width:10%">@*TPW*@  @Language.Where(c => c.Order_id == 50).Select(c => c.Value).FirstOrDefault()</th>
+                                <th style="width:10%">@*MWST*@ @Language.Where(c => c.Order_id == 60).Select(c => c.Value).FirstOrDefault()</th>
+                                <th style="text-align:right;width:10%">@*Amount*@ @Language.Where(c => c.Order_id == 51).Select(c => c.Value).FirstOrDefault()</th>
+                            </tr>
+                        </thead>
+                        <tbody id="CalProductDuration">
+
+                            @foreach (var Item in Invoicelist.Where(c => c.Invoice_Detail_Id != null).Select(c => c.Invoice_Detail_Id).Distinct().ToList())
+                            {
+                                var ReservationInfo = Invoicelist.Where(c => c.Invoice_Detail_Id == Item).FirstOrDefault();
+                                var text = ReservationInfo.Settlement_text != null ? ReservationInfo.Settlement_text : ReservationInfo.ProductName + " " + ReservationInfo.Manufacturer + " " + ReservationInfo.Dozes;
+                                var SetDetail = ReservationInfo.Settlement_Number != null && ReservationInfo.Settlement_Number != 0 ? Convert.ToString(ReservationInfo.Settlement_Number) : ReservationInfo.Settlement_text;
+                                <tr class="CalTr">
+                                    <td class="padding-top5">
+                                        <a class="font16 colorBlack"><i class="fa fa-minus-square" aria-hidden="true"></i></a>
+                                        <a class="font16 colorGreen HideaddReservationBtn" id="add_reservation"><i clicked="false" class="fa fa-plus-square AddIReservation" aria-hidden="true"></i></a>
+                                    </td>
+                                    <td class="padding-top5">@(ReservationInfo.BookingDate != null ? DateTime.Parse(ReservationInfo.BookingDate, enGB).ToString("dd.MM.yyyy") : "")</td>
+                                    @if (ReservationInfo.Assign_HealthInsurance_Id > 0)
+                                    {
+                                        <input type="hidden" id="AddOnSettlementTextId" name="AddOnSettlementTextId" value="@(ReservationInfo.Assign_HealthInsurance_Id!= null?ReservationInfo.Assign_HealthInsurance_Id : 0)" />
+                                    }
+                                    else
+                                    {
+                                        <input type="hidden" id="PReservationid" name="PReservationid" value="@(ReservationInfo.ReservationId!= null?ReservationInfo.ReservationId:0)" />
+                                    }
+                                   
+                                    @{ var RealAmount = ReservationInfo.RealAmount + ((double.Parse(ReservationInfo.Vat.ToString()) * ReservationInfo.RealAmount) / 100);}
+                                    <input type="hidden" id="RealAmount" value="@RealAmount" />
+                                    <td class="padding-top5">
+                                        @if (ReservationInfo.Assign_HealthInsurance_Id > 0)
+                                        {
+                                            <input type="text" @(ReservationInfo.Assign_HealthInsurance_Id == null ? "disabled" : "" ) id="SettlementTextDuaration" maxlength="4" name="SettlementTextDuaration" class="spa-text-box ProductDuration required digits" placeholder="" Rate="@ReservationInfo.Rate" value="@(ReservationInfo.Duration != null ? ReservationInfo.Duration:0)" vat="@ReservationInfo.Vat" />
+                                            <input type="hidden" id="ISettlementText" name="ISettlementText" value="@ReservationInfo.Invoice_Settlement_text" />
+                                            <input type="hidden" id="SettlementTextDate" name="SettlementTextDate" value="@ReservationInfo.EAddOnDate" />
+                                            if (ReservationInfo.Assign_HealthInsurance_Id == 0 || ReservationInfo.Assign_HealthInsurance_Id == null)
+                                            {
+                                                <input type="hidden" id="SettlementTextDuaration" name="SettlementTextDuaration" value="0" />
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <input type="text" @(ReservationInfo.ReservationId == null ? "disabled" : "" ) id="PDuaration" maxlength="4" name="PDuaration" class="spa-text-box ProductDuration required digits" placeholder="" Rate="@ReservationInfo.Rate" value="@(ReservationInfo.Duration != null ? ReservationInfo.Duration:0)" vat="@ReservationInfo.Vat" />
+                                            <input type="hidden" id="AddOnDate" name="AddOnDate" value="@ReservationInfo.EAddOnDate" />
+                                            <input type="hidden" id="AddOnProductId" name="AddOnProductId" value="@ReservationInfo.AddOnPId" />
+                                            <input type="hidden" id="AddOnQuantity" name="AddOnQuantity" value="@ReservationInfo.Quantity" />
+                                            <input type="hidden" id="AddOnTime" name="AddOnTime" value="@ReservationInfo.EAddOnTime" />
+                                            if (ReservationInfo.ReservationId == 0 || ReservationInfo.ReservationId == null)
+                                            {
+                                                <input type="hidden" id="PDuaration" name="PDuaration" value="0" />
+                                            }
+                                        }
+                                    </td>
+                                    @if (ReservationInfo.ReservationId > 0)
+                                    {
+                                        text = ReservationInfo.Settlement_text != null ? ReservationInfo.Settlement_text : ReservationInfo.ProductName;
+                                    }
+                                    else if (ReservationInfo.Assign_HealthInsurance_Id > 0)
+                                    {
+                                        text = ReservationInfo.Invoice_Settlement_text;
+                                    }
+                                    else
+                                    {
+                                        text = ReservationInfo.ProductName + ", " + ReservationInfo.Manufacturer + ", " + ReservationInfo.Dozes;
+                                        //TarifDetail = ReservationInfo.Settlement_text;
+                                    }
+                                    <td class="padding-top5">@(ReservationInfo.Assign_HealthInsurance_Id > 0 ? ReservationInfo.Invoice_Tarif_Number : ReservationInfo.Tarif_Number)</td>
+                                    <td class="padding-top5"><p>@(ReservationInfo.Assign_HealthInsurance_Id > 0 ? Convert.ToString(ReservationInfo.Invoice_Settlement_Number) : SetDetail)</p></td>
+                                    <td class="padding-top5">@String.Format("{0:0.00}", ReservationInfo.Quantity)</td>
+                                    <td class="padding-top5">@String.Format("{0:0.00}", ReservationInfo.Rate)</td>
+                                    <td class="padding-top5">1.00</td>
+                                    <td class="padding-top5">@ReservationInfo.Vat% </td>
+                                    <td style="text-align:right;" class="padding-top5">@String.Format("{0:0.00}", RealAmount)</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4"></td>
+                                    <td colspan="5">@text</td>
+                                    <td></td>
+                                </tr>
+                                        }
+                            <tr id="NoDataIProduct" class="@(Invoicelist.Where(c=>c.Invoice_Detail_Id != null).Select(c => c.Invoice_Detail_Id).Distinct().ToList().Count()>0?" display-none":"")">
+                                <td class="font16 Nodata text-center" colspan="13">
+                                    @if (ViewBag.ReservationTabAccess == false)
+                                    { 
+                                        <img src="~/images/basket.png" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/images/add.png" id="NoDataImg" class="cursorPoint" />
+                                    }
+
+                                </td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+                                        if (AddOnProductList.Count > 0)
+                                        {
+                                            <div class="Add_product">
+                                                <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24 margin-bottom20">
+                                                    <a class="title-green16 GroupTextTouch margin0" id="Add_productBOX">
+                                                        <i class="fa fa-plus-square margin-right5"></i>
+                                                        @*want to add a product manually?*@   @Language.Where(c => c.Order_id == 52).Select(c => c.Value).FirstOrDefault()
+                                                    </a>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="product-catalog-table display-none" id="Add_product">
+                                                    @Html.Action("InvoiceAddOnProduct", "Invoice", new { AddOnProductList = AddOnProductList, Currency = Basicinfo.Currency, Language = Language, IStatus = "HI", InvoiceDate = InvoiceDate })
+                                                </div>
+                                            </div>
+                                        }
+                                        if (ServicesList.Count > 0)
+                                        {
+                                            <div class="Add_Services HideaddServiceBtn">
+                                                <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24 margin-bottom20">
+                                                    <a class="title-green16 GroupTextTouch margin0" id="Add_ServiceBOX">
+                                                        <i class="fa fa-plus-square margin-right5"></i>
+                                                        @*want to add a Services manually?*@  @Language.Where(c => c.Order_id == 93).Select(c => c.Value).FirstOrDefault()
+                                                    </a>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="product-catalog-table display-none" id="Addservices">
+                                                    @Html.Action("InvoiceServicesList", "Invoice", new { ServicesList = ServicesList, Currency = Basicinfo.Currency, Language = Language, CustomerId = Basicinfo.PatientId, IStatus = "HI", InvoiceDate = InvoiceDate })
+                                                </div>
+                                            </div>
+                                        }
+                                        if (SettlementTextList.Count > 0)
+                                        {
+                                            <div class="Add_Services">
+                                                <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24 margin-bottom20">
+                                                    <a class="title-green16 GroupTextTouch margin0" id="Add_SettlementTextBOX">
+                                                        <i class="fa fa-plus-square margin-right5"></i>
+                                                        @*want to add a Settlement Text manually?*@  @Language.Where(c => c.Order_id == 120).Select(c => c.Value).FirstOrDefault()
+                                                    </a>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="product-catalog-table display-none" id="AddSettlementText">
+                                                    @Html.Action("InvoiceSettlementTextList", "Invoice", new { SettlementTextList = SettlementTextList, Currency = Basicinfo.Currency, Language = Language, CustomerId = Basicinfo.PatientId, IStatus = "HI", InvoiceDate = InvoiceDate })
+                                                </div>
+                                            </div>
+                                        }
+
+                                        @*<div class="table-responsive invoice_tabel margin-top15 invoice_footer">
+                                                <table class="table">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Code @Language.Where(c => c.Order_id == 58).Select(c => c.Value).FirstOrDefault()</td>
+                                                            <td>@*VAT rate @Language.Where(c => c.Order_id == 59).Select(c => c.Value).FirstOrDefault()</td>
+                                                            <td>Amount @Language.Where(c => c.Order_id == 51).Select(c => c.Value).FirstOrDefault()</td>
+                                                            <td>@*VAT @Language.Where(c => c.Order_id == 60).Select(c => c.Value).FirstOrDefault()</td>
+                                                            <td>@*VAT-No. @Language.Where(c => c.Order_id == 61).Select(c => c.Value).FirstOrDefault()</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>@*Total Amount @Language.Where(c => c.Order_id == 66).Select(c => c.Value).FirstOrDefault()</td>
+                                                            <td id="TotalAmount" style="text-align:right;">0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>0</td>
+                                                            <td>0.0</td>
+                                                            <td>0.00</td>
+                                                            <td>0.00</td>
+                                                            <td>@*Currency @Language.Where(c => c.Order_id == 62).Select(c => c.Value).FirstOrDefault()</td>
+                                                            <td>CHF</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td>2.5</td>
+                                                            <td>0.00</td>
+                                                            <td>0.00</td>
+                                                            <td>@*IBAN @Language.Where(c => c.Order_id == 63).Select(c => c.Value).FirstOrDefault()</td>
+                                                            <td>CH1234567899999990014</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2</td>
+                                                            <td>8.5</td>
+                                                            <td>0.00</td>
+                                                            <td>0.00</td>
+                                                            <td colspan="2">@*Payment required within 90 days net @Language.Where(c => c.Order_id == 64).Select(c => c.Value).FirstOrDefault()</td>
+                                                            <td>@*Partial payment @Language.Where(c => c.Order_id == 65).Select(c => c.Value).FirstOrDefault()</td>
+                                                            <td>0.00</td>
+                                                            <td id="TotalVatAmount" style="text-align:right;">0</td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>*@
+                                        <div class="row">
+                                            <div class="col-lg-21 col-md-21 col-sm-21 col-xs-21">
+                                                <div class="text-right font12">
+                                                    @*Total Amount*@ @Language.Where(c => c.Order_id == 66).Select(c => c.Value).FirstOrDefault()
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <div class="text-right font12" style="padding-right:5px;" id="TotalAmount">
+                                                    0
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group text-right margin-top20">
+                                            @*Save & Pay*@
+                                            <input type="submit" class="btn btn-green margin-right5 margin-bottom10" id="AddInvoice" value="@Language.Where(c => c.Order_id == 67).Select(c => c.Value).FirstOrDefault()">@*Submit*@
+                                            <input type="submit" class="btn btn-green margin-right5 margin-bottom10" id="PayAndCloseInvoice" value="@Language.Where(c => c.Order_id == 103).Select(c => c.Value).FirstOrDefault()">
+                                            @*Save & Print*@
+                                            <input type="submit" class="btn btn-green margin-right5 margin-bottom10  @(Invoicelist.Select(c=>c.Invoice_Service).FirstOrDefault() !="1"?"":"display-none")" id="SaveAndPrint" value="@Language.Where(c => c.Order_id == 108).Select(c => c.Value).FirstOrDefault()">
+                                            <input type="reset" id="CancelManualInvoice" class="btn btn-black margin-bottom10" value="@Language.Where(c => c.Order_id == 57).Select(c => c.Value).FirstOrDefault()">@*Cancel*@
+                                        </div>
+                                        }
+    </div>
+    @*Reservation popup*@
+    <div class="modal fade invoice_reservationPopup" id="Reservation_popup">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        @*Reservation*@ @Language.Where(c => c.Order_id == 77).Select(c => c.Value).FirstOrDefault()
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h5>
+                </div>
+                <div class="modal-body" id="AddReservationPopup">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_LoderPage", ShopInfo.SchlStudentStrength != null ? ShopInfo.SchlStudentStrength : 0)
+    @*<div class="loader" id="helloWorld" style="display:none;">
+            <img src="~/images/@(ShopInfo.SchlStudentStrength==3?"Doctor_Loader3.gif":"SPALOADER.gif")" />
+        </div>*@
+    <!-- Welcome modal start-->
+    <div class="welcome-modal">
+        <div id="welcome" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body margin-bottom30" id="WelcomeAlert">
+                        <h1 class="text-center margin-bottom30">WELCOME BY <span>CLICK-AND-GO!</span></h1>
+                        <p class="title15 text-center margin-bottom30">Thanks for using our product!</p>
+                        <p class="title-italic text-center">We wish you lots of success today!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Welcome modal End-->
+    <div class="modal fade PaymentRec_payment" id="CloseandPay">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        @*Payment Received*@ @Language.Where(c => c.Order_id == 105).Select(c => c.Value).FirstOrDefault()
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h5>
+                </div>
+                <div class="modal-body" id="ShowPartialPaymentPopup">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+<script src="~/Scripts/Invoice.js"></script>
+<script>
+    TotalSum();
+    function TotalSum() {
+        var Sum = 0;
+        var AmountList = $("#CalProductDuration #RealAmount").map(function () {
+            Sum = Sum + parseFloat(this.value);
+            return Sum.toFixed(2);
+        }).get();
+        $("#TotalAmount,#TotalVatAmount").html(Sum.toFixed(2));
+    }
+    $("#frmAddManualInvoice").validate();
+    $('#CloseandPay').on('hidden.bs.modal', function () {
+        $("#CloseandPay #Invoice_Id,#Pay_Date").val("");
+        $("input[type='checkbox']").prop("checked", false);
+        var Msg="@Url"+"_CIP";
+        window.location.href = "/Invoice/PayAndClosedInvoice?InvoiceId=@InvoiceMaster.ReservationList.FirstOrDefault()&Invoice_Service=@Invoicelist.Select(c=>c.Invoice_Service).FirstOrDefault()&Url=@Url&Msg="+Msg+"&FullPayment=0";
+    });
+    $("#CancelManualInvoice").click(function () {
+        if ("@Url" == "openlistview" || "@Url"=="calendarmonth" || "@Url"=="Appclosed")
+            window.location.href = "/Reservation/Reservation#@Url";
+        else
+            window.location.href = "/Invoice/Invoicing#@Url";
+    });
+    // var date = new Date();
+    //#TreatFromdate,#TreatTodate,
+    var date = new Date();
+    date.setDate(date.getDate());
+    @*$('#Add_OnDate,#services_add').datetimepicker({
+        format: 'YYYY/MM/DD',
+        locale: '@LngLocal',
+        @*minDate: '@ShopInfo.CreateDate.Value.ToString("yyyy/MM/dd")'
+    });*@
+    CommonDatePicker('#Add_OnDate,#services_add', '@LngLocal',false,false,false);
+    $('#Add_OnTime,#service_adddtime').datetimepicker({
+        format: 'HH:mm',
+        locale: '@LngLocal',
+        //minDate: date
+    });
+    Dob("#DOB", '@LngLocal',true,true,false);
+    $("body").delegate("#CalProductDuration .ProductDuration", "keypress", function (event) {
+        var inputValue = event.which;
+        if (!(inputValue != 46)) {
+            event.preventDefault();
+        }
+    });
+    $("body").delegate("#CalProductDuration .ProductDuration", "keyup", function () {
+        var Duration = $(this).val();
+        var CloseTr = $(this).closest("tr");
+        var Rate = $(this).attr("Rate");
+        var Quantity = Duration / 5;
+        CloseTr.find("td:eq(5)").html(Quantity.toFixed(2));
+        var Total = Rate * Quantity;
+        var VatAmount = $(this).attr("vat") * Total / 100;
+        CloseTr.find("td:last").html((Total + VatAmount).toFixed(2));
+        $(this).parents("tr").find("#RealAmount").val((Total + VatAmount).toFixed(2));
+        TotalSum();
+        //var FinalTotal = 0;
+        //$("#CalProductDuration tr").map(function () { debugger; FinalTotal = FinalTotal + parseFloat($.trim($(this).find("td:last").html())) });
+        //$("#TotalAmount,#TotalVatAmount").val("" + FinalTotal + "");
+    });
+
+    $("body").delegate("#CalProductDuration .fa-minus-square", "click", function () {
+        $.merge($(this).closest("tr"),$(this).closest("tr").next("tr")).remove();
+        if ($("#CalProductDuration tr").not("#NoDataIProduct").length == 0)
+            $("#NoDataIProduct").removeClass("display-none");
+        else
+            $("#NoDataIProduct").addClass("display-none");
+        TotalSum();
+    });
+
+    $("body").delegate("#tblCalProductDuration .AddIReservation,#NoDataImg", "click", function () {
+        var EmpId = $("#EmpId").val();
+        var CustomerId = $("#PatientId").val();
+        var InvoiceId = $("#InvoiceId").val();
+        var ReservationList = $("#CalProductDuration tr #PReservationid ").map(function () { return this.value; }).get();
+        $.ajax({
+            url: "/Invoice/InvoiceReservationList?ReservationList=" + ReservationList + "&CustomerId=" + CustomerId + "&EmpId=" + EmpId + "&InvoiceId=" + InvoiceId + "&LangId=@ShopInfo.Lang_id" + "&Istatus=HI&InvoiceDate=@string.Format("{0:yyyy-MM-dd HH:mm:ss}",InvoiceDate)",
+            beforeSend: function () {
+                $(".loader").show();
+            },
+            type: 'POST',
+            async: true,
+            success: function (data) {
+                if (data != null) {
+                    $("#AddReservationPopup").html(data);
+                    $('#Reservation_popup').modal('show');
+                }
+                $(".loader").hide();
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+        return false;
+    });
+    $("#AddInvoice,#PayAndCloseInvoice,#SaveAndPrint").click(function () {
+        var Status = "CI"
+        if ($(this).closest("#PayAndCloseInvoice").length > 0)
+            Status = "DCMP";
+        if ($(this).closest("#SaveAndPrint").length > 0)
+            Status = "CIP";
+        $('.loader').show();
+        var addprodvalidation = $("#frmAddManualInvoice").validate().form();
+        if (addprodvalidation != false) {
+            if ($("#CalProductDuration tr").not("#NoDataIProduct").length > 0) {
+                if ($("#CalProductDuration .CalTr").not("#NoDataIProduct").length <= 15) {
+                    $('.loader').show();
+                    var form = $("#frmAddManualInvoice");
+                    var url = "/Invoice/AddManualInvoice?Status=" + Status;
+                    var formData = form.serialize();
+                    $.post(url, formData, function (data) {
+                        if (Status == "DCMP") {
+                            OpenPartialpopup(@InvoiceMaster.ReservationList.FirstOrDefault(), @Language.Select(c => c.Lang_id).FirstOrDefault(), '@LngLocal', '@string.Format("{0:yyyy-MM-dd HH:mm:ss}", ShopInfo.CreateDate)','@Url','@Invoicelist.Select(c => c.Invoice_Service).FirstOrDefault()');
+                        }
+                        else if(Status == "CIP"){
+                            window.location.href = "/Invoice/SaveAndPrintInvoice?Invoice_Service=@Invoicelist.Select(c => c.Invoice_Service).FirstOrDefault()&InvoiceId=@InvoiceMaster.ReservationList.FirstOrDefault()&Url=@Url";
+                        }
+                        else {
+                            if ("@Url" == "openlistview" || "@Url"=="calendarmonth" || "@Url"=="Appclosed")
+                                window.location.href = "/Reservation/Reservation#@Url";
+                            else
+                                window.location.href = "/Invoice/Invoicing@(!string.IsNullOrEmpty(Url)? "#"+Url:"")";
+                        }
+                    });
+                }
+                else {
+                    $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO!</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 101).Select(c => c.Value).FirstOrDefault()</p>");
+                    $('#welcome').modal("show");
+                    $(".loader").hide();
+                }
+
+            }
+            else {
+                //var Message = "Please Select Reservation or Add On Product";
+                $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO!</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 81).Select(c => c.Value).FirstOrDefault()</p>");
+                $('#welcome').modal("show");
+                $(".loader").hide();
+            }
+        }
+        else {
+            window.scrollTo(0, 0);
+            $(".loader").hide();
+        }
+
+    });
+    $("#Add_productBOX,#Add_ServiceBOX,#Add_SettlementTextBOX").click(function () {
+        if ($(this).closest("#Add_productBOX").length > 0)
+            $("#Add_product").slideToggle();
+        else if ($(this).closest("#Add_SettlementTextBOX").length > 0)
+            $("#AddSettlementText").slideToggle();
+        else
+            $("#Addservices").slideToggle();
+    });
+</script>

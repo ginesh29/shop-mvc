@@ -1,0 +1,68 @@
+﻿@{
+    List<SPA.Models.LanguageLabelDetails> LanguageLable = new List<SPA.Models.LanguageLabelDetails>();
+    LanguageLable = ViewBag.Language;
+    ViewBag.Title = LanguageLable.Where(c=>c.Page_Name== "Title").Select(c=>c.Value).FirstOrDefault();
+    var Language = LanguageLable.Where(c => c.Page_Name == "HomePage").ToList();
+    SPA.Models.ShopMasterDetail Model = new SPA.Models.ShopMasterDetail();
+    if (ViewBag.lendingDetails != null)
+    {
+        Model = ViewBag.lendingDetails;
+    }
+    //List<SPA.Models.LendingWeekSchedule> LendingScheduleList = new List<SPA.Models.LendingWeekSchedule>();
+    //LendingScheduleList = ViewBag.WeekSchedule;
+    List<SPA.Models.LendingWeekScheduleDetails> WeekDetails = new List<SPA.Models.LendingWeekScheduleDetails>();
+    WeekDetails = ViewBag.WeekDetails;
+    SPA.Models.HomeDefaultStructure HDefultStructure = new SPA.Models.HomeDefaultStructure();
+    HDefultStructure = ViewBag.DeFault;
+}
+
+<div class="homepage-top" id="MainHome">
+    <div class="homepage-top-content-box text-center">
+        <h1 class="search-box-label" id="HomeShopName">
+        @(Model.ShopName != null ?Model.ShopName: Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault())
+        @*Book Your Services*@
+        </h1>
+        <div class="marginbottom18per">
+            <button class="btn-search" type="button" hidden><i class="fa fa-search margin-right5" hidden></i>@*Search*@ @Language.Where(c=>c.Order_id==10).Select(c=>c.Value).FirstOrDefault()</button>
+        </div>
+    </div>
+    <div class="col-lg-24 col-md-24 col-sm-24 col-xs-24 home-img-box">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 margin-bottom10">
+                <div class="home-img">                   
+                    <img id="HomeFirstimg" src="@(Model.Shopimg1 != null ? Model.Shopimg1:HDefultStructure.Dimg1)" onerror="this.onerror = null; this.src = '@HDefultStructure.Dimg1';"  alt="" />
+                    <div class="mask @(Model.Field5 =="0" ?"display-none":"")">
+                        <span class="title-white14 " id="firstImgText">@(!string.IsNullOrEmpty(Model.Field1) && Model.Field5=="1" ? Model.Field1 : HDefultStructure.Dimgtext1)@*ÖL-MASSAGE*@</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 margin-bottom10">
+                <div class="home-img">
+                    <img id="HomeSecondimg" src="@(Model.Shopimg2 != null ?Model.Shopimg2:HDefultStructure.Dimg2)" onerror="this.onerror = null; this.src = '@HDefultStructure.Dimg2';" alt="" />
+                    <div class="mask @(Model.Field5 =="0" ?"display-none":"")">
+                        <span class="title-white14 " id="secondImgText">@(!string.IsNullOrEmpty(Model.Field2) && Model.Field5 == "1" ? Model.Field2 : HDefultStructure.Dimgtext2)@*MEDIZINISCHE MASSAGE*@</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 margin-bottom10">
+                <div class="home-img">
+                    <img id="HomeThirdimg" src="@(Model.Shopimg3 != null ?Model.Shopimg3:HDefultStructure.Dimg3)" onerror="this.onerror = null; this.src = '@HDefultStructure.Dimg3';" alt="" />
+                    <div class="mask @(Model.Field5 =="0" ?"display-none":"")">
+                        <span class="title-white14 " id="thirdImgText">@(!string.IsNullOrEmpty(Model.Field3) && Model.Field5 == "1" ? Model.Field3 : HDefultStructure.Dimgtext3)@*HOT STONE MASSAGE*@</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 margin-bottom10">
+                <div class="home-img">
+                    <img id="HomeFourthimg" src="@(Model.Shopimg4 != null ?Model.Shopimg4:HDefultStructure.Dimg4)" onerror="this.onerror = null; this.src = '@HDefultStructure.Dimg4';" alt="" />
+                    <div class="mask @(Model.Field5 =="0" ?"display-none":"")">
+                        <span class="title-white14 " id="fourthImgText">@(!string.IsNullOrEmpty(Model.Field4) && Model.Field5 == "1" ? Model.Field4 : HDefultStructure.Dimgtext4)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+@Html.Partial("_Footer")
+

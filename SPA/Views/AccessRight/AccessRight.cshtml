@@ -1,0 +1,55 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Employee_layout.cshtml";
+    List<SPA.Models.AccessSubMenu> SubMenu = new List<SPA.Models.AccessSubMenu>();
+    SubMenu = ViewBag.SubMenu;
+    var Active = "active";
+    var DivActive = "in active";
+}
+
+<ol class="spa-breadcrumbs breadcrumb">
+    @*<li><a href="#" class="active">Home</a></li>
+        <li><a href="#">Shop</a></li>*@
+</ol>
+<div class="form-content">
+    <div class="employee-blank">
+        <h1 class="italic-title">
+           Access Right
+        </h1>
+        <div class="spa-home-tab Shopmenu">
+            <ul id="myTab" class="nav nav-tabs">
+                @foreach (var Item in SubMenu.OrderBy(c => c.SubId).ToList())
+                {
+                    <li class="@Active"><a href="#@Item.SubLink" data-toggle="tab" onclick="CommonTabDetails('@Item.TabLink','#@Item.SubLink');">@Item.SubTabName</a></li>
+                    Active = "";
+                }
+                @*<li class="active"><a href="#Roles" data-toggle="tab" onclick="GetTabDetails($(this).attr('href').toString());">Roles</a></li>
+                    <li><a href="#Permissions" data-toggle="tab" onclick="GetTabDetails($(this).attr('href').toString());">Permissions</a></li>*@
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                @foreach (var item in SubMenu.OrderBy(c => c.SubId).ToList())
+                {
+                    <div class="tab-pane fade @DivActive" id="@item.SubLink">
+                        @if (DivActive != "")
+                        {
+                            @Html.Action(item.Link)
+                        }                     
+                    </div>
+                    DivActive = "";
+                }
+                @*<div class="tab-pane fade in active" id="Roles">
+                    @Html.Action("Roles", "AccessRight")
+                </div>*@
+                @*<div class="tab-pane fade" id="Permissions">*@
+                    @*@Html.Action("Permissions", "AccessRight")*@
+                @*</div>*@
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<script>
+    if (window.location.toString().indexOf('#') != -1) {
+        hashFunForTab("2");
+    }
+</script>

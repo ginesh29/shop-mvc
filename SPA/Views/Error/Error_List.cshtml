@@ -1,0 +1,48 @@
+﻿@model SPA.SPA_Error
+@{
+    Layout = null;
+    List<SPA.Models.LanguageLabelDetails> Language = ViewBag.Language;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+</head>
+<body>
+    <div class="row Error_list">
+       
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div>
+                <img src="~/images/404-error-pages-16.png"/>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12">
+           
+           
+            <div class="margin-bottom10">
+                <h4 class="title36">@*Generate complaint ticket*@ @Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()</h4>
+            </div>
+            <form id="frmError" name="frmError" action="/Error/AddError" method="post">
+                <div class="error_box">
+                    <div class="form-group text-right margin-top15">
+                        <input class="form-control spa-text-box  text-box margin-bottom10 required" id="Name" name="Name" placeholder="@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()" type="text">@*Enter your name*@
+                        <textarea class="form-control full-width margin-bottom10 required" rows="6" id="ErrorMessage" name="ErrorMessage" placeholder="@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()"></textarea>@*Enter massage*@
+                        <input type="submit" class="btn btn-green" value="@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()">@*Submit*@ 
+                    </div>
+                </div>
+            </form>            
+            </div>
+        <div class="text-center">
+            <a href="/Home/Home" class="btn btn-green margin-top20">@*Back to home*@ @Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()</a>
+        </div>
+        
+    </div>
+   
+</body>
+</html>
+<script>
+    $("#frmError").validate();
+</script>

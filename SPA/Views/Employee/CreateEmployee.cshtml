@@ -1,0 +1,502 @@
+﻿@model SPA.CCTSP_User
+@{
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    SPA.Models.shopMaster ShopInfo = ViewBag.ShopInfo;
+    Language = ViewBag.Language;
+    var LanguageBack = ViewBag.LanguageBack;
+    ViewBag.Title = Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault();
+    Layout = "~/Views/Shared/_Employee_layout.cshtml";
+    List<SPA.Models.CatgDropDownList> DropdownList = new List<SPA.Models.CatgDropDownList>();
+    DropdownList = ViewBag.DropDownList;
+    var WorkFloWStatus = ViewBag.WorkflowStatus;
+    var LngLocal = ViewBag.LngLocal;
+    List<SPA.Models.AccessSubMenu> SubTabList = new List<SPA.Models.AccessSubMenu>();
+    SubTabList = ViewBag.EmpSubTabAccess;
+    var Active = "active";
+    var DivActive = "in active";
+}
+@if (ViewBag.CheckInvoice == true)
+{
+    <style>
+        .HideInvoice {
+            display: none;
+        }
+    </style>
+}
+@if (Session["Message"].ToString() == "EmpExist")
+{
+    <script>
+        $.post("/Product/GetDataOfLanguage?Text=Employee Already Exist&id=72", function (data) {
+            $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO!</span></h1><p class=\"title15 text-center margin-bottom30\">" + data + "</p>");
+            $('#welcome').modal("show");
+        });
+    </script>
+    Session["Message"] = "";
+}
+@if (ViewBag.UserId != 0)
+{
+    <script>
+        $(".loader").show();
+        try {
+            GetEditEmployee(@ViewBag.UserId);
+        }
+        catch (err)
+        { }
+        $(".loader").hide();
+    </script>
+}
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMSFX8VQlWkX6sUZPN9bKh5aF7lpS9Lwc&libraries=places"></script>
+<ol class="spa-breadcrumbs breadcrumb"></ol>
+<div class="form-content">
+    <div class="employee-blank">
+        <h1 class="italic-title">
+            @Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()
+            <span class="pull-right">
+                <a href="@Url.Action("EmployeeMaster","Employee")" class="title-green16"><i class="fa fa-reply-all margin-right5"></i>@LanguageBack</a>
+            </span>
+        </h1>
+        <div class="col-lg-24 col-md-24 col-sm-24">
+            @if (ViewBag.UserId != 0)
+            {
+                <div class="create-employee-form">
+                    <form id="EmployeeForm" action="/Employee/CreateEmployeeAdd" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="UserId" id="UserId" value="@ViewBag.UserData.UserId" />
+                        @Html.AntiForgeryToken()
+                        @*<div class="alert alert-danger" style="display: none"></div>*@
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="row form-group">
+                                    <div class="col-lg-24 col-md-24 col-sm-24">
+                                        @Html.Label(@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault().ToString() + " * ", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                        @Html.DropDownList("Gender", new SelectList(DropdownList.Where(c => c.CatgName == "Title").ToList(), "CatgDesc", "CatgDesc", ViewBag.UserData.Gender), new { @class = "spa-dropdown-box required form-control" })
+                                    </div>
+                                </div>
+                                <div class="row form-group @(ShopInfo.SchlStudentStrength>2 && ShopInfo.Country.ToLower()=="india"?"":"display-none")">
+                                    <div class="col-lg-24 col-md-24 col-sm-24">
+                                        <label class="form-label spa-label-bold ">@*Salutation*@ @Language.Where(c => c.Order_id == 60).Select(c => c.Value).FirstOrDefault()</label>
+                                        @Html.DropDownList("Salutation", new SelectList(DropdownList.Where(c => c.CatgName == "Salutation").OrderBy(c => c.Group_OrderData).ToList(), "CatgDesc", "CatgDesc", ViewBag.UserData.Salutation), new { @class = "spa-dropdown-box form-control" })
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-24 col-md-24 col-sm-24">
+                                        <label class="form-label spa-label-bold ">@*Gender*@ @Language.Where(c => c.Order_id == 56).Select(c => c.Value).FirstOrDefault()*</label>
+                                        @Html.DropDownList("ETitle", new SelectList(DropdownList.Where(c => c.CatgName == "New_Gender").ToList(), "CatgDesc", "CatgDesc", @ViewBag.UserData.ETitle), new { @class = "spa-dropdown-box required form-control" })
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        @Html.Label(@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault().ToString() + " *", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                        @*@Html.EditorFor(c => c.FirstName, new { htmlAttributes = new { @class = "form-control spa-text-box required", @placeholder = @Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault() } })*@
+                                        <input class="form-control spa-text-box required text-box single-line" id="FirstName" name="FirstName" placeholder="@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()" type="text" value="@ViewBag.UserData.FirstName" maxlength="30">
+                                        @Html.ValidationMessageFor(c => c.FirstName, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        @Html.Label(@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault().ToString(), htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                        @*@Html.EditorFor(c => c.LastName, new { htmlAttributes = new { @class = "form-control spa-text-box", @placeholder = @Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault() } })*@
+                                        <input class="form-control spa-text-box text-box single-line" id="LastName" name="LastName" placeholder="@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()" type="text" value="@ViewBag.UserData.LastName" maxlength="30">
+                                        @Html.ValidationMessageFor(c => c.LastName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        @Html.Label(@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault().ToString() + " *", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                        @*@Html.EditorFor(c => c.PhoneNo, new { htmlAttributes = new { @class = "form-control spa-text-box required", @id = "PhoneNo", @Minlength = 10, @Maxlength = 10, @placeholder = @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault(),value= @ViewBag.UserData.PhoneNo } })*@
+                                        <input maxlength="12" minlength="10" class="form-control spa-text-box text-box single-line digits required" id="PhoneNo" name="PhoneNo" placeholder="@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()" type="text" value="@ViewBag.UserData.PhoneNo">
+                                        @Html.ValidationMessageFor(c => c.PhoneNo, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <label class="form-label spa-label-bold">@*Landline*@ @Language.Where(c => c.Order_id == 62).Select(c => c.Value).FirstOrDefault()</label>
+                                        <input type="text" id="PasswordQuerry2" name="PasswordQuerry2" class="form-control spa-text-box  text-box single-line digits" placeholder="@Language.Where(c => c.Order_id == 72).Select(c => c.Value).FirstOrDefault()" maxlength="16" value="@ViewBag.UserData.PasswordQuerry2" />
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-24 col-md-24 col-sm-24">
+                                        <label class="form-label spa-label-bold">@*Street*@ @Language.Where(c => c.Order_id == 68).Select(c => c.Value).FirstOrDefault()</label>
+                                    </div>
+                                    <div class="col-lg-20 col-md-16 col-sm-18">
+                                        <input type="text" id="Street" name="Street" class="form-control spa-text-box  text-box single-line" placeholder="@Language.Where(c => c.Order_id == 79).Select(c => c.Value).FirstOrDefault()" value="@ViewBag.UserData.Street" />
+                                    </div>
+                                    <div class="col-lg-4 col-md-8 col-sm-6">
+                                        <input type="text" id="StreetNumber" name="StreetNumber" class="form-control spa-text-box  text-box single-line" placeholder="@Language.Where(c => c.Order_id == 78).Select(c => c.Value).FirstOrDefault()" value="@ViewBag.UserData.StreetNumber" />
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-4 col-md-8 col-sm-6">
+                                        <label class="form-label spa-label-bold">@*ZIP Code*@ @Language.Where(c => c.Order_id == 70).Select(c => c.Value).FirstOrDefault()</label>
+                                        <input type="text" id="Pincode" name="Pincode" class="form-control spa-text-box  text-box single-line digits" placeholder="@Language.Where(c => c.Order_id == 81).Select(c => c.Value).FirstOrDefault()" maxlength="8" value="@ViewBag.UserData.Pincode" />
+                                    </div>
+                                    <div class="col-lg-20 col-md-16 col-sm-18">
+                                        <label class="form-label spa-label-bold">@*Place/city*@ @Language.Where(c => c.Order_id == 69).Select(c => c.Value).FirstOrDefault()</label>
+                                        <input type="text" id="City" name="City" class="form-control spa-text-box  text-box single-line" placeholder="@Language.Where(c => c.Order_id == 80).Select(c => c.Value).FirstOrDefault()" value="@ViewBag.UserData.City" />
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-24 col-md-24 col-sm-24">
+                                        <label class="form-label spa-label-bold">@*State*@ @Language.Where(c => c.Order_id == 71).Select(c => c.Value).FirstOrDefault()</label>
+                                        <input type="text" id="State" name="State" class="form-control spa-text-box  text-box single-line" placeholder="@Language.Where(c => c.Order_id == 82).Select(c => c.Value).FirstOrDefault()" value="@ViewBag.UserData.State" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12">
+                                <div class="row">
+                                    <div class="col-lg-24 col-md-24">
+                                        <div class="user-circle-img">
+                                            @if (ViewBag.UserData.Answer2 != null && ViewBag.UserData.Answer2 != "")
+                                            {
+                                                <span><img id="UserImage" src="@ViewBag.UserData.Answer2" onerror="this.onerror=null;this.src='/images/defaultuser.png';" alt="" /></span>
+                                                <input type="hidden" name="Answer2" id="Answer2" value="@ViewBag.UserData.Answer2" />
+                                            }
+                                            else
+                                            {
+                                                <span><img id="UserImage" src="~/images/defaultuser.png" alt="" /></span>
+                                                <input type="hidden" name="Answer2" id="Answer2" />
+                                            }
+                                        </div>
+                                        <div class="text-center">
+                                            <a class="file-input-wrapper btn btn-browse">
+                                                <span>@Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()</span>
+                                                <input type="file" title="Browse" class="btn-primary" id="FileProfile" name="ProfilePic" onchange="setImage(this);">
+                                            </a>
+                                            @if (ViewBag.UserData.Answer2 != null && ViewBag.UserData.Answer2 != "")
+                                            {
+                                                <input type="button" class="btn btn-browse" id="DeletePic" onclick="DeletePicture();" value="@Language.Where(c => c.Order_id == 53).Select(c => c.Value).FirstOrDefault()" />
+                                            }
+                                            else
+                                            {
+                                                <input type="button" class="btn btn-browse" id="DeletePic" onclick="DeletePicture();" value="@Language.Where(c => c.Order_id == 53).Select(c => c.Value).FirstOrDefault()" style="display:none;" />
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-24 col-md-24 col-sm-24">
+                                        <label class="form-label spa-label-bold">@*Date Of Birth*@ @Language.Where(c => c.Order_id == 63).Select(c => c.Value).FirstOrDefault()</label>
+                                        <input type="text" id="DOB" name="DOB" class="form-control spa-text-box  text-box single-line" placeholder="@Language.Where(c => c.Order_id == 74).Select(c => c.Value).FirstOrDefault()" value="@ViewBag.UserData.DOB" />
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-24 col-md-24 col-sm-24">
+                                        @Html.Label(@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault().ToString(), htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                        @*@Html.EditorFor(c => c.EmailId, new { htmlAttributes = new { @class = "form-control spa-text-box required email", @placeholder = @Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault() } })*@
+                                        <input class="form-control spa-text-box  email text-box single-line" id="EmailId" name="EmailId" placeholder="@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()" type="text" value="@ViewBag.UserData.EmailId">
+                                        @Html.ValidationMessageFor(c => c.EmailId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-24 col-md-24 col-sm-24">
+                                        @Html.Label(@Language.Where(c => c.Order_id == 59).Select(c => c.Value).FirstOrDefault().ToString() + " *", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                        @*@Html.EditorFor(c => c.Password, new { htmlAttributes = new { @class = "form-control spa-text-box  required text-box single-line", @placeholder = @Language.Where(c => c.Order_id == 59).Select(c => c.Value).FirstOrDefault(), Type = "password", @minlength = "6", autocomplete = "off" ,@value=ViewBag.UserData.Password} })*@
+                                        <input class="form-control spa-text-box  required text-box single-line" id="Password" name="Password" placeholder="@Language.Where(c => c.Order_id == 73).Select(c => c.Value).FirstOrDefault()" minlength="6" type="password" value="@ViewBag.UserData.Password">
+                                        @Html.ValidationMessageFor(c => c.Password, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="row HideInvoice form-group">
+                                    <div class="col-lg-24 col-md-24 col-sm-24">
+                                        <label class="form-label spa-label-bold">@*GLN-No.(B)*@ @Language.Where(c => c.Order_id == 65).Select(c => c.Value).FirstOrDefault()</label>
+                                        <input type="text" id="GLN_No" name="GLN_No" class="form-control spa-text-box  text-box single-line" placeholder="@Language.Where(c => c.Order_id == 76).Select(c => c.Value).FirstOrDefault()" value="@ViewBag.UserData.GLN_No" maxlength="7" minlength="7" />
+                                    </div>
+                                </div>
+                                <div class="row HideInvoice form-group">
+                                    <div class="col-lg-24 col-md-24 col-sm-24">
+                                        <label class="form-label spa-label-bold">@*ZSR.No*@ @Language.Where(c => c.Order_id == 66).Select(c => c.Value).FirstOrDefault()</label>
+                                        <input type="text" id="ZSR_No" name="ZSR_No" class="form-control spa-text-box  text-box single-line" placeholder="@Language.Where(c => c.Order_id == 77).Select(c => c.Value).FirstOrDefault()" maxlength="7" minlength="7" value="@ViewBag.UserData.ZSR_No" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-24 col-md-24 col-sm-24 row">
+                            <div class="form-group text-center margin-top20">
+                                <a class="btn btn-green margin-right5" id="btnLogin" onclick="SubmitEmployee();">@Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()</a>
+                                @if (ViewBag.UserId != 0)
+                                {
+                                    <a href="/Employee/EmployeeMaster" class="btn btn-black">@Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault().ToString() </a>
+                                }
+                                else
+                                {
+                                    <a href="/Employee/EmployeeMaster" class="btn btn-black">@Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()</a>
+                                    @*<input type="button" class="btn btn-black" id="btnCreateCancel" value="Cancel" />*@
+                                }
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <div class="create-employee-form">
+                    <form id="EmployeeForm" action="/Employee/CreateEmployeeAdd" method="post" enctype="multipart/form-data">
+                        @Html.HiddenFor(c => c.UserId)
+                        @Html.AntiForgeryToken()
+                        <div class="alert alert-danger" style="display: none"></div>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(c => c.Answer2)
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="row form-group">
+                                    <div class="col-lg-24 col-md-24 col-sm-24">
+                                        @Html.Label(@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault().ToString() + " * ", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                        @Html.DropDownList("Gender", new SelectList(DropdownList.Where(c => c.CatgName == "Title").ToList(), "CatgDesc", "CatgDesc", null), new { @class = "spa-dropdown-box required form-control" })
+                                    </div>
+                                </div>
+                                <div class="row form-group @(ShopInfo.SchlStudentStrength>2 && ShopInfo.Country.ToLower()=="india"?"":"display-none")">
+                                    <div class="col-lg-24 col-md-24 col-sm-24">
+                                        <label class="form-label spa-label-bold ">@*Salutation*@ @Language.Where(c => c.Order_id == 60).Select(c => c.Value).FirstOrDefault()</label>
+                                        @Html.DropDownList("Salutation", new SelectList(DropdownList.Where(c => c.CatgName == "Salutation").OrderBy(c => c.Group_OrderData).ToList(), "CatgDesc", "CatgDesc", null), new { @class = "spa-dropdown-box  form-control" })
+                                    </div>
+                                </div>
+                           <div class="row form-group">
+                                   <div class="col-lg-24 col-md-24 col-sm-24">
+                                       <label class="form-label spa-label-bold ">@*Gender*@ @Language.Where(c => c.Order_id == 56).Select(c => c.Value).FirstOrDefault()*</label>
+                                           @Html.DropDownList("ETitle", new SelectList(DropdownList.Where(c => c.CatgName == "New_Gender").ToList(), "CatgDesc", "CatgDesc", null), new { @class = "spa-dropdown-box required form-control" })
+                           </div>
+                             </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                            @Html.Label(@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault().ToString() + " *", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                                @Html.EditorFor(c => c.FirstName, new { htmlAttributes = new { @class = "form-control spa-text-box required", @placeholder = @Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault() } })
+                                                @Html.ValidationMessageFor(c => c.FirstName, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                            @Html.Label(@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault().ToString(), htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                                @Html.EditorFor(c => c.LastName, new { htmlAttributes = new { @class = "form-control spa-text-box", @placeholder = @Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault() } })
+                                                @Html.ValidationMessageFor(c => c.LastName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                            @Html.Label(@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault().ToString() + " *", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                                @Html.EditorFor(c => c.PhoneNo, new { htmlAttributes = new { @class = "form-control spa-text-box digits required", @id = "PhoneNo", @Minlength = 10, @Maxlength = 12, @placeholder = @Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault() } })
+                                                @Html.ValidationMessageFor(c => c.PhoneNo, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <label class="form-label spa-label-bold">@*LandLine*@ @Language.Where(c => c.Order_id == 62).Select(c => c.Value).FirstOrDefault()</label>
+                                                <input type="text" id="PasswordQuerry2" name="PasswordQuerry2" class="form-control spa-text-box  text-box single-line digits" placeholder="@Language.Where(c => c.Order_id == 72).Select(c => c.Value).FirstOrDefault()" maxlength="16" />
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-24 col-md-24 col-sm-24">
+                                            <label class="form-label spa-label-bold">@*Street*@ @Language.Where(c => c.Order_id == 68).Select(c => c.Value).FirstOrDefault()</label>
+                                        </div>
+                                        <div class="col-lg-20 col-md-16 col-sm-18">
+                                                <input type="text" id="Street" name="Street" class="form-control spa-text-box  text-box single-line" placeholder="@Language.Where(c => c.Order_id == 79).Select(c => c.Value).FirstOrDefault()" />
+                                        </div>
+                                    <div class="col-lg-4 col-md-8 col-sm-6">
+                                        <input type="text" id="StreetNumber" name="StreetNumber" class="form-control spa-text-box  text-box single-line" placeholder="@Language.Where(c => c.Order_id == 78).Select(c => c.Value).FirstOrDefault()" />
+                                    </div>
+                                            </div>
+                                      <div class="row form-group">
+                                          <div class="col-lg-4 col-md-8 col-sm-6">
+                                                  <label class="form-label spa-label-bold">@*ZIP Code*@ @Language.Where(c => c.Order_id == 70).Select(c => c.Value).FirstOrDefault()</label>
+                                                      <input type="text" id="Pincode" name="Pincode" class="form-control spa-text-box  text-box single-line digits" maxlength="8" placeholder="@Language.Where(c => c.Order_id == 81).Select(c => c.Value).FirstOrDefault()" />
+                                          </div>
+                                          <div class="col-lg-20 col-md-16 col-sm-18">
+                                                  <label class="form-label spa-label-bold">@*Place/city*@ @Language.Where(c => c.Order_id == 69).Select(c => c.Value).FirstOrDefault()</label>
+                                                      <input type="text" id="City" name="City" class="form-control spa-text-box  text-box single-line" placeholder="@Language.Where(c => c.Order_id == 80).Select(c => c.Value).FirstOrDefault()" />
+                                          </div>
+                                      </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-24 col-md-24 col-sm-24">
+                                            <label class="form-label spa-label-bold">@*State*@ @Language.Where(c => c.Order_id == 71).Select(c => c.Value).FirstOrDefault()</label>
+                                                <input type="text" id="State" name="State" class="form-control spa-text-box  text-box single-line" placeholder="@Language.Where(c => c.Order_id == 82).Select(c => c.Value).FirstOrDefault()" />
+                                    </div>
+                                </div>
+                                </div>
+                            <div class="col-lg-12 col-md-12">
+                                <div class="row">
+                                    <div class="col-lg-24 col-md-24 col-sm-24">
+                                        <div class="user-circle-img">
+                                            <span><img id="UserImage" src="~/images/defaultuser.png" alt="" /></span>
+                                        </div>
+                                        <div class="text-center">
+                                            <a class="file-input-wrapper btn btn-browse">
+                                                <span>@Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()</span>
+                                                <input type="file" title="Browse" class="btn-primary" id="FileProfile" name="ProfilePic" onchange="setImage(this);">
+                                            </a>
+                                            <input type="button" class="btn btn-browse" id="DeletePic" onclick="DeletePicture();" value="@Language.Where(c => c.Order_id == 53).Select(c => c.Value).FirstOrDefault()" style="display:none;" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-24 col-md-24 col-sm-24">
+                                        <label class="form-label spa-label-bold">@*Date of Birth*@ @Language.Where(c => c.Order_id == 63).Select(c => c.Value).FirstOrDefault()</label>
+                                            <input type="text" id="DOB" name="DOB" class="form-control spa-text-box  text-box single-line" placeholder="@Language.Where(c => c.Order_id == 74).Select(c => c.Value).FirstOrDefault()" />
+                                    </div>
+
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-24 col-md-24 col-sm-24">
+                                        @Html.Label(@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault().ToString(), htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                            @Html.EditorFor(c => c.EmailId, new { htmlAttributes = new { @class = "form-control spa-text-box email ", @placeholder = @Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault(), autocomplete = "off" } })
+                                            @Html.ValidationMessageFor(c => c.EmailId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-24 col-md-24 col-sm-24">
+                                        @Html.Label(@Language.Where(c => c.Order_id == 59).Select(c => c.Value).FirstOrDefault().ToString() + " *", htmlAttributes: new { @class = "form-label spa-label-bold" })
+                                            @*@Html.EditorFor(c => c.Password, new { htmlAttributes = new { @class = "form-control spa-text-box required ", @placeholder = @Language.Where(c => c.Order_id == 73).Select(c => c.Value).FirstOrDefault(), Type = "password", @minlength = "6", autocomplete = "off",value="BCS@12345" } })*@
+                                            <input class="form-control spa-text-box  required text-box single-line" id="Password" name="Password" placeholder="@Language.Where(c => c.Order_id == 73).Select(c => c.Value).FirstOrDefault()" minlength="6" type="password" value="BCS@1234">
+                                            @*<input class="form-control spa-text-box required" id="Password" name="Password" placeholder="@Language.Where(c => c.Order_id == 73).Select(c => c.Value).FirstOrDefault()" min="6" type="password">*@
+                                            @Html.ValidationMessageFor(c => c.Password, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="row HideInvoice form-group">
+                                    <div class="col-lg-24 col-md-24 col-sm-24">
+                                        <label class="form-label spa-label-bold">@*GLN-No.(B)*@ @Language.Where(c => c.Order_id == 65).Select(c => c.Value).FirstOrDefault()</label>
+                                            @Html.EditorFor(c => c.GLN_No, new { htmlAttributes = new { @class = "form-control spa-text-box  text-box single-line", @placeholder = @Language.Where(c => c.Order_id == 76).Select(c => c.Value).FirstOrDefault(), @maxlength = "7", @minlength = "7" } })
+                                            @*<input class="form-control spa-text-box  required text-box single-line" id="Password" name="Password" placeholder="@Language.Where(c => c.Order_id == 59).Select(c => c.Value).FirstOrDefault()" min="6" type="password">*@
+                                            @Html.ValidationMessageFor(c => c.GLN_No, "", new { @class = "text-danger" })
+                                            @*<input type="text" class="form-control spa-text-box  text-box single-line" />*@
+                                    </div>
+                                </div>
+                                <div class="row HideInvoice form-group">
+                                    <div class="col-lg-24 col-md-24 col-sm-24">
+                                        <label class="form-label spa-label-bold">@*ZSR.No*@ @Language.Where(c => c.Order_id == 66).Select(c => c.Value).FirstOrDefault()</label>
+                                            @Html.EditorFor(c => c.ZSR_No, new { htmlAttributes = new { @class = "form-control spa-text-box  text-box single-line", @placeholder = @Language.Where(c => c.Order_id == 77).Select(c => c.Value).FirstOrDefault(), @maxlength = "7", @minlength = "7" } })
+                                            @*<input class="form-control spa-text-box  required text-box single-line" id="Password" name="Password" placeholder="@Language.Where(c => c.Order_id == 59).Select(c => c.Value).FirstOrDefault()" min="6" type="password">*@
+                                            @Html.ValidationMessageFor(c => c.ZSR_No, "", new { @class = "text-danger" })
+                                            @*<input type="text" class="form-control spa-text-box  text-box single-line" />*@
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                            <div class="col-lg-24 col-md-24 col-sm-24 row">
+                                <div class="form-group text-center margin-top20">
+                                    <input type="button" class="btn btn-green margin-right5" id="btnLogin" value="@Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault() " onclick="SubmitEmployee();" />
+                                    @if (ViewBag.UserId != 0 && ViewBag.UserId != null)
+                                    {
+                                        <a href="/Employee/EmployeeMaster" class="btn btn-black">@Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault().ToString() </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="/Employee/EmployeeMaster" class="btn btn-black">@Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()</a>
+                                        @*<input type="button" class="btn btn-black" id="btnCreateCancel" value="Cancel" />*@
+                                    }
+                                </div>
+                            </div>
+
+                        </form>
+             </div>
+            }
+            @Html.Hidden("EmployeeSubmittedOrNot")
+            @Html.Hidden("WeekScheduleAdded")
+            @Html.Hidden("timeSlotAdded")
+            @Html.Hidden("vacationAddedOrNot")
+            @Html.Hidden("ProductAddedOrNot")
+            <div class="spa-home-tab">
+                <ul id="myTab" class="nav nav-tabs">
+                    @foreach (var item in SubTabList.OrderBy(c => c.SubId).ToList())
+                    {
+                        if (item.Link == "Specialization")
+                        {
+                            if (WorkFloWStatus == "According To Specialization" || ShopInfo.SchlStudentStrength >= 3)
+                            {
+                    <li class="@Active">
+                        <a href="#@item.Link.ToLower()" onclick="CommonTabDetails('@item.TabLink?UserId=@ViewBag.UserId','#@item.Link.ToLower()')" data-toggle="tab">
+                            @item.SubTabName
+                        </a>
+                    </li>
+                                Active = "";
+                            }
+                        }
+                        else
+                        {
+                    <li class="@Active">
+                        <a href="#@item.Link.ToLower()" onclick="CommonTabDetails('@item.TabLink?UserId=@ViewBag.UserId','#@item.Link.ToLower()');" data-toggle="tab">
+                            @item.SubTabName
+                        </a>
+                    </li>
+                            Active = "";
+                        }
+
+                    }
+                    @*<li><a href="#weekschedule" data-toggle="tab">@Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()@*Week Schedule*</a></li>
+                        <li><a href="#timeslot" data-toggle="tab">@Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault()@Time Slot</a></li>
+                        <li><a href="#vacation" data-toggle="tab">@Language.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault()@*Vacation</a></li>
+                        @if (WorkFloWStatus == "According To Specialization" || ShopInfo.SchlStudentStrength >= 3)
+                        {
+                            <li><a href="#specialization" data-toggle="tab">@*Specialization* @Language.Where(c => c.Order_id == 83).Select(c => c.Value).FirstOrDefault()</a></li>
+                        }
+                        <li class="active"><a href="#assignproduct" data-toggle="tab">@Language.Where(c => c.Order_id == 17).Select(c => c.Value).FirstOrDefault()@*Assign Product</a></li>*@
+                </ul>
+                <div id="myTabContent" class="tab-content">
+                    @foreach (var Item in SubTabList.OrderBy(c => c.SubId).ToList())
+                    {
+                        if (Item.Link == "Specialization")
+                        {
+                    <div class="tab-pane fade @DivActive" id="@Item.Link.ToLower()">
+                        @if (DivActive != "")
+                                {
+                                @Html.Action(Item.Link, new { UserId = ViewBag.UserId })
+                                }
+                    </div>
+                            DivActive = "";
+                        }
+                        else
+                        {
+                    <div class="tab-pane fade @DivActive" id="@Item.Link.ToLower()">
+                        @if (DivActive != "")
+                                {
+                                @Html.Action(Item.Link, new { UserId = ViewBag.UserId })
+                                }
+                    </div>
+                            DivActive = "";
+                        }
+                    }
+                    @*<div class="tab-pane fade" id="weekschedule">
+                            @Html.Action("WeekSchedule", "Employee", new { UserId = ViewBag.UserId })
+                        </div>
+                        <div class="tab-pane fade" id="timeslot">
+                            @Html.Action("TimeSlot", "Employee")
+                        </div>
+                        <div class="tab-pane fade" id="vacation">
+                            @Html.Action("Vacation", "Employee")
+                        </div>
+                        @if (WorkFloWStatus == "According To Specialization" || ShopInfo.SchlStudentStrength >= 3)
+                        {
+                            <div class="tab-pane fade" id="specialization">
+                                @Html.Action("specialization", "Employee")
+                            </div>
+                        }
+                        <div class="tab-pane fade in active" id="assignproduct">
+                            @if (ViewBag.UserId != 0)
+                            {
+                                @Html.Action("AssignProduct", "Employee", new { UserId = ViewBag.UserId })
+                            }
+                            else
+                            {
+                                @Html.Action("AssignProduct", "Employee")
+                            }
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<script>
+    $('.GenderEmployee li a').click(function () {
+        var selText = $(this).text();
+        $("#Gender").val(selText.trim());
+        $(".GendDropVal").html(selText + '<span class="caret"></span>');
+    });
+    $('#btnCreateCancel').click(function () {
+        $("#EmployeeForm")[0].reset();
+    })
+    //AutocompleteDeatils("State", "place_changed", '(regions)');
+    //AutocompleteDeatils("City", "place_changed", '(cities)');
+    //var date = new Date();
+    //date.setDate(date.getDate());
+    Dob('#DOB', '@LngLocal', true, true, true);
+    @*$('#DOB').datetimepicker({
+        format: 'DD-MM-YYYY',
+        locale: '@LngLocal',
+        maxDate: date,
+        minDate: moment().subtract(200, 'years'),
+        widgetPositioning: {
+            horizontal: 'auto',
+            vertical: 'top'
+        }
+    });*@
+</script>

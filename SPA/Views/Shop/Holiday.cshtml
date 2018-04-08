@@ -1,0 +1,182 @@
+﻿@{
+    Layout = null;
+    var LngLocal = ViewBag.LngLocal;
+    int index = 0;
+    List<Language_Label_Detail> Language = new List<Language_Label_Detail>();
+    Language = ViewBag.Language;
+    var TxtShow = "";
+    List<SPA.Models.HolidayList> HolidayDesc = new List<SPA.Models.HolidayList>();
+    HolidayDesc = ViewBag.Dataholidaytype;
+    var HolidayTypeList = HolidayDesc.Select(c => c.CalendarName).ToList();
+    int CountTextData = 0;
+    var BasicInfo = HolidayDesc.Count > 0 ? HolidayDesc.FirstOrDefault() : new SPA.Models.HolidayList();
+}
+<div class="product-catalog holiday fixed-popover">
+    <div class="margin-top15 user-details">
+        <div class="col-lg-16 col-lg-offset-4 col-md-23 col-md-offset-1 col-sm-24 col-xs-24">
+            <div class="text-right">
+                @if (((BasicInfo.UpdateAccess != "N" && (BasicInfo.FlowStatus == "2" || BasicInfo.FlowStatus == "3")) || (BasicInfo.FlowStatus == "1")))
+                {
+                    <a class="title-green16" id="addProduct"><i class="fa fa-plus-square margin-right5"></i>@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault() @*Add Holidays*@</a>
+                }              
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="choose-your-product p-relative margin-top15 border-top-grey">
+            <div class="add-vacation-block" id="HolidayAddShop">
+                <form id="HolidayForm" action="/Shop/AddHolidayShop" method="post">
+                    <ul class="row">
+                        <li class="col-lg-6 col-md-6 col-sm-6 col-xs-24 form-group">
+                            <label class="form-label spa-label1">@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()@*Holiday Name*@</label>
+                            <input type="text" name="HolidayName" id="HolidayName" class="form-control spa-text-box required spa-text-box2" maxlength="99" placeholder="@Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()">@*Shop Close*@
+                            @Html.ValidationMessage("HolidayName", "", new { @class = "text-danger" })
+                        </li>
+                        <li class="col-lg-6 col-md-6 col-sm-6 col-xs-24 form-group">
+                            <label class="form-label spa-label1">@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()@*Holiday Type*@</label>
+                            <div class="dropdown spa-dropdown a22">
+                                <a class="dropdown-toggle spa-text-box form-control spa-dropdown-box dropmenuEllips" id="ASEL" data-toggle="dropdown">
+                                    @if (index == 0 && HolidayTypeList.Count > 0)
+                                    {
+                                        TxtShow = Language.Where(c => c.English_Label == HolidayTypeList.FirstOrDefault()).Select(c => c.Value).FirstOrDefault();
+                                        index = index + 1;
+                                    }
+
+                                    @TxtShow <span class="caret"></span>
+                                </a>
+                                <input type="hidden" value="@HolidayTypeList.FirstOrDefault()" name="HolidayType" id="HolidayType">
+                                <ul class="dropdown-menu a2">
+                                    @foreach (var holidayType in HolidayTypeList)
+                                    {
+                                        if (CountTextData == 0)
+                                        {
+                                            <li id="TextData1"><a class="dropmenuEllips" id="@holidayType">@Language.Where(c => c.English_Label == holidayType).Select(c => c.Value).FirstOrDefault()</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li><a id="@holidayType">@Language.Where(c => c.English_Label == holidayType).Select(c => c.Value).FirstOrDefault()</a></li>
+                                        }
+                                        CountTextData = CountTextData + 1;
+                                    }
+
+                                </ul>
+                            </div>
+                        </li>
+                        @Html.Hidden("EditLeaveId")
+                        <li class="col-lg-6 col-md-6 col-sm-6 col-xs-24 form-group">
+                            <label class="form-label spa-label">@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()@*From*@</label>
+                            <input type="text" name="StartDate" id="StartDate" class="form-control spa-text-box required  spa-text-box2 dateimg spa-border-radius" placeholder="DD/MM/YYYY">
+                        </li>
+                        <li class="col-lg-6 col-md-6 col-sm-6 col-xs-24 form-group">
+                            <label class="form-label spa-label">@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()@*To*@</label>
+                            <input type="text" name="EndDate" id="EndDate" class="form-control spa-text-box required spa-text-box2 dateimg spa-border-radius" placeholder="DD/MM/YYYY">
+                        </li>
+                        <li class="col-lg-24 col-md-24 col-sm-24 col-xs-24 text-right">
+                            <input type="button" class="btn btn-green btn-small margin-right5 width100" value="@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()" onclick="AddShopLeave()">  @*Save*@
+                            <input type="button" id="CancelHoliday" class="btn btn-black btn-small width100" value="@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()">   @*Cancel*@
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div class="col-lg-16 col-lg-offset-4 add-vacation-table table-responsive" id="HolidayDetailId">
+                @Html.Action("HolidayDetail", "Shop")
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function ValidateDate() {
+        @*Dob('#StartDate,#EndDate', '@LngLocal', true, false, true, false);*@
+        var date = new Date();
+        // date.setDate(date.getDate() - 1);
+        $('#StartDate').datetimepicker({
+            format: 'DD/MM/YYYY',
+            minDate: date,
+            locale: '@LngLocal',
+            //defaultDate: date.setDate(date.getDate() - 1)
+            widgetPositioning: {
+                horizontal: 'auto',
+                vertical: 'bottom'
+            }
+        });
+        $('#EndDate').datetimepicker({
+            format: 'DD/MM/YYYY',
+            minDate: date,
+            locale: '@LngLocal',
+            widgetPositioning: {
+                horizontal: 'auto',
+                vertical: 'bottom'
+            }
+            // defaultDate: date
+        });
+        var dateRange = {
+            dateStartDateControlId: "StartDate", // Start date control id
+            dateEndDateControlId: "EndDate" // End date control id
+        };
+        InitDateTimePicker(dateRange);
+        function InitDateTimePicker(dateRange) {
+            var minDate = new Date();
+            minDate.setDate(date.getDate() - 1);
+            $('#' + dateRange.dateStartDateControlId).on("dp.change", function (e) {
+                $('#' + dateRange.dateStartDateControlId).data("DateTimePicker").minDate(minDate);
+                $('#' + dateRange.dateStartDateControlId).data("DateTimePicker").format('DD/MM/YYYY');
+            });
+            $('#' + dateRange.dateStartDateControlId).datetimepicker({
+
+            });
+            $('#' + dateRange.dateStartDateControlId).on("dp.change", function (e) {
+                $('#' + dateRange.dateEndDateControlId).data("DateTimePicker").minDate(e.date);
+                $('#' + dateRange.dateEndDateControlId).data("DateTimePicker").format('DD/MM/YYYY');
+            });
+            $('#' + dateRange.dateEndDateControlId).datetimepicker({
+            });
+        }
+    }
+    $("#addProduct").click(function () {
+        $("#HolidayAddShop").slideToggle();
+        if ($("#HolidayAddShop").is(':visible')) {
+            $("#HolidayType").val($.trim($("#TextData1 a").prop("id")));
+            $("#ASEL").html($.trim($("#TextData1 a").html()) + "<span class=\"caret\"></span>");
+            ValidateDate();
+        }
+    });
+
+    function EditShopHoliday(LeaveId) {
+        $(".loader").show();
+        window.scrollTo(0, 0);
+        $.ajax({
+            url: "/Shop/HolidayShopEdit?LeaveId=" + LeaveId,
+            cache: false,
+            dataType: "json",
+            success: function (data) {
+                $("#HolidayAddShop").slideToggle();
+                $('#HolidayName').val(data.HolidayName);
+                $('#HolidayType').val(data.HolidayType);
+                $("#ASEL").html($.trim($("[id='" + data.HolidayType + "']").html()) + "<span class=\"caret\"></span>");
+                $('#StartDate').val(data.StartDate)
+                $("#EndDate").val(data.EndDate);
+                $("#EditLeaveId").val(data.EditLeaveId);
+                ValidateDate();
+                $(".loader").hide();
+            },
+            error: function (request, status, error) { alert(status + ", " + error); }
+        });
+    }
+    $('.a2 li a').click(function () {
+        var selText = $(this).text();
+        var LangTxt = $(this).prop("id");
+        $("#HolidayType").val(LangTxt.trim());
+        $(".a22 #ASEL").html(selText + '<span class="caret"></span>');
+    });
+
+    $("#CancelHoliday").click(function () {
+        $("#HolidayForm")[0].reset();
+        $("#HolidayForm").validate().resetForm();
+        $("#HolidayAddShop").slideToggle();
+        $("#EditLeaveId").val("");
+        $("#HolidayType").val("");
+    });
+    $("#HolidayForm").validate();
+</script>

@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DATAS>
+  <DATA NAME="COMMON_XML">
+    <PASSWORD>
+      <SUBJECT>@COMMON_XML</SUBJECT>
+      <BODY>
+        <![CDATA[  
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Untitled Document</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
+<style>
+ .fontRoboto{font-family: 'Arial', sans-serif;} 
+</style>
+</head>
+<body>
+
+
+ <table cellspacing="0" cellpadding="0" style="width:700px; margin:0 auto;background-color:#6d6d6d; padding:20px;">
+        <tbody>
+            <tr>
+                <td>
+                    <table style="width:100%;background-color:#ebebeb;" cellspacing="0" cellpadding="0">
+                         <tbody>
+                            <tr>
+                                <td style="padding:20px;">
+                               <a>
+                                   <img src="http://testplatform001.azurewebsites.net/image/Click_icon.png" style="float:left;" />
+                                    <div style="float:left;margin:5px 0 0 4px;">
+                                    <div>
+                                    <img src="http://testplatform001.azurewebsites.net/image/Click_text.png" />
+                                    </div>
+                                    <p style="font-size:9px;color:#555;letter-spacing:4px;margin: 4px 0 0 3px;font-weight:bold;">@LogoText</p>
+                                    </div>
+                                    </a>
+                                </td>
+                                <td style="text-align: right;padding:20px;">
+                                     
+                                </td>
+                            </tr>
+                           
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                    <table style="width:100%;background-color:#fff;padding:2%;" cellspacing="0" cellpadding="0" class="fontRoboto">
+                        <tbody>
+                            <tr>
+                                <td style="padding:10%;color:#4d4d4d; font-size:14px;">
+                                   
+                                    <p style="margin-top: 0;margin-bottom:0;">@EmailBody</p>
+                                  
+                                    </td>
+                                <!--<td style="overflow: hidden;position: relative;margin: 0 auto;" rowspan="3" width="230" height="260">
+                                    <img src=@Image style="margin: auto;top: 0;left: 0;bottom: 0;right: 0;max-height: 100%;max-width: 100%;position: relative;width: 100%;height: 100%;"/>
+                                </td>-->
+                                </tr>
+                        </tbody>
+                    </table>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table style="background-color:#fff; width:100%;" cellspacing="0" cellpadding="0" class="fontRoboto">
+                        <tbody>
+                            <tr>
+                                <td style="color:#4d4d4d;padding: 0 5%;">
+                                    <p style="font-size:13px;">
+                                        <!--You're receiving this email because you recently made a booking with Oorza Clinic.-->
+                                    </p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <!--<tr>
+                <td>
+                    <table style="background-color:#fff; width:100%;padding-bottom: 3%;" cellspacing="0" cellpadding="0"
+                           class="fontRoboto">
+                        <tbody>
+                            <tr>
+                                <td style="color:#4d4d4d;padding: 0 5%;">
+
+                                    <p style="margin-bottom: 2px;font-size: 11px;">This email was sent to you with love from                                         Plateform.</p>
+                                    <p style="margin-bottom: 2px;font-size: 11px;margin-top:0;">Click here to update your email preferences or                  unsubscribe.</p>
+                                    <p style="margin-bottom: 2px;font-size: 11px;margin-top:0;">Platform Doctor and Spa Directory, Kappelergasse                   1, 8022 Zürich, Switzerland</p>
+                                </td>
+                                <td>
+                                    <a style="cursor:pointer;"><img src="http://testplatform001.azurewebsites.net/image/fb.png" /></a>
+                                    <a style="cursor:pointer;"><img src="http://testplatform001.azurewebsites.net/image/google.png" /></a>
+                                    <a style="cursor:pointer;"><img src="http://testplatform001.azurewebsites.net/image/in.png" /></a>
+                                    <a style="cursor:pointer;"><img src="http://testplatform001.azurewebsites.net/image/you.png" /></a>
+                                    <p style="margin: 5px 0px 0 3px;color: #7dbb00;font-size: 11px;"><a style="cursor:pointer;"@HostUrl</a></p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>-->
+        </tbody>
+    </table>
+   
+</body>
+</html>
+
+
+        ]]>
+      </BODY>
+    </PASSWORD>
+  </DATA>
+  <DATA NAME="COMMON_SPA_XML">
+    <PASSWORD>
+      <SUBJECT>@COMMON_SPA_XML</SUBJECT>
+      <BODY>
+        <![CDATA[  
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Untitled Document</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
+<style>
+ .fontRoboto{font-family: 'Arial', sans-serif;} 
+</style>
+</head>
+<body>
+
+
+ <table cellspacing="0" cellpadding="0" style="width:800px; margin:0 auto;background-color:#6d6d6d; padding:20px;">
+        <tbody>
+            <tr>
+                <td>
+                    <table style="width:100%;background-color:#ebebeb;" cellspacing="0" cellpadding="0">
+                       <tbody>
+                            <tr>
+                                  <td style="padding:20px;">
+                               <a>
+                                   <img src="http://testplatform001.azurewebsites.net/image/Click_icon.png" style="float:left;" />
+                                    <div style="float:left;margin:5px 0 0 4px;">
+                                    <div>
+                                    <img src="http://testplatform001.azurewebsites.net/image/Click_text.png" />
+                                    </div>
+                                    <p style="font-size:9px;color:#555;letter-spacing:4px;margin: 4px 0 0 3px;font-weight:bold;">EINFACH.SCHNELL.BEQUEM.</p>
+                                    </div>
+                                    </a>
+                                </td>
+                                <td style="text-align: right;padding:20px;">
+                                     
+                                </td>
+                            </tr>
+                           
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                    <table style="width:100%;background-color:#fff;padding:2%;" cellspacing="0" cellpadding="0" class="fontRoboto">
+                        <tbody>
+                            <tr>
+                                <td style="padding:10%;color:#4d4d4d; font-size:14px;"width="450">
+                                    <p style="margin-top: 0;margin-bottom: 20px;font-weight:500;">@Header</p>
+                                    <p style="margin-top: 0;margin-bottom:0;">@EmailBody</p>
+                                    <p style="margin-bottom: 0;margin-top: 20px;font-weight: 700;">@Footer</p>
+                                    </td>
+                                <!--<td style="overflow: hidden;position: relative;margin: 0 auto;" rowspan="3" width="230" height="260">
+                                    <img src=@Image style="margin: auto;top: 0;left: 0;bottom: 0;right: 0;max-height: 100%;max-width: 100%;position: relative;width: 100%;height: 100%;"/>
+                                </td>-->
+                                </tr>
+                        </tbody>
+                    </table>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table style="background-color:#fff; width:100%;" cellspacing="0" cellpadding="0" class="fontRoboto">
+                        <tbody>
+                            <tr>
+                                <td style="color:#4d4d4d;padding: 0 5%;">
+                                    <p style="font-size:13px;">
+                                        <!--You're receiving this email because you recently made a booking with Oorza Clinic.-->
+                                    </p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table style="background-color:#fff; width:100%;padding-bottom: 3%;" cellspacing="0" cellpadding="0"
+                           class="fontRoboto">
+                        <tbody>
+                            <tr>
+                                <td style="color:#4d4d4d;padding: 0 5%;">
+
+                                    <p style="margin-bottom: 2px;font-size: 11px;">This email was sent to you with love from                                         Plateform.</p>
+                                    <!--<p style="margin-bottom: 2px;font-size: 11px;margin-top:0;">Click here to update your email preferences or                  unsubscribe.</p>-->
+                                    <p style="margin-bottom: 2px;font-size: 11px;margin-top:0;">Platform Doctor and Spa Directory, Kappelergasse                   1, 8022 Zürich, Switzerland</p>
+                                </td>
+                                <td>
+                                    <!--<a style="cursor:pointer;"><img src="http://testplatform001.azurewebsites.net/image/fb.png" /></a>
+                                    <a style="cursor:pointer;"><img src="http://testplatform001.azurewebsites.net/image/google.png" /></a>
+                                    <a style="cursor:pointer;"><img src="http://testplatform001.azurewebsites.net/image/in.png" /></a>
+                                    <a style="cursor:pointer;"><img src="http://testplatform001.azurewebsites.net/image/you.png" /></a>
+                                    <p style="margin: 5px 0px 0 3px;color: #7dbb00;font-size: 11px;"><a style="cursor:pointer;color: #7dbb00;">@HostUrl</a></p>-->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+   
+</body>
+</html>
+
+
+        ]]>
+      </BODY>
+    </PASSWORD>
+  </DATA>
+</DATAS>

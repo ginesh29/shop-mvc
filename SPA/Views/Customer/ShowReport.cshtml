@@ -1,0 +1,80 @@
+﻿
+@{
+    Layout = null;
+    List<SPA.Models.combineSucImport> List = new List<SPA.Models.combineSucImport>();
+    List = Model;
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.Language;
+}
+@*popup*@
+<div class="welcome-modal Import_popup">
+    <div id="import_modal" class="modal fade in" role="dialog" style="padding-left: 17px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                </div>
+                <div class="modal-body margin-bottom30 modal-ralative">
+                    <h1 class="text-center margin-bottom30"><span>CLICK-AND-GO</span></h1>
+                    @*data successfully imported*@
+                    <h4><span class="margin-right5">@(List.Count > 0 ? List.Where(c => c.IsValid == true && c.IsRepeated == false).Count() : 0)</span>@Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault()</h4>
+                    <div class="unsuccess_list">
+                        @*data unsuccessfully imported*@
+                        <p><span>@(List.Count > 0 ? List.Where(c => c.IsValid == false || c.IsRepeated == true).Count() : 0)</span>@Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault()</p>
+                        <div class="table-responsive">
+                            <table class="table" id="error_table">
+                                <thead>
+                                    <tr>
+                                        @*Rows*@
+                                        <th> @Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault()</th>
+                                        @*First Name*@
+                                        <th class="text-center">@Language.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault() </th>
+                                        @*Last Name*@
+                                        <th class="text-center">@Language.Where(c => c.Order_id == 17).Select(c => c.Value).FirstOrDefault()</th>
+                                        @*Isvalid*@
+                                        <th class="text-center">@Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault()</th>
+                                        @*Isexist*@
+                                        <th class="text-center">@Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault()</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in List.Where(c => c.IsValid == false || c.IsRepeated == true).ToList())
+                                    {
+                                        <tr>
+                                            <td><span class="Row_no">@item.RowNumber</span></td>
+                                            <td class="text-center">@item.FirstName</td>
+                                            <td class="text-center">@item.LastName</td>
+                                            <td class="text-center"><i class="fa  @(item.IsValid?" fa-check-circle import_right":"fa-times-circle import_cross")" aria-hidden="true"></i></td>
+                                            <td class="text-center"><i class="fa @(item.IsRepeated?" fa-check-circle import_right":"fa-times-circle import_cross")" aria-hidden="true"></i></td>
+                                        </tr>
+                                    }
+                                    @*<tr>
+                                            <td><span class="Row_no">24</span></td>
+                                            <td class="text-center">Ak</td>
+                                            <td class="text-center">Test</td>
+                                            <td class="text-center"><i class="fa fa-times-circle  import_cross" aria-hidden="true"></i></td>
+                                            <td class="text-center"></td>
+                                        </tr>*@
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="row form-group text-right">
+                        @if (List.Where(c => c.IsValid == false || c.IsRepeated == true).Count() > 0)
+                        {
+                            //Error Log
+                            <a href="@List.Select(c=>c.DownloadExcel).FirstOrDefault()" class="btn btn-green margin-top15 margin-right10"><i class="fa fa-cloud-download margin-right10" aria-hidden="true"></i>@Language.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault()</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#import_modal').modal('show');
+    $("#Import_cust .dz-preview").remove();
+    $("#ImportHeight input[type='submit']").attr("disabled", "disabled");
+    $("#error_table").tableHeadFixer({ "left": 0 });
+</script>

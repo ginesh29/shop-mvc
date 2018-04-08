@@ -1,0 +1,60 @@
+﻿@{
+    Layout = null;
+    SPA.Models.QuickBlockSlotDetails Slot = new SPA.Models.QuickBlockSlotDetails();
+    Slot = Model;
+    List<SPA.Models.LanguageLabelDetails> Language = ViewBag.Language;
+    var StartTime = Slot.EditStartTime != null ? Slot.EditStartTime : Slot.startTime;
+    var EndTime = Slot.EditEndTime != null ? Slot.EditEndTime : Slot.EndTime;
+}
+<div class="row form-group">
+    <div class="col-lg-8 col-md-8">
+        <label class="form-label spa-label1">@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()@*Start Time*@</label>
+    </div>
+    <div class="col-lg-16 col-md-16 p-relative">
+        <input type="text" class="form-control spa-text-box  spa-text-box2 required" id="BlockStartTime" name="BlockStartTime" placeholder="@Language.Where(c=>c.Order_id==2).Select(c=>c.Value).FirstOrDefault()" value="" @(Slot.startTime == "00:00" ? "disabled" : "")>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-lg-8 col-md-8">
+        <label class="form-label spa-label1">@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()</label>
+    </div>
+    <div class="col-lg-16 col-md-16 p-relative">
+        <input type="text" class="form-control spa-text-box  spa-text-box2 required " id="BlockEndTime" name="BlockEndTime" placeholder="@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()" value="" @(Slot.startTime == "00:00" ? "disabled" : "")>
+    </div>
+</div>
+<script>
+    $("#BlockStartTime").datetimepicker({
+        stepping: @Slot.Stepping,
+        format: 'HH:mm',
+        disabledTimeIntervals: [
+                    [moment().hour(0), moment().hour(@Slot.StartHour).minutes(@Slot.StartMin)],
+                    [moment().hour(@Slot.EndHour).minutes(@Slot.Endmin), moment().hour(24)]
+        ]
+    });
+    $("#BlockEndTime").datetimepicker({
+        stepping: @Slot.Stepping,
+        format: 'HH:mm',
+        disabledTimeIntervals: [
+                    [moment().hour(0), moment().hour(@Slot.EndStartHour).minutes(@Slot.EndStartMin)],
+                    [moment().hour(@Slot.EndHour).minutes(@Slot.Endmin), moment().hour(24)]
+        ]
+    });
+    $("#BlockStartTime").data("DateTimePicker").date('@(Slot.startTime=="00:00"?"":StartTime)');
+    $("#BlockEndTime").data("DateTimePicker").date('@(Slot.startTime=="00:00"?"":EndTime)');
+    $("#BlockStartTime").on("dp.change", function (e) {
+        var Date=moment(e.date).add("minutes", @Slot.Stepping).format("HH:mm");
+        $("#BlockEndTime").val(Date).data("DateTimePicker").minDate(Date);
+    });
+</script>
+@if (Slot.startTime == "00:00")
+{
+    <script>
+        $("#SaveQuickBlock").attr("disabled","disabled")
+    </script>
+}
+else
+{
+    <script>
+        $("#SaveQuickBlock").removeAttr("disabled")
+    </script>
+}

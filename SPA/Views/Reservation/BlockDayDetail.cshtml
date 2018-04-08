@@ -1,0 +1,81 @@
+﻿@{
+    Layout = null;
+    List<SPA.Models.WeekDayBlockDetail> DayInfo = new List<SPA.Models.WeekDayBlockDetail>();
+    DayInfo = ViewBag.DayBlockList;
+    var BasicInfo = DayInfo.Count > 0 ? DayInfo.FirstOrDefault() : new SPA.Models.WeekDayBlockDetail();
+}
+@{
+    TimeSpan interval = new TimeSpan(0, 5, 0);
+    if (!DayInfo.Select(c => c.SlotDue).FirstOrDefault().ToLower().Contains("half") && !DayInfo.Select(c => c.SlotDue).FirstOrDefault().ToLower().Contains("day"))
+    {
+        int Inter = Convert.ToInt16(DayInfo.Select(c => c.SlotDue).FirstOrDefault().Replace(" Minutes", "").Replace(" Minute", ""));
+        interval = new TimeSpan(0, Inter, 0);
+    }
+
+}
+@foreach (var DayData in DayInfo)
+{
+    for (TimeSpan Time = DayData.MinTime; Time < DayData.MaxTime; Time = Time.Add(interval))
+    {
+        <tr class="@interval.Minutes">
+            <td colspan="2" class="col-lg-3 col-md-3 col-sm-3 col-xs-3 line-bottom">@Time.ToString().Remove(Time.ToString().Length - 3)</td>
+            <td colspan="22" id="@Time.ToString().Remove(Time.ToString().Length-3)"></td>
+        </tr>
+    }
+}
+<script>
+    $("#DayCalBodyTag tr td").click(function () {
+        var ClickEvent = $(this);
+        if ($(this).hasClass("Available") || $(this).hasClass("BookedSlotes") || $(this).hasClass("Temporary") || $(this).hasClass("ApCloseBlock")) {
+            $(".loader").show();
+            var DateTime = $(this).prop("id");
+            var EmpUsreId = $("#EmployeesDaybtn .activebutton").prop("id");
+            $.post("/Reservation/CheckReservation?EmpUserId=" + EmpUsreId + "&Dates=" + DateTime, function (Resultpls) {
+                if (ClickEvent.hasClass("Available")) {
+                    if (Resultpls == "yes") {
+                        var DtCurrent = new Date();
+                        var RestrictedDate = new Date();
+                        var SetedDate = new Date();
+                        SetedDate.setDate(DateTime.split('-')[0]); SetedDate.setMonth(parseInt(DateTime.split('-')[1]) - 1); SetedDate.setFullYear(parseInt(DateTime.split('-')[2])); SetedDate.setHours(parseInt(DateTime.split(' ')[1].split(':')[0])); SetedDate.setMinutes(parseInt(DateTime.split(' ')[1].split(':')[1])); SetedDate.setSeconds(0);
+                        //$.post("/Home/RestrictionBooking", function (getMonth) {
+                        //    RestrictedDate.setMonth((RestrictedDate.getMonth() + parseInt(getMonth)));
+                        if ('@ViewBag.AllowPastDate' == "False") {
+                            if (DtCurrent <= SetedDate) {
+                                GetBooking(DateTime, EmpUsreId, "Day");
+                            }
+                            else {
+                                if (DtCurrent > SetedDate) {
+                                    var Text = "ShopMaster!";
+                                    $.post("/Product/GetDataOfLanguage?Text=" + Text + "&id=50", function (data1) {
+                                        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">" + data1 + "</p>");
+                                        $('#welcome').modal("show");
+                                        $(".loader").hide();
+                                    });
+                                }
+                            }
+                        }
+                        else {
+                            GetBooking(DateTime, EmpUsreId, "Day");
+                        }
+
+
+                        //});
+                    }
+                }
+                else {
+                    var ClassList = ClickEvent.prop("class").split(' ');
+                    var ReserId = 0;
+                    for (i = 0; i < ClassList.length; i++) {
+                        if (ClassList[i].toString().indexOf("Id-") != -1) {
+                            ReserId = ClassList[i].replace('Id-', '');
+                            GetBookingDetails(ReserId);
+                        }
+                    }
+                    $(".loader").hide();
+                    //alert(ReserId);
+                }
+            });
+        }
+    });
+    $("#DayHeadFix").tableHeadFixer({ "left": 1 });
+</script>

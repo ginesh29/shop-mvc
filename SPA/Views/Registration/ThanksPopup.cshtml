@@ -1,0 +1,54 @@
+﻿@using System.Configuration;
+@{
+    Layout = null;
+    List<Language_NewShop> Language = ViewBag.Language;
+    int LanguageId = ViewBag.LangId;
+}
+@Styles.Render("~/Contents/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/clickscript")
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@*Thanks message*@ @Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 56).Select(c => c.Value).FirstOrDefault()</title>
+</head>
+<body style="background:#fff">
+    <div class="container">
+        <div class="bg-grey mt60 border-radius5">
+            @Html.Partial("_Progressbar",Language.Where(c=>c.Page_Name== "Registration_Page").ToList())
+            <div class="welcome-main col-lg-20 col-lg-offset-2 col-md-20 col-md-offset-2 col-sm-24">
+                <h4>@*CONGRATULATION FOR YOUR REGISTRATION!*@@Html.Raw(Language.Where(c => c.Page_Name == "Thanks_Page" && c.Order_id == 1).Select(c => c.Value).FirstOrDefault())</h4>
+                <div class="thanks-msg">
+                    <p class="colorGrey welcome-desc">
+                        @*THANK YOU, YOUR REGISTRATION  WAS SUCCESFULLY  SUBMITTED,
+                            YOU WILL RECEIVE IN SHORT A CONFIRMATION EMAIL
+                            ONCE YOUR REGISTRATION  IS  COMPLETED (WITHING 2 WORKING DAYS),
+                            YOU CAN START USING OUR SOFTWARE. AN EASY GUIDE WILL HELP YOU
+                            THROUGH THE SET UP PROCESS
+                            WE WISH YOU GREAT SUCCESS AND FUN WITH OUR ONLINE REGISTRATION
+                            TOOL!
+                            HAVE A GREAT DAY!*@
+                        @Html.Raw(Language.Where(c => c.Page_Name == "Thanks_Page" && c.Order_id == 2).Select(c => c.Value).FirstOrDefault())
+                    </p>
+                </div>
+                <div class="text-center mt30">
+                    <a href="@(LanguageId>0?"/ClickGo?Lang="+LanguageId+"#Home": "/ClickGo")" >
+                        <input type="button" class="continue-btn" value="@Html.Raw(Language.Where(c => c.Page_Name == "Thanks_Page" && c.Order_id == 3).Select(c => c.Value).FirstOrDefault())">@*HOME/BACK*@
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    $('#Login').addClass('login-detail active');
+    $('#Registration').addClass('login-detail active');
+    $('#TermCondition').addClass('login-detail active');
+    $('#PaymentGateway').addClass('login-detail active');
+    $('#Submit').addClass('login-detail');
+    $('#Submit a').addClass('active');
+</script>

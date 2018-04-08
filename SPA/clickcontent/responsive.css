@@ -1,0 +1,100 @@
+@media (max-width:1280px) {
+/*Index Page Css Start*/
+.nav > li > a {font-size: 14px;padding: 15px 20px;}
+.navbar {margin-bottom:0}
+/*End Index Page Css*/
+/*FUNKTIONEN Css Start*/
+.img100p {width:100%;}
+.logotitle{width:390px;}
+.lock-img{margin:0 40px;}
+.swp-ttl2{width:252px;}
+.footer-list{width:230px;}
+.personal-block {padding: 0px 80px;}
+/*End FUNKTIONEN Css*/
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    /*Welcome Page start*/
+    /*.welcome-main{width:600px;}*/
+    /*Welcome Page End*/
+    .personal-block {padding: 0px 60px;}
+    .terms-licence {width: 705px;}
+}
+
+@media (max-width:767px){
+/*Index Page Css Start*/
+.navbar-default {margin-top:9px;border-top:none}
+.navbar{margin-bottom:10px;}
+.nav {margin-left: 0;}
+.swp-banner {padding: 9px 0;}
+.swp-online-res {padding: 9px 0;}
+.swp-f-links {padding-left: 0;}
+.swp-quotes {width:auto}
+.swp-b-nav li a {width:134px;margin:0 auto}
+.swp-b-nav li strong {margin-bottom:20px;}
+.navbar-default .navbar-toggle{border-color:#568424}
+.navbar-default .navbar-toggle .icon-bar {background-color: #568424;}
+.swp-adv {padding: 20px 0;}
+.navbar-default .navbar-collapse, .navbar-default .navbar-form{border-color:transparent}
+/*.logo {margin-left: 25px;}*/
+.padl45{padding-left:9px}
+/*End Index Page Css*/
+/*Vorteile Page Css Start*/
+.sprite1 {margin:10px auto}
+.swp-vor li {margin-bottom:30px;}
+.lang-list {padding: 15px 0px;}
+.lock-img{margin: 0px 21px;}
+/*Vorteile Page Css End*/
+
+.logotitle {width: 270px;font-size: 30px;text-align: left;}
+.logo-text{padding:0 0px 5px 0px;font-size:18px;}
+   
+ /*Welcome Page start*/
+    /*.welcome-main{width:400px;}*/
+ /*Welcome Page EndPage*/
+.personal-block {padding: 0px 10px;}
+.personal-detail {margin-bottom:10px;}
+.reg-margint15{padding:0;}
+.personal-block h5 {font-size: 11px !important;}
+.personal-block .back-btn{font-size:11px;}
+.Res-padding0{padding:0;}
+.login-progressbar li a {display:block;word-break:break-all;padding: 0 5px;}
+.login-progressbar li {padding: 0 5px;}
+.info-btn {padding: 10px;}
+.terms-condition p {padding-left:15px;}
+ /*Welcome Page start*/
+}
+
+@media (max-width:480px){
+/*Index */
+ .input-group-addon {padding: 6px 2px;}
+.logo  img {width:80%;}
+.logo-text {font-size: 12px;}
+.logotitle {width: 180px;font-size: 20px;text-align: left;}
+.login-progressbar li::before {width: 45px;}
+.login-progressbar li {padding: 0;}
+.login-progressbar li a {font-size: 10px;}
+ /*Welcome Page start*/
+    /*.welcome-main{width:280px;}*/
+    .welcome-main h4{font-size:14px;}
+    .welcome-desc{font-size:13px;}
+    .terms-licence h4 {font-size: 14px;}
+    .terms-condition .accept-check {font-size: 14px;}
+    .terms-condition .accept-text {font-size: 14px;}
+ /*Welcome Page EndPage*/
+/*End Index Page Css*/
+}
+
+
+@media (max-width: 320px) {
+.logo-text {font-size: 11px;}
+.logotitle {width: 160px;font-size: 18px;text-align: left;}
+.swp-lang li{margin-right:15px;}
+
+ /*Welcome Page start*/
+    /*.welcome-main{width:250px;}*/
+    .welcome-main h4{font-size:12px;}
+    .welcome-desc{font-size:11px;}
+ /*Welcome Page EndPage*/
+ .Res320padd_0{padding:0;}
+}

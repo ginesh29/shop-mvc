@@ -1,0 +1,193 @@
+﻿@using SPA.Common;
+@{
+    List<Language_Label_Detail> LanguageList = new List<Language_Label_Detail>();
+    LanguageList = ViewBag.Language;
+    var Language = LanguageList.Where(c => c.Page_Name == "Choose_Employee").ToList();
+    ViewBag.Title = LanguageList.Where(c => c.Page_Name == "Title" && c.Order_id == 4).Select(c => c.Value).FirstOrDefault();
+    Layout = "~/Views/Shared/_Employee_layout.cshtml";
+    List<SPA.Models.EmployeeList> EmployeeList = new List<SPA.Models.EmployeeList>();
+    EmployeeList = ViewBag.Employees;
+    List<SPA.Models.ProductList> ProductList = new List<SPA.Models.ProductList>();
+    ProductList = ViewBag.ProductInfo;
+    int i = 0;
+    int a = ProductList.Select(c => c.Duration).Sum();
+    string currency = ViewBag.currency;
+    string DurationPre = "Min";
+    long UsersId = 0;
+    if (EmployeeList.Count > 0) { UsersId = EmployeeList.OrderBy(c => c.UserId).Select(c => c.UserId).FirstOrDefault(); }
+    int CountingEmployee = 0;
+    cctspDatabaseEntities22 SPA = new cctspDatabaseEntities22();
+    var LanguageBack = ViewBag.LanguageBack;
+    var LocalLanguage = ViewBag.LocalLanguage;
+    var Status = ViewBag.Status;
+}
+<ol class="spa-breadcrumbs breadcrumb"></ol>
+<div class="form-content">
+    <div class="col-lg-22 col-md-22 col-sm-23">
+        <a href="/BookOrder/OrderList?id=@ViewBag.UserId&Status=@Status&Url=@ViewBag.Url" class="title-green16 pull-right"><i class="fa fa-reply-all margin-right5"></i>@LanguageBack</a>
+    </div>
+    <ul>
+        <li class="col-lg-14 col-lg-offset-5  col-md-16 col-md-offset-4 col-sm-19 col-sm-offset-2 col-xs-24">
+            <div class="choose-your-product table-responsive choose-employee-table">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault()@*YOUR APPOINTMENT*@</th>
+                            <th class="text-center">@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()@*DURATION*@</th>
+                            <th class="text-center">@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()@*PRICE*@</th>
+                            <th class="text-right">@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()@*PRODUCT INFORMATION*@</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ProductList)
+                        {
+
+                            <tr>
+                                <td>@item.CatgDesc</td>
+                                <td class="text-center">@item.Duration @DurationPre</td>
+                                <td class="text-center">@float.Parse(item.Amount.ToString()) @currency</td>
+                                <td class="text-center"><span><i class="fa fa-info-circle spa-icon" data-toggle="popover" data-content="@item.SectionDesc"></i></span></td>
+                            </tr>
+                            i = i + 1;
+                        }
+                    </tbody>
+                    <thead>
+                        <tr>
+                            <th class="remove-border">@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()@*TOTAL*@</th>
+                            <th class="text-center remove-border">@ProductList.Select(c => c.Duration).Sum() @DurationPre</th>
+                            <th class="text-center remove-border">@float.Parse(ProductList.Select(c => c.Amount).Sum().ToString()) @currency</th>
+                            <th class="remove-border"></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </li>
+
+    </ul>
+    @Html.Hidden("TotalDuration")
+    <input type="hidden" name="DisplayList" id="DisplayList" value="@(string.Join(",",ProductList.Select(c => c.Duration).ToList()))" />
+    <div>
+        <div class="col-lg-14 col-lg-offset-5  col-md-16 col-md-offset-4 col-sm-19 col-sm-offset-2 col-xs-24">
+            <h1 class="title14-border">@Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()@*CHOOSE AN EMPLOYEE*@ </h1>
+            <ul id="owl-demo" class="owl-carousel owl-theme choose-employee-slider">
+                @if (EmployeeList.Count > 0)
+                {
+                    if (EmployeeList.Count > 1)
+                    {
+                        <li class="text-center item">
+                            <span class="spa-circle-img active" id="DefaultUser" onclick="DisplayDateTimeDetail(@EmployeeList.OrderBy(c=>c.UserId).Select(c=>c.UserId).FirstOrDefault(),0)">
+                                <span class="select-any">@Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()@*First free place*@</span>
+                            </span>
+                        </li>
+                    }
+                    <input type="hidden" name="UserIdOrder" id="UserIdOrder" value="@EmployeeList.OrderBy(c=>c.UserId).Select(c=>c.UserId).FirstOrDefault()" />
+                    foreach (var ImageData in EmployeeList)
+                    {
+                        if (CountingEmployee == 0 && EmployeeList.Select(c => c.UserId).ToList().Count == 1)
+                        {
+                            <li class="text-center item" id="AllImage">
+                                <div class="spa-circle-img active" id="@ImageData.UserId">
+                                    @if (ImageData.Image == null || ImageData.Image == "")
+                                    {
+                                        <img src="/images/defaultuser.png" onclick="DisplayDateTimeDetail(@ImageData.UserId,0);" />
+                                    }
+                                    else
+                                    {
+                                        <img src=@ImageData.Image onerror="this.onerror=null;this.src='/images/defaultuser.png';" onclick="DisplayDateTimeDetail(@ImageData.UserId,0);">
+                                    }
+                                </div>
+                                <p class="user-name text-center">@ImageData.FirstName @ImageData.LastName</p>   
+                            </li>
+                            CountingEmployee = CountingEmployee + 1;
+                        }
+                        else
+                        {
+                            <li class="text-center item" id="AllImage">
+                                <div class="spa-circle-img" id="@ImageData.UserId">
+                                    @if (ImageData.Image == null || ImageData.Image == "")
+                                    {
+                                        <img src="/images/defaultuser.png" onclick="DisplayDateTimeDetail(@ImageData.UserId,0);" />
+                                    }
+                                    else
+                                    {
+                                        <img src=@ImageData.Image onerror="this.onerror=null;this.src='/images/defaultuser.png';" onclick="DisplayDateTimeDetail(@ImageData.UserId,0);">
+                                    }
+                                </div>
+                                <p class="user-name text-center">@ImageData.FirstName @ImageData.LastName</p>
+                            </li>
+                        }
+
+                    }
+                }
+                else
+                {
+                    <li class="text-center item">
+                        @Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault()  @*No Employee Available*@
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    @Html.Hidden("EmployeeChoosed")
+    @Html.Hidden("choosedTime")
+    <div class="date-selection p-relative">
+        <div class="col-lg-14 col-lg-offset-5  col-md-16 col-md-offset-4 col-sm-19 col-sm-offset-2 col-xs-24">
+            <div id="DateTimeDisplayEmployee">
+                <h1 class="title14-border">@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()@*BOOK YOUR SCHEDULE*@</h1>
+                <div class="col-lg-12 col-md-12 col-sm-12 calendar-box margin-bottom10">
+                    <div id="CalanderKalande1"></div>
+                </div>
+            </div>
+            <div id="TimeSlotEmployeeDisplay" style="display:none;">
+                <div class="col-lg-12 col-md-12 col-sm-12 text-center book-schedule" id="TimeSlotDataForm">
+
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="text-right margin-top20">
+                <input type="button" class="btn btn-green" id="btnLogin" value="@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()" onclick="moveConfirmBookingShop(@ViewBag.UserId,'@Status','@ViewBag.Url');" /> @*next*@
+            </div>
+        </div>
+
+    </div>
+
+    <div class="clearfix"></div>
+</div>
+
+<script>
+    moment.locale('@LocalLanguage');
+    $("#CalanderKalande1").kalendae({
+        subscribe: {
+            "change": function(){
+                $(".k-days .k-in-month").not(".k-active").addClass("k-out-of-month");
+                var format = this.getSelected();
+                var DateOnly = format.split('-')[2];
+                $("#TimeSlotEmployeeDisplay").hide();
+                dataDisplayofTimeSlot(format);
+                //ankit
+                //var month1 = moment($.trim($(".k-caption").html().split(',')[0]), 'MMM').lang('en').format("MMMM") + ", " + $.trim($(".k-caption").html().split(',')[1]);
+            },
+        }
+    });
+    var monthYear = moment($.trim($(".k-caption").html().split(',')[0]), 'MMM').lang('en').format("MMMM") + ", " + $.trim($(".k-caption").html().split(',')[1]);
+    AutoSelect(@UsersId,0);
+    $('#a1').addClass('present active');
+    $('#a2').addClass('present active');
+    $('#a3').addClass('present');
+    $(".k-title .k-btn-next-month,.k-title .k-btn-next-year,.k-title .k-btn-previous-month,.k-title .k-btn-previous-year").on("click contextmenu",function(){
+        var month1 = moment($.trim($(".k-caption").html().split(',')[0]), 'MMM').lang('en').format("MMMM") + ", " + $.trim($(".k-caption").html().split(',')[1]);
+        DataToBeBlock(month1,0);
+    });
+    $("#DefaultUser").click(function () {
+        GetAnyDefaultuser();
+    });
+    $("#TotalDuration").val(@a);
+    $("body").delegate("#TimeSlotDataForm a","click",function () {
+        $("#TimeSlotDataForm a").removeClass("active");
+        $(this).addClass("active");
+        $("#choosedTime").val($(this).html());
+    });
+</script>
+
+
+

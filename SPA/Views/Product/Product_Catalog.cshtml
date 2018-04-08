@@ -1,0 +1,85 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Employee_Layout.cshtml";
+    ViewBag.Title = ViewBag.Title != null ? ViewBag.Title : "Product";
+    List<SPA.Models.AccessSubMenu> SubMenu = new List<SPA.Models.AccessSubMenu>();
+    SubMenu = ViewBag.SubMenu;
+    var Active = "active";
+    var DivActive = "in active";
+    List<SPA.Models.ConditionList> ConditionList = new List<SPA.Models.ConditionList>();
+    ConditionList = ViewBag.ConditionList;
+}
+<ol class="spa-breadcrumbs breadcrumb">
+    @*<li><a href="#" class="active">Home</a></li>
+        <li><a href="#">Shop</a></li>*@
+</ol>
+<div class="form-content">
+    <div class="employee-blank">
+        <h1 class="italic-title">
+            @ViewBag.Title
+        </h1>
+        <div class="spa-home-tab">
+            <ul id="myTab" class="nav nav-tabs">
+                @foreach (var Item in SubMenu.OrderBy(c => c.SubId).ToList())
+                {
+                    if (Item.Condition != null)
+                    {
+                        if (ConditionList.Where(c => c.Condition == Item.Condition && c.ConditionValue == Item.ConditionValue).FirstOrDefault() != null)
+                        {
+                            <li class="@Active" id="@Item.SubTabId"><a href="#@Item.Link" onclick="CommonTabDetails('@Item.TabLink','#@Item.Link');" data-toggle="tab">@Item.SubTabName</a></li>
+                            Active = "";
+                        }
+
+                    }
+                    else
+                    {
+                        <li class="@Active" id="@Item.SubTabId"><a href="#@Item.Link" onclick="CommonTabDetails('@Item.TabLink','#@Item.Link');" data-toggle="tab">@Item.SubTabName</a></li>
+                        Active = "";
+                    }
+                }
+                @*<li class="active"><a href="#Product_Catalog" onclick="GetTabDetails($(this).attr('href').toString());" data-toggle="tab">Services</a></li>
+                    <li><a href="#AddOnProduct" onclick="GetTabDetails($(this).attr('href').toString());" data-toggle="tab">Add On Product</a></li>*@
+            </ul>
+            <div id="myTabContent" class="tab-content responsive">
+                @foreach (var Item in SubMenu.OrderBy(c => c.SubId).ToList())
+                {
+                    if (Item.Condition != null)
+                    {
+                        if (ConditionList.Where(c => c.Condition == Item.Condition && c.ConditionValue == Item.ConditionValue).FirstOrDefault() != null)
+                        {
+                            <div class="tab-pane fade @DivActive" id="@Item.Link">
+                                @if (DivActive != "")
+                                {
+                                    <script>CommonTabDetails("@Item.TabLink", "#@Item.Link");</script>
+                                }
+                            </div>
+                            DivActive = "";
+                        }
+
+                    }
+                    else
+                    {
+                        <div class="tab-pane fade @DivActive" id="@Item.Link">
+                            @if (DivActive != "")
+                            {
+                                <script>CommonTabDetails("@Item.TabLink", "#@Item.Link");</script>
+                            }
+                        </div>
+                        DivActive = "";
+                    }
+                }
+                @*<div class="tab-pane fade active in" id="Product_Catalog">*@
+                @*@Html.Action("Product", "Product")*@
+                @*</div>*@
+                @*<div class="tab-pane fade" id="AddOnProduct">*@
+                @*@Html.Action("AddOnProduct", "Product")*@
+                @*</div>*@
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    if (window.location.toString().indexOf('#') != -1) {
+        hashFunForTab("2");
+    }
+</script>

@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "Nutzen";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ol class="spa-breadcrumbs breadcrumb">
+    @*<li><a href="#" class="active">Home</a></li>
+    <li><a href="#">Nutzen</a></li>*@
+</ol>
+<div class="form-content">
+    <div class="employee-blank">
+        <h1 class="italic-title">Nutzen</h1>
+        <div class="spa-home-tab massage-tab">
+            <ul id="myTab" class="nav nav-tabs">
+                <li class="active"><a href="#nutzen" data-toggle="tab">Nutzen</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="nutzen">
+                    @Html.Action("Nutzen_Content", "Nutzen")
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+@Html.Partial("_Footer")

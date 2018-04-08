@@ -1,0 +1,58 @@
+﻿@media print and (color) {
+   * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+   }
+}
+@media print {
+    .Print_None{display:none !important;}
+    .Print_block{display:block !important;}
+    .input-line-bottom{width:60px;}
+    .marginTop{margin-top:0;}
+    .printDisply{display:block !important;}
+    .printborder-dark-grey{border: 1px solid #ababab;}
+    .printDisply-non{display:none !important;}
+    .titleNone header nav, footer{display: none;}
+    .printImg{margin-top:10px; text-align:right;}
+    .display-none{display:block !important;}
+    .doctor-display-main {padding:0px;margin-top: 0px;}
+    .fontLable-size{font-size:13px;}
+    .listInline{display:inline;}
+    .doctor-presc-detail{min-height:70px;padding: 0 10px;}
+     @page{margin:20px 15px}
+     /*body { margin: 1.6cm}*/
+     .Prescription_print{margin: 1.6cm !important;}
+     .pageBreak{page-break-inside:avoid;}
+     .printHeaderTable table tbody tr td{border-top:0;padding:2px;font-size:14px;}
+      table{margin:2px 0;width:auto;}
+     .padding30{padding:0;}
+     .width5per{width:5%;}
+     .width15per{width:15%;}
+     .width25perc{width:25%;}
+     .width30per{width:30%;}
+     .Bill-detail table thead tr{border-top:1px solid #bbbbbb;}
+     .Invcoie_page{margin:0 !important;}
+     .print_displayNone{display:none;}
+     /*New Notepage*/
+    .Note_display{padding:0;margin:0;}
+    .Note_displayBox{padding:0 !important;background-color:#fff !important;}
+    .patient-desc-block{margin-top:0px !important;}
+    .margin-0{margin:0 !important;}
+    .patient-desc-block{background-color:#fff !important;}
+    .New_section{padding-right:0 !important;}
+    .New_section_block{margin-top:20px !important;background-color:#fff !important;}
+    .margin_Top20{margin-top:20px !important;}
+    .minHeigth70{min-height:70px !important;}
+    .doctor-presc-detail {padding: 2px 5px !important;}
+    .doctor-presc-detail table{margin-bottom:0px !important;}
+    .Notes_datebox .Note_date{display:none !important;}
+    /*Therapistsnotes css*/
+    .Th_date{display:none !important;}
+    .Tnotes_print .patient-desc-block{margin-top:5px !important;}
+   /*Therapistsnotes1 css*/
+    .Note_table thead tr th,.Note_table tbody tr td{font-weight:normal;font-size:9px;}
+}
+@page {
+    size: A4;
+}
+

@@ -1,0 +1,137 @@
+﻿@using SPA.Common
+@{
+    Function fu = new Function();
+    List<Language_NewShop> Language = ViewBag.Language;
+    Language = Language.Where(c => c.Page_Name == "Layout_Header").ToList();
+    int status = ViewBag.status;
+    int LanguageId = ViewBag.LangId;
+    var LangNameList = fu.LanguageNameList();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="description" content="Make Your Personal Website as sale your service online with online Reservation functionality">
+    <meta name="keywords" content="Online Booking,SPA,Doctor Service,HealthCare">
+    <meta name="author" content="christoph glathard">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @if (ViewBag.Title != null)
+    {
+        <title>@ViewBag.Title</title>}
+    else
+    {
+        <title>Page</title>}
+    @Styles.Render("~/Contents/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/clickscript")
+    <link href="~/clickcontent/aos.css" rel="stylesheet" />
+    <script src="~/Scripts/aos.js"></script>
+    @if (LanguageId > 1)
+    {
+        @Html.Partial("_LangValidation", "/Scripts/messages_" + LangNameList.Where(c => c.Lang_id == LanguageId).Select(c => c.English_Label).FirstOrDefault().ToLower() + ".js");
+    }
+    @*@if (LanguageId == 2)
+        {
+            <script type="text/javascript" src="~/Scripts/messages_de.js"></script>}
+        @if (LanguageId == 3)
+        {
+            <script type="text/javascript" src="~/Scripts/messages_fr.js"></script>}*@
+</head>
+<body>
+    <div class="swp-header bg1">
+        <div class="lock-img">
+            <img src="~/Images/click/login123.png">
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                    <div class="row">
+                        <a class="logo pull-left" name="/Index" id="ClickLogo" style="cursor:pointer">
+                            <h3 class="logotitle">@Html.Raw(Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault())</h3>
+                            <p class="logo-text">@Html.Raw(Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault())</p>
+                        </a>@*"/images/logo.png"*@
+
+                    </div>
+                </div>
+                <div class="col-lg-14 col-md-14 col-sm-14 col-xs-12 lang-list">
+                    <ul class="text-uppercase swp-lang" id="LangChange">
+                        @if (status == 2)
+                        {
+                            <li id="German"><a href="?Lang=2">de</a></li>
+                            <li id="French"><a href="?Lang=3">fr</a></li>
+                            <li id="English"><a href="?Lang=1">en</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!--Navigation Start-->
+    <div class="container">
+        <div class="row">
+            <nav class="navbar navbar-default nav-left">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav" id="Menu-page">
+                            <li id="HOMEPAGE" class="active" data-aos="fade-down-right" data-aos-duration="500"><a name="/Index" style="cursor:pointer" @*href="@Url.Action("Index","Home")"*@>@Html.Raw(Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault())@*HOME*@<span class="sr-only">(current)</span></a></li>
+                            <li id="FUNK" data-aos="fade-down-right" data-aos-duration="700"><a name="/FUNKTIONEN" style="cursor:pointer" @*href="@Url.Action("FUNKTIONEN","Home")"*@>@Html.Raw(Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault())@*FUNKTIONEN*@</a></li>
+                            <li id="VORT" data-aos="fade-down-right" data-aos-duration="900"><a name="/VORTEILE" style="cursor:pointer" @*href="@Url.Action("VORTEILE","Home")"*@>@Html.Raw(Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault())@*VORTEILE*@</a></li>
+                            <li id="PREISE" data-aos="fade-down-right" data-aos-duration="1100"><a name="/PREISE" style="cursor:pointer" @*href="@Url.Action("PREISE","Home")"*@>@Html.Raw(Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault())@*PREISE*@</a></li>
+                            <li id="REGIST" data-aos="fade-down-right" data-aos-duration="1300"><a name="/Registration/Welcome" style="cursor:pointer" @*href="@Url.Action("PREISE","Home")"*@>@Html.Raw(Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault())@*PREISE*@</a></li>
+                            <li id="KONK" data-aos="fade-down-right" data-aos-duration="1500"><a name="/KONTAKTREGISTRIERUNG" style="cursor:pointer" @*href="@Url.Action("KONTAKTREGISTRIERUNG","Home")"*@>@Html.Raw(Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault())@*KONTAKT & REGISTRIERUNG*@</a></li>
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </div>
+                <!-- /.container-fluid -->
+            </nav>
+            <!--End Navigation-->
+
+        </div>
+    </div>
+    <!-- Welcome modal start-->
+    <div class="welcome-modal">
+        <div id="welcome" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body margin-bottom30" id="WelcomeAlert">
+                        .margin-top0{margin-top:0;}
+                        .margin-top0{margin-top:0;}
+                        <h1 class="text-center margin-bottom30 margin-top0">WELCOME BY <span>SmartShop!</span></h1>
+                        <p class="title15 text-center margin-bottom30">Thanks for using our product!</p>
+                        <p class="title-italic text-center">We wish you lots of success today!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Welcome modal End-->
+    <div class="loader" id="loader" style="display:none;">
+        <img src="~/Images/click/SPALOADER.gif" />
+    </div>
+    @RenderBody()
+    @RenderSection("scripts", required: false)
+    <script>
+        AOS.init({
+            easing: 'ease-out-back',
+            duration: 1000
+        });
+    </script>
+</body>
+</html>

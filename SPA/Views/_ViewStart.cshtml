@@ -1,0 +1,6 @@
+﻿@{
+    SPA.Common.Function fu = new SPA.Common.Function();
+    var link = fu.CheckClickandgo(System.Web.HttpContext.Current.Request.Url.Host,null,0);
+    if (link.status) { Layout = "~/Views/Shared/_LayoutClick.cshtml"; }
+    else { Layout = "~/Views/Shared/_Layout.cshtml"; }
+}

@@ -1,0 +1,932 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Employee_Layout.cshtml";
+    ViewBag.Title = "FreeCustomerEdit";
+    SPA.Models.EditFreeCustomer ShopInfo = new SPA.Models.EditFreeCustomer();
+    ShopInfo = Model;
+    List<spatime_zone> CountryList = ViewBag.countrylist;
+    List<SPA.Models.MainCategoryDetails> SpecialCategory = new List<SPA.Models.MainCategoryDetails>();
+    SpecialCategory = ViewBag.Category;
+    List<SPA.Models.LendingWeekScheduleDetails> WeekDetails = new List<SPA.Models.LendingWeekScheduleDetails>();
+    WeekDetails = ViewBag.WeekDetails;
+    List<SPA.Models.EmployeeSpecializationList> EmpSpecializationList = new List<SPA.Models.EmployeeSpecializationList>();
+    EmpSpecializationList = ViewBag.SpecializationList;
+    List<SPA.Models.FreecustomerShoptypeDetails> Shoptypelist = new List<SPA.Models.FreecustomerShoptypeDetails>();
+    Shoptypelist = ViewBag.ShopTypeList;
+    var StatusClosed = "Closed";
+    var EnLabelStatusClosed = "Closed";
+    List<SPA.Models.FreeCustomerEmployeeInfo> Empinfo = new List<SPA.Models.FreeCustomerEmployeeInfo>();
+    Empinfo = ViewBag.EmpInfo;
+    string Key = ViewBag.Key;
+    var BaseUrl = ViewBag.BaseUrl;
+}
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(Key)&libraries=places&sensor=false"></script>
+<ol class="spa-breadcrumbs breadcrumb">
+    @*<li><a href="#" class="active">Home</a></li>
+        <li><a href="#">Reservation</a></li>*@
+</ol>
+
+<div class="form-content">
+    <div class="col-lg-24 col-md-24 col-sm-24 margin-top10 padding-right20">
+        <a class="title-green16 pull-right" href="/FreeCustomer/FreeCustomerList"><i class="fa fa-reply-all margin-right5"></i>Back</a>
+    </div>
+    <form name="FrmFreeCustomer" id="FrmFreeCustomer" action="/FreeCustomer/UpdateFreeCustomer" method="post" enctype="multipart/form-data">
+        <div class="employee-blank Editfreecus_page Owner_infopage">
+            <div class="Owner_section margin-top20">
+                <div class="Owner_section_heading p-relative">
+                    <div class="Ownerborder-green"></div>
+                    <h4>
+                        Personal Info
+                    </h4>
+                </div>
+                <div class="Main_section">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group row">
+                            <div class="col-lg-8 col-md-8">
+                                <label class="form-label spa-label-bold">Title</label>
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                @Html.DropDownList("OwnerGender", (SelectList)(ViewBag.Client), new { @class = "form-control spa-dropdown-box required", @Value = ShopInfo.OwnerGender })
+                                @*<select class="form-control spa-dropdown-box">
+                                        <option value="Dr.">Dr.</option>
+                                        <option value="Mr">Mr</option>
+                                        <option value="Mrs">Mrs</option>
+                                        <option value="Ms.">Ms.</option>
+                                    </select>*@
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-8 col-md-8">
+                                <label class="form-label spa-label-bold">First Name</label>
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <input type="text" id="FirstName" name="FirstName" maxlength="50" class="form-control spa-text-box required" value="@ShopInfo.FirstName">
+                                @*<input type="text" class="form-control spa-text-box" />*@
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-8 col-md-8">
+                                <label class="form-label spa-label-bold">Last Name</label>
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <input type="text" id="FamilyName" name="FamilyName" maxlength="50" class="form-control spa-text-box" value="@ShopInfo.FamilyName">
+                                @*<input type="text" class="form-control spa-text-box" />*@
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-8 col-md-8">
+                                <label class="form-label spa-label-bold">Phone Number</label>
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <input type="text" id="phoneno" name="phoneno" class="form-control spa-text-box digits" min="10" maxlength="10" value="@ShopInfo.phoneno">
+                                @*<input type="text" class="form-control spa-text-box" />*@
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-8 col-md-8">
+                                <label class="form-label spa-label-bold">Email</label>
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <input type="text" id="emailid" maxlength="50" name="emailid" class="form-control spa-text-box email" value="@ShopInfo.emailid">
+                                @*<input type="text" class="form-control spa-text-box" />*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group row">
+                            <div class="col-lg-8 col-md-8">
+                                <label class="form-label spa-label-bold">Country</label>
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                @Html.DropDownList("Country", new SelectList(CountryList, "name_country", "name_country", "INDIA"), new { @class = "form-control spa-dropdown-box required", @replica = "shopcountry" })
+                                @*<select class="form-control spa-dropdown-box">
+                                        <option value="AUSTRIA">AUSTRIA</option>
+                                        <option value="FRANCE">FRANCE</option>
+                                        <option value="GERMANY">GERMANY</option>
+                                        <option selected="selected" value="INDIA">INDIA</option>
+                                        <option value="SWITZERLAND">SWITZERLAND</option>
+                                    </select>*@
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-8 col-md-8">
+                                <label class="form-label spa-label-bold">State</label>
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <input type="text" id="State" name="State" maxlength="100" class="form-control spa-text-box required" value="@ShopInfo.State" replica="shopState">
+                                @*<input type="text" class="form-control spa-text-box" />*@
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-8 col-md-8">
+                                <label class="form-label spa-label-bold">City</label>
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <input type="text" id="City" name="City" maxlength="200" class="form-control spa-text-box required" value="@ShopInfo.City" replica="shopcity">
+                                @*<input type="text" class="form-control spa-text-box" />*@
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-8 col-md-8">
+                                <label class="form-label spa-label-bold">Zipcode</label>
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <input type="text" id="Zipcode" name="Zipcode" class="form-control spa-text-box required digits" maxlength="8" value="@ShopInfo.Zipcode" replica="shopzipcode">
+                                @*<input type="text" class="form-control spa-text-box" />*@
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-8 col-md-8">
+                                <label class="form-label spa-label-bold">Address</label>
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <textarea class="input-box form-control required" id="Address" name="Address" replica="shopaddress" rows="3">@ShopInfo.Address</textarea>
+                                @*<textarea class="input-box form-control" rows="3"></textarea>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="Owner_section">
+                <div class="Owner_section_heading p-relative">
+                    <div class="Ownerborder-green"></div>
+                    <h4>
+                        Shop Info
+                    </h4>
+                </div>
+                <div class="Main_section">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group row">
+                            <div class="col-lg-8 col-md-8">
+                                <label class="form-label spa-label-bold">Shop Name</label>
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <input type="text" maxlength="499" id="shopname" name="shopname" class="form-control spa-text-box required" value="@ShopInfo.shopname">
+                                @*<input type="text" class="form-control spa-text-box" />*@
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-8 col-md-8">
+                                <label class="form-label spa-label-bold">Shop Country</label>
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                @Html.DropDownList("shopcountry", new SelectList(CountryList, "name_country", "name_country", "INDIA"), new { @class = "form-control spa-dropdown-box required" })
+                                @*<select class="form-control spa-dropdown-box">
+                                        <option value="AUSTRIA">AUSTRIA</option>
+                                        <option value="FRANCE">FRANCE</option>
+                                        <option value="GERMANY">GERMANY</option>
+                                        <option selected="selected" value="INDIA">INDIA</option>
+                                        <option value="SWITZERLAND">SWITZERLAND</option>
+                                    </select>*@
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-8 col-md-8">
+                                <label class="form-label spa-label-bold">Shop State</label>
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <input type="text" id="shopState" maxlength="100" name="shopState" class="form-control spa-text-box required" value="@ShopInfo.shopState">
+                                @*<input type="text" class="form-control spa-text-box" />*@
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-8 col-md-8">
+                                <label class="form-label spa-label-bold">Shop city</label>
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <input type="text" id="shopcity" maxlength="200" name="shopcity" class="form-control spa-text-box required" value="@ShopInfo.shopcity">
+                                @*<input type="text" class="form-control spa-text-box" />*@
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-8 col-md-8">
+                                <label class="form-label spa-label-bold">Shop Zipcode</label>
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <input type="text" id="shopzipcode" name="shopzipcode" class="form-control spa-text-box required digits" maxlength="8" value="@ShopInfo.shopzipcode">
+                                @*<input type="text" class="form-control spa-text-box" />*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group row">
+                            <div class="col-lg-8 col-md-8">
+                                <label class="form-label spa-label-bold">Shop Address</label>
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <textarea id="shopaddress" name="shopaddress" class="input-box form-control required" rows="3">@ShopInfo.shopaddress</textarea>
+                                @*<textarea class="input-box form-control" rows="3"></textarea>*@
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-8 col-md-8">
+                                <label class="form-label spa-label-bold">Latitude</label>
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <input type="text" id="latitude" maxlength="15" name="latitude" class="form-control spa-text-box number" value="@ShopInfo.latitude">
+                                @*<input type="text" class="form-control spa-text-box" />*@
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-8 col-md-8">
+                                <label class="form-label spa-label-bold">Longitude</label>
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <input type="text" id="longitude" maxlength="15" name="longitude" class="form-control spa-text-box number " value="@ShopInfo.longitude">
+                                @*<input type="text" class="form-control spa-text-box" />*@
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-8 col-md-8">
+                                <label class="form-label spa-label-bold">Location</label>
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <input type="text" id="Location" name="Location" class="form-control spa-text-box required" value="@ShopInfo.Location">
+                                @*<input type="text" class="form-control spa-text-box" />*@
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-8 col-md-8">
+                                <label class="form-label spa-label-bold">Shop Description</label>
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <textarea id="ShopDesc" name="ShopDesc" class="input-box form-control required" rows="3">@ShopInfo.ShopDesc</textarea>
+                                @*<textarea class="input-box form-control" rows="3"></textarea>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="Owner_section">
+                <div class="Owner_section_heading p-relative">
+                    <div class="Ownerborder-green"></div>
+                    <h4>
+                        Various
+                    </h4>
+                </div>
+                <div class="Main_section">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group row">
+                            <div class="col-lg-8 col-md-8">
+                                <label class="form-label spa-label-bold">Shop Type</label>
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                @Html.DropDownList("ShopType", new SelectList(Shoptypelist, "ShopTypeId", "ShopTypeName", ShopInfo.ShopTypeId), new { @class = "form-control spa-dropdown-box required", @id = "ShopType", @onchange = "FillMainCatgType()" })
+                                <input type="hidden" name="ShopTypeName" id="ShopTypeName" value="@ShopInfo.ShopTypeName" />
+                                <input type="hidden" id="ShopId" name="ShopId" value="@ShopInfo.ShopId" />
+                                @*<select class="form-control spa-dropdown-box">
+                                        <option>Dentist</option>
+                                        <option>Homeopath</option>
+                                        <option>Ophtalmologist</option>
+                                        <option>Physiotherapie</option>
+                                    </select>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group row">
+                            <div class="col-lg-8 col-md-8">
+                                <label class="form-label spa-label-bold">Main Category</label>
+                            </div>
+                            <div class="col-lg-16 col-md-16">
+                                <input type="text" id="maincategory" name="maincategory" class="form-control spa-text-box" disabled="disabled" value="@ShopInfo.maincategory">
+                                <input type="hidden" name="MainCatgId" id="MainCatgId" value="@ShopInfo.MainCatgId" />
+                                @*<input class="form-control spa-text-box" readonly="true" type="text">*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="Owner_section" id="FreeCustomerEmpList">
+                <div class="Owner_section_heading p-relative">
+                    <div class="Ownerborder-green"></div>
+                    <h4>
+                        Employee
+                    </h4>
+                </div>
+                @foreach (var Emp in Empinfo)
+                {
+                    var Index = Empinfo.IndexOf(Emp) + 1;
+                    <div class="Main_section Free_empedit">
+                        <input type="hidden" value="@Emp.EmpUserId" name="EmpUserId" id="EmpUserId" />
+                        <div class="create-employee-form">
+                            <div class="col-lg-24 col-md-24 col-sm-24 text-right margin-bottom10">
+                                @*<a><input type="button" value="Delete" class="install-btn bg-blue" id="DelFreeCustomerEmp"></a>*@
+                                <input type="button" class="btn btn-browse" value="Delete" id="DelFreeCustomerEmp">
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-16 col-md-16 col-sm-12">
+                                    <div class="form-group row">
+                                        <div class="col-lg-8 col-md-8">
+                                            <label class="form-label spa-label-bold">Mobile Number</label>
+                                        </div>
+                                        <div class="col-lg-16 col-md-16">
+                                            <input type="text" id="EmpNumber" name="EmpNumber" class="form-control spa-text-box digits" min="10" maxlength="10" value="@Emp.EmpNumber">
+                                            @*<input class="form-control spa-text-box" type="text">*@
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-lg-8 col-md-8">
+                                            <label class="form-label spa-label-bold">Title</label>
+                                        </div>
+                                        <div class="col-lg-16 col-md-16">
+                                            @Html.DropDownList("EmpGender", new SelectList(ViewBag.GenderList, "CatgType", "CatgType", Emp.EmpGender), new { @class = "form-control spa-dropdown-box required", @Value = Emp.EmpGender })
+                                            @*<select class="form-control spa-dropdown-box">
+                                                    <option>Dr.</option>
+                                                    <option>Mr</option>
+                                                    <option>Mrs</option>
+                                                    <option>Ms.</option>
+                                                </select>*@
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-lg-8 col-md-8">
+                                            <label class="form-label spa-label-bold">First Name</label>
+                                        </div>
+                                        <div class="col-lg-16 col-md-16">
+                                            <input type="text" maxlength="50" id="EmpFName" name="EmpFName" class="form-control spa-text-box required" value="@Emp.EmpFName">
+                                            @*<input class="form-control spa-text-box" type="text">*@
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-lg-8 col-md-8">
+                                            <label class="form-label spa-label-bold">Family Name</label>
+                                        </div>
+                                        <div class="col-lg-16 col-md-16">
+                                            <input type="text" id="EmpLName" maxlength="50" name="EmpLName" class="input-box form-control" value="@Emp.EmpLName">
+                                            @*<input class="form-control  spa-text-box" type="text">*@
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-lg-8 col-md-8">
+                                            <label class="form-label spa-label-bold">Email</label>
+                                        </div>
+                                        <div class="col-lg-16 col-md-16">
+                                            <input type="text" id="EmpEmail" maxlength="50" name="EmpEmail" class="form-control spa-text-box email" value="@Emp.EmpEmail">
+                                            @*<input class="form-control spa-text-box" type="text">*@
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-lg-8 col-md-8">
+                                            <label class="form-label spa-label-bold">Fees</label>
+                                        </div>
+                                        <div class="col-lg-16 col-md-16">
+                                            <input type="text" id="EmpCharge" name="EmpCharge" class="form-control spa-text-box email" value="@Emp.EmpCharge" disabled="disabled">
+                                            @*<input class="form-control spa-text-box" type="text">*@
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-12">
+                                    <div class="user-circle-img">
+                                        <span><img src="@(Emp.EmpImage!= null?BaseUrl+Emp.EmpImage:"/images/defaultuser.png")" id="EmpImage_@Index" onerror="this.onerror = null; this.src = '/images/defaultuser.png' " alt=""></span>
+                                        @*<span><img src="/images/defaultuser.png" alt=""></span>*@
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="file-input-wrapper btn btn-browse">
+                                            <span>Browse</span>
+                                            <input type="file" title="Browse" class="btn-primary" id="EmpImage_Name_@Index" name="EmpImage_Name" onchange="setPreviewHomePageImage(this, 'EmpImage',@Index);">
+                                            <input type="hidden" id="Hidden_EmpImage_@Index" name="Hidden_EmpImage" value="" />
+                                            @*<input type="file" title="Browse" class="btn-primary">*@
+                                        </a>
+                                        <input type="button" class="btn btn-browse" id="EmpImage_Delete_@Index" value="Delete" style="" onclick="DeletePreviewPicture('EmpImage',@Index);">
+                                        @*<input type="button" class="btn btn-browse" value="Delete">*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="margin-top20  @(ShopInfo.DoctorFlowStatus==3?"":"display-none")">
+                                <div class="Owner_section_heading p-relative">
+                                    <div class="Ownerborder-green"></div>
+                                    <h4>Extra</h4>
+                                </div>
+                                <div class="margin-top15 row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="form-group row">
+                                            <div class="col-lg-8 col-md-8">
+                                                <label class="form-label spa-label-bold">Degree</label>
+                                            </div>
+                                            <div class="col-lg-16 col-md-16">
+                                                <input type="text" maxlength="349" id="EmpDegree" name="EmpDegree" class="form-control spa-text-box required" value="@Emp.EmpDegree">
+                                                @*<input class="form-control spa-text-box" type="text">*@
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-lg-8 col-md-8">
+                                                <label class="form-label spa-label-bold">SkypeId</label>
+                                            </div>
+                                            <div class="col-lg-16 col-md-16">
+                                                <input type="text" maxlength="99" id="EmpSkypeId" name="EmpSkypeId" class="form-control spa-text-box" value="@Emp.EmpSkypeId">
+                                                @*<input class="form-control spa-text-box" type="text">*@
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-lg-8 col-md-8">
+                                                <label class="form-label spa-label-bold">Experience Year</label>
+                                            </div>
+                                            <div class="col-lg-16 col-md-16">
+                                                <input type="text" id="EmpExpYear" maxlength="2" name="EmpExpYear" class="form-control spa-text-box required digits" value="@Emp.EmpExpYear">
+                                                @*<input class="form-control spa-text-box" type="text">*@
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-lg-8 col-md-8">
+                                                <label class="form-label spa-label-bold">Experience Month</label>
+                                            </div>
+                                            <div class="col-lg-16 col-md-16">
+                                                <input type="text" id="EmpExpMonth" maxlength="2" name="EmpExpMonth" class="form-control spa-text-box digits" value="@Emp.EmpExpMonth">
+                                                @*<input class="form-control spa-text-box" type="text">*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        @for (int i = 1; i <= 4; i++)
+                                        {
+                                            <div class="row form-group">
+                                                <div class="col-lg-8 col-md-8">
+                                                    <label class="form-label spa-label-bold">Specialization @i</label>
+                                                </div>
+                                                <div class="col-lg-16 col-md-16">
+                                                    <div class="dropdown spa-dropdown SpecializationText">
+                                                        <input type="text" class="dropdown-toggle spa-text-box form-control spa-dropdown-box dropmenuEllips" id="VSpecialization_@i@Index" data-toggle="dropdown" aria-expanded="true" placeholder="Select Specialization">
+                                                        @*<input type="text" class="dropdown-toggle spa-text-box form-control spa-dropdown-box dropmenuEllips" data-toggle="dropdown" placeholder="Select Specialization">*@
+
+                                                        <ul class="dropdown-menu FreeCustomerSpec Specialization_@i">
+                                                            @foreach (var Item in SpecialCategory)
+                                                            {
+                                                                <li><a id="@Item.MainCatgId">@Item.MainCategory</a></li>
+                                                            }
+                                                        </ul>
+                                                        <input type="hidden" value="" name="HSpecialization_@i" id="HSpecialization_@i@Index" />
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*<div class="form-group text-center margin-top20">
+                                    <input type="button" class="btn btn-green margin-right5" value="Submit">
+                                    <input type="button" class="btn btn-black" value="Cancel">
+                                </div>*@
+                        </div>
+                    </div>
+                }
+                <div class="Nodata form-group text-center margin-top20 @(Empinfo.Count==0?"":"display-none")" id="NoEmpAvail">
+                    <img src="~/images/defaultuser.png">
+                    <div>No Employee Found</div>
+                </div>
+            </div>
+            <div class="Owner_section">
+                <div class="Owner_section_heading p-relative">
+                    <div class="Ownerborder-green"></div>
+                    <h4>
+                        Week Schedule
+                    </h4>
+                </div>
+                <div class="Main_section">
+                    <div class="col-lg-12 col-md-12 col-sm-24">
+                        <div class="form-group row">
+                            <input type="hidden" id="LendingObject" name="LendingObject" value="@ViewBag.SerialzeLendingList" />
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <label class="form-label spa-label-bold" style="line-height:27px;">From Day</label>
+                                <div class="dropdown spa-dropdown leading-dropdown">
+                                    @*<a class="dropdown-toggle spa-text-box form-control spa-dropdown-box  dropmenuEllips" data-toggle="dropdown">
+                                            Monday<span class="caret"></span>
+                                        </a>*@
+                                    <a class="dropdown-toggle spa-text-box form-control spa-dropdown-box  dropmenuEllips" id="DisplayLendingDropDown" data-toggle="dropdown" aria-expanded="true" placeholder="Select Specialization">
+                                        @if (WeekDetails.Count > 0)
+                                        {
+                                            @WeekDetails.Select(c => c.Day).FirstOrDefault()
+                                        }
+                                        <span class="caret"></span>
+                                    </a>
+                                    @*<ul class="dropdown-menu">
+                                            <li><a class="dropmenuEllips">Monday</a></li>
+                                            <li><a class="dropmenuEllips">Tuesday</a></li>
+                                            <li><a class="dropmenuEllips">Wednesday</a></li>
+                                            <li><a class="dropmenuEllips">Thursday</a></li>
+                                            <li><a class="dropmenuEllips">Friday</a></li>
+                                            <li><a class="dropmenuEllips">Saturday</a></li>
+                                            <li><a class="dropmenuEllips">Sunday</a></li>
+                                        </ul>*@
+                                    <ul class="dropdown-menu" id="LendingDayText">
+                                        @if (WeekDetails.Count > 0)
+                                        {
+                                            foreach (var item in WeekDetails)
+                                            {
+                                                <li>
+                                                    <a class="dropmenuEllips" id="@item.CatgTypeId">
+                                                        @item.Day
+                                                    </a>
+                                                </li>
+                                            }
+                                        }
+                                        @if (WeekDetails.Count > 0)
+                                        {
+                                            <input type="hidden" value="@WeekDetails.Select(c => c.CatgTypeId).FirstOrDefault()" name="SelectedLendingDay" id="SelectedLendingDay" />
+                                        }
+                                        else
+                                        {
+                                            <input type="hidden" value="" name="SelectedLendingDay" id="SelectedLendingDay" />
+                                        }
+                                    </ul>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-2 col-md-4 col-sm-4">
+                                <label class="form-label spa-label-bold">AM</label>
+                                <div class="spa-checkbox checkbox Week_checkbox">
+                                    <input type="checkbox" id="Check_Am">
+                                    <label for="Check_Am" class="form-label spa-label1"></label>
+                                </div>
+                            </div>
+                            <div class="col-lg-11 col-md-10 col-sm-10">
+                                <label class="form-label spa-label-bold">Shop Start Time </label>
+                                <input type="text" id="ShopStartTime" name="ShopStartTime" class="form-control spa-text-box  spa-text-box2">
+                                @*<input type="text" class="form-control spa-text-box  spa-text-box2" placeholder="Shop Start Time" value="">*@
+                            </div>
+                            <div class="col-lg-11 col-md-10 col-sm-10">
+                                <label class="form-label spa-label-bold">Shop End Time</label>
+                                <input type="text" id="ShopEndTime" class="form-control spa-text-box  spa-text-box2" name="ShopEndTime" class="input-box form-control">
+                                @*<input type="text" class="form-control spa-text-box  spa-text-box2" placeholder="Shop End Time" value="">*@
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-2 col-md-4 col-sm-4">
+                                <label class="form-label spa-label-bold">PM</label>
+                                <div class="spa-checkbox checkbox Week_checkbox">
+                                    <input type="checkbox" id="Check_Pm">
+                                    <label for="Check_Pm" class="form-label spa-label1"></label>
+                                    @*<input type="checkbox" id="bb">
+                                        <label for="bb" class="form-label spa-label1"></label>*@
+                                </div>
+                            </div>
+                            <div class="col-lg-11 col-md-10 col-sm-10">
+                                <label class="form-label spa-label-bold">Shop Start Time </label>
+                                <input type="text" id="ShopIStartTime" name="ShopIStartTime" class="form-control spa-text-box  spa-text-box2">
+                                @*<input type="text" class="form-control spa-text-box  spa-text-box2" placeholder="Shop Start Time" value="">*@
+                            </div>
+                            <div class="col-lg-11 col-md-10 col-sm-10">
+                                <label class="form-label spa-label-bold">Shop End Time</label>
+                                <input type="text" id="ShopIEndTime" name="ShopIEndTime" class="form-control spa-text-box  spa-text-box2">
+                                @*<input type="text" class="form-control spa-text-box  spa-text-box2" placeholder="Shop End Time" value="">*@
+                            </div>
+                        </div>
+                        <div class="form-group text-right margin-top10">
+                            <button class="btn btn-green btn-small margin-right5" type="button" id="AddLendingDay">Add</button>
+                            @*<input type="button" class="btn btn-green btn-small margin-right5" value="Add" id="AddLendingDay">*@
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-24">
+                        <div class="table-responsive laending-Table">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th> DAY</th>
+                                        <th> TIME</th>
+                                        <th> TIME</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="LendingWeekScheduleDetails">
+                                    @foreach (var item in WeekDetails)
+                                    {
+                                        <tr id="Week_@item.CatgTypeId">
+                                            <td class="spa-label1 text-center">@item.Day</td>
+                                            <td class="spa-label1 text-center">@(item.Catgdesc != null && item.Catgdesc != "Closed" ? item.Catgdesc : "Closed")</td>
+                                            <td class="spa-label1 text-center">@(item.Gender != null && item.Gender != "Closed" ? item.Gender : "Closed")</td>
+                                            <td>
+                                                <a id="@item.CatgTypeId"> <i class="fa fa-times spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Cancel" data-original-title="" title=""></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                    @*<tr>
+                                            <td class="spa-label1 text-center">Monday </td>
+                                            <td class="spa-label1 text-center">Closed</td>
+                                            <td class="spa-label1 text-center">Closed</td>
+                                            <td>
+                                                <a> <i class="fa fa-times spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Delete" data-original-title="" title=""></i></a>
+                                            </td>
+                                        </tr>*@
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="Owner_section">
+                <div class="form-group text-right margin-top20">
+                    <button class="btn btn-green margin-right5" type="submit">Update</button>
+                    @*<input type="button" class="btn btn-green margin-right5" value="Update">
+                        <input type="button" class="btn btn-black" value="Cancel">*@
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@if (EmpSpecializationList.Count > 0)
+{
+    int count = 1;
+    foreach (var Item in EmpSpecializationList.OrderBy(c => c.EmpId).Select(c => c.EmpId).Distinct().ToList())
+    {
+        var EmpInfo = EmpSpecializationList.Where(c => c.EmpId == Item && c.SpecializationList != null).Select(c => c.SpecializationList).FirstOrDefault();
+        if (EmpInfo != null)
+        {
+            var Index = 0;
+            foreach (var Emp in EmpInfo)
+            {
+                Index = Index + 1;
+                <script>
+                    $('[id="HSpecialization_@Index@count"]').val(@Emp.MainCatgId);
+                    $('[id="VSpecialization_@Index@count"]').val('@Html.Raw(Emp.MainCategory)');
+                </script>
+            }
+        }
+        count = count + 1;
+    }
+}
+<script>
+    $(document).ready(function () {
+        $("#FrmFreeCustomer").validate();
+    });
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    });
+    function setPreviewHomePageImage(input, id, index) {
+        var fileExtension = ["jpg", "jpeg", "png", "gif"];
+        if ($.inArray($("#" + id + "_Name_" + index).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+
+        }
+        else {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#' + id + "_" + index).attr('src', e.target.result);
+                    $("#" + id + "_Delete_" + index).show();
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    }
+    function DeletePreviewPicture(Id, Index) {
+        $("#" + Id + "_Name_" + Index).val('');
+        document.getElementById(Id + "_" + Index).src = "";
+        $("#" + Id + "_Delete_" + Index).hide();
+        $("#Hidden_" + Id + "_" + Index).val('');
+    }
+    function FillMainCatgType() {
+        var SolutionId = $('#ShopType').val();
+        var JsonArray = [];
+        if ($("#ShopTypeJson").val() != "")
+            JsonArray = jQuery.parseJSON($("#ShopTypeJson").val());
+        jQuery.grep(JsonArray, function (obj) {
+            if (obj.ShopTypeId == SolutionId) {
+                $("#ShopTypeName").val(obj.ShopTypeId);
+                $("#maincategory").val(obj.MainCategory);
+                $("#MainCatgId").val(obj.MainCatgId);
+            }
+        });
+
+    }
+
+    var Stateinput = document.getElementById('State');
+    var Stateautocomplete = new google.maps.places.Autocomplete(Stateinput);
+    google.maps.event.addListener(Stateautocomplete, 'place_changed', function (Stateinput) {
+        var place = Stateautocomplete.getPlace();
+        $("#State").val(place.name).change();
+    })
+    var Cityinput = document.getElementById('City');
+    var Cityautocomplete = new google.maps.places.Autocomplete(Cityinput, { types: ['(cities)'] });
+    google.maps.event.addListener(Cityautocomplete, 'place_changed', function (Cityinput) {
+        var place = Cityautocomplete.getPlace();
+        $("#City").val(place.name).change();
+    })
+    var ShopStateinput = document.getElementById('shopState');
+    var ShopStateautocomplete = new google.maps.places.Autocomplete(ShopStateinput);
+    google.maps.event.addListener(ShopStateautocomplete, 'place_changed', function (ShopStateinput) {
+        var place = ShopStateautocomplete.getPlace();
+        $("#shopState").val(place.name);
+    })
+    var ShopCityinput = document.getElementById('shopcity');
+    var ShopCityautocomplete = new google.maps.places.Autocomplete(ShopCityinput, { types: ['(cities)'] });
+    google.maps.event.addListener(ShopCityautocomplete, 'place_changed', function (ShopCityinput) {
+        var place = ShopCityautocomplete.getPlace();
+        $("#shopcity").val(place.name);
+    })
+    var input = document.getElementById('Location');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    google.maps.event.addListener(autocomplete, 'place_changed', function () {
+        var place = autocomplete.getPlace();
+        $("#Location").val(place.name).change();
+    })
+    //Lending Info
+    $('#LendingDayText li a').click(function () {
+        var selText = $(this).html();
+        var id = $(this).prop("id");
+        $("#SelectedLendingDay").val(id);
+        $("#DisplayLendingDropDown").html(selText + '<span class="caret"></span>');
+    });
+    $("#ShopStartTime,#ShopEndTime,#ShopIStartTime,#ShopIEndTime").datetimepicker({
+        stepping: 5,
+        format: 'HH:mm'
+    });
+    $("#ShopStartTime").on("dp.change", function (e) {
+        $("#ShopEndTime").val("").data("DateTimePicker").minDate(e.date.format("HH:mm"));
+        $("#ShopIStartTime").val("").data("DateTimePicker").minDate(e.date.format("HH:mm"));
+        $("#ShopIEndTime").val("").data("DateTimePicker").minDate(e.date.format("HH:mm"));
+    });
+    $("#ShopEndTime").on("dp.change", function (e) {
+        $("#ShopIStartTime").val("").data("DateTimePicker").minDate(e.date.format("HH:mm"));
+        $("#ShopIEndTime").val("").data("DateTimePicker").minDate(e.date.format("HH:mm"));
+    });
+    $("#ShopIStartTime").on("dp.change", function (e) {
+        $("#ShopIEndTime").val("").data("DateTimePicker").minDate(e.date.format("HH:mm"));
+    });
+    $("#AddLendingDay").click(function () {
+        var Status = "CheckYES";
+        if ($("#Check_Am").prop("checked") == true || $("#Check_Pm").prop("checked") == true) {
+            if ($("#Check_Am").prop("checked") == true && $("#Check_Pm").prop("checked") == true) {
+                if ($("#ShopStartTime").val() == "" || $("#ShopIStartTime").val() == "") {
+                    $("#statusLendingSchedule").text("Please Fill Start and End Time").fadeIn().delay(2000).fadeOut();
+                    Status = "CheckNO";
+                }
+                if (($("#ShopStartTime").val() > $("#ShopEndTime").val()) || ($("#ShopEndTime").val() > $("#ShopIStartTime").val()) || ($("#ShopIStartTime").val() > $("#ShopIEndTime").val())) {
+                    $("#statusLendingSchedule").text("Start time should be smaller then End time").fadeIn().delay(2000).fadeOut();
+                    Status = "CheckNO";
+                }
+            }
+            if ($("#Check_Am").prop("checked") == true && $("#Check_Pm").prop("checked") == false) {
+                if ($("#ShopStartTime").val() > $("#ShopEndTime").val()) {
+                    $("#statusLendingSchedule").text("Start time should be smaller then End time").fadeIn().delay(2000).fadeOut();
+                    Status = "CheckNO";
+                }
+                if ($("#ShopStartTime").val() == "" || $("#ShopEndTime").val() == "") {
+                    $("#statusLendingSchedule").text("Please Fill Start and End Time").fadeIn().delay(2000).fadeOut();
+                    Status = "CheckNO";
+                }
+            }
+            if ($("#Check_Pm").prop("checked") == true && $("#Check_Am").prop("checked") == false) {
+                if ($("#ShopIStartTime").val() > $("#ShopIEndTime").val()) {
+                    $("#statusLendingSchedule").text("Start time should be smaller then End time").fadeIn().delay(2000).fadeOut();
+                    Status = "CheckNO";
+                }
+                if ($("#ShopIStartTime").val() == "" || $("#ShopIEndTime").val() == "") {
+                    $("#statusLendingSchedule").text("Please Fill Start and End Time").fadeIn().delay(2000).fadeOut();
+                    Status = "CheckNO";
+                }
+            }
+        }
+        if (Status == "CheckYES") {
+            var JsonArray = [];
+            if ($("#LendingObject").val() != "")
+                JsonArray = jQuery.parseJSON($("#LendingObject").val());
+            var ID = $("#SelectedLendingDay").val();
+            var Content = "@EnLabelStatusClosed";
+            var RContent = "@StatusClosed";
+            var RIContent = "@StatusClosed";
+            var IContent = "@EnLabelStatusClosed";
+            if ($("#Check_Am").prop("checked") == true) {
+                Content = $("#ShopStartTime").val() + " - " + $("#ShopEndTime").val();
+                IContent = "@EnLabelStatusClosed";
+                RContent = $("#ShopStartTime").val() + " - " + $("#ShopEndTime").val();
+                RIContent = "@StatusClosed";
+            }
+            if ($("#Check_Pm").prop("checked") == true) {
+                IContent = $("#ShopIStartTime").val() + " - " + $("#ShopIEndTime").val();
+                Content = "@EnLabelStatusClosed";
+                RContent = "@StatusClosed";
+                RIContent = $("#ShopIStartTime").val() + " - " + $("#ShopIEndTime").val();
+            }
+            if ($("#Check_Am").prop("checked") == true && $("#Check_Pm").prop("checked") == true) {
+                Content = $("#ShopStartTime").val() + " - " + $("#ShopEndTime").val();
+                IContent = $("#ShopIStartTime").val() + " - " + $("#ShopIEndTime").val();
+                RContent = $("#ShopStartTime").val() + " - " + $("#ShopEndTime").val();
+                RIContent = $("#ShopIStartTime").val() + " - " + $("#ShopIEndTime").val();
+            }
+            var Days = $("#LendingDayText #" + $("#SelectedLendingDay").val()).html();
+            var Status = "Yes";
+            JsonArray = $.grep(JsonArray, function (item, index) {
+                return item.CatgTypeId != ID
+            });
+            var JsonString = { CatgTypeId: ID, Catgdesc: Content, Day: Days, Gender: IContent };
+            JsonArray.push(JsonString);
+            $("#Week_" + ID).find("td:eq(1)").html(RContent);
+            $("#Week_" + ID).find("td:eq(2)").html(RIContent);
+            $("#LendingObject").val(JSON.stringify(JsonArray));
+        }
+
+    });
+
+    $("body").delegate("#LendingWeekScheduleDetails tr a", "click", function () {
+        var CatgTypeId = $(this).prop("id");
+        $("#Week_" + CatgTypeId).find("td:eq(1)").html("@StatusClosed");
+        $("#Week_" + CatgTypeId).find("td:eq(2)").html("@StatusClosed");
+        var TempJsonArray = [];
+        var JsonArray = JSON.parse($("#LendingObject").val());
+        JsonArray = $.grep(JsonArray, function (item, index) { return item.CatgTypeId != CatgTypeId });
+        var Days = $("#LendingDayText #" + CatgTypeId).html();
+        var JsonString = { CatgTypeId: CatgTypeId, Catgdesc: "@EnLabelStatusClosed", Day: Days, Gender: "@EnLabelStatusClosed" };
+        JsonArray.push(JsonString);
+        if (JsonArray.length == 0)
+            $("#LendingObject").val("");
+        else
+            $("#LendingObject").val(JSON.stringify(JsonArray));
+    });
+    NewDropDown();
+    $(".SpecializationText input[type='text']").change(function () {
+        $(this).parent().find("input[type='hidden']").val("");
+        if ($(this).val() != "") {
+            var value = $(this).parent().find("ul li:contains('" + $(this).val() + "')");
+            if (value.length != 0)
+            { $(this).parent().find("input[type='hidden']").val(value.find("a").attr("id")); }
+        }
+    })
+    function NewDropDown() {
+        var ResultVal = "";
+        $("body").delegate(".FreeCustomerSpec li a", "click", function () {
+            var GetDefaultDetail = $(this);
+            var ChangingUL = GetDefaultDetail.closest("ul");
+            var IdforHidden = "";
+            var GetId = "";
+            var GetHtml = "";
+            //if (ChangingUL.hasClass("Specialization_1"))
+            //    IdforHidden = "Specialization_1";
+            //if (ChangingUL.hasClass("Specialization_2"))
+            //    IdforHidden = "Specialization_2";
+            //if (ChangingUL.hasClass("Specialization_3"))
+            //    IdforHidden = "Specialization_3";
+            //if (ChangingUL.hasClass("Specialization_4"))
+            //    IdforHidden = "Specialization_4";
+
+            ResultVal = $(this).text();
+            var Textobj = "";
+            Textobj = $(this).closest("ul").parent().find("input[type='text']");
+            Textobj.val(ResultVal).change();
+            GetId = GetDefaultDetail.prop("id");
+            //$("#H" + IdforHidden).val(GetId);
+        });
+
+        $(".SpecializationText input[type='text']").keyup(function () {
+            var Element = $(this);
+            ResultVal = Element.val().toLowerCase();
+            var NearestUL = Element.parent().find("ul li");
+            NearestUL.each(function () {
+                if ($(this).html().toLowerCase().indexOf(ResultVal) == -1) $(this).hide();
+                else $(this).show();
+            });
+            if (Element.attr("aria-expanded") == "false") Element.click();
+        });
+    }
+    //function NewDropDown() {
+    //    var ResultVal = "";
+    //    $("body").delegate(".Specialization_1 li a,.Specialization_2 li a,.Specialization_3 li a, .Specialization_4 li a", "click", function () {
+    //        var GetDefaultDetail = $(this);
+    //        var ChangingUL = GetDefaultDetail.closest("ul");
+    //        var IdforHidden = "";
+    //        var GetId = "";
+    //        var GetHtml = "";
+    //        if (ChangingUL.hasClass("Specialization_1"))
+    //            IdforHidden = "Specialization_1";
+    //        if (ChangingUL.hasClass("Specialization_2"))
+    //            IdforHidden = "Specialization_2";
+    //        if (ChangingUL.hasClass("Specialization_3"))
+    //            IdforHidden = "Specialization_3";
+    //        if (ChangingUL.hasClass("Specialization_4"))
+    //            IdforHidden = "Specialization_4";
+
+    //        ResultVal = $(this).text();
+    //        var Textobj = "";
+    //        Textobj = $(this).closest("ul").parent().find("input[type='text']");
+    //        Textobj.val(ResultVal).change();
+    //        GetId = GetDefaultDetail.prop("id");
+    //        //$("#H" + IdforHidden).val(GetId);
+    //    });
+
+    //    $("#VSpecialization_1,#VSpecialization_2,#VSpecialization_3,#VSpecialization_4").keyup(function () {
+    //        var Element = $(this);
+    //        ResultVal = Element.val().toLowerCase();
+    //        var NearestUL = Element.parent().find("ul li");
+    //        NearestUL.each(function () {
+    //            if ($(this).html().toLowerCase().indexOf(ResultVal) == -1) $(this).hide();
+    //            else $(this).show();
+    //        });
+    //        if (Element.attr("aria-expanded") == "false") Element.click();
+    //    });
+    //}
+    replica("#Country,#State,#City,#Zipcode,#Address");
+    $('[id="DelFreeCustomerEmp"]').click(function () {
+        var data = "Do You want to Delete Employee";
+        var confirmDeletePaymentPlan = confirm(data);
+        if (confirmDeletePaymentPlan) {
+            $(this).closest(".Free_empedit").remove();
+            if ($("#FreeCustomerEmpList .Free_empedit").length == 0)
+                $("#NoEmpAvail").removeClass("display-none");
+        }
+    });
+</script>

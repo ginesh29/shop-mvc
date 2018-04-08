@@ -1,0 +1,97 @@
+﻿@{
+
+    Layout = "~/Views/Shared/_Employee_layout.cshtml";
+    List<SPA.Models.LanguageLabelDetails> LanguageList = new List<SPA.Models.LanguageLabelDetails>();
+    LanguageList = ViewBag.Language;
+    var Language = LanguageList.Where(c => c.Page_Name == "Employee_Tab").ToList();
+    ViewBag.Title = LanguageList.Where(c => c.Page_Name == "Title" && c.Order_id == 10).Select(c => c.Value).FirstOrDefault();
+    List<SPA.Models.CustomerDisplay> UserList = new List<SPA.Models.CustomerDisplay>();
+    UserList = Model;
+    var BasicInfo = UserList.Count > 0 ? UserList.FirstOrDefault() : new SPA.Models.CustomerDisplay();
+    int insertAccess = UserList.Count > 0 && UserList.Select(c => c.insertAccess).FirstOrDefault().Trim() == "Y" ? 1 : ViewBag.AddAccess > 0 ? 1 : 0;
+}
+<ol class="spa-breadcrumbs breadcrumb"></ol>
+<div class="form-content">
+    <div class="employee-blank employee-master">
+        <div class="italic-title display_inline full-width">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                @Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault() <span class="badge user-count margin-left5">@UserList.Count()</span>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 text-right text-left">
+                @if (insertAccess > 0)
+                {
+                    <a href="@Url.Action("CreateEmployee","Employee")" class="title-green16"><i class="fa fa-plus-square margin-right5"></i>@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault()</a>
+                }
+            </div>
+        </div>
+        <div class="choose-your-product table-responsive employee-master-table">
+            <table class="table" id="EmployeeMasterTable">
+                <tbody>
+                    @if (UserList.Count() > 0)
+                    {
+                        foreach (var item in UserList)
+                        {
+                            <tr>
+                                <td>
+                                    <span class="employee-user-circle user-circle-img">
+                                        @if (item.EmpImg == null || item.EmpImg == "")
+                                        {
+                                            <img id="UserImage" src="/images/defaultuser.png" alt="">
+                                        }
+                                        else
+                                        {
+                                            var image = item.BaseUrl != null && !item.BaseUrl.Contains("localhost") ? item.BaseUrl + item.EmpImg : item.EmpImg;
+                                            <img id="UserImage" src=@(image!= null?image:"") onerror="this.onerror=null;this.src='/images/defaultuser.png';" alt="">
+                                        }
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="spa-label1">@item.FirstName</span>
+                                    <span class="spa-label1 margin-left5">@item.FamilyName</span>
+                                </td>
+                                <td>
+                                    <span class="spa-label1"><i class="fa fa-envelope spa-icon1"></i>@item.Email</span>
+                                </td>
+                                <td>
+                                    <span class="spa-label1"><i class="fa fa-phone spa-icon1"></i>@item.PhoneNumber</span>
+                                </td>
+                                <td>
+                                    @if (((item.UpdateAccess != "N" && (item.FlowStatus == "2" || item.FlowStatus == "3")) || (item.FlowStatus == "1")))
+                                    {
+                                        <a href="@Url.Action("CreateEmployee","Employee",new {UserId=item.UserId})">
+                                            <i class="fa fa-pencil-square-o spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()" data-original-title="" title=""></i>@*Edit*@
+                                        </a>
+                                    }
+                                    @if (((item.DeleteAccess != "N" && (item.FlowStatus == "2" || item.FlowStatus == "3")) || (item.FlowStatus == "1")))
+                                    {
+                                        <a onclick="DeleteEmployeeData(@item.UserId);">
+                                            <i class="fa fa-trash spa-icon1" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()" data-original-title="" title=""></i>@*Delete*@
+                                        </a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td class="spa-label1 Nodata text-center" colspan="5">
+                                <img src="~/images/defaultuser.png" />
+                                <div>@*No Employee Available*@ @Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()</div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<script>
+    $("#EmployeeMainMenu").addClass("active");
+    //$('#EmployeeMasterTable').DataTable();
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    });
+
+</script>

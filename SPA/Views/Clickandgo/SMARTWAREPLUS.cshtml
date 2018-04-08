@@ -1,0 +1,176 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_SmartwareplusLayout.cshtml";
+    ViewBag.Title = "SMARTWAREPLUS";
+    List<Language_NewShop> Language = ViewBag.Language;
+    Language = Language.Where(c => c.Page_Name == "SMARTWAREPLUS_Page").ToList();
+}
+<div class="container">
+    <ul class="mt60">
+        <li>
+            <strong class="font-s22 f-family32">
+                <a name="Wie" id="Wie">@Html.Raw(Language.Where(c => c.Page_Name == "SMARTWAREPLUS_Page" && c.Order_id == 1).Select(c => c.Value).FirstOrDefault())</a>
+                @*Wie funktioniert SmartWarePlus*@
+            </strong>
+            <ol class="mt20 f-family3 font-s18">
+                @foreach (var HowSmartWarePlus in Language.Where(c => c.col1 == "How_Smartwareplus").ToList())
+                {
+                    <li>@Html.Raw(HowSmartWarePlus.Value)</li>
+                }
+                @*<li>
+                        Sie registrieren sich
+                    </li>
+                    <li>
+                        Wir installieren den link für die Software auf Ihrer Webseite
+                    </li>
+                    <li>
+                        Sie erhalten Ihre Login Daten
+                    </li>
+                    <li>
+                        Sie richten Ihren Online Shop ein mit den Mitarbeiter(n) und Produkten & Services
+                    </li>
+                    <li>
+                        Die Kunden können sich auf Ihrer Webseite eine Dienstleistung direkt online buchen
+                    </li>
+                    <li>
+                        Sie erhalten eine Terminanfrage die Sie ablehnen oder akzeptieren können
+                    </li>
+                    <li>
+                        Der Kunde erhält eine Terminbestätigung bei Annahme
+                    </li>
+                    <li>
+                        Vor der Sitzung erhält der Kunde ein Erinnerungs-SMS damit der Termin bei Ihnen nicht vergessen geht.
+                    </li>*@
+            </ol>
+        </li>
+
+    </ul>
+    <ul class="mt60">
+        <li>
+            <strong class="font-s22 f-family32">
+                <a name="Warum">@Html.Raw(Language.Where(c => c.Page_Name == "SMARTWAREPLUS_Page" && c.Order_id == 10).Select(c => c.Value).FirstOrDefault())</a>
+                @*Wie funktioniert SmartWarePlus*@
+            </strong>
+            <ol class="mt20 f-family3 font-s18">
+                @foreach (var WhySmartWarePlus in Language.Where(c => c.col1 == "Why_SmartWarePlus").ToList())
+                {
+                    <li>@Html.Raw(WhySmartWarePlus.Value)</li>
+                }
+                @*<li>
+                        Sie registrieren sich
+                    </li>
+                    <li>
+                        Wir installieren den link für die Software auf Ihrer Webseite
+                    </li>
+                    <li>
+                        Sie erhalten Ihre Login Daten
+                    </li>
+                    <li>
+                        Sie richten Ihren Online Shop ein mit den Mitarbeiter(n) und Produkten & Services
+                    </li>
+                    <li>
+                        Die Kunden können sich auf Ihrer Webseite eine Dienstleistung direkt online buchen
+                    </li>
+                    <li>
+                        Sie erhalten eine Terminanfrage die Sie ablehnen oder akzeptieren können
+                    </li>
+                    <li>
+                        Der Kunde erhält eine Terminbestätigung bei Annahme
+                    </li>
+                    <li>
+                        Vor der Sitzung erhält der Kunde ein Erinnerungs-SMS damit der Termin bei Ihnen nicht vergessen geht.
+                    </li>*@
+            </ol>
+        </li>
+
+    </ul>
+    <ul class="mt60">
+        <li>
+            <strong class="font-s22 f-family32">
+                <a name="FAQ">@Html.Raw(Language.Where(c => c.Page_Name == "SMARTWAREPLUS_Page" && c.Order_id == 19).Select(c => c.Value).FirstOrDefault())</a>
+                @*FAQ‘s (Frequently Asked Questions)*@
+            </strong>
+            <ol class="mt20 f-family2 font-s18">
+                @foreach (var LanguageFaq in Language.Where(c => c.col1 == "FAQ_Q_A" && c.Catg_Sep == "Q").ToList())
+                {
+                    <li>
+                        <strong class="f-family32 color6">
+                            @Html.Raw(LanguageFaq.Value)
+                            @*@Language.Where(c => c.Page_Name == "SMARTWAREPLUS_Page" && c.Order_id == 20).Select(c => c.Value).FirstOrDefault()*@
+                            @*Kann ich die Software auf meiner Webseite integrieren?*@
+                        </strong>
+                        <p>
+                            @Html.Raw(Language.Where(c => c.col1 == "FAQ_Q_A" && c.Order_id == LanguageFaq.Order_id && c.Catg_Sep == "A").Select(c => c.Value).FirstOrDefault())
+                            @*@Language.Where(c => c.Page_Name == "SMARTWAREPLUS_Page" && c.Order_id == 21).Select(c => c.Value).FirstOrDefault()*@
+
+                        </p>
+                    </li>
+                }
+
+                @*<li>
+                        <strong class="f-family32 color6">
+                            @Language.Where(c => c.Page_Name == "SMARTWAREPLUS_Page" && c.Order_id == 22).Select(c => c.Value).FirstOrDefault()
+                            Wie kann ich für den Service bezahlen?
+                        </strong>
+                        <p>
+                            @Language.Where(c => c.Page_Name == "SMARTWAREPLUS_Page" && c.Order_id == 23).Select(c => c.Value).FirstOrDefault()
+                            Bei der Anmeldung/Registrierung können Sie direkt online mit allen gängigen Zahlungsmittel bezahlen (Mastercard, Visa, Postcard, EC, etc.
+                        </p>
+                    </li>
+                    <li>
+                        <strong class="f-family32 color6">
+                            @Language.Where(c => c.Page_Name == "SMARTWAREPLUS_Page" && c.Order_id == 24).Select(c => c.Value).FirstOrDefault()
+                            Verpflichte ich mich für ein ganzes Jahr?
+                        </strong>
+                        <p>
+                            @Language.Where(c => c.Page_Name == "SMARTWAREPLUS_Page" && c.Order_id == 25).Select(c => c.Value).FirstOrDefault()
+                            Nein, Sie können jederzeit innerhalb von 2 Wochen auf ein Monatsende kündigen.
+                        </p>
+                    </li>
+                    <li>
+                        <strong class="f-family32 color6">
+                            @Language.Where(c => c.Page_Name == "SMARTWAREPLUS_Page" && c.Order_id == 26).Select(c => c.Value).FirstOrDefault()
+                            Ich bezahle ja für ein ganzes Jahr, wenn ich vorher kündige, kriege ich mein Geld zurück?
+                        </strong>
+                        <p>
+                            @Language.Where(c => c.Page_Name == "SMARTWAREPLUS_Page" && c.Order_id == 27).Select(c => c.Value).FirstOrDefault()
+                            Die Bezahlung erfolgt im Voraus. Die zu viel bezahlten Monate werden im Falle einer Kündigung zurückerstattet.
+                        </p>
+                    </li>
+                    <li>
+                        <strong class="f-family32 color6">
+                            @Language.Where(c => c.Page_Name == "SMARTWAREPLUS_Page" && c.Order_id == 28).Select(c => c.Value).FirstOrDefault()
+                            Wo werden meine Daten gespeichert?
+                        </strong>
+                        <p>
+                            @Language.Where(c => c.Page_Name == "SMARTWAREPLUS_Page" && c.Order_id == 29).Select(c => c.Value).FirstOrDefault()
+                            SmartWarePlus speichert Ihre Daten ausschliesslich in der Schweiz. Daher ist der Datenschutz vollumfänglich gewährleistet.
+                        </p>
+                    </li>*@
+            </ol>
+        </li>
+    </ul>
+</div>
+@if (ViewBag.LangId == 1)
+{
+    <script>
+        $("#LangChange #English a").addClass("activeShop");
+    </script>
+}
+@if (ViewBag.LangId == 2)
+{
+    <script>
+        $("#LangChange #German a").addClass("activeShop");
+    </script>
+}
+@if (ViewBag.LangId == 3)
+{
+    <script>
+        $("#LangChange #French a").addClass("activeShop");
+    </script>
+}
+@Html.Partial("_ClickFooter", ((List<Language_NewShop>)ViewBag.Language).Where(c => c.Page_Name == "Layout_Footer").ToList())
+<script>
+    $("#Menu-page li").removeClass("active");
+    $("#SMARTWAREPLUS").addClass("active");
+</script>

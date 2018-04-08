@@ -1,0 +1,258 @@
+﻿@media (min-width: 992px) and (max-width: 1199px) {
+ /*Home page start*/
+ .tool_Content {padding: 18% 5%;}.Step_Rre {padding: 13% 5% 12% 6%;}
+ .Round_step {font-size: 20px;width: 40px;height: 40px;border-radius: 50%;line-height: 35px;}
+ .Hoz_greenline {width: 2px;left: 6vw;top: 14vh;}.steptxt_white h4 {font-size: 70px;}
+ .steptxt_black p {font-size: 14px;line-height: 22px;}
+ .steptxt_black h6 {font-size: 20px;}.contact_box {padding: 16% 10%;}
+ .contact_text {height:35px;font-size: 13px;}.clickGo_footer{padding:2vw 4vw;}
+ .clickGo_footer h4 {font-size: 16px;}.clickGo_footer ul li {font-size: 14px;margin: 11px 0;}
+ .Help-section ol {font-size: 17px;}.Help-section {padding: 12% 6%;}
+ .step_black ul li {padding: 9% 0;}.steptxt_black {margin-top: 2.5vh;}
+ .home_section .carousel-inner > .item img {height: 100%;}
+ .homeContent h2 {font-size: 1.5vw;}
+ .homeContent p {font-size: 1.2vw;}
+ .advantagePadding .tool_Content {padding: 9% 5% 3%;}
+  .trapezoid::after {content:none;}
+  .extensionHexagonBlock::after {content: none;}
+  .extensionHexagonBlock::before {content: none;}
+  .extensionHexagonBlock {margin-top:0;height:inherit;padding:20px 10px;border-radius:25px;}
+  .feedbackBtn{position:relative;left:0;margin:auto;display:block;font-size:12px;}
+  .clickgo_menu ul li {line-height: 30px;}
+  .img_width{height:auto;}.clicklogo_text img{width:auto;}
+  .clicklogo_text p {font-size: 9px;margin: 5px 0 0 3px !important;line-height: 12px;}
+  .language-menu ul li {padding: 0px 5px;font-size: 11px;}
+  .greenBlock {height: 75px;}
+  .reservationContentBox div img {height: auto;width: auto;}
+  .reservationContentBox div {margin-top: -80px;}
+  .reservationContentBox ul li {font-size: 12px;}
+  .reservationContentBox ul li::before {font-size: 12px;}
+  .reservationContentBox {min-height: 45vh;}
+  .featuresList .table > tbody > tr > td {font-size:13px;}
+  .trapezoid {height:40px;line-height:30px;width: auto;font-size: 14px;}
+  .featuresList .table > thead > tr > th {font-size:12px;}
+  .greenBlock div {margin: 18px auto;}
+  .checkBoxImg img{height:48vh;}
+  .reservationContentBox h3{font-size:1.2vw;}
+  .efficintBlock ul li{font-size:12px;}
+  .whiteBlock p{font-size: 11px;line-height: 20px;}
+  .whiteBlock h3{font-size:13px;line-height: 16px;}
+  .extensionHexagonBlock{width:28.5vw;}
+  .otherAdvantageBg p{font-size:12px;}
+  .extensionHexagonBlock h3{font-size:16px;}
+  .carousel-indicators .active{width:14px;height:14px;}
+  .carousel-indicators li{width:14px;height:14px;}
+  .clickNewBtn{padding: 0 15px;line-height: 30px;}
+  .homeContent {width: 25vw;}
+  .sliderContent p {font-size: 12px;line-height: 22px;}
+  .saleBlockBlue,.saleBlockYellow {top: 7%;}
+  .tool_box {padding: 0 20px !important;}
+  .tool_box p {line-height: 25px;font-size: 15px;}
+  .homeimg_text .homeimg_textblack {line-height:45px;}
+  .getstart_btn {padding:5px 15px;}
+  .functionBlockBg {padding: 15% 5%;}
+  .layout_padding {padding: 0;}
+  /*Pricing page css*/
+  .Pricing_section {padding: 9% 0% 2% 2%;}
+  .pricing_text h6 {font-size: 14px;padding-top: 5px;}
+  .pricing_text p {margin: 0 !important;}
+  .pricing_text p span:first-child {top: 2px;}
+  .pricing_text p span {font-size: 12px;}
+  .pricing_text p span i {font-size: 15px;}
+  .pricing_text p span:last-child {padding-left: 20px;}
+  .Prince_heding p {font-size: 20px;}
+  .pricing_rate p {font-size: 15px;}
+  .pricing_rate h4 {margin-top: -8px;font-size: 22px !important;}
+  .pricing_rate h4 span {font-size: 12px;}
+  .Pricing_section h4 {font-size: 30px;margin-bottom: 15px;}
+  .Price_img {height: 50px;width: 50px;margin-bottom: 5px;}
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .homeimg_text .homeimg_textgreen {font-size: 28px;}
+  .homeimg_text .homeimg_textblack {font-size: 24px;line-height: 6vh;}
+  .getstart_btn {font-size: 14px;}.tool_Content  {padding: 20vw 5vw;}
+  .Step_Rre {padding: 25vw 2vw 15vw 2vw;}.Round_step {font-size: 20px;width: 40px;height: 40px;border-radius: 50%;line-height: 35px;}
+  .Hoz_greenline {display: none;}
+  .steptxt_white h4 {font-size: 55px;}.steptxt_black p {font-size: 11px;line-height: 20px;}
+  .steptxt_black h6 {font-size: 16px;}.step_black ul li {padding: 1.4vw 0;}
+  .Step_img img {width: auto;}.contact_box {padding: 20% 5%;}
+  .clickGo_footer {padding: 3vw 5vw;}.clickGo_footer h4 {font-size: 14px;}
+  .clickGo_footer ul li {font-size: 11px;margin: 11px 0;}.tool_box p {font-size: 14px;line-height: 25px;}
+  .Help-section {padding: 15% 3%;}
+  .Help-section ol {font-size: 14px;}.Step_box {margin-top: -3vw;}
+  .Round_step {font-size: 15px;width: 35px;height: 35px;}.step_black ul {padding-left: 22%;}
+  .step_black h5 {padding-top: 8px;font-size: 1.5vw;}.steptxt_black {margin-top: 2vh;}
+  .contact_box h4 {margin-bottom: 15%;}.clickgo_menu ul li.active {border-radius: 8px;padding: 0 3px;font-size: 8px;line-height: 15px;}.clickgo_menu ul li {line-height: 20px;font-size: 9px;}
+  .home_section .carousel-inner > .item img {height: 100%;}
+  .saleBlockBlue {top: 8%;}
+  .saleBlockYellow {top: 8%;}
+  .homeContent h2 {font-size: 14px;margin-bottom: 5px;}
+  .homeContent p {font-size: 1.5vw;margin-bottom: 10px !important;}
+  .sliderContent p {font-size: 1.2vw;}
+  .advantagePadding .tool_Content {padding: 12% 5% 7%;}
+  .whiteBlock p {line-height: 16px;font-size: 11px;}
+  .whiteBlock h3 {font-size: 12px;line-height: 14px;}
+  .functionBlockBg {padding: 15% 5% 5%;}
+  .reservationContentBox ul li::before {font-size: 11px;}
+  .reservationContentBox {min-height: 40vh;}
+  .reservationContentBox ul li {font-size: 11px;}
+  .trapezoid::after {content:none;}
+  .trapezoid {height: 30px;width: auto;font-size: 11px;}
+  .extensionHexagonBlock::after {content: none;}
+  .extensionHexagonBlock::before {content: none;}
+  .otherAdvantageBg p {font-size: 11px;}
+  .efficintBlock ul li::before {font-size: 10px;}
+  .efficintBlock ul li {font-size: 10px;}
+  .featuresList .table > tbody > tr > td {font-size: 10px;}
+  .contact_text {font-size: 12px;height: 45px;}
+  .feedbackBtn {position: relative;left: 0;margin: auto;display: block;}
+  .extensionHexagonBlock{height: auto;margin-top: 0;padding: 10px;}
+  .homeContent {width: 400px;}
+  .clickNewBtn {padding: 0px 10px;line-height: 25px;font-size: 11px;}
+  .img_width{height:auto;}.clicklogo_text img{width:auto;}
+  .clicklogo_text p {font-size: 9px;margin: 5px 0 0 3px !important;line-height: 12px;}
+  .language-menu ul li {padding: 0px 5px;font-size: 11px;}
+  .greenBlock {height: 65px;}
+  .reservationContentBox div img {height: auto;width: auto;}
+  .reservationContentBox div {margin-top: -80px;}
+  .greenBlock div {margin:18px auto;}
+  .layout_padding {padding: 0;}
+  .layout_padding .col-lg-8,.layout_padding .col-lg-16{padding:0 2px !important;}
+  .checkBoxImg img {height: 330px;}
+  .featuresList .table > thead > tr > th {font-size: 9px;}
+  .tool_box {padding: 0 10px !important;}
+   /*Pricing page css*/
+   .Pricing_section {padding: 10% 0% 2% 3%;}
+  .pricing_text h6 {font-size: 14px;padding-top: 5px;}
+  .pricing_text p {margin: 0 !important;}
+  .pricing_text p span:first-child {top: 2px;}
+  .pricing_text p span {font-size: 12px;}
+  .pricing_text p span i {font-size: 15px;}
+  .pricing_text p span:last-child {padding-left: 20px;}
+  .Prince_heding p {font-size: 20px;}
+  .pricing_rate p {font-size: 13px;}
+  .pricing_rate h4 {margin-top: -8px;font-size: 22px !important;}
+  .pricing_rate h4 span {font-size: 12px;}
+  .Pricing_section h4 {font-size: 30px;margin-bottom: 15px;}
+  .Price_img {height: 50px;width: 50px;margin-bottom: 5px;}
+}
+@media (max-width: 767px) {
+.clickgo_menu{display:none;}
+/*.right-btn { display:block;}.right-btn a{display: block;position: absolute;font-size: 28px;color: #568424;top: -43px;font-size: 28px;color: #568424;right: 20px;z-index: 30;-moz-transition: right 0.4s ease-in-out;-webkit-transition:right 0.4s ease-in-out;-ms-transition: left 0.4s ease-in-out;-o-transition: right 0.4s ease-in-out;transition:  right 0.4s ease-in-out;}
+.mask2 { position: fixed;top: 0;left: 0;z-index: 25; width: 100%;height: 100%;background: rgba(0, 0, 0, 0.7);}
+.right-btn a.drag-toggle{right: 270px;}.headertop-box{ background: #efefef; height: 100%; right: -270px;position: fixed; top: 0;width: 250px;z-index: 25;cursor:pointer;}*/
+/*.clickgo_menu ul li {padding: 8px 0;display: block;border-bottom: 1px solid #568424;width: 100%;text-align: center;font-size: 15px;}
+.clickgo_menu ul li a{color: #568424;}.clickgo_menu ul li:hover a{color:#fff;}.clickgo_menu ul li:hover{background-color: #568424;}
+.clickgo_menu ul li.active {border-radius: 0;background-color: #568424;}.clickgo_menu ul li.active a{color:#fff;}
+.clickgo_menu ul {float: none;}*/
+.homeimg_text .homeimg_textblack {font-size: 22px;line-height: 6vh;}
+.getstart_btn {display:none;}.tool_box {padding: 17px 15%;}.tool_box p {font-size: 14px;line-height: 22px;}
+.tool_Content h4 {font-size: 20px;}.Step_box {margin-top: -3vh;margin-left: -7.5vw;}
+.Round_step {font-size: 14px;width: 25px;height: 25px;line-height: 23px;}.Hoz_greenline {left: 36px;}
+.steptxt_white h4 {font-size: 40px;}.Step_img img {height: 215px;}.step_green {}
+.steptxt_black p {font-size: 10px;line-height: 16px;}.steptxt_black h6 {font-size: 12px;}.clickGo_footer {text-align:center;}
+.clickGo_footer h4 {font-size: 20px;}.clickGo_footer ul li {font-size: 13px;}.ClickGo_layout .container-fluid{padding-left: 0;}
+.onepage-wrapper .section {height: auto !important;}.tool_box {width: 48%;}.tool_img {width: 9vw;}
+.home_section {padding-top: 10%;}.help_img{margin-top:15px;}.Help-section ol li span {left: -20px;}.Help-section{margin:0;}
+.Help-section ol {font-size: 15px;}.Help-section h4 {font-size: 22px;}.contact_btn {font-size: 16px;}
+.contact_box h4 {font-size: 18px;}.contact_box .form-group {margin-bottom: 10px;} .contact_text {height: 40px;}
+.step_black {width: 100%;}.step_black ul li .col-xs-20{padding-left:0;}.step_black h5 {padding-top: 4px;font-size: 11px;}
+ .step_black ul li {padding: 10px 0;}.step_green {width: 80%;}.Hoz_greenline{display:none;}.steptxt_black {margin-top: 1.2vh;}
+ .home_section .carousel-inner > .item img {height: 100%;}
+ .saleBlockBlue {top: 50px;width: 250px;font-size: 10px;}
+ .homeContent {top: 25%;width: 90%;}
+ .homeContent h2 {font-size: 12px;margin-bottom: 5px;}
+ .homeContent p {line-height: 20px;margin-bottom: 5px !important;font-size: 12px;}
+ .clickNewBtn {padding: 0 10px;font-size: 10px;line-height: 25px;}
+ .saleBlockBlue span{font-size:9px !important;}
+ .saleBlockYellow {top: 8%;width: 250px;font-size: 10px;}
+  .saleBlockYellow span{font-size:9px !important;}
+  .sliderContent h3 {font-size: 12px;}
+  .sliderContent p {font-size: 10px;}
+  .whiteBlock h3 {font-size: 12px;}
+  .whiteBlock p {font-size: 12px;line-height: 15px;}
+  .advantageSection ul li:last-child .greenBlock {width: 19%;}
+  .reservationContentBox {min-height: auto;padding: 15px 10px 10px 15px;margin-bottom: 15%;}
+  .reservationContentBox ul li::before {font-size: 11px;}
+  .reservationContentBox ul li {font-size: 11px;padding-left:12px;}
+  .reservationContentBox h3 {font-size: 12px;}
+  .trapezoid::after {content:none;}
+  .trapezoid {height: 35px;width: 100%;font-size:12px;}
+  .featuresList .table > tbody > tr > td {font-size: 10px;}
+  .featuresList .table > thead > tr > th {font-size: 12px;}
+  .processBlock p {font-size: 14px;line-height: 20px;}
+  .extensionHexagonBlock::after {content: none;}
+  .extensionHexagonBlock::before {content: none;}
+  .otherAdvantageBg p {font-size: 12px;}
+  .efficintBlock h6 {font-size: 12px;}
+  .efficintBlock ul li::before,.efficintBlock ul li {font-size: 10px;}
+  .extensionHexagonBlock {width: auto;height: auto;margin:15px 0;padding:10px;}
+  .feedbackBtn {position: relative;left: 0;margin: auto;display: block;font-size: 10px;}
+  .extensionHexagonBlock h3 {font-size: 14px;}
+   .efficintBlock ul li { padding-left: 15px;}
+   .contact_text {font-size: 12px;}
+   .reservationContentBox div {margin-top: -54px;text-align:center;}
+   .homePageSecondSlider {bottom: 0;}
+   .img_width{height:auto;}.clicklogo_text img{width:auto;}
+   .clicklogo_text p {font-size: 9px;margin: 5px 0 0 3px !important;line-height: 12px;}
+   .language-menu ul li {padding: 0px 5px;font-size: 11px;}
+     .reservationContentBox div img {height: auto;width: auto;}
+     .advantageMainBlock {margin-bottom:10px;}
+     .greenBlock {height: 90px;}
+     .greenBlock div {margin: 20px auto;height:50px;width:50px;}
+     .functionBlockBg {padding: 10% 10%;}
+     .homePageSecondSlider .padding-right0{padding-right:18px;}
+     .homePageSecondSlider .padding-left9{padding-left:18px;}
+    .home_section .carousel-inner > .item {height: 85vh;}
+     /*Pricing page css*/
+      .Pricing_section {padding: 2% 0% 2% 6%;}
+  .pricing_text h6 {font-size: 14px;padding-top: 5px;}
+  .pricing_text p {margin: 0 !important;}
+  .pricing_text p span:first-child {top: 2px;}
+  .pricing_text p span {font-size: 12px;}
+  .pricing_text p span i {font-size: 15px;}
+  .pricing_text p span:last-child {padding-left: 20px;}
+  .Prince_heding p {float: left;padding-left: 15px;padding-top: 8px;font-size:20px;width: 85%;text-align: left;word-break:break-all;}
+  .pricing_rate p {font-size: 13px;}
+  .pricing_rate h4 {margin-top: -8px;font-size: 22px !important;}
+  .pricing_rate h4 span {font-size: 12px;}
+  .Pricing_section h4 {font-size: 30px;margin-bottom: 15px;}
+  .Price_img {height: 50px;width: 50px;float: left;margin-bottom: 0;}
+    .Pricing_BOX {display: block;margin-bottom: 10px;}
+    .Prince_heding {display: block;}
+    .Prince_details .details_TB {display: block;padding-top: 25px;}
+    .pricing_text {display: block;}
+    .Prince_heding {padding: 0 10px;display:inline-block;width:100%;}
+    .Prince_details {display: block;}
+    .pricing_rate{border-left: 0;border-top: 1px solid #ccc;display:block;}
+    .arrow_box::after, .arrow_box::before {top: 100%;left: 47%;}
+    .arrow_box::before {margin-top: 0;}
+    .arrow_box::after {margin-top: 0;}
+    .bg_green::after, .bg_green::before {border-top-color: #bbc14b;border-left-color:transparent;}
+    .bg_blue:after,.bg_blue:before{border-top-color: #3dc7c5;border-left-color:transparent;}
+    .bg_orange:after,.bg_orange:before{border-top-color: #fd8921;border-left-color:transparent;}
+    .bg_pink:after,.bg_pink:before{border-top-color: #ea3f47;border-left-color:transparent;}
+}
+
+@media screen and (max-width: 479px) {
+ .Step_img img {height: 160px;}.Step_box {margin-top: -3.5vh;margin-left: -7.5vw;}
+ .step_black {width: 42vw;}.step_green {width:70%;}
+ .steptxt_white h4 {font-size: 36px;}.steptxt_black p {font-size: 8px;line-height: 10px;}
+ .Hoz_greenline {left: 10vw;}.step_black span {font-size: 8px;}.tool_box {width: 90%;}
+ .home_section {padding-top: 15%;}.tool_img {width: 10vw;}.Step_Rre {padding: 30px 15px;}
+ .step_black ul li {padding: 9px 0;}.Round_step {font-size: 10px;width: 20px;height: 20px;line-height: 20px;}
+ .steptxt_black h6 {font-size: 11px;}.steptxt_black {margin-top: 1.5vw;}.steptxt_white h4 {font-size: 30px;}
+ .step_black h5 {padding-top: 5px;font-size: 9px;}.homeimg_text .homeimg_textblack{font-size: 18px;line-height: 5vh;}
+ .greenBlock div {margin: 12px auto;height: 40px;width: 40px;}
+ .reservationContentBox ul li {padding-left: 15px;}
+ .reservationContentBox div {margin-top: -40px;}
+ .reservationContentBox {margin-bottom: 15%;}
+ .processBlock p {font-size: 12px;line-height: 18px;}
+.greenBlock {height: 65px;}
+.whiteBlock p {font-size: 11px;}
+   /*Pricing page css*/
+  .Pricing_section .col-lg-22{padding-right:0;}
+  .Price_img {height: 35px;width: 35px;}
+  .Prince_heding p {padding-top: 0;font-size: 17px;}
+  .pricing_text h6 {font-size: 12px;}
+}

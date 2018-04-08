@@ -1,0 +1,503 @@
+﻿
+@{
+    Layout = null;
+    List<SPA.Models.TabInfo> TabList = new List<SPA.Models.TabInfo>();
+    TabList = Model;
+    List<SPA.Models.AccessType> AccessTypeList = new List<SPA.Models.AccessType>();
+    AccessTypeList = ViewBag.AccessTypeList;
+    //List<SPA.Models.ConditionList> ConditionList = new List<SPA.Models.ConditionList>();
+    //ConditionList = ViewBag.ConditionList;
+    List<SPA.Models.LanguageLabelDetails> Language = new List<SPA.Models.LanguageLabelDetails>();
+    Language = ViewBag.Language;
+    var BtnName = Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault();
+}
+@if (Session["Message"].ToString() == "AlreadyExist")
+{
+    <script>
+        //var Text = "ShopMaster!";
+        //$.post("/Product/GetDataOfLanguage?Text=" + Text + "&id=47", function (data1) {
+        //Role Already Exist
+        $("#WelcomeAlert").html("<h1 class=\"text-center margin-bottom30\"><span>CLICK-AND-GO</span></h1><p class=\"title15 text-center margin-bottom30\">@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()</p>");
+        $('#welcome').modal("show");
+        //});
+    </script>
+    Session["Message"] = "";
+}
+<div class="Roles_page">
+    @*<h1 class="italic-title" style="margin:0;">
+            Role Management
+            <a class="title-green16 pull-right" id="Addrole"><i class="fa fa-plus-square margin-right5"></i>Add Role</a>
+        </h1>*@
+    <div class="row customer-searchTXT padding-bottom10">
+        <div class="col-lg-20 col-md-20 col-sm-18 col-xs-14">
+            <h2 class="title-green16 cursor-default margin-top15 margin-left10">@Language.Where(c => c.Order_id == 1).Select(c => c.Value).FirstOrDefault() @*Role Management*@</h2>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-10 margin-top15">
+            <a class="title-green16 pull-right margin-right10" id="Addrole"><i class="fa fa-plus-square margin-right5"></i>@Language.Where(c => c.Order_id == 2).Select(c => c.Value).FirstOrDefault() @*Add Role*@</a>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="p-relative">
+        <div class="BlockGroupText grouping-prodcut-shadow display-none" id="SaveRole" style="z-index:105;">
+            <form id="FrmAddRole" action="/AccessRight/AddRole" method="post" enctype="multipart/form-data">
+                <ul class="col-lg-24">
+                    <li>
+                        <label class="form-label spa-label1">@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault() @*Role Name*@</label>
+                        <input type="text" id="Role" name="Role" class="form-control spa-text-box required spa-text-box2 required" placeholder="@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault()">
+                    </li>
+                    <li class="margin-top20 text-right">
+                        <input type="submit" class="btn btn-green btn-small margin-right5" value="@Language.Where(c => c.Order_id == 4).Select(c => c.Value).FirstOrDefault()">
+                        <input type="button" class="btn btn-black btn-small" id="CancelRole" value="@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault()">
+                    </li>
+                </ul>
+            </form>
+        </div>
+        @*<div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-8">
+                    <div class="Roles_tab">
+                        <ul id="myTab" class="nav nav-tabs hidden-xs">
+                            <li class="active"><a href="#admin" data-toggle="tab">Admin</a></li>
+                            <li><a href="#ShopOwner" data-toggle="tab">Employee</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-16 col-md-16 col-sm-16">
+                    <div class="tab-content">
+                        <div id="admin" class="tab-pane fade in active">
+                            <div class="Roles_tab_content">
+                                <h1 class="italic-title">Admin</h1>
+                                <div class="Role-box-heading row">
+                                    <div class="col-lg-24 col-md-24 col-sm-24">
+                                        <h4>Features</h4>
+                                    </div>
+                                </div>
+                                <div class="main_role_box row">
+                                    <div class="Role-box">
+                                        <div class="col-lg-22 col-md-22 col-sm-22 col-xs-22">
+                                            <div class="row">
+                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center">
+                                                    <a class="cursorPoint"><i class="fa fa-minus-square margin-right5"></i></a>
+                                                </div>
+                                                <div class="col-lg-23 col-md-23 col-sm-23 col-xs-23">
+                                                    <p>Shop</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                            <div class="Access-checkbox checkbox">
+                                                <input type="checkbox" name="aaa" id="aaa" />
+                                                <label for="aaa"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="margin-left5per">
+                                        <div class="Role-box sub_Role_box">
+                                            <div class="col-lg-22 col-md-22 col-sm-22 col-xs-22">
+                                                <div class="row Role-box-sub">
+                                                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center">
+                                                        <a class="cursorPoint"><i class="fa fa-minus-square margin-right5"></i></a>
+                                                    </div>
+                                                    <div class="col-lg-23 col-md-23 col-sm-23 col-xs-23">
+                                                        <p>ShopOwner Setup</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                <div class="Access-checkbox checkbox" style="margin-left:-3px;">
+                                                    <input type="checkbox" name="aaa" id="aaa1" />
+                                                    <label for="aaa1"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="margin-left5per">
+                                            <div class="Role-box sub_Role_box">
+                                                <div class="col-lg-22 col-md-22 col-sm-22 col-xs-22">
+                                                    <div class="row Role-box-sub1">
+                                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center">
+                                                        </div>
+                                                        <div class="col-lg-23 col-md-23 col-sm-23 col-xs-23">
+                                                            <p>Map</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2 col-md-2 col-sm-2 xol-xs-2">
+                                                    <div class="Access-checkbox checkbox" style="margin-left:-6px;">
+                                                        <input type="checkbox" name="aaa2" id="aaa2" />
+                                                        <label for="aaa2"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="main_role_box row">
+                                    <div class="Role-box">
+                                        <div class="col-lg-22 col-md-22 col-sm-22 col-xs-22">
+                                            <div class="row">
+                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center">
+                                                    <a class="cursorPoint"><i class="fa fa-plus-square margin-right5"></i></a>
+                                                </div>
+                                                <div class="col-lg-23 col-md-23 col-sm-23 col-xs-23">
+                                                    <p>Product Master</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                            <div class="Access-checkbox checkbox">
+                                                <input type="checkbox" name="aaa" id="bbb" />
+                                                <label for="bbb"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="main_role_box row">
+                                    <div class="Role-box">
+                                        <div class="col-lg-22 col-md-22 col-sm-22 col-xs-22">
+                                            <div class="row">
+                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center">
+                                                    <a class="cursorPoint"><i class="fa fa-plus-square margin-right5"></i></a>
+                                                </div>
+                                                <div class="col-lg-23 col-md-23 col-sm-23 col-xs-23">
+                                                    <p>Employee</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                            <div class="Access-checkbox checkbox">
+                                                <input type="checkbox" name="aaa" id="ccc" />
+                                                <label for="ccc"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="main_role_box row">
+                                    <div class="Role-box">
+                                        <div class="col-lg-22 col-md-22 col-sm-22 col-xs-22">
+                                            <div class="row">
+                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center">
+                                                    <a class="cursorPoint"><i class="fa fa-plus-square margin-right5"></i></a>
+                                                </div>
+                                                <div class="col-lg-23 col-md-23 col-sm-23 col-xs-23">
+                                                    <p>Customer</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                            <div class="Access-checkbox checkbox">
+                                                <input type="checkbox" name="ddd" id="ddd" />
+                                                <label for="ddd"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="main_role_box row">
+                                    <div class="Role-box">
+                                        <div class="col-lg-22 col-md-22 col-sm-22 col-xs-22">
+                                            <div class="row">
+                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center">
+                                                    <a class="cursorPoint"><i class="fa fa-plus-square margin-right5"></i></a>
+                                                </div>
+                                                <div class="col-lg-23 col-md-23 col-sm-23 col-xs-23">
+                                                    <p>Reservation</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                            <div class="Access-checkbox checkbox">
+                                                <input type="checkbox" name="aaa" id="eee" />
+                                                <label for="eee"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group text-right margin-top20">
+                                    <input type="button" class="btn btn-green" value="Submit">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="ShopOwner">
+                            <div class="Roles_tab_content">
+                                <h1 class="italic-title">Employee</h1>
+                                <div class="Role-box-heading row">
+                                    <div class="col-lg-24 col-md-24 col-sm-24">
+                                        <h4>Features</h4>
+                                    </div>
+                                </div>
+                                <div class="main_role_box row">
+                                    <div class="Role-box">
+                                        <div class="col-lg-22 col-md-22 col-sm-22 col-xs-22">
+                                            <div class="row">
+                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center">
+                                                    <a class="cursorPoint"><i class="fa fa-minus-square margin-right5"></i></a>
+                                                </div>
+                                                <div class="col-lg-23 col-md-23 col-sm-23 col-xs-23">
+                                                    <p>Shop</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                            <div class="Access-checkbox checkbox">
+                                                <input type="checkbox" name="aaa" id="aaa" />
+                                                <label for="aaa"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="main_role_box row">
+                                    <div class="Role-box">
+                                        <div class="col-lg-22 col-md-22 col-sm-22 col-xs-22">
+                                            <div class="row">
+                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center">
+                                                    <a class="cursorPoint"><i class="fa fa-plus-square margin-right5"></i></a>
+                                                </div>
+                                                <div class="col-lg-23 col-md-23 col-sm-23 col-xs-23">
+                                                    <p>Product Master</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                            <div class="Access-checkbox checkbox">
+                                                <input type="checkbox" name="aaa" id="bbb" />
+                                                <label for="bbb"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="main_role_box row">
+                                    <div class="Role-box">
+                                        <div class="col-lg-22 col-md-22 col-sm-22 col-xs-22">
+                                            <div class="row">
+                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center">
+                                                    <a class="cursorPoint"><i class="fa fa-plus-square margin-right5"></i></a>
+                                                </div>
+                                                <div class="col-lg-23 col-md-23 col-sm-23 col-xs-23">
+                                                    <p>Employee</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                            <div class="Access-checkbox checkbox">
+                                                <input type="checkbox" name="aaa" id="ccc" />
+                                                <label for="ccc"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="main_role_box row">
+                                    <div class="Role-box">
+                                        <div class="col-lg-22 col-md-22 col-sm-22 col-xs-22">
+                                            <div class="row">
+                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center">
+                                                    <a class="cursorPoint"><i class="fa fa-plus-square margin-right5"></i></a>
+                                                </div>
+                                                <div class="col-lg-23 col-md-23 col-sm-23 col-xs-23">
+                                                    <p>Customer</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                            <div class="Access-checkbox checkbox">
+                                                <input type="checkbox" name="ddd" id="ddd" />
+                                                <label for="ddd"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="main_role_box row">
+                                    <div class="Role-box">
+                                        <div class="col-lg-22 col-md-22 col-sm-22 col-xs-22">
+                                            <div class="row">
+                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center">
+                                                    <a class="cursorPoint"><i class="fa fa-plus-square margin-right5"></i></a>
+                                                </div>
+                                                <div class="col-lg-23 col-md-23 col-sm-23 col-xs-23">
+                                                    <p>Reservation</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                            <div class="Access-checkbox checkbox">
+                                                <input type="checkbox" name="aaa" id="eee" />
+                                                <label for="eee"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group text-right margin-top20">
+                                    <input type="button" class="btn btn-green" value="Submit">
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                </div>
+            </div>*@
+        <div class="role_table">
+            <form id="FrmRoles" action="/AccessRight/AssignRoles" method="post" enctype="multipart/form-data">
+
+                <div class="choose-your-product table-responsive pending-approval-table">
+                    <div style="height:72vh;" @*id="fixColumnHead"*@>
+                        <table class="table margin-bottom5" id="tblRole">
+                            <thead>
+                                <tr>
+                                    <th class="mainTab_res">@*Tab*@ @Language.Where(c => c.Order_id == 6).Select(c => c.Value).FirstOrDefault()</th>
+                                    <th class="mainTab_res">@*SubTab*@ @Language.Where(c => c.Order_id == 7).Select(c => c.Value).FirstOrDefault()</th>
+                                    @foreach (var RoleId in TabList.Select(c => c.RoleId).ToList().Distinct())
+                                    {
+                                        var RoleName = TabList.Where(c => c.RoleId == RoleId).Select(c => c.RoleName).FirstOrDefault();
+                                        <th>@RoleName</th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var MainTab in TabList.Where(c => c.CheckCondition != "1").Select(c => c.MainTabId).ToList().Distinct())
+                                {
+                                    var MainInfo = TabList.Where(c => c.MainTabId == MainTab).ToList();
+                                    var MainTabinfo = MainInfo.FirstOrDefault();
+                                    //if (MainTabinfo.ConditionValue != null)
+                                    //{
+                                    //    if (ConditionList.Where(c => c.Condition == MainTabinfo.Condition && c.ConditionValue == MainTabinfo.ConditionValue).FirstOrDefault() == null)
+                                    //    {
+                                    //        MainInfo = new List<SPA.Models.TabInfo>();
+                                    //    }
+                                    //}
+                                    if (MainInfo.Count > 0)
+                                    {
+                                        var Count = MainInfo.Where(c => c.CheckSubCondition != "1").Select(c => c.SubTab).ToList().Distinct().Count();
+                                        var Index = 0;
+                                        @*<tr>
+                                                <td rowspan="@Count">@MainInfo.Select(c => c.MainTab).FirstOrDefault()</td>
+                                            </tr>*@
+                                foreach (var SubTab in MainInfo.Where(c => c.CheckSubCondition != "1").Select(c => c.SubTabId).ToList().Distinct())
+                                {
+                                    var RoleInfo = MainInfo.Where(c => c.SubTabId == SubTab && c.CheckSubCondition != "1").ToList();
+                                    <tr>
+                                        @if (Index == 0)
+                                        {
+                                            Index = Index + 1;
+                                            <td rowspan="@Count" class="mainTab_res" style="text-align:center;background-color:#fff;vertical-align:middle;border-right:1px solid #ddd;">@MainInfo.Select(c => c.MainTab).FirstOrDefault()</td>
+                                        }
+                                        <td class="Fix_tab mainTab_res" style="background-color:#fff;border-right:1px solid #ddd;">@RoleInfo.Select(c => c.SubTab).FirstOrDefault()</td>
+                                        @foreach (var RoleId in RoleInfo.Select(c => c.RoleId).ToList().Distinct())
+                                        {
+                                            var RoleTabInfo = RoleInfo.Where(c => c.RoleId == RoleId).FirstOrDefault();
+                                            var Id = RoleTabInfo.RoleId + "#" + RoleTabInfo.MainTabId + "_" + RoleTabInfo.SubTabId;
+                                            <td class="@(RoleTabInfo.Display_Status == 1 ? "default_role" : "")"  style="text-align:center;">
+                                                @*<div class="Access-checkbox checkbox">
+                                                        <input type="checkbox" name="@Id" id="@Id" @(RoleTabInfo.SubTabId == RoleTabInfo.AccessToSub ? "checked" : "") @(RoleTabInfo.Display_Status == 1 ? "disabled" : "") />
+                                                        <label for="@Id">
+                                                        </label>
+                                                    </div>*@
+                                               @*<div class="Access_onoff">
+                                                        <input type="checkbox" class="Access_onoff-checkbox" name="@Id" id="@Id" @(RoleTabInfo.SubTabId == RoleTabInfo.AccessToSub ? "checked" : "") @(RoleTabInfo.Display_Status == 1 ? "disabled" : "") />
+                                                        <label class="Access_onoff-label" for="@Id">
+                                                            <span class="Access_onoff-inner"></span>
+                                                            <span class="Access_onoff-switch"></span>
+                                                        </label>
+                                                    </div>*@
+                                                    <div class="Access_onoff">
+                                                    <input type="checkbox" name="@Id" id="@Id" @(RoleTabInfo.SubTabId == RoleTabInfo.AccessToSub ? "checked" : "") @(RoleTabInfo.Display_Status == 1 ? "disabled" : "")  />
+                                                    <label class="slider round" for="@Id">
+                                                        <span class="on">@Language.Where(c => c.Order_id == 11).Select(c => c.Value).FirstOrDefault()</span>
+                                                        <span class="off">@Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()</span>
+                                                        </label>
+                                                    </div>
+                                                <div class="Role_radio">
+                                                    @if (RoleTabInfo.OwnAnyStatus == "1" || RoleTabInfo.OwnAnyStatus == "2" || RoleTabInfo.OwnAnyStatus == "3")
+                                                    {
+                                                          <ul class="@(RoleTabInfo.SubTabId == RoleTabInfo.AccessToSub ? "zoomIn" : "zoomOut") animated ">
+                                                            @foreach (var Item in AccessTypeList)
+                                                            {
+                                                                var AccessId = RoleTabInfo.RoleId + "_" + Item.AccessName.Replace("Full Access","Updation") + "_" + RoleTabInfo.SubTabId;
+                                                                var AccessStatus = "";
+                                                                var DisplayStatus = "";
+                                                                if (Item.AccessName == "Full Access" && (RoleTabInfo.OwnAnyStatus == "2" || RoleTabInfo.OwnAnyStatus == "3"))
+                                                                {
+                                                                    DisplayStatus = "1";
+                                                                    AccessStatus = ((RoleTabInfo.UpdateAccess == null || RoleTabInfo.DeleteAccess == null || RoleTabInfo.insertAccess == null) || (RoleTabInfo.UpdateAccess == "Y" || RoleTabInfo.DeleteAccess == "Y" || RoleTabInfo.insertAccess == "Y")) ? "1" : "2";
+                                                                }
+                                                                if (Item.AccessName == "Display" && (RoleTabInfo.OwnAnyStatus == "1" || RoleTabInfo.OwnAnyStatus == "2"))
+                                                                {
+                                                                    DisplayStatus = "1";
+                                                                    AccessStatus = RoleTabInfo.AccessToData == null || RoleTabInfo.AccessToData == "Any" ? "2" : "1";
+                                                                }
+                                                                if (Item.AccessName == "Edit" && (RoleTabInfo.OwnAnyStatus == "2" || RoleTabInfo.OwnAnyStatus == "3"))
+                                                                {
+                                                                    DisplayStatus = "1";
+                                                                    AccessStatus = RoleTabInfo.UpdateAccess == null || RoleTabInfo.UpdateAccess == "Y" ? "1" : "2";
+                                                                }
+                                                                if (Item.AccessName == "Delete" && (RoleTabInfo.OwnAnyStatus == "2" || RoleTabInfo.OwnAnyStatus == "3"))
+                                                                {
+                                                                    DisplayStatus = "1";
+                                                                    AccessStatus = RoleTabInfo.DeleteAccess == null || RoleTabInfo.DeleteAccess == "Y" ? "1" : "2";
+                                                                }
+                                                                if (Item.AccessName == "insert" && (RoleTabInfo.OwnAnyStatus == "2" || RoleTabInfo.OwnAnyStatus == "3"))
+                                                                {
+                                                                    DisplayStatus = "1";
+                                                                    AccessStatus = RoleTabInfo.insertAccess == null || RoleTabInfo.insertAccess == "Y" ? "1" : "2";
+                                                                }
+                                                                if (DisplayStatus == "1")
+                                                                {
+                                                                    <li>
+                                                                        <div class="display_inline">
+                                                                            <p>@Language.Where(c=>c.English_Label== Item.AccessName).Select(c=>c.Value).FirstOrDefault()</p>
+                                                                        </div>
+                                                                        <div class="spa-radio display_inline">
+                                                                            <input id="Yes_@AccessId" type="radio" name="@AccessId" value="Yes_@AccessId" @(AccessStatus == "1" ? "checked" : "") @(RoleTabInfo.Display_Status == 1 ? "disabled" : "")>
+                                                                            <label for="Yes_@AccessId" class="form-label spa-label1 margin-top8">@Item.AccessValue1</label>
+                                                                        </div>
+                                                                        <div class="spa-radio display_inline">
+                                                                            <input id="No_@AccessId" type="radio" name="@AccessId" value="No_@AccessId" @(AccessStatus == "2" ? "checked" : "") @(RoleTabInfo.Display_Status == 1 ? "disabled" : "")>
+                                                                            <label for="No_@AccessId" class="form-label spa-label1 margin-top8 margin-left5">@Item.AccessValue2</label>
+                                                                        </div>
+                                                                    </li>
+                                                                }
+                                                            }
+                                                        </ul>
+                                                    }
+                                                </div>
+                                            </td>
+                                        }
+                                    </tr>
+                                        }
+
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="text-right padding-top10 padding-bottom10 margin-right10">
+                    <input type="submit" class="btn btn-green" value="@Language.Where(c => c.Order_id == 8).Select(c => c.Value).FirstOrDefault()" style="padding: 4px 20px 8px;" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $("#tblRole").tableHeadFixer({ "left": 2 });
+    $("#FrmAddRole").validate();
+    $("#Addrole,#CancelRole").click(function () {
+        $("#FrmAddRole")[0].reset();
+        $("#FrmAddRole").validate().resetForm();
+        $("#SaveRole").slideToggle();
+    });
+    $("#FrmRoles .Access_onoff input[type='checkbox']").click(function () {       
+        if ($(this).prop("checked"))      
+            $(this).parent().parent().find("ul").toggleClass("zoomIn").toggleClass("zoomOut");      
+        else
+            $(this).parent().parent().find("ul").toggleClass("zoomIn").toggleClass("zoomOut");         
+    });
+</script>

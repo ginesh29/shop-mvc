@@ -1,0 +1,235 @@
+﻿@{
+    ViewBag.Title = "Marketing";
+    Layout = null;
+    List<Marketing_Master> MarketingData = new List<Marketing_Master>();
+    MarketingData = ViewBag.Marketingdata;
+    List<Language_Label_Detail> Language = new List<Language_Label_Detail>();
+    Language = ViewBag.language;
+    var Characters = Language.Where(c => c.Order_id == 26).Select(c => c.Value).FirstOrDefault();
+}
+<script src="~/tinymce/tinymce.min.js"></script>
+<div class="marketingPage">
+    <div class="marketingTab">
+
+        <ul id="myTab1" class="nav nav-tabs hidden-xs">
+
+            <li id="SMSFORM_Tab" class="col-lg-8 col-md-8 col-sm-8 active"><a href="#smssetup" data-toggle="tab" class="Ellips">@Language.Where(c=>c.Order_id==2).Select(c=>c.Value).FirstOrDefault() @*SMS Setup*@</a></li>
+            <li id="EMAILFORM_Tab" class="col-lg-8 col-md-8 col-sm-8"><a href="#emailsetup" data-toggle="tab" class="Ellips">@Language.Where(c => c.Order_id == 9).Select(c => c.Value).FirstOrDefault()@*Email Setup*@</a></li>
+            <li id="SendOutForm_Tab" class="col-lg-8 col-md-8 col-sm-8"><a href="#sendout" data-toggle="tab" class="Ellips">@Language.Where(c => c.Order_id == 12).Select(c => c.Value).FirstOrDefault()@*Send Out*@</a></li>
+        </ul>
+        <div class="tab-content hidden-xs" id="MarketingDiv">
+            <div class="tab-pane active" id="smssetup">
+                <form name="SMSFORM" id="SMSFORM" enctype="multipart/form-data" action="/Shop/MarketingAdd" onsubmit="return false">
+                    <div class="sms-setup">
+                        <input type="hidden" id="SMID" name="MID" value="" />
+                        <div class="row form-group margin-bottom20">
+                            <label class="form-label spa-label1">@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault() @*Subject*@</label>
+                            <input class="form-control spa-text-box  text-box required" name="Subject" id="Subject" type="text" placeholder="@Language.Where(c=>c.Order_id==4).Select(c=>c.Value).FirstOrDefault()">
+                        </div>
+                        <div class="row form-group margin-bottom20">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <label class="form-label spa-label1">@Language.Where(c => c.Order_id == 5).Select(c => c.Value).FirstOrDefault() @*Message*@</label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 text-right">
+                                    <span id="RemainingChar" class="MarValid"></span>
+                                </div>
+                            </div>
+                            <textarea class="form-control spa-text-box resizeNone txt-area-scroll required" name="content" id="content" placeholder="@Language.Where(c=>c.Order_id==6).Select(c=>c.Value).FirstOrDefault()"></textarea>
+                            @*<span id="SmsTxtareaStatus" class="doctorValid col-lg-11 col-md-11 col-sm-11"></span>*@
+                            
+                        </div>                       
+                        <input type="hidden" id="status" name="status" value="SMS" />
+                        <div class="row form-group text-right">
+                            <input type="button" class="btn btn-green btn-small margin-right5 margin-bottom10 width100" value="@Language.Where(c=>c.Order_id==7).Select(c=>c.Value).FirstOrDefault()" onclick="AddMarket('SMSFORM','@Language.Where(c=>c.Order_id==27).Select(c=>c.Value).FirstOrDefault()')">
+                            <input type="button" class="btn btn-black btn-small margin-bottom10 width100" id="SMSFORM_cancel" value="@Language.Where(c=>c.Order_id==8).Select(c=>c.Value).FirstOrDefault()">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane" id="emailsetup">
+                <div class="emailsetup">
+                    <form name="EMAILFORM" id="EMAILFORM" enctype="multipart/form-data" action="/Shop/MarketingAdd" onsubmit="return false">
+                        <div class="row form-group margin-bottom20">
+                            <input type="hidden" id="EMID" name="MID" value="" />
+                            <label class="form-label spa-label1">@Language.Where(c => c.Order_id == 3).Select(c => c.Value).FirstOrDefault() @*Subject*@</label>
+                            <input class="form-control spa-text-box  text-box required" name="Subject" id="ESubject" type="text" placeholder="@Language.Where(c=>c.Order_id==4).Select(c=>c.Value).FirstOrDefault()">
+                        </div>
+                        <div class="row form-group margin-bottom20">
+                            <label class="form-label spa-label1">@Language.Where(c => c.Order_id == 10).Select(c => c.Value).FirstOrDefault() @*Description*@</label>
+                            <textarea class="form-control spa-text-box resizeNone txt-area-scroll required" name="content" id="TextMarketing" placeholder="@Language.Where(c=>c.Order_id==6).Select(c=>c.Value).FirstOrDefault()"></textarea>
+                            <span id="EmailTxtareaStatus" class="doctorValid"></span>
+                        </div>
+                        <input type="hidden" id="MarketingObject" name="Extra_1" value="" />
+                        <div class="form-group margin-bottom30">
+                            <div id="MarketingFileUpload" class="dropzone dropzone_info dz-clickable" name="MarketingFileUpload">
+                            </div>
+                        </div>
+                        <input type="hidden" id="status" name="status" value="EMAIL" />
+                        <div class="row form-group text-right">
+                            <input type="button" class="btn btn-green btn-small margin-right5 margin-bottom10 width100" value="@Language.Where(c=>c.Order_id==7).Select(c=>c.Value).FirstOrDefault()" onclick="AddMarket('EMAILFORM','@Language.Where(c=>c.Order_id==27).Select(c=>c.Value).FirstOrDefault()')">
+                            <input type="button" class="btn btn-black btn-small margin-bottom10 width100" id="EMAILFORM_cancel" value="@Language.Where(c=>c.Order_id==8).Select(c=>c.Value).FirstOrDefault()">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="tab-pane" id="sendout">
+                <div class="sendout">
+                    <div class="col-lg-12 col-md-12 col-sm-12 margin-bottom10" id="SendOutForm">
+                        <div class="p-relative contentSymbole input-group">
+                            <span class="input-group-addon"><i class="fa fa-list-ul" aria-hidden="true"></i></span>
+                            <a class="text-center form-control spa-dropdown-box">@Language.Where(c => c.Order_id == 13).Select(c => c.Value).FirstOrDefault() @*Select Content*@</a>
+                        </div>
+                        <div class="contentList">
+                            <ul id="selectContent">
+                                @foreach (var item in MarketingData.OrderByDescending(c => c.MID).ToList())
+                                {
+                                    <li>
+                                        <a class="doctor-checkbox">
+                                            <input type="checkbox" id="Ak_@item.MID" Status="@item.status">
+                                            <label class="dropmenuEllips" for="Ak_@item.MID">@item.Subject</label>
+                                            <span class="marketgin-mail"><i class="@(item.status == "SMS" ? "fa fa-commenting" : "fa fa-envelope")" aria-hidden="true"></i></span>
+                                            <span class="marketing-edit" onclick="EditMarketingData(@item.MID,'@item.status');"><i class="fa fa-pencil-square-o" data-trigger="hover"></i></span>
+                                            <span class="marketing-detele" id="@item.MID"><i class="fa fa-trash" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Delete" data-original-title="" title=""></i></span>
+                                        </a>
+                                    </li>
+
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 margin-bottom10">
+                        <div class="p-relative contentSymbole input-group">
+                            <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
+                            <a class="text-center form-control spa-dropdown-box">
+                               @Language.Where(c => c.Order_id == 14).Select(c => c.Value).FirstOrDefault() @*Select Customer*@
+                            </a>
+                        </div>
+                        <div class="customerList">
+                            <div class="heading-list">
+                                <a class="doctor-checkbox">
+
+                                    <label>@Language.Where(c => c.Order_id == 15).Select(c => c.Value).FirstOrDefault() @*Choose your option*@</label>
+                                </a>
+                            </div>
+                            <ul class="customerCheckBox" id="MCustomerList">
+                                <li>
+                                    <a class="doctor-checkbox">
+                                        <input type="checkbox" id="All">
+                                        <label class="dropmenuEllips" for="All">@Language.Where(c => c.Order_id == 16).Select(c => c.Value).FirstOrDefault() @*All*@</label>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="doctor-checkbox">
+                                        <input type="checkbox" id="Men">
+                                        <label class="dropmenuEllips" for="Men">@Language.Where(c => c.Order_id == 17).Select(c => c.Value).FirstOrDefault() @*Men*@</label>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="doctor-checkbox">
+                                        <input type="checkbox" id="Women">
+                                        <label class="dropmenuEllips" for="Women">@Language.Where(c => c.Order_id == 18).Select(c => c.Value).FirstOrDefault() @*Women*@</label>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-lg-24 col-md-24 col-sm-24 margin-top30 display-none" id="ShowCustomerList">
+                        <div class="customer-count">
+                            <label>@Language.Where(c => c.Order_id == 19).Select(c => c.Value).FirstOrDefault() @*Customer list*@<span class="badge" id="CustomerListcount">0</span></label>
+                        </div>
+                        <div class="customerTable table-responsive" id="SelectCustomerBorder">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="doctor-checkbox checkbox">
+                                            <input type="checkbox" id="ChkAllCustomer">
+                                            <label for="ChkAllCustomer"></label>
+                                        </th>
+                                        <th>@Language.Where(c => c.Order_id == 20).Select(c => c.Value).FirstOrDefault() @*NO*@</th>
+                                        <th>@Language.Where(c => c.Order_id == 21).Select(c => c.Value).FirstOrDefault() @*NAME*@</th>
+                                        <th>@Language.Where(c => c.Order_id == 22).Select(c => c.Value).FirstOrDefault() @*MOBILE NO*@</th>
+                                        <th>@Language.Where(c => c.Order_id == 23).Select(c => c.Value).FirstOrDefault() @*EMAIL*@</th>
+                                        <th>@Language.Where(c => c.Order_id == 24).Select(c => c.Value).FirstOrDefault() @*SENT DETAIL*@</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="MCustomerDetails"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-lg-24 col-md-24 col-sm-24 text-right margin-top15">
+                        <input type="button" class="btn btn-green btn-small display-none" id="ConfirmAndSend" value="@Language.Where(c=>c.Order_id==25).Select(c=>c.Value).FirstOrDefault()" onclick="SendNewsToCustomer();">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form id="my_form" name="my_form" action="/" enctype="multipart/form-data" class="display-none"></form>
+    @using (Ajax.BeginForm("Upload", "DigitalMarketing", new AjaxOptions { OnSuccess = "onSuccessArticlePicUpload" }, new { @id = "my_form", enctype = "multipart/form-data", @style = "display: none" }))
+    {
+        @*<input name="file" type="file" onchange="$('#my_form').submit();this.value='';">*@
+        <input id="Uploadmedia" name="Uploadmedia" type="file" onchange="onchangefileupload();this.value='';">
+    }
+</div>
+<script>
+    Dropzone.autoDiscover = false;
+    var editor = {
+        editorControlId: ["TextMarketing"], // Textarea id
+        editorControlName: ["TextMarketing"] // Textarea name
+    };
+    EditorTinyMCEForDiscussion(editor);
+    $('#myTab1').tabCollapse();
+    $(function () {
+        var JsonArray = [];
+        $("#MarketingFileUpload").dropzone({
+            url: "@Url.Action("MarketingFileUpload", "Shop")",
+            addRemoveLinks: true,
+            success: function (file, response) {
+                var JsonString;
+                var ImgArray = [];
+                if ($("#MarketingObject").val() != "") {
+                    JsonString = jQuery.parseJSON($("#MarketingObject").val());
+                    ImgArray = JsonString.Extra_1;
+                }
+                ImgArray.push(response);
+                JsonString = { Extra_1: ImgArray }
+                $("#MarketingObject").val(JSON.stringify(JsonString));
+                file.previewElement.classList.add("dz-success");
+            },
+            removedfile: function (file) {
+                $(document).find(file.previewElement).remove();
+                var JsonArray = JSON.parse($("#MarketingObject").val());
+                JsonArray.Extra_1 = $.grep(JsonArray.Extra_1, function (item, index) {
+                    return item != "/MarketingUpload/" + file.name
+                });
+                if (JsonArray.length == 0)
+                    $("#MarketingObject").val("");
+                else
+                    $("#MarketingObject").val(JSON.stringify(JsonArray));
+            },
+            error: function (file, response) {
+                file.previewElement.classList.add("dz-error");
+            }
+        });
+        Dropzone.options.uploadDemo = {
+            paramName: "file"
+        };
+    });
+    $("#content").keyup(function () {        
+        var enteredText = $("#content").val();
+        var enteredTextEncoded = encodeURI(enteredText);
+        var linebreaks = 0;
+        if (enteredTextEncoded.match(/%0A/g))
+            linebreaks = enteredTextEncoded.match(/%0A/g).length;
+        var charCount = enteredText.length + linebreaks;
+        $("#RemainingChar").text(150 - charCount + " @Characters");
+        $("#RemainingChar").val(charCount);
+    });
+  
+
+</script>
+<script src="~/Scripts/Marketing.js"></script>
+
+

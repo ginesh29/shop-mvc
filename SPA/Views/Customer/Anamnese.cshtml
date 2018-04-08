@@ -1,0 +1,192 @@
+﻿
+@{
+    ViewBag.Title = "Anamnese";
+    Layout = null;
+}
+
+<div class="anamnese_page border-green new-customer">
+    <div class="anamnese_section">
+            <h4 class="txtRobotoBold customer_heading">
+                <span class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Anamnese</span> 
+                <a class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right" style="color:#fff;"><span><i class="fa fa-chevron-down" aria-hidden="true"></i></span></a>
+            </h4>
+        <div class="collapse">
+            <form id="ClientanamneseForm" action="/Customer/Addanamnese" method="post" enctype="multipart/form-data">
+                <div class="row padding20">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="row form-group">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <label class="form-label spa-label-bold">Profession</label>
+                                <input class="form-control spa-text-box text-box single-line" id="Profession" name="Profession" type="text" value="">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <label class="form-label spa-label-bold">Leisure/ hobbies </label>
+                                <input class="form-control spa-text-box text-box single-line" id="Hobbies" name="Hobbies" type="text" value="">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <label class="form-label spa-label-bold">Sickness </label>
+                                <input class="form-control spa-text-box text-box single-line" id="Sicknesses" name="Sicknesses" type="text" value="">
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <label class="form-label spa-label-bold">Datum </label>
+                                <input class="form-control spa-text-box text-box single-line" id="Date_1" name="Date_1" type="text" value="">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <label class="form-label spa-label-bold">Doctor </label>
+                                <input class="form-control spa-text-box text-box single-line" id="Doctor_Name" name="Doctor_Name" type="text" value="">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <label class="form-label spa-label-bold">Date of diagnosis </label>
+                                <input class="form-control spa-text-box text-box single-line" id="Date_2" name="Date_2" type="text" value="">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <label class="form-label spa-label-bold">Main diagnosis </label>
+                                <input class="form-control spa-text-box text-box single-line" id="Main_Diagnosis" name="Main_Diagnosis" type="text" value="">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <label class="form-label spa-label-bold">Secondary diagnosis </label>
+                                <input class="form-control spa-text-box text-box single-line" id="Secondary_Diagnosis" name="Secondary_Diagnosis" type="text" value="">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <label class="form-label spa-label-bold">Main issue</label>
+                                <input class="form-control spa-text-box text-box single-line" id="Main_issues" name="Main_issues" type="text" value="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <h6 class="anamneseSubHeading">
+                                    CAVE
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <label class="form-label spa-label-bold">Symptom behaviour : (24h, week, activities, positions)</label>
+                                <textarea class="form-control spa-text-box text-box single-line" id="Symptom_Behaviour" name="Symptom_Behaviour" type="text" value="" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <label class="form-label spa-label-bold">History : (Start)</label>
+                                <textarea class="form-control spa-text-box text-box single-line" id="History" name="History" type="text" value="" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <label class="form-label spa-label-bold">Previous therapies :</label>
+                                <textarea class="form-control spa-text-box text-box single-line" id="Previous_Therapies" name="Previous_Therapies" type="text" value="" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="row">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <h6 class="anamneseSubHeading">
+                                    Special questions
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <label class="form-label spa-label-bold">Weight </label>
+                                <input class="form-control spa-text-box text-box single-line" id="Weight" name="Weight" type="text" value="">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <label class="form-label spa-label-bold">Sicknesses</label>
+                                <input class="form-control spa-text-box text-box single-line"  name="Sicknesses" type="text" value="">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <label class="form-label spa-label-bold">Surgery</label>
+                                <input class="form-control spa-text-box text-box single-line" id="Surgery" name="Surgery" type="text" value="">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <label class="form-label spa-label-bold">Accidents</label>
+                                <input class="form-control spa-text-box text-box single-line" id="Accidents" name="Accidents" type="text" value="">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <label class="form-label spa-label-bold">Dizziness</label>
+                                <input class="form-control spa-text-box text-box single-line" id="Dizziness" name="Dizziness" type="text" value="">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <label class="form-label spa-label-bold">Medicine </label>
+                                <input class="form-control spa-text-box text-box single-line" id="Medicine" name="Medicine" type="text" value="">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <label class="form-label spa-label-bold">AZ </label>
+                                <input class="form-control spa-text-box text-box single-line" id="Az" name="Az" type="text" value="">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <label class="form-label spa-label-bold">Social situation</label>
+                                <textarea class="form-control spa-text-box text-box single-line" id="Social_Situation" name="Social_Situation" type="text" value=""></textarea>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <label class="form-label spa-label-bold">Sub. Goals and expectations for the therapy</label>
+                                <textarea class="form-control spa-text-box text-box single-line" id="Exp_Therapy" name="Exp_Therapy" type="text" value="" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <h6 class="anamneseSubHeading">
+                                    Objectives (from a therapeutic point of view)
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <label class="form-label spa-label-bold">Immediate objective</label>
+                                <input class="form-control spa-text-box text-box single-line" id="Immediate_objective" name="Immediate_objective" type="text" value="">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <label class="form-label spa-label-bold">Midterm goal</label>
+                                <input class="form-control spa-text-box text-box single-line" id="MidTerm_objective" name="MidTerm_objective" type="text" value="">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-24 col-md-24 col-sm-24">
+                                <label class="form-label spa-label-bold">Long-term goal</label>
+                                <input class="form-control spa-text-box text-box single-line" id="LongTerm_objective" name="LongTerm_objective" type="text" value="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="text-right margin-right20">
+                <input type="button" class="btn btn-green margin-right5 margin-bottom10" value="Submit" />
+                <input type="reset" class="btn btn-black margin-bottom10" value="Cancel" />
+            </div>
+        </div>
+    </div>
+</div>
+

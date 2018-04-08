@@ -1,0 +1,374 @@
+﻿@model  SPA.Models.Registration
+@using System.Configuration;
+@{
+    Layout = null;
+    List<Language_NewShop> Language = ViewBag.Language;
+    int LanguageId = ViewBag.LangId;
+    int? status = ViewBag.Status;
+    // var ShopStatus = status == 2 ? ".click-and-go.ch" : ".click-and-go.co.in";
+    var ShopStatus = ViewBag.ShopStatus;
+    List<CCTSP_CategoryDetails> PaymentTypeList = ViewBag.patmentType;
+    var StPay = ViewBag.StPay;
+    var PaymentType = "Both";
+    List<SPA.Models.LanguageLabelDetails> LanguageNameList = new List<SPA.Models.LanguageLabelDetails>();
+    LanguageNameList = ViewBag.DynamicLang;
+    List<SPA.Models.LanguageLabelDetails> LangNameList = ViewBag.LangNameList;
+    if (!string.IsNullOrEmpty(Model.PaymentType))
+    {
+        PaymentType = Model.PaymentType;
+    }
+    List<SPA.Models.Timeslot> TimeSlotList = new List<SPA.Models.Timeslot>();
+    TimeSlotList = ViewBag.TimeSlot;
+}
+@Styles.Render("~/Contents/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/clickscript")
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @if (LanguageId > 1)
+    {
+        @Html.Partial("_LangValidation", "/Scripts/messages_" + LangNameList.Where(c => c.Lang_id == LanguageId).Select(c => c.English_Label).FirstOrDefault().ToLower() + ".js");
+    }
+    @*@if (LanguageId == 2)
+        {
+            <script type="text/javascript" src="~/Scripts/messages_de.js"></script>}
+        @if (LanguageId == 3)
+        {
+            <script type="text/javascript" src="~/Scripts/messages_fr.js"></script>}*@
+    <title>@*Various*@ @Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 55).Select(c => c.Value).FirstOrDefault()</title>
+</head>
+<body style="background:#fff;">
+    <div class="container">
+        <div class="bg-grey border-radius5">
+            <div class="login-main">
+                @Html.Partial("_Progressbar", Language.Where(c => c.Page_Name == "Registration_Page").ToList())
+                <div class="personal-block">
+                    <h5>
+                        @*VARIOUS*@ @Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 48).Select(c => c.Value).FirstOrDefault()
+                        <a href="@(LanguageId>0?"/Registration/RegistrationDetail?lang="+LanguageId:"/Registration/RegistrationDetail")" class="back-btn"><i class="fa fa-reply-all"></i>@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 30).Select(c => c.Value).FirstOrDefault())@*Back*@</a>
+                    </h5>
+                </div>
+                <div class="personal-main">
+                    <div class="col-lg-18 col-lg-offset-4 col-md-21 col-md-offset-2 col-sm-22 col-sm-offset-2 col-xs-22 col-xs-offset-1">
+                        <form name="Various" id="Various" action="/Registration/Various" method="post">
+                            <input type="hidden" value="@LanguageId" name="Langid" id="Langid" />
+                            <input type="hidden" id="HShopUrl" name="HShopUrl" value="@Model.HShopUrl" />
+                            <div class="row marginbottom10">
+                                <div class="form-group">
+                                    <div class="col-lg-9 col-md-8 col-sm-8 personal-detail">
+                                        <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 18).Select(c => c.Value).FirstOrDefault())*@*Language*@</label>
+                                    </div>
+                                    @if (status == 1)
+                                    {
+                                        <div class="col-lg-4 col-md-5 col-sm-5 p0 spa-radio">
+                                            @Html.RadioButtonFor(Model => Model.ShopLangId, LanguageNameList.Where(c => c.Lang_id == 1).Select(c => c.Lang_id).FirstOrDefault(), new { @Checked = "checked" })
+                                            <label for="LangEnglish" class="form-label">English</label>
+                                        </div>
+                                    }
+                                    @if (status == 2)
+                                    {
+                                        foreach (var Item in LanguageNameList.ToList())
+                                        {
+                                            var Checked = LanguageId == Item.Lang_id ? "Checked" : "";
+                                            <div class="col-lg-3 col-md-3 col-sm-7 spa-radio">
+                                                @*@Html.RadioButtonFor(Model => Model.ShopLanguage, Item.Lang_id)*@
+                                                <input id="@Item.Lang_id" type="radio" name="ShopLangId" value="@Item.Lang_id" @Checked>
+                                                <label for="@Item.Lang_id" class="form-label">@Item.Value</label>
+                                            </div>
+                                        }
+
+                                        @*<div class="col-lg-6 col-md-5 col-sm-6 spa-radio">
+                                                @Html.RadioButtonFor(Model => Model.ShopLanguage, "LangFrench")
+                                                <label for="LangFrench" class="form-label">French</label>
+                                            </div>*@
+                                    }
+                                </div>
+                            </div>
+                            <input type="hidden" id="PaymentType" name="PaymentType" value="@PaymentType" />
+                            <div class="row marginbottom10" style="display:none">
+                                <div class="form-group">
+                                    <div class="col-lg-9 col-md-8 col-sm-8 personal-detail">
+                                        <label class="form-label">@*Payment Type*@ @Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 49).Select(c => c.Value).FirstOrDefault()</label>
+                                    </div>
+                                    @foreach (var Item in PaymentTypeList)
+                                    {
+                                        <div class="col-lg-5 col-md-5 col-sm-7 p0 spa-radio">
+                                            @*@Html.RadioButtonFor(Model => Model.PaymentType, Item.CatgDesc, new { @Checked = Item.Group_orderdata == 3 ? "checked" : "" })*@
+                                            <input id="@Item.CatgDesc" type="radio" name="PaymentType" value="@Item.CatgDesc" @(Item.CatgDesc == PaymentType ? "checked" : "")>
+                                            <label for="@Item.CatgDesc" class="form-label">@Item.CatgDesc</label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="row marginbottom10" id="divTimeZone">
+                                <div class="form-group">
+                                    <div class="col-lg-9 col-md-8 col-sm-8  personal-detail">
+                                        <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 26).Select(c => c.Value).FirstOrDefault())*@*Timezone*@</label>
+                                    </div>
+                                    <div class="col-lg-15 col-md-16 col-sm-16 p0 reg-margint15">
+                                        @Html.DropDownListFor(c => c.Timezone, (SelectList)(ViewBag.timezone), new { @class = "login-input-box form-control required" })
+                                    </div>
+                                </div>
+                            </div>
+                            @*I WANT A LINK ON MY SHOP WEBSITE*@
+                            @*<div class="row marginbottom10">
+                                    <div class="col-lg-9 col-md-8 col-sm-8  personal-detail">
+                                        <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 19).Select(c => c.Value).FirstOrDefault())</label>
+                                    </div>
+                                    <div id="ShopLinkWebsite" class="display-none">
+                                        <div class="col-lg-4 col-md-5 col-sm-5 p0 spa-radio">
+                                            <input id="LinkYes" type="radio" name="ShopLink" value="YES">
+                                            <label for="LinkYes" class="form-label">@Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 50).Select(c => c.Value).FirstOrDefault()</label>
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 spa-radio">
+                                            <input id="LinkNo" type="radio" name="ShopLink" value="NO" checked="checked">
+                                            <label for="LinkNo" class="form-label">@Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 51).Select(c => c.Value).FirstOrDefault()</label>
+                                        </div>
+                                    </div>
+                                </div>*@
+                            @*WEBSITE NAME*@
+                            <div id="divLinktoMywebsite-no">
+                                <div class="row marginbottom10">
+                                    <div class="form-group">
+                                        <div class="col-lg-9 col-md-8 col-sm-8  personal-detail">
+                                            <label class="form-label"> @Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 44).Select(c => c.Value).FirstOrDefault())*</label>
+                                        </div>
+                                        <div class="col-lg-15 col-md-16 col-sm-16 p0 reg-margint15 Res-padding0">
+                                            <div class="input-group Web_name">
+                                                <span class="input-group-addon">Http://</span>
+                                                @Html.EditorFor(Model => Model.ShopUrl, new { htmlAttributes = new { @class = "form-control registration-input-box required border_grey", @maxlength = "20", @minlength = "3", } })
+                                                <span class="input-group-addon">.@ShopStatus</span>
+                                            </div>
+                                            <span id="statusShopUrl" class="doctorValid"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display:none;" id="divLinktoMywebsite">
+                                <div class="row marginbottom10">
+                                    <div class="form-group">
+                                        <div class="col-lg-9 col-md-8 col-sm-8  personal-detail">
+                                            <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 21).Select(c => c.Value).FirstOrDefault())@*LINK TO MY WEBSITE*@</label>
+                                        </div>
+                                        <div class="col-lg-15 col-md-16 col-sm-16 p0 reg-margint15">
+                                            @*<input class="form-control registration-input-box" type="text">*@
+                                            @Html.EditorFor(Model => Model.Linktomywebsite, new { htmlAttributes = new { @class = "form-control registration-input-box url required" } })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-9 col-md-8 col-sm-8 personal-detail">
+                                        <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 31).Select(c => c.Value).FirstOrDefault())@*HOSTING PROVIDER*@</label>
+                                    </div>
+                                    <div class="col-lg-15 col-md-16 col-sm-16 reg-margint15">
+                                        @Html.EditorFor(Model => Model.HostingProvider, new { htmlAttributes = new { @class = "form-control registration-input-box required" } })
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-9 col-md-8 col-sm-8 personal-detail">
+                                        <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 32).Select(c => c.Value).FirstOrDefault())@*USER NAME*@</label>
+                                    </div>
+                                    <div class="col-lg-15 col-md-16 col-sm-16 reg-margint15">
+                                        @Html.EditorFor(Model => Model.HostingUserName, new { htmlAttributes = new { @class = "form-control registration-input-box required" } })
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-9 col-md-8 col-sm-8 personal-detail">
+                                        <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 33).Select(c => c.Value).FirstOrDefault())@*PASSWORD*@</label>
+                                    </div>
+                                    <div class="col-lg-15 col-md-16 col-sm-16 reg-margint15">
+                                        @Html.EditorFor(Model => Model.HostingPassword, new { htmlAttributes = new { @class = "form-control registration-input-box required", Type = "password", @maxlength = 14, @minlength = 6 } })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-lg-9 col-md-8 col-sm-8  personal-detail">
+                                    <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 45).Select(c => c.Value).FirstOrDefault())@*Reference*@</label>
+                                </div>
+                                <div id="salesLinkWebsite">
+                                    <div class="col-lg-4 col-md-5 col-sm-5 p0 spa-radio">
+                                        <input id="LinkYesshop" type="radio" name="salesLink" value="YES">
+                                        <label for="LinkYesshop" class="form-label">@*YES*@ @Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 50).Select(c => c.Value).FirstOrDefault()</label>
+                                    </div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 spa-radio">
+                                        <input id="LinkNoshop" type="radio" name="salesLink" value="NO" checked="checked">
+                                        <label for="LinkNoshop" class="form-label">@*NO*@ @Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 51).Select(c => c.Value).FirstOrDefault()</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="sales-person" style="display:none;">
+                                <div class="row form-group">
+                                    <div class="col-lg-9 col-md-8 col-sm-8  personal-detail">
+                                        <label class="form-label">@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id == 46).Select(c => c.Value).FirstOrDefault())@*Sales Person*@</label>
+                                    </div>
+                                    <div class="col-lg-15 col-md-16 col-sm-16 p0 reg-margint15">
+                                        @Html.DropDownListFor(c => c.Salesid, (SelectList)(ViewBag.SalesPersonList), new { @class = "login-input-box form-control required" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row marginbottom10 display-none">
+                                <div class="col-lg-9 col-md-8 col-sm-8  personal-detail">
+                                    <label class="form-label">Time Slot</label>
+                                </div>
+                                <div class="col-lg-15 col-md-16 col-sm-16 p0 reg-margint15 Res-padding0">                                  
+                                     @Html.DropDownListFor(c=>c.TimeSlot, new SelectList(TimeSlotList, "CatgDesc", "CatgDesc"), new { @class = "login-input-box form-control required" })
+                                </div>
+                            </div>
+                            <div class="text-center mt30">
+                                <input type="button" class="continue-btn green-btn" onclick="VariousData();" value="@Html.Raw(Language.Where(c => c.Page_Name == "Registration_Page" && c.Order_id==29).Select(c => c.Value).FirstOrDefault())" />@*NEXt*@
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    $("#Various").validate();
+    $("#divTimeZone").hide();
+    $('#Login').addClass('login-detail active');
+    $('#Registration').addClass('login-detail');
+    $('#Registration a').addClass('active');
+    $("#ShopLinkWebsite").click(function () {
+        if ($("#LinkYes").prop("checked")) {
+            $("#divLinktoMywebsite").show();
+        }
+        else {
+            $("#divLinktoMywebsite").hide();
+        }
+    });
+    $("#ShopLinkWebsite").click(function () {
+        if ($("#LinkNo").prop("checked")) {
+            $("#divLinktoMywebsite-no").show();
+        }
+        else {
+            $("#divLinktoMywebsite-no").hide();
+        }
+    });
+    $("#salesLinkWebsite").click(function () {
+        if ($("#LinkYesshop").prop("checked")) {
+            $("#sales-person").show();
+        }
+        else {
+            $("#sales-person").hide();
+        }
+    });
+    $("#ShopUrl").keypress(function (event) {
+        var inputValue = event.which;
+        // allow letters and whitespaces only.
+        if (!(inputValue >= 65 && inputValue <= 122) && (inputValue != 0)) {
+            event.preventDefault();
+        }
+    });
+    $("#ShopUrl").keyup(function (event) {
+        CheckWebsiteUrl($(this).prop("id"));
+    });
+    function VariousData() {
+        var TextData = $("#Various").validate().form();
+        var Result = true;
+        //if ($("#ShopLinkWebsite input[type='radio']:checked").val() == "NO")
+        //Result = CheckWebsiteUrl($("#ShopUrl").prop("id"));
+        if (TextData != false && $("#HShopUrl").val() == "true") {
+            if ($("#LinkNo").prop("checked")) {
+                if ($("#ShopUrl").val().match(/^[a-zA-Z]+$/)) {
+                    $(".loader").show();
+                    var form = $("#Various");
+                    var url = form.attr("action");
+                    var formData = form.serialize();
+                    $.post(url, formData, function () {
+                        window.location.href = "@(LanguageId>0? "/Registration/TermsConditionAdd?LangId=" + LanguageId: "/Registration/TermsConditionAdd")";
+                        $(".loader").hide();
+                    });
+                }
+                else {
+                    $("#statusShopUrl").text("Only alphabates are allowed").fadeIn().delay(2000).fadeOut();
+                }
+            }
+            else {
+                $(".loader").show();
+                var form = $("#Various");
+                var url = form.attr("action");
+                var formData = form.serialize();
+                $.post(url, formData, function () {
+                    window.location.href = "@(LanguageId>0? "/Registration/TermsConditionAdd?LangId=" + LanguageId: "/Registration/TermsConditionAdd")";
+                    $(".loader").hide();
+                });
+
+            }
+
+        }
+    }
+    var currentRequest = null;
+    function CheckWebsiteUrl(Event) {
+        var url = "/Registration/CheckWebsiteExist";
+        var dtext = $("#" + Event).val();
+        currentRequest = jQuery.ajax({
+            type: 'POST',
+            data: { Website: dtext },
+            url: url,
+            async: true,
+            beforeSend: function () {
+                $("#" + Event).addClass("text_loder");
+                if (currentRequest != null) {
+                    currentRequest.abort();
+                    $("#" + Event).removeClass("text_loder");
+                }
+            },
+            success: function (data) {
+                $("#" + Event).removeClass("text_loder").removeClass("text_cross").removeClass("text_right");
+                if (data == "True") {
+                    $("#" + Event).addClass("text_cross");
+                    $("#HShopUrl").val("false");
+                    return false;
+                }
+                else {
+                    $("#" + Event).addClass("text_right");
+                    $("#HShopUrl").val("true");
+                    return true;
+                }
+            }
+        });
+
+    }
+
+</script>
+@if (ViewBag.LangId == 1)
+{
+    <script>
+        $("#LangChange #English a").addClass("activeShop");
+    </script>
+}
+@if (ViewBag.LangId == 2)
+{
+    <script>
+        $("#LangChange #German a").addClass("activeShop");
+    </script>
+}
+@if (ViewBag.LangId == 3)
+{
+    <script>
+        $("#LangChange #French a").addClass("activeShop");
+    </script>
+}
+@if (Model.Salesid > 0)
+{
+    <script>
+        $("#Salesid option[value=" + @Model.Salesid + "]").attr("selected", true);
+        $("#LinkYesshop").prop("checked", true)
+        $("#sales-person").show();
+    </script>
+}
+@if (Model.Linktomywebsite != null && Model.HostingProvider != null)
+{
+    <script>
+        $("#LinkYes").prop("checked", true);
+        $("#divLinktoMywebsite").show();
+        $("#divLinktoMywebsite-no").hide();
+    </script>
+
+}
